@@ -1,0 +1,45 @@
+1. 框架自带的皮肤都是_skin.sys.XXXX开始，自带的皮肤存放位置trunk\soui-sys-resource\theme_sys_res，
+   图片和名称映射关系可以打开trunk\soui-sys-resource\theme_sys_res.rc2 文件查看
+
+2. 如何替换通过向导生成的关闭/最小化/最大化按钮图片
+   1>找到在系统图片文件夹(trunk\soui-sys-resource\theme_sys_res)直接把文件替换掉,此方案最简单
+   2>以下步骤是替换完整替换步骤
+     I> uires.idx 引入新图片 一般关闭按钮这类图都是三态/四态图片，因此放到IMGX(规范)
+        <IMGX>
+        <file name="ID_PNG_WND_CLOSE" path="image\shut.png" />  <!-- name随意 -->
+        </IMGX>
+     II> init.xml 构建skin
+     		<skin>
+           <imglist name="_skin.btn.wnd.close" src="IMGX:ID_PNG_WND_CLOSE" states="3"/> 
+           <!-- 
+           			说明: src=标签名:name   此处是标签和name 即步骤I 
+           			      state=图片中状态数  此处是图片包含状态 一般是3（默认，高亮，按下）如果存在4状态那么就是禁用
+            -->
+  			</skin> 
+  	  III> 修改对应窗口xml文件 此处为dlg_main.xml文件
+  	        <root class="cls_dlg_frame" cache="1">
+    						<caption pos="0,0,-0,30" show="1" font="adding:8">
+					      	....
+					      	<!-- 向导生成
+					      	  <imgbtn id="1" skin="_skin.sys.btn.close" pos="-45,0" tip="close" animate="1"/>
+					      	-->
+					      	<!-- 下面自定义关闭按钮 也就是把 skin名称改成第II中name即可 -->
+					      	  <imgbtn id="1" skin="_skin.btn.wnd.close" pos="-45,0" tip="close" animate="1"/>
+					      	....
+					   		</caption>
+					  ....
+					  </root> 
+		以上就是完成步骤，至于替换背景图片也是相同道理  
+		
+3. 获取文本框edit的值
+   SEdit *pEditNmae=FindChildByName2<SEdit>(L"uname");
+	 SStringW strUname=pEditNmae->GetWindowText(); 
+	 if (strUname.IsEmpty())
+	 {// 未输入处理
+	 
+	 }
+	 else
+	 {//输入处理
+	 
+	 }         
+                                                                    
