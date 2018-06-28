@@ -1,0 +1,11 @@
+//
+// cmake configure.h.in
+//
+//
+#cmakedefine01 ENABLE_SOUI_CORE_LIB
+
+#if ENABLE_SOUI_CORE_LIB
+    #define LIB_CORE
+#else
+    #define DLL_CORE
+#endif
