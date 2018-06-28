@@ -1,0 +1,26 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lua-52", "D:/soui.taobao/components/ScriptModule-LUA/lua-52\lua-52.vcproj", "{A248814D-4381-3C89-B705-2FADDAE28B07}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "scriptmodule-lua", "D:/soui.taobao/components/ScriptModule-LUA/ScriptModule\scriptmodule-lua.vcproj", "{67E1DB9B-3316-3189-AC69-480934DFB09D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A248814D-4381-3C89-B705-2FADDAE28B07}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A248814D-4381-3C89-B705-2FADDAE28B07}.Debug|Win32.Build.0 = Debug|Win32
+		{A248814D-4381-3C89-B705-2FADDAE28B07}.Release|Win32.ActiveCfg = Release|Win32
+		{A248814D-4381-3C89-B705-2FADDAE28B07}.Release|Win32.Build.0 = Release|Win32
+		{67E1DB9B-3316-3189-AC69-480934DFB09D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{67E1DB9B-3316-3189-AC69-480934DFB09D}.Debug|Win32.Build.0 = Debug|Win32
+		{67E1DB9B-3316-3189-AC69-480934DFB09D}.Release|Win32.ActiveCfg = Release|Win32
+		{67E1DB9B-3316-3189-AC69-480934DFB09D}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
