@@ -1,0 +1,30 @@
+﻿<menuRoot itemHeight="38" iconPos="12" iconSkin="TrayMenu_menu_ico" textOffset="18" font="face:微软雅黑,size:14" sepSkin="TrayMenu_menu_sep"  itemSkin="TrayMenu_menu_bkgnd" maxWidth="198" minWidth="198" margin="1,1,1,1" colorBorder="#cccccc" colorBkgnd="#ffffff">
+  <menuItem height="56">
+    <window pos="0,0" size="-2,-2" colorBkgnd="#ffffff">
+    <imgbtn pos="]-20,|" offset="-1,-0.5" cursor="hand" skin="TrayMenu_btn_pre" name="menu_btn_pre"/>
+    <imgbtn pos="|,|" offset="-0.5,-0.5" cursor="hand" skin="TrayMenu_btn_play" name="menu_btn_play"/>
+    <imgbtn pos="[+20,|" offset="0,-0.5" cursor="hand" skin="TrayMenu_btn_next" name="menu_btn_next"/>
+  </window>
+  </menuItem>
+  <menuItem>
+    <window pos="0,0" size="-2,-2" colorBkgnd="#ffffff">
+      <imgbtn pos="12,|"  cursor="hand" offset="0,-0.5" skin="TrayMenu_btn_ilike" name="menu_btn_ilike"/>
+      <text pos="34,0,-34,-0" align="center" valign="middle" dotted="1" name="menu_btn_play" text="我是你心中的一首歌"/>
+      <imgbtn pos="-12,|"  cursor="hand" offset="-1,-0.5" skin="TrayMenu_btn_circulation" name="menu_btn_cir"/>
+    </window>
+  </menuItem>
+  <!--指定线宽的方法<sep size="-2,2"/>-->
+  <sep/>
+  <menuItem>
+    <window pos="0,0" size="-2,-2" colorBkgnd="#ffffff">
+      <imgbtn pos="12,|" offset="0,-0.5" skin="TrayMenu_btn_volume" name="menu_btn_vol"/>
+      <sliderbar pos="[+12,|-10,-12,|10" name="menu_slider_vol"/>
+    </window>
+  </menuItem>
+  <menuItem icon="0" cursor="hand">显示桌面歌词</menuItem>
+ <sep margin="0,1,0,5"/>
+  <menuItem icon="1" cursor="hand" >设置</menuItem>
+  <sep margin="0,5,0,1"/>
+  <menuItem cursor="hand">退出登陆</menuItem>
+  <menuItem id="6" icon="2" hotKey="x" cursor="hand">退出SOUI音乐</menuItem>
+</menuRoot>

@@ -1,0 +1,85 @@
+﻿<include>
+  <tabctrl pos="0,0,-0,-0" tabAlign="left" tabSkin="skin_tab_left" tabInterSkin="skin_tab_left_splitter" tabInterSize="2" tabWidth="200" iconSkin="skin_small_icons" icon-x="5" icon-y="8">
+    <page title="script" colorBorder="#ff0000" margin-x="1" margin-y="1">
+      <include src="layout:page_script"/>
+    </page>
+    <page title="drag drop">
+      <edit name="edit_drop_top" pos="10,10,-10,]-10" cueText="draging a file to me to see what will happen"/>
+      <text pos ="10,|0" offset="0,-0.5" colorText="RGB(255,0,0)"  colorBkgnd="RGB(0,255,0)">show how to implement dragdrop in soui</text>
+      <edit name="edit_drop_bottom" pos="10,[10,-10,-10" cueText="draging a file to me to see what will happen"/>
+    </page>
+    <page title="animation" font="adding:10" clipClient="1">
+      <text pos="|0,|0" offset="-0.5,-0.5" colorText="#ff0000">动画效果只在Vista及以上版本的操作系统能够演示</text>
+      <!--注意在uianimationwnd元素中指定bkgndBlend为0还是1对性能影响-->
+      <uianimationwnd pos="0,0,-0,-0" icon="skin_small_icons" aniMode="imgx:png_animode"  colorBkgnd="#cccccc" bkgndBlend="0"/>
+      <text pos="|0,20" offset="-0.5,0" colorText="#ff0000">SOUI动画演示</text>
+    </page>
+    <page title="smiley" >
+      <window pos="0,5,-0,@30">
+        <button name="btn_insert_gif" pos="5,0,@120,@25" id="#id_test1">insert gif</button>
+        <button name="btn_append_msg" pos="[5,0,@120,@25">append format msg</button>
+        <button name="btn_richedit_open" pos="[5,0,@120,@25">open from rtf</button>
+        <button name="btn_richedit_save" pos="[5,0,@120,@25">save to rtf</button>
+      </window>
+      <chatedit name="re_gifhost" pos="5,[5,-5,-5" bkgndBlend="1" class="cls_edit" enableDragdrop="1" multiLines="1" vscrollBar="1" sbSkin="skin_vscrollbar" wordWrap="1"  autoVscroll="1" hscrollBar="0" wantReturn="1" maxBuf="6400000" rtf="rtf:rtf_test"/>
+    </page>
+    <page title="iectrl">
+      <text pos="|0,|0" offset="-0.5,-0.5" colorText="#ff0000">IE CTRL需要窗口句柄，在半透明宿主上不能正常显示</text>
+      <iectrl size="full,full" url="http://www.baidu.com"/>
+    </page>
+    <page title="calendar2">
+      <calendar2 pos="0,0,-0,-0" name="mp_test">
+        <include src="layout:template_calendar"/>
+      </calendar2>
+    </page>
+    <page title="create window">
+      <button name="btn_filewnd" pos="0,0,@150,@30">从文件创建窗口</button>
+      <button name="btn_createchildren" pos="|0,0,@150,@30">CreateChildren</button>
+      <window pos="0,[5,-0,-0">
+        <richedit name="edit_xml" pos="0,0,|0,-0" multilines="1" autovscroll="1" wordwrap="1"  margin-x="2" margin-y="2" cueText="输入待插入的XML字符串">
+          &lt;button pos="|0,|0,@150,@30" offset="-0.5,-0.5"&gt;new button&lt;/button&gt;
+        </richedit>
+        <window name="wnd_container" pos="|0,0,-0,-0" colorBkgnd="@color/gray"/>
+      </window>
+    </page>
+    <page title="apple dock">
+      <deskdock pos="0,0,-0,-0" skin="skin_dock_bg"  skin1="skin_png_icon_1" skin2="skin_png_icon_2" skin3="skin_png_icon_3" skin4="skin_png_icon_4"
+ skin5="skin_png_icon_5" skin6="skin_png_icon_6" skin7="skin_png_icon_7" skin8="skin_png_icon_8" skin9="skin_png_icon_9" skin10="skin_png_icon_10" >
+
+        <text pos="|0,|0" offset="-0.5,-0.5" font="face:黑体,bold:2,adding:20" colorText="#ff000066">多点桌面 dock演示 </text>
+      </deskdock>
+    </page>
+    <page title="SetWindowRgn">
+      <scrollview pos="0,0,-0,-0" viewSize="-1,-1">
+        <!--viewSize 根据子窗口内容自动计算-->
+        <window name="wnd_rgn" pos="100,100,@100,@50" offset="-0.5,-0.5" colorBkgnd="#ff000088" cursor="hand" class="cls_border">Region</window>
+        <imageMask pos="{0,[10,@100,@100" skin="skin_avatar" mask="imgx:png_mask.g"/>
+        <text pos="{0,[10">image mask</text>
+        <img pos="0,[0" skin="skin_bkgnd"/>
+      </scrollview>
+    </page>
+    <page title="2d transform">
+      <matrixWindow pos="5,5,-5,-5" skin="skin_avatar_low" name="matrix_test" clipClient="1">
+        <text pos="5,5">rotate:</text>
+        <edit pos="100,{0,@100,@30" name="edit_rotate" notifyChange="1">0</edit>
+        <text pos="5,[5">scale:</text>
+        <edit pos="100,{0,@100,@30" name="edit_scale" notifyChange="1">1,1</edit>
+        <text pos="5,[5">skew:</text>
+        <edit pos="100,{0,@100,@30" name="edit_skew" notifyChange="1">0,0</edit>
+        <text pos="5,[5">translate:</text>
+        <edit pos="100,{0,@100,@30" name="edit_translate" notifyChange="1">0,0</edit>
+      </matrixWindow>
+    </page>
+    <page title="free move" colorBkgnd="@color/gray" clipClient="1">
+      <freeMoveWindow name="fmw_test" width="160" height="100" valign="0x20" halign="0x02" distx="20" disty="20" colorBkgnd="@color/blue">
+        <text pos="|0,|0" offset="-0.5,-0.5" multilines="1" colorText="@color/red">drag and resize\n the host to see\n what will happen.</text>
+      </freeMoveWindow>
+    </page>
+    <page title="notifycenter" iconIndex="1">
+      <button pos ="5,5,@100,@30" name="btn_start_notify_thread">start</button>
+      <button pos="[10,5,@100,@30" name="btn_stop_notify_thread">stop</button>
+      <chatedit name="re_notifycenter" pos="5,[5,-5,-5" bkgndBlend="1" class="cls_edit" enableDragdrop="0" multiLines="1" vscrollBar="1" sbSkin="skin_vscrollbar" wordWrap="1"  autoVscroll="1" hscrollBar="0" wantReturn="1" maxBuf="6400000"/>
+    </page>
+    
+  </tabctrl>
+</include>

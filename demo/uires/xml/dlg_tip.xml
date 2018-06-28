@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<SOUI name="tip" title="tip" width="-1" height="-1" resizable="0" wndType="normal" toolwindow="1" translucent="1">
+  <!--演示root大小自动计算,注意soui结点width,height的设置，哪一个值需要自动计算就设置为-1-->
+	<root size="-1,-1" skin="skin_tip_bg" padding="20,10,20,25" layout="vbox">
+    <text name="txt_tip" font="bold:1" maxWidth="300" multiLines="1"/>
+	</root>
+</SOUI>

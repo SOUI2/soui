@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<color>
+  <red value="rgb(255,0,0)"/>
+  <green value="rgb(0,255,0)"/>
+  <blue value="rgb(0,0,255)"/>
+  <white value="rgb(255,255,255)"/>
+  <gray value="#808080"/>
+</color> 
+ 

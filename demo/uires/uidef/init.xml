@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UIDEF>
+  <font face="微软雅黑" size="18"/>
+
+  <!--2.0重要更新：string,color,skin这3个节点在有src属性时切换到src指定的XML中去加载，style, objattr保持不变-->
+  
+  <!--定义字符串表-->
+  <string src="values:string"/>
+  <!--定义颜色值表-->
+  <color src="values:color"/>
+  <!--定义全局skin对象-->
+  <skin src="values:skin"/>
+
+  <style>
+    <!--全局style对象-->
+    <class name="cls_dlg_frame" skin="_skin.sys.wnd.bkgnd" font="" colorText="#000000" margin-x="0"/>
+
+    <class name="cls_btn_link"    cursor="hand" colorHover="#0A84D2" />
+    <!--定义文字按钮的样式-->
+    <class name="cls_btn_weblink" cursor="hand" colorText="#1e78d5" colorTextHover="#1e78d5" fontHover="underline:1,italic:1" />
+
+    <class name="cls_txt_red"     font="face:宋体,bold:1"  colorText="#FF0000" />
+    <!--定义白色粗体宋体-->
+    <class name="cls_txt_black"   font="face:宋体,bold:1"  colorText="#000000" />
+    <!--定义黑色粗体宋体-->
+    <class name="cls_txt_white"   font="face:宋体,bold:1"  colorText="#FFFFFF" />
+    <!--定义白色粗体宋体-->
+
+    <class name="normalbtn" font="" alpha="200" colorText="#385e8b" colorTextDisable="#91a7c0" textMode="0x25" cursor="hand" margin-x="0"/>
+
+    <class name="toptext" textMode="0x20" />
+    <class name="vcentertext" textMode="0x24"/>
+    <class name="rightvcentertext" textMode="0x26"/>
+    <class name="centertext" textMode="0x25"/>
+    <class name="righttext" textMode="0x22"/>
+
+    <class name="linkimage" cursor="hand"/>
+    <class name="cls_border" margin="2,2,2,2" ncSkin="_skin.sys.border"/>
+
+  </style>
+
+  <objattr>
+    <!--控件默认属性-->
+    <button class="normalbtn"/>
+    <imgbtn class="linkimage"/>
+    <tabctrl colorText="#000000" tabAlign="top" tabWidth="70" tabHeight="38" tabInterSize="0" tabPos="10" dotted="1"/>
+    <edit transParent="1" margin-x="2" margin-y="2"/>
+    <treectrl colorItemBkgnd="#FFFFFF" colorItemSelBkgnd="#000088" colorItemText="#000000" colorItemSelText="#FFFFFF" indent="17" itemMargin="4"/>
+  </objattr>
+</UIDEF>

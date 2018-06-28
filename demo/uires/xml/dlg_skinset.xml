@@ -1,0 +1,92 @@
+﻿<SOUI trCtx="dlg_set_skin" title="set skin" width="758" height="500" margin="5,5,5,5" resizable="0" translucent="1" appWnd="1" wndType="normal" >
+  <style>
+    <!--局部style对象-->
+    <class name="skin_border" ncSkin="_skin.sys.border" margin-x="1" margin-y="1" />
+  </style>
+  <skin>
+    <imglist name="skin_bkimg_0_fit" src="bkimg:skin_pic_0" colorizeEnable="0"/>
+    <imglist name="skin_bkimg_1_fit" src="bkimg:skin_pic_1" colorizeEnable="0"/>
+    <imglist name="skin_bkimg_2_fit" src="bkimg:skin_pic_2" colorizeEnable="0"/>
+    <imglist name="skin_bkimg_3_fit" src="bkimg:skin_pic_3" colorizeEnable="0"/>
+    <imglist name="skin_bkimg_4_fit" src="bkimg:skin_pic_4" colorizeEnable="0"/>
+    <imglist name="skin_bkimg_5_fit" src="bkimg:skin_pic_5" colorizeEnable="0"/>
+    <imglist name="skin_bkimg_6_fit" src="bkimg:skin_pic_6" colorizeEnable="0"/>
+    <imglist name="skin_bkimg_7_fit" src="bkimg:skin_pic_7" colorizeEnable="0"/>
+    <imglist name="skin_bkimg_8_fit" src="bkimg:skin_pic_8" colorizeEnable="0"/>
+    <imglist name="skin_bkimg_9_fit" src="bkimg:skin_pic_9" colorizeEnable="0"/>
+    <imglist name="skin_bkimg_10_fit" src="bkimg:skin_pic_10" colorizeEnable="0"/>
+    <imglist name="skin_bkimg_11_fit" src="bkimg:skin_pic_11" colorizeEnable="0"/>
+    <imglist name="skin_bkimg_12_fit" src="bkimg:skin_pic_12" colorizeEnable="0"/>
+    <imglist name="skin_bkimg_13_fit" src="bkimg:skin_pic_13" colorizeEnable="0"/>
+    <imglist name="skin_bkimg_14_fit" src="bkimg:skin_pic_14" colorizeEnable="0"/>
+    <imglist name="skin_bkimg_15_fit" src="bkimg:skin_pic_15" colorizeEnable="0"/>
+    <imglist name="skin_bkimg_16_fit" src="bkimg:skin_pic_16" colorizeEnable="0"/>
+    <imglist name="skin_bkimg_17_fit" src="bkimg:skin_pic_17" colorizeEnable="0"/>
+    <imglist name="skin_color" src="img:png_skin_color" colorizeEnable="0"/>
+    <imglist name="skin_tab_bk" src="img:png_tab_set_bk_skin" states="3"/>
+    <imglist name="skin_btn_custom" src="img:png_skin_custom" states="3"/>
+    <imgframe name="skin_page_icons"  src="img:png_tab_page_icons" margin-x="4" top="4" bottom="15" states="2"/>
+  </skin>
+  <root colorBkgnd="#eeeeee" cache="1">
+    <window id="9527" pos="1,1,-1,-1" skin="demoskinbk"  cache="1">
+      <window cache="1" pos="0,0,-0,-0" colorBkgnd="#ffffff" alpha="100"/>
+      <caption pos="0,0,-0,30" show="1" font="adding:0">
+        <icon pos="10,8" src="ICON_LOGO:16"/>
+        <text pos="29,9">@string/setskintitle</text>
+        <imgbtn name="btn_close" skin="_skin.sys.btn.close" pos="-36,0" animate="1"/>
+      </caption>
+      <window pos="0,30,-0,-0" colorBkgnd="#edeeee" alpha="70">
+        <window pos="0,1,-0,-0" colorBkgnd="#ffffff">
+  <window pos="4,7,-4,@100">
+    <img pos="2,0,@120,@120" class="cls_border" name="img_skin_0" id="10" msgTransparent="0" skin="skin_bkimg_0_fit"/>
+    <img pos="[3,0,@120,@120" class="cls_border" name="img_skin_1" id="11" msgTransparent="0" skin="skin_bkimg_1_fit"/>
+    <img pos="[3,0,@120,@120" class="cls_border" name="img_skin_2" id="12" msgTransparent="0" skin="skin_bkimg_2_fit"/>
+    <img pos="[3,0,@120,@120" class="cls_border" name="img_skin_4" id="13" msgTransparent="0" skin="skin_bkimg_3_fit"/>
+    <img pos="[3,0,@120,@120" class="cls_border" name="img_skin_5" id="14" msgTransparent="0" skin="skin_bkimg_4_fit"/>
+    <img pos="[4,0,@120,@120" class="cls_border" name="img_skin_6" id="15" msgTransparent="0" skin="skin_bkimg_5_fit"/>
+  </window>
+  <window pos="4,[2">
+    <img pos="2,0,@120,@120" class="cls_border" name="img_skin_7" id="16" msgTransparent="0" skin="skin_bkimg_6_fit"/>
+    <img pos="[3,0,@120,@120" class="cls_border" name="img_skin_8" id="17" msgTransparent="0" skin="skin_bkimg_7_fit"/>
+    <img pos="[3,0,@120,@120" class="cls_border" name="img_skin_9" id="18" msgTransparent="0" skin="skin_bkimg_8_fit"/>
+    <img pos="[3,0,@120,@120" class="cls_border" name="img_skin_10" id="19" msgTransparent="0" skin="skin_bkimg_9_fit"/>
+    <img pos="[3,0,@120,@120" class="cls_border" name="img_skin_11" id="20" msgTransparent="0" skin="skin_bkimg_10_fit"/>
+    <img pos="[4,0,@120,@120" class="cls_border" name="img_skin_12" id="21" msgTransparent="0" skin="skin_bkimg_11_fit"/>
+  </window>
+  <window pos="4,[2">
+    <img pos="[2,0,@120,@120" class="cls_border" name="img_skin_13" id="22" msgTransparent="0" skin="skin_bkimg_12_fit"/>
+    <img pos="[3,0,@120,@120" class="cls_border" name="img_skin_14" id="23" msgTransparent="0" skin="skin_bkimg_13_fit"/>
+    <img pos="[3,0,@120,@120" class="cls_border" name="img_skin_15" id="24" msgTransparent="0" skin="skin_bkimg_14_fit"/>
+    <img pos="[3,0,@120,@120" class="cls_border" name="img_skin_16" id="25" msgTransparent="0" skin="skin_bkimg_15_fit"/>
+    <img pos="[3,0,@120,@120" class="cls_border" name="img_skin_17" id="26" msgTransparent="0" skin="skin_bkimg_16_fit"/>
+    <img pos="[4,0,@120,@120" class="cls_border" name="img_skin_18" id="27" msgTransparent="0" skin="skin_bkimg_17_fit"/>
+  </window>
+  <window pos="4,[2">
+    <window pos="2,0,@40,@40" class="cls_border" colorBkgnd="#169ada" colorizeEnable="0" id="30"/>
+    <window pos="[1,0,@40,@40" class="cls_border" colorBkgnd="#dfceb6" colorizeEnable="0" id="31"/>
+    <window pos="[1,0,@40,@40" class="cls_border" colorBkgnd="#31a66b" colorizeEnable="0" id="32"/>
+    <window pos="[1,0,@40,@40" class="cls_border" colorBkgnd="#da434e" colorizeEnable="0" id="33"/>
+    <window pos="[1,0,@40,@40" class="cls_border" colorBkgnd="#e56281" colorizeEnable="0" id="34"/>
+    <window pos="[1,0,@40,@40" class="cls_border" colorBkgnd="#b1639f" colorizeEnable="0" id="35"/>
+    <window pos="[1,0,@40,@40" class="cls_border" colorBkgnd="#6b51c0" colorizeEnable="0" id="36"/>
+    <window pos="[1,0,@40,@40" class="cls_border" colorBkgnd="#595ca0" colorizeEnable="0" id="37"/>
+    <window pos="[1,0,@40,@40" class="cls_border" colorBkgnd="#3074c1" colorizeEnable="0" id="38"/>
+    <window pos="[1,0,@40,@40" class="cls_border" colorBkgnd="#00829a" colorizeEnable="0" id="39"/>
+    <window pos="[1,0,@40,@40" class="cls_border" colorBkgnd="#159c77" colorizeEnable="0" id="40"/>
+    <window pos="[1,0,@40,@40" class="cls_border" colorBkgnd="#4fb0ac" colorizeEnable="0" id="41"/>
+    <window pos="[1,0,@40,@40" class="cls_border" colorBkgnd="#7ac5c4" colorizeEnable="0" id="42"/>
+    <window pos="[1,0,@40,@40" class="cls_border" colorBkgnd="#9bb7d6" colorizeEnable="0" id="43"/>
+    <window pos="[1,0,@40,@40" class="cls_border" colorBkgnd="#804d4d" colorizeEnable="0" id="44"/>
+    <window pos="[1,0,@40,@40" class="cls_border" colorBkgnd="#f0bc59" colorizeEnable="0" id="45"/>
+    <window pos="[1,0,@40,@40" class="cls_border" colorBkgnd="#cfbaaa" colorizeEnable="0" id="46"/>
+    <!--img pos="[1,0,@40,@40" class="cls_border" msgTransparent="0" skin="skin_color" id="50"/-->
+  </window>
+    <window pos="0,[,-0,-0" colorBkgnd="#ffffff">
+      <hr pos="0,3,-0,4" colorLine="#d7d7d7"/>
+      <!--imgbtn name="btn_custon" id="51" pos="10,|" offset="0,-0.5" tip="添加自定义皮肤" skin="skin_btn_custom"/-->
+    </window>
+  </window>
+      </window>
+    </window>
+  </root>
+</SOUI>

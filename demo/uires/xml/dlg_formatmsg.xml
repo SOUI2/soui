@@ -1,0 +1,21 @@
+﻿<SOUI trCtx="dlg_formatmsg" title="format msg" width="500" height="300" margin="5,5,5,5" resizable="0" bigIcon="LOGO:32" smallIcon="LOGO:16" translucent="1" alpha="255">
+  <style>
+    <!--局部style对象-->
+    <class name="cls_edit" ncSkin="_skin.sys.border" margin-x="2" margin-y="2" />
+  </style>
+  <root class="cls_dlg_frame" cache="1">
+    <caption pos="0,0,-0,30" show="1" font="adding:8">
+      <icon pos="10,8" src="LOGO:16"/>
+      <text class="cls_txt_red">输入XML格式消息</text>
+      <imgbtn id="IDCANCEL" skin="_skin.sys.btn.close"    pos="-45,0" tip="close" animate="1"/>
+    </caption>
+    <richedit name="re_xmlinput" pos="5,[5,-5,-35" class="cls_edit" enableDragdrop="1" multiLines="1" vscrollBar="1" sbSkin="skin_vscrollbar" wordWrap="1"  autoVscroll="1" hscrollBar="0" wantReturn="1" >
+      &lt;color value="#ff0000"&gt;abc&lt;link color="#0000ff"&gt;home&lt;/link&gt;&lt;smiley id="1"/&gt;&lt;underline&gt;efg&lt;italic&gt;abc&lt;bold&gt;abc&lt;strike&gt;afc&lt;font value="华文行楷"&gt;&lt;size value="25"&gt; 启程&lt;/size&gt;软件SOUI&lt;/font&gt;&lt;/strike&gt;&lt;/bold&gt;&lt;/italic&gt;&lt;/underline&gt;&lt;/color&gt;
+    </richedit>
+
+    <text pos="5,[5">重复次数:</text>
+    <edit pos="[5,{0,@50,@25" name="edit_repeat">1</edit>
+    
+    <button id="IDOK" pos="-10,{0,@100,@25" offset="-1,0">OK</button>
+  </root>
+</SOUI>

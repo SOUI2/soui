@@ -1,0 +1,27 @@
+﻿<include>
+  <chromeTabCtrl pos="0,0,-0,@40" name="chromeTab" tabDesiredSize="200" enableDrag="1">
+    <tabStyle skin="_skin.sys.btn.normal"/>
+    <newBtnStyle size="40,30" skin="skin_chrome_tab_new"/>
+    <closeBtnStyle pos="-2,2" offset="-1,0" skin="skin_chrome_tab_close"/>
+    <tabs>
+      <chromeTab tip="the tab #1">tab1</chromeTab>
+      <chromeTab tip="the tab #2">tab2</chromeTab>
+      <chromeTab tip="the tab #3">tab3</chromeTab>
+    </tabs>
+  </chromeTabCtrl>
+  <window pos="0,[0,-0,-0">
+    <text pos="0,0,-0,-0" align="center">没有找到wke.dll,请将third-part\wke\wke.7z解压到bin目录。</text>
+    <fadeframe pos="0,0,-16,28" targetName="webkit_toolbar" showAlpha="200">
+      <!--一个实现渐显渐隐动画的工具栏控件-->
+    </fadeframe>
+    <wkeWebkit pos="0,0,-0,-0" url="http://www.cnblogs.com/setoutsoft/" name="wke_test"/>
+    <window pos="0,0,-16,28" name="webkit_toolbar" colorBkgnd="#ff0000" layeredWindow="1">
+      <!--这个窗口是前面的fadeframe的作用对象-->
+      <imgbtn pos="0,0" name="btn_webkit_back" skin="skin_webbtn_back" alpha="128"/>
+      <imgbtn pos="[5,0," name="btn_webkit_fore" skin="skin_webbtn_forward"/>
+      <imgbtn pos="[5,0," name="btn_webkit_refresh" skin="skin_webbtn_refresh"/>
+      <edit pos="[5,0,-100,25" class="cls_edit" name="edit_url">http://www.cnblogs.com/setoutsoft/</edit>
+      <button pos="-80,0,-0,25" name="btn_webkit_go">go</button>
+    </window>
+  </window>
+</include>

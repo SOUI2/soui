@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<language name="ch" guid="{0DAEDE3C-6B94-4a81-9A55-C304FDD69D98}">
+  <context>
+    <!--没有上下文的翻译及字符串表的翻译-->
+    <message>
+      <source>soui demo</source>
+      <translation>SOUI演示</translation>
+    </message>
+  </context>
+  <context name="editmenu">
+    <message>
+      <source>copy</source>
+      <translation>复制</translation>
+    </message>
+    <message>
+      <source>cut</source>
+      <translation>剪切</translation>
+    </message>
+    <message>
+      <source>paste</source>
+      <translation>粘贴</translation>
+    </message>
+  </context>
+  <context name="messagebox">
+    <message>
+      <source>ok</source>
+      <translation>确定</translation>
+    </message>
+    <message>
+      <source>cancel</source>
+      <translation>取消</translation>
+    </message>
+    <message>
+      <source>retry</source>
+      <translation>重试</translation>
+    </message>
+  </context>
+  <context name="dlg_main">
+    <message>
+      <source>close</source>
+      <translation>关闭窗口</translation>
+    </message>
+  </context>
+</language>

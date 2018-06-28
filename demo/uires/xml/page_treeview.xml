@@ -1,0 +1,12 @@
+﻿<include>
+  <treeview pos="0,0,-100,-0" name="tree_view_00" itemHeight="-1" colorItemBkgnd="#FFFFFF" colorItemSelBkgnd="#cccccc" indent="30">
+
+    <template height="60" colorHover="#cccccc" colorSelected="#0000ff" trackMouseEvent="1">
+		    <toggle pos="[0,|0,@20,@20"  offset="0,-0.5" name="tgl_switch" skin="_skin.sys.tree.toggle" tip="show how to use switch"/>
+        <button pos="[0,5,@150,@25" name="btn_test" tip="click the button to see how to writing the response function">btn</button>
+        <animateimg pos="[10,{0" skin="skin_busy" name="ani_test" tip="animateimg is used here" msgTransparent="0" />
+        <text pos="[20,{0" colorText="#ff0000" name="txt_red">text item</text>
+    </template>
+    
+  </treeview>
+</include>

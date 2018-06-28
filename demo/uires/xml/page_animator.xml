@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<include>
+  <tabctrl size="-2,-2" animateSteps="10" animateType="1" tabAlign="left" tabSkin="skin_tab_left" tabInterSkin="skin_tab_left_splitter" tabInterSize="2" tabWidth="150" iconSkin="skin_small_icons" icon-x="5" icon-y="8" colorText="#000000bb">
+    <page title="controls">
+      <gifplayer pos="10,10" skin="gif_horse" name="giftest" cursor="ANI_ARROW" show="1"/>
+      <button width="250" height="30" name="btnSelectGif">load gif file</button>
+      <gifplayer pos="10,150" skin="gif_penguin" show="1" id="1000" name="gif_test"/>
+      <icon pos="[10,{0" src="LOGO:64"/>
+      <gifplayer pos="[10,{0" skin="apng_haha" />
+      <animateimg pos="[10,{0" skin="skin_page_icons" autoStart="1"/>
+      <scrolltext show="1" pos="{0,[10,@200,@30" rollType="1" colorText="#ff0000" speed="10">Pay attention! apng would be played only if imgdecoder-png is used here!</scrolltext>
+    </page>
+    <page title="interpolator">
+      <combobox pos="10,10,@300,@30" name="cbx_interpolator" dropdown="1" class="cls_edit">
+        <liststyle class="cls_edit" iconSkin="skin_menuicon" itemSkin="skin_tab_left" itemHeight="30" colorText="#000000" colorSelText="#FFFFFF" colorItemBkgnd="#FFFFFF" colorItemSelBkgnd="#000088"/>
+        <items>
+          <item text="SLinearInterpolator" icon="1" data="100"/>
+          <item text="SAccelerateInterpolator" icon="2" data="100"/>
+          <item text="SDecelerateInterpolator" icon="3" data="103"/>
+          <item text="SAccelerateDecelerateInterpolator" icon="4" data="100"/>
+          <item text="SAnticipateInterpolator" icon="5" data="105"/>
+          <item text="SAnticipateOvershootInterpolator" icon="0" data="100"/>
+          <item text="SBounceInterpolator" icon="0" data="100"/>
+          <item text="SCycleInterpolator" icon="0" data="100"/>
+          <item text="SOvershootInterpolator" icon="0" data="100"/>
+        </items>
+      </combobox>
+      <interpolatorView pos="10,[10,-10,@50" colorBkgnd="#cccccc" name="view_interpolator" speed="2"/>
+    </page>
+  </tabctrl>
+
+</include>

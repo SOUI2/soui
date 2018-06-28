@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--日期显示面板-->
+<include>
+  <window pos="0,0,-0,-0" name="panel_calendar">
+    <window pos="0,0,-0,30">
+      <button pos="0,0,@50,-0" name="btn_prev_month">&lt;-</button>
+      <text pos="|0,|0" offset="-0.5,-0.5" name="txt_month" msgTransparent="0"/>
+      <button pos="-0,0,@50,-0" offset="-1,0" name="btn_next_month">-&gt;</button>
+    </window>
+    <calendar pos="0,[0,-0,-30" name="wnd_calendar"/>
+    <button pos="0,[0,@100,@30" name="btn_today">today</button>
+  </window>
+  <window pos="0,0,-0,-0" name="panel_month_picker">
+    <window pos="0,0,-0,-30">
+      <!--月份选择面板-->
+      <window pos="0,0,|-2,-0" name="group_months">
+        <!--line 1-->
+        <radio2 id="1000" pos="0,0,|-5,%16.67" skin="skin_png_radio_button" align="center" valign="middle">一月</radio2>
+        <radio2 id="1001" pos="|5,0,-0,%16.67" skin="skin_png_radio_button" align="center" valign="middle">二月</radio2>
+        <!--line 2-->
+        <radio2 id="1002" pos="0,0,|-5,%16.67" offset="0,1" skin="skin_png_radio_button" align="center" valign="middle">三月</radio2>
+        <radio2 id="1003" pos="|5,0,-0,%16.67" offset="0,1" skin="skin_png_radio_button" align="center" valign="middle">四月</radio2>
+        <!--line 3-->
+        <radio2 id="1004" pos="0,0,|-5,%16.67" offset="0,2" skin="skin_png_radio_button" align="center" valign="middle">五月</radio2>
+        <radio2 id="1005" pos="|5,0,-0,%16.67" offset="0,2" skin="skin_png_radio_button" align="center" valign="middle">六月</radio2>
+        <!--line 4-->
+        <radio2 id="1006" pos="0,0,|-5,%16.67" offset="0,3" skin="skin_png_radio_button" align="center" valign="middle">七月</radio2>
+        <radio2 id="1007" pos="|5,0,-0,%16.67" offset="0,3" skin="skin_png_radio_button" align="center" valign="middle">八月</radio2>
+        <!--line 5-->
+        <radio2 id="1008" pos="0,0,|-5,%16.67" offset="0,4" skin="skin_png_radio_button" align="center" valign="middle">九月</radio2>
+        <radio2 id="1009" pos="|5,0,-0,%16.67" offset="0,4" skin="skin_png_radio_button" align="center" valign="middle">十月</radio2>
+        <!--line 6-->
+        <radio2 id="1010" pos="0,0,|-5,%16.67" offset="0,5" skin="skin_png_radio_button" align="center" valign="middle">十一月</radio2>
+        <radio2 id="1011" pos="|5,0,-0,%16.67" offset="0,5" skin="skin_png_radio_button" align="center" valign="middle">十二月</radio2>
+      </window>
+      <hr pos="|0,0,|1,-0" mode="vertical" colorLine="#ff0000"/>
+      <!--年份选择面板-->
+      <window pos="|5,0,-0,-0" name="group_years">
+        <!--line 1-->
+        <button name="btn_year_prev" pos="0,0,|-5,%16.67">前十年</button>
+        <button name="btn_year_next" pos="|5,0,-0,%16.67">后十年</button>
+        <!--line 6-->
+        <radio2 id="2000"  pos="0,0,|-5,%16.67" offset="0,1" skin="skin_png_radio_button" align="center" valign="middle"/>
+        <radio2 id="2001" pos="|5,0,-0,%16.67" offset="0,1" skin="skin_png_radio_button" align="center" valign="middle"/>
+        <!--line 2-->
+        <radio2 id="2002" pos="0,0,|-5,%16.67" offset="0,2" skin="skin_png_radio_button" align="center" valign="middle"/>
+        <radio2 id="2003" pos="|5,0,-0,%16.67" offset="0,2" skin="skin_png_radio_button" align="center" valign="middle"/>
+        <!--line 3-->
+        <radio2 id="2004" pos="0,0,|-5,%16.67" offset="0,3" skin="skin_png_radio_button" align="center" valign="middle"/>
+        <radio2 id="2005" pos="|5,0,-0,%16.67" offset="0,3" skin="skin_png_radio_button" align="center" valign="middle"/>
+        <!--line 4-->
+        <radio2 id="2006" pos="0,0,|-5,%16.67" offset="0,4" skin="skin_png_radio_button" align="center" valign="middle"/>
+        <radio2 id="2007" pos="|5,0,-0,%16.67" offset="0,4" skin="skin_png_radio_button" align="center" valign="middle"/>
+        <!--line 5-->
+        <radio2 id="2008" pos="0,0,|-5,%16.67" offset="0,5" skin="skin_png_radio_button" align="center" valign="middle"/>
+        <radio2 id="2009" pos="|5,0,-0,%16.67" offset="0,5" skin="skin_png_radio_button" align="center" valign="middle"/>
+      </window>
+    </window>
+    <!--返回按钮-->
+    <window pos="0,[0,-0,-0">
+      <button pos="%25,2,@100,-2" offset="-0.5,0" name="btn_pick_month_cancel">Cancel</button>
+      <button pos="%75,2,@100,-2" offset="-0.5,0" name="btn_pick_month_finish">OK</button>
+    </window>
+  </window>
+</include>

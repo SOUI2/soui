@@ -1,0 +1,8 @@
+﻿<resource>
+  <SkinXml>
+    <file name="LoadSkinXml" path="xml\skin.xml"  />
+  </SkinXml>
+  <IMG>
+    <file name="skin_page_icons" path="img\page_icons.png"/>
+  </IMG> 
+</resource>

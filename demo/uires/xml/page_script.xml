@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<include>
+  <window size="full,full" name="game_wnd" on_size="on_canvas_size" id="300">
+    <text pos="0,0,-0,@30" colorBkgnd="#cccccc" colorText="#ff0000" align="center">SOUI + LUA 跑马机</text>
+    <window pos="0,[0,-0,-50">
+      <window pos="0,0,-64,-0" name="game_canvas" clipClient="1" colorBkgnd="#ffffff">
+        <!--比赛场地-->
+        <gifplayer name="player_1" float="1" skin="gif_horse">
+          <text pos="0,%1" colorText="rgb(255,0,0)" font="size:20">1</text>
+        </gifplayer>
+        <gifplayer name="player_2" float="1" skin="gif_horse">
+          <text pos="0,0" colorText="rgb(255,0,0)" font="size:20">2</text>
+        </gifplayer>
+        <gifplayer name="player_3" float="1" skin="gif_horse">
+          <text pos="0,0" colorText="rgb(255,0,0)" font="size:20">3</text>
+        </gifplayer>
+        <gifplayer name="player_4" float="1" skin="gif_horse">
+          <text pos="0,0" colorText="rgb(255,0,0)" font="size:20">4</text>
+        </gifplayer>
+        <gifplayer name="flag_win" float="1" skin="gif_win" show="0" id="400"/>
+        <text pos="|0,0">赔率:</text>
+        <text pos="[0,0,@20,[0" colorText="#ff0000" name="txt_rate">4</text>
+        <hr pos="-1,0,-0,-0" mode="vertical" colorLine="#ff0000"/>
+      </window>
+      <window pos="[0,0,-0,-0">
+        <window pos="0,%12.5,@64,@64" offset="0,-0.5" skin="img_coin" id="101" tip="下注1号马" on_command="on_bet">0</window>
+        <window pos="0,%37.5,@64,@64" offset="0,-0.5" skin="img_coin" id="102" tip="下注2号马" on_command="on_bet">0</window>
+        <window pos="0,%62.5,@64,@64" offset="0,-0.5" skin="img_coin" id="103" tip="下注3号马" on_command="on_bet">0</window>
+        <window pos="0,%87.5,@64,@64" offset="0,-0.5" skin="img_coin" id="104" tip="下注4号马" on_command="on_bet">0</window>
+      </window>
+    </window>
+    <window pos="10,[5,-0,-0" name="game_toolbar">
+      <button name="btn_run" pos="0,|0,@100,@30" offset="0,-0.5" tip="run the game" on_command="on_run">run</button>
+      <text pos="]-5,0,@-1,-0" offset="-1,0">现有金币:</text>
+      <text pos="-64,0,@64,-0" name="txt_coins" align="center">100</text>
+    </window>
+
+  </window>
+</include>

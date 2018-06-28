@@ -1,0 +1,16 @@
+﻿<SOUI title="土豆桌面时钟" width="385" height="385" translucent="1">
+    <skin>
+        <imglist name="clock.background" src="img.clock:background"/>
+    </skin>
+
+    <root>
+    	<caption pos="0,0,-0,-0" tip="escape to exit">
+	    	<clock pos="0, 0, -0, -0" skin="clock.background" name="clock_main" msgTransparent="1"
+	            pointer_hour="img.clock:pointer_hour"
+	            pointer_minute="img.clock:pointer_minute"
+	            pointer_second="img.clock:pointer_second"
+	        />
+	       <button id="IDCANCEL" pos="0,0,0,0" visible="0" fun="escape to exit"/>
+    	</caption>
+    </root>
+</SOUI>

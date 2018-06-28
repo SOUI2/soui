@@ -1,0 +1,90 @@
+﻿<SOUI trCtx="dlg_main"
+      title="SOUI-DEMO"
+      bigIcon="ICON_LOGO:32"
+      smallIcon="ICON_LOGO:16"
+      width="666"
+      height="400"
+      wndType="appMain"
+      margin="10,10,10,10"
+      resizable="1"
+      translucent="1"
+      sendWheel2Hover="1"
+      alpha="255">
+  <skin>
+    <!--局部skin对象-->
+    <gif name="gif_penguin" src="gif:gif_penguin"/>
+    <apng name="apng_haha" src="apng:apng_haha"/>
+  </skin>
+  <style>
+    <!--局部style对象-->
+    <class name="cls_edit" ncSkin="_skin.sys.border" margin-x="2" margin-y="2" />
+  </style>
+  <script src="lua:lua_test">
+    <!--当没有指定src属性时从cdata段中加载脚本-->
+    <![CDATA[
+    function on_init(args)
+	    SMessageBox(0,T "execute script function: on_init", T "msgbox", 1);
+    end
+
+    function on_exit(args)
+	    SMessageBox(0,T "execute script function: on_exit", T "msgbox", 1);
+    end
+
+    function onEvtTest2(args)
+	    SMessageBox(0,T "onEvtTest2", T "msgbox", 1);
+	    return 1;
+    end
+
+    function onEvtTstClick(args)
+	    local txt3=SStringW(L"append",-1);
+	    local sender=toSWindow(args.sender);
+	    sender:GetParent():CreateChildrenFromString(L"<button pos=\"0,0,150,30\" on_command=\"onEvtTest2\">lua btn 中文</button>");
+	    sender:SetVisible(0,1);
+	    return 1;
+    end
+    ]]>
+  </script>
+  <root colorBkgnd="#eeeeee" cache="1" on_init="on_init" on_exit="on_exit">
+    <window pos="1,1,-1,-1" id="9527" skin="demoskinbk" cache="1" colorBkgnd="#169ada"/>
+    <caption pos="0,0,-0,30" class="cls_txt_red" font="adding:8" focusable="1" drawfocusrect="0">
+      <icon pos="10,8" src="ICON_LOGO:16"/>
+      <text pos="[5,4" name="txt_title"/>
+      <imgbtn id="1" skin="_skin.sys.btn.close"    pos="-45,0" tip="close \nwindow" animate="1"/>
+      <imgbtn id="2" skin="_skin.sys.btn.maximize"  pos="-83,0" animate="1" />
+      <imgbtn id="3" skin="_skin.sys.btn.restore"  pos="-83,0" show="0" animate="1" />
+      <imgbtn id="5" skin="_skin.sys.btn.minimize" pos="-121,0" animate="1" />
+      <imgbtn name="btn_menu" skin="skin_btn_menu" pos="-151,2" animate="1" />
+      <imgbtn name="btn_skin" skin="skin_btn_skin" pos="-181,2" animate="1"/>
+    </caption>
+    <tabctrl name="tab_main" pos="5,30,-5,-5" interpolator="Decelerate" curSel="0" focusable="0" animateSteps="30" animateType="1" tabHeight="75" tabSkin="skin_tab_main" text-y="50" iconSkin="skin_page_icons" icon-x="10" colorTextHover="#ff0000" fontHover="italic:1">
+      <page title="soui ctrl">
+        <include src="layout:page_ctrls"/>
+      </page>
+      <page title="教程" tip="show webkit based on WKE">
+        <include src="layout:page_webkit"/>
+      </page>
+      <page title="flash" tip="windowless flash control">
+        <flash pos="0,0,-0,-0" name="ctrl_flash" url="http://127.0.0.1:82/flash/apple.swf" delay="1"/>
+      </page>
+      <page title="animate" tip="play gif and apng">
+        <include src="layout:page_animator"/>
+      </page>
+      <page title="layout" tip="show layout capability in soui">
+        <include src="layout:page_layout"/>
+      </page>
+      <page title="treeview">
+        <include src="layout:page_treeview"/>
+      </page>
+      <page title ="misc." tip="many features, just find it.">
+        <include src="layout:page_misc"/>
+      </page>
+      <page title="skia" tip="demo skia advance features">
+        <include src="layout:page_skia"/>
+      </page>
+      <page title="about" tip="copy right(c) setoutsoft 2014.">
+        <include src="layout:page_about"/>
+      </page>
+    </tabctrl>
+    <shellnotifyicon id="008" menu="SMENUEX:menu_tray" ico="ICON_MM_ONLINE;ICON_MM_OFFLINE;ICON_Loading1;ICON_Loading2;ICON_Loading3;ICON_Loading4;ICON_Loading5;ICON_Loading6" startframe="2" duration="200" tip="SOUI小飞侠"/>
+  </root>
+</SOUI>

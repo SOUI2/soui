@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SOUI trCtx="dlg_file res" title="test" width="300" height="50" appWnd="0" resizable="0" translucent="1">
+  <root>
+    <caption pos="0,0,-0,-0">
+      <scrolltext pos="0,0,-0,-0" font="style:StrokeAndFill,blurStyle:solid,blurRadius:3,adding:5 " msgTransparent="1">
+        苦涩的沙 吹痛脸庞的感觉      像父亲的责骂 母亲的哭泣      永远难忘记      年少的我 喜欢一个人在海边      卷起裤管光着脚丫踩在沙滩上
+      </scrolltext>
+    </caption>
+  </root>
+</SOUI>

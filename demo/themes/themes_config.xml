@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<DEMO_SKIN_CONFIG>
+	<skinInf id="1" skin_margin="1280,800,0,0" />
+  <skinInf id="2" skin_margin="1290,1080,0,0" />
+  <skinInf id="3" skin_margin="1290,1080,0,0" />
+  <skinInf id="4" skin_margin="1366,768,0,0" />
+  <skinInf id="5" skin_margin="1440,900,0,0" />
+  <skinInf id="6" skin_margin="1440,900,0,0" />
+  <skinInf id="7" skin_margin="1290,1080,0,0" />
+  <skinInf id="8" skin_margin="1280,800,0,0" />
+  <skinInf id="9" skin_margin="1290,1200,0,0" />
+  <skinInf id="10" skin_margin="1440,900,0,0" />
+  <skinInf id="11" skin_margin="1440,900,0,0" />
+  <skinInf id="12" skin_margin="1290,1080,0,0" />
+  <skinInf id="13" skin_margin="1200,800,0,0" />
+  <skinInf id="14" skin_margin="1920,1200,0,0" />
+</DEMO_SKIN_CONFIG>

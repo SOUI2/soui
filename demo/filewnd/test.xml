@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SOUI trCtx="dlg_file res" title="test" width="400" height="300" appWnd="0" resizable="0" translucent="1" alpha="255">
+  <skin>
+    <gif name="skin_file_gif" src="file:image\test.gif"/>
+    <imgframe name="skin_file_bkgnd" src="file:image\bkgnd.png" margin="5,5,5,5"/>
+  </skin>
+  <root skin="skin_file_bkgnd">
+    <text pos="5,5" colorText="#ff0000">本窗口是从文件直接创建的。</text>
+    <gifplayer pos="5,[10" skin="skin_file_gif" cursor="ANI_ARROW"/>
+
+    <button id="IDOK" pos="-10,-10,@100,@30" offset="-1,-1">close</button>
+  </root>
+</SOUI>

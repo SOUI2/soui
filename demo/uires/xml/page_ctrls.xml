@@ -1,0 +1,342 @@
+﻿<include>
+  <tabctrl pos="0,0,-0,-0" font="style:StrokeAndFill,blurStyle:solid,blurRadius:3" animateSteps="10" animateType="1" tabAlign="left" tabSkin="skin_tab_left" tabInterSkin="skin_tab_left_splitter" tabInterSize="2" tabWidth="150" iconSkin="skin_small_icons" icon-x="5" icon-y="8" colorText="#000000bb">
+    <page title="listctrls">
+      <tabctrl pos="0,0,-0,-0" animateSteps="10" animateType="1" curSel="2" colorBkgnd="#ffffff" tabAlign="top" tabSkin="skin_tab_left" tabInterSkin="skin_tab_left_splitter" tabInterSize="2" tabHeight="30" tabWidth="120" iconSkin="skin_small_icons" icon-x="5" icon-y="4" colorText="#000000bb">
+        <page title="listctrl">
+          <listctrl name="lc_test" hotTrack="1" pos="10,0,-10,-10" itemHeight="20" headerHeight="30" cursor="CUR_TST" font="underline:1" itemSkin="skin_tab_left"  sbSkin="skin_new_scrollbar">
+            <header align="left" itemSwapEnable="1" fixWidth="0" sortHeader="1">
+              <items>
+                <item width="150">name</item>
+                <item width="150">gender</item>
+                <item width="150">age</item>
+                <item width="150">score</item>
+              </items>
+            </header>
+          </listctrl>
+        </page>
+        <page title="mclistview">
+          <mclistview name="mclv_test" colorBkgnd="@color/white" pos="10,10,-10,-10" headerHeight="30">
+            <header align="center"  sortSkin="skin_lcex_header_arrow" itemSkin="skin_lcex_header" itemSwapEnable="1" fixWidth="0" font="underline:0,adding:-3" sortHeader="1" colorBkgnd="#ffffff" >
+              <items>
+                <item width="480">@string/mccol_1</item>
+                <item width="95">@string/mccol_2</item>
+                <item width="100">@string/mccol_3</item>
+                <item width="100">@string/mccol_4</item>
+                <item width="100">@string/mccol_5</item>
+                <item width="100">@string/mccol_6</item>
+              </items>
+            </header>
+            <template itemHeight="80" colorHover="#cccccc" colorSelected="#0000ff">
+              <window name="col1" clipClient="1">
+                <img name="img_icon" skin="skin_icon6" pos="10,8,@64,@64"/>
+                <text name="txt_name" pos="[5,16" font="bold:1,adding:-1">火狐浏览器</text>
+                <text name="txt_desc" pos="{0,36,-10,-10" font="bold:1,adding:-4" dotted="1">速度最快的浏览器</text>
+                <text name="txt_index" pos="|0,|0" offset="-0.5,-0.5" font="adding:10" colorText="#ff000088">10</text>
+              </window>
+              <window name="col2" clipClient="1">
+                <ratingbar name="rating_score" starSkin="skin_star1" starNum="5" value="3.5" pos="10,16"  />
+                <text name="txt_score" pos="10,36" font="adding:-5"  >8.5分</text>
+                <link pos="[5,36" cursor="hand" colorText="#1e78d5" href="www.163.com" font="adding:-5" >投票</link>
+              </window>
+              <window name="col3" clipClient="1">
+                <text name="txt_size" pos="0,26,-0,-26" font="adding:-4" align="center" >85.92M</text>
+              </window>
+              <window  name="col4" clipClient="1">
+                <text name="txt_installtime" pos="0,26,-0,-26" font="adding:-4" align="center" >2015-01-09</text>
+              </window>
+              <window name="col5" clipClient="1">
+                <text name="txt_usetime" pos="0,26,-0,-26" font="adding:-4" align="center" >今天</text>
+                <animateimg pos="|0,|0" offset="-0.5,-0.5" skin="skin_busy" name="ani_test" tip="animateimg is used here" msgTransparent="0" />
+              </window>
+              <window name="col6" clipClient="1">
+                <imgbtn animate="1"  pos="|-35,|-14" font="adding:-3" align="center" skin="skin_install" name="btn_uninstall">卸载</imgbtn>
+              </window>
+            </template>
+
+          </mclistview>
+        </page>
+        <page title="listview(fix)">
+          <listview pos="5,[0,-5,-5" name="lv_test_fix" dividerSize="5" wantTab="1">
+            <template itemHeight="50" colorHover="#cccccc" colorSelected="#0000ff" trackMouseEvent="1">
+              <button pos="10,5,@150,@25" name="btn_test" tip="click the button to see how to writing the response function">btn</button>
+              <animateimg pos="[10,{0" skin="skin_busy" name="ani_test" tip="animateimg is used here" msgTransparent="0" />
+              <combobox name="cbx_in_lv" pos="[10,{0,@200,@30"  dropDown="1" dropHeight="300" class="cls_edit" dotted="0" animateTime="200" curSel="2">
+                <liststyle class="cls_edit" iconSkin="skin_menuicon" itemSkin="skin_tab_left" itemHeight="30" colorText="#000000" colorSelText="#FFFFFF" colorItemBkgnd="#FFFFFF" colorItemSelBkgnd="#000088"/>
+                <editstyle inset="5,0,5,0" colorText="#000000" align="left" colorBkgnd="#FFFFFF"/>
+                <items>
+                  <item text="combobox.item1" icon="1" data="100"/>
+                  <item text="combobox.item2" icon="2" data="100"/>
+                  <item text="combobox.item3" icon="3" data="103"/>
+                  <item text="combobox.item4" icon="4" data="100"/>
+                  <item text="combobox.item5" icon="5" data="105"/>
+                  <item text="combobox.item6" icon="0" data="100"/>
+                </items>
+              </combobox>
+              <text pos="-20,{0" offset="-1,0" colorText="#ff0000">text item</text>
+            </template>
+          </listview>
+        </page>
+        <page title="listview(flex)">
+          <listview pos="5,0,-5,-5" name="lv_test_flex" dividerSize="5">
+            <template defHeight="50" oddHeight="50" evenHeight="60" evenSelHeight="90">
+              <itemOdd colorHover="#cccccc" colorSelected="#0000ff">
+                <button pos="10,5,@150,@25" name="btn_test" tip="click the button to see how to writing the response function">btn</button>
+                <text pos="10,[0" multiLines="1" maxWidth="500" colorText="@color/red">text in odd item</text>
+              </itemOdd>
+              <itemEven colorHover="#cccccc" colorSelected="#0000ff">
+                <button pos="10,5,@150,@25" name="btn_test" tip="click the button to see how to writing the response function">btn</button>
+                <text pos="20,[0" colorText="#000000">text in even item</text>
+              </itemEven>
+              <itemEvenHover colorHover="#cccccc" colorSelected="#0000ff">
+                <button pos="10,5,@150,@25" name="btn_test" tip="click the button to see how to writing the response function">btn</button>
+                <text pos="20,[0" colorText="#000000" multilines="1">text in even item been hovered.\n the second line</text>
+              </itemEvenHover>
+            </template>
+          </listview>
+
+        </page>
+        <page title="tileview">
+          <tileview pos="5,0,-5,-5" name="lv_test_tile" wantTab="1" marginSize="5" colorBkgnd="#FFFFFF">
+            <template itemHeight="130" itemWidth="135" colorHover="#cccccc" colorSelected="#0000ff" trackMouseEvent="1" skin="skin_item_bk">
+              <img pos="|0,0,@100,@100" offset="-0.5,0" name="img_file_icon"/>
+              <button pos="|0,[5,@115,@22" offset="-0.5,0" name="btn_test" tip="click the button to see how to writing the response function">btn</button>
+            </template>
+          </tileview>
+        </page>
+        <page title="mclistviewex">
+          <mclistviewex name="musiclist" headerHeight="48" colorSwapLine="rgb(0,0,255)" colorDropBk="rgb(0,0,255)" pos="20,20,-20,-20" sbTop="48">
+            <header2 align="center" matchParent="1" sortSkin="skin_lcex_header_arrow" itemSkin="skin_lcex_header" cursor="hand" itemSwapEnable="1" sortHeader="0" colorText="#000000ff">
+              <items>
+                <item width="150">歌曲</item>
+                <item width="120">歌手</item>
+                <item width="120">专辑</item>
+                <item width="120">时长</item>
+              </items>
+            </header2>
+            <template itemHeight="48" colorHover="#666666" colorSelected="#555555" fond="adding:-4">
+              <window name="col1" clipClient="1">
+                <hr pos="0,0,-0,1" colorLine="#666666" />
+                <text name="songname" dotted="1" pos="5,|,]-30,-0" offset="0,-0.5" font="bold:1,adding:-1">天天想听</text>
+                <window pos="-0,|" name="playbtn" offset="-1.2,-0.5" display="0" show="0">
+                  <!--imgbtn name="btn_play" pos="0,|" offset="0,-0.5" skin="skin_btn_play" show="1" tip="播放" />
+                  <imgbtn name="btn_add" pos="[4,|" offset="0,-0.5" skin="skin_btn_add" show="1" tip="添加音乐" />
+                  <imgbtn name="btn_down" pos="[4,|" offset="0,-0.5" skin="skin_btn_down" show="1" tip="下载音乐" />
+                  <imgbtn name="btn_more" pos="[4,|" offset="0,-0.5" skin="skin_btn_more" show="1" tip="更多" /-->
+                </window>
+              </window>
+              <window name="col2" clipClient="1">
+                <hr pos="0,0,-0,1" colorLine="#666666" />
+                <text name="artist">卖炭翁</text>
+              </window>
+              <window name="col3" clipClient="1">
+                <hr pos="0,0,-0,1" colorLine="#666666" />
+                <text name="album" >SOUI就是棒</text>
+              </window>
+              <window name="col4" clipClient="1">
+                <hr pos="0,0,-0,1" colorLine="#666666" />
+                <text name="lasttime" pos="0,|" offset="0,-0.5" colorText="rgb(100,100,100)">00:00</text>
+              </window>
+            </template>
+          </mclistviewex>
+        </page>
+      </tabctrl>
+    </page>
+    <page title="edit and hotkey" colorBorder="#ffff00" margin-x="5" margin-y="5">
+      <text pos="50,20">hotkey 1:</text>
+      <hotkey name="ctrl_hk1" width="200" height="25" class="cls_edit"/>
+      <text pos="50,[5">hotkey 2:</text>
+      <hotkey name="ctrl_hk2" width="200" height="25" class="cls_edit"/>
+      <text pos="50,[5">ip address control:</text>
+      <ipctrl name="ip_test" width="200" height="25" class="cls_edit"/>
+      <text pos="50,[5" multiLines="1">single line edit in window, \nshow how attribute "trackMouseEvent" will work:</text>
+      <window class="cls_edit" pos="50,[5,@200,@35" trackMouseEvent="1">
+        <edit pos="0,0,-30,-0" font="adding:10" margin="0" cueText="cue text" cueColor="rgb(255,0,0)" password="1">scroll edit</edit>
+        <button pos="-30,0,-0,-0" >:)</button>
+      </window>
+    </page>
+    <page title="buttons" colorBorder="#ffff00" margin-x="15" margin-y="15">
+      <button name="btn_msgbox" pos="10,50" width="200" height="30" accel="ctrl+alt+f9" font="bold:1" animate="0">show msg box</button>
+      <text pos="10,[5">press "ctrl+alt+f9" to activate the msgbox button</text>
+      <link pos="10,130" maxWidth="100" class="cls_btn_weblink" dotted="1" href="www.setoutsoft.cn">www.setoutsoft.cn</link>
+      <img pos="10,[10,@100,@100" skin="skin_page_icons" iconIndex="2" tip="img tip" msgTransparent="0"/>
+      <text pos="10,[5" multiLines="1">the image show how to handle message in SImageWnd,\n you can do it by simply setting msgTransparent to 0</text>
+      <window pos="10,[5,@100,@30" class="cls_edit" trackMouseEvent="1">
+        <edit pos="0,0,-16,-0" name="edit_spin" margin-x="0" margin-y="0"/>
+        <spinButton pos="[0,0,-0,-0" max="20" min="10" value="11" buddy="edit_spin">
+          <button name="btn_up"/>
+          <button name="btn_down"/>
+        </spinButton>
+		
+      </window>
+      <button pos="[0,{0,@100,@30" name="btn_lrc">LRC</button>
+      <button pos="[10,{0,@100,@30" name="btn_clock">clock</button>
+
+      <button pos="[10,{0,@-1,@30" name="btn_tip">提示窗口演示</button>
+	  <edit pos="10,[0,@120,@24" name="edit_spin2" >
+		<spin pos="-0,0" size="16,22" offset="-1,0" buddy="edit_spin2" min="1" max="100" />
+	  </edit>
+      <hr pos="10,[20,-10,@1" lineStyle="dashdotdot" mode="horizontal" colorLine="#ff0000"/>
+      <hr pos="10,{0,-10,-10" lineStyle="dash" mode="tilt" colorLine="#00ff00"/>
+      <hr pos="10,{0,@2,-10" lineStyle="solid" mode="vertical" colorLine="#0000ff" size="2"/>
+    </page>
+    <page title="radiobox">
+      <group pos="10,10,@200,@90">
+        radio
+        <radio pos="10,0" name="radio_1">radio 1</radio>
+        <radio pos="[10,{0" name="radio_2">radio 2</radio>
+        <radio pos="10,[10" name="radio_3" checked="1">radio 3</radio>
+        <radio pos="[10,{0" name="radio_4">radio 4</radio>
+      </group>
+      <group pos="[50,{0,@180,@100">
+        radio2
+        <radio2 pos="10,0" id="10000" name="radio2_1"  skin="skin_webbtn_forward"></radio2>
+        <radio2 pos="[20,{0" id="10001" name="radio2_2"  skin="skin_webbtn_forward"></radio2>
+        <radio2 pos="[20,{0" id="10002" name="radio2_3" skin="skin_webbtn_forward"></radio2>
+        <radio2 pos="10,[10" id="10003" name="radio2_4" checked="1" skin="skin_webbtn_forward"></radio2>
+        <radio2 pos="[20,{0" id="10004" name="radio2_5" skin="skin_webbtn_forward"></radio2>
+        <radio2 pos="[20,{0" id="10005" name="radio2_6" skin="skin_webbtn_forward"></radio2>
+      </group>
+      <group pos="10,[0,@180,@100">
+        radio3
+        <radio2 pos="10,0" name="radio3_1"  skin="skin_webbtn_forward"></radio2>
+        <radio2 pos="[20,{0" name="radio3_2"  skin="skin_webbtn_forward"></radio2>
+        <radio2 pos="[20,{0" name="radio3_3" skin="skin_webbtn_forward"></radio2>
+        <radio2 pos="10,[10" name="radio3_4" checked="1" skin="skin_webbtn_forward"></radio2>
+        <radio2 pos="[20,{0" name="radio3_5" skin="skin_webbtn_forward"></radio2>
+        <radio2 pos="[20,{0" name="radio3_6" skin="skin_webbtn_forward"></radio2>
+      </group>
+      <group pos="10,[0,@180,@100">
+        Btn
+        <button pos="10,0" name="btn4_1" >1</button>
+        <button pos="[20,{0" name="btn4_2"  >2</button>
+        <button pos="[20,{0" name="btn4_3" >3</button>
+        <button pos="10,[10" name="btn4_4" checked="1" >4</button>
+        <button pos="[20,{0" name="btn4_5" >5</button>
+        <button pos="[20,{0" name="btn4_6" >6</button>
+
+      </group>
+      <tabctrl pos="[0,{-100,@300,@200" name="tab_radio2" tabHeight="0" cursel="3" colorBkgnd="#00cc00">
+        <page>
+          <text pos="|0,|0" offset="-0.5,-0.5">page1</text>
+        </page>
+        <page>
+          <text pos="|0,|0" offset="-0.5,-0.5">page2</text>
+        </page>
+        <page>
+          <text pos="|0,|0" offset="-0.5,-0.5">page3</text>
+        </page>
+        <page>
+          <text pos="|0,|0" offset="-0.5,-0.5">page4</text>
+        </page>
+        <page>
+          <text pos="|0,|0" offset="-0.5,-0.5">page5</text>
+        </page>
+        <page>
+          <text pos="|0,|0" offset="-0.5,-0.5">page6</text>
+        </page>
+      </tabctrl>
+    </page>
+    <page title="prog and slider" colorBorder="#ff0000" margin-x="1" margin-y="1">
+      <progress name="prog_test" pos="100,100,@200,@15" font="adding:-8" value="20" min="0" max="100" showPercent="1"/>
+      <sliderbar name="slider_test" thumbInRail="0" pos="100,[10" alpha="200" width="200" value="20" min="0" max="100"/>
+      <sliderbar name="slider_test2" thumbInRail="1" pos="100,[10" alpha="200" width="200" value="20" min="0" max="100"/>
+      <sliderbar name="slider_test3" thumbInRail="0" vertical="1" pos="10,10" alpha="200" height="200" value="20" min="0" max="100"/>
+      <sliderbar name="slider_test4" thumbInRail="1" vertical="1" pos="[10,10" alpha="200" height="200" value="20" min="0" max="100"/>
+      <scrollbar name="sb_test1" pos="[10,10,@200,@16" min="0" max="100" value="10" page="10" vertical="0"/>
+      <scrollbar name="sb_test2" pos="[50,10,@16,@200" min="0" max="100" value="10" page="10" vertical="1"/>
+    </page>
+    <page title="calendar" layout="vbox">
+      <window size="-2,-1" layout="hbox" padding="5,5,5,5">
+        <dateTimePicker size="240,30" name="timepicker" padding="4,0,4,0" dropWidth="300" timeEnable="1" >
+          <calstyle ncSkin="_skin.sys.border" daySkin="_skin.sys.btn.normal" margin="1"/>
+        </dateTimePicker>
+      </window>
+      <calendar size="-2,0" weight="1" name="mp_test" daySkin="_skin.sys.btn.normal" footerHeight="30"/>
+    </page>
+    <page title="split">
+      <splitrow name="split_row" pos="10,0,-10,-10" sepSize="6">
+        <pane idealSize="250" minSize="30" priority="2" colorBkgnd="#880000" clipClient="1">
+          <text pos="|-50,|-20" colorText="#ffffff">pane1 priority=2</text>
+        </pane>
+        <pane idealSize="400" minSize="30" priority="1">
+          <splitcol name="split_col" pos="0,0,-0,-0" sepSize="6">
+            <pane idealSize="200" minSize="30" priority="0" colorBkgnd="#000088" clipClient="1">
+              <text pos="|-50,|-20" colorText="#ffffff">pane2.1 priority=0</text>
+            </pane>
+            <pane idealSize="400" minSize="30" priority="1" colorBkgnd="#008800" clipClient="1">
+              <text pos="|-50,|-20" colorText="#ff0000">pane2.2 priority=1</text>
+            </pane>
+          </splitcol>
+        </pane>
+      </splitrow>
+    </page>
+    <page title="combobox and listbox" layout="hbox" padding="10,10,10,10">
+      <group text="combobox" size="-1,-1" layout="vbox" padding="10,10,10,10">
+        <combobox name="cbx_test" size="250,30"  dropDown="1" dropHeight="100" class="cls_edit" dotted="0" animateTime="200" curSel="2">
+          <liststyle class="cls_edit"  iconSkin="skin_menuicon" itemSkin="skin_tab_left" itemHeight="30" colorText="#000000" colorSelText="#FFFFFF" colorItemBkgnd="#FFFFFF" colorItemSelBkgnd="#000088"/>
+          <editstyle inset="5,0,5,0" colorText="#000000" align="left" colorBkgnd="#FFFFFF"/>
+          <items>
+            <item text="combobox.item1" icon="1" data="100"/>
+            <item text="combobox.item2" icon="2" data="100"/>
+            <item text="combobox.item3" icon="3" data="103"/>
+            <item text="combobox.item4" icon="4" data="100"/>
+            <item text="combobox.item5" icon="5" data="105"/>
+            <item text="combobox.item6" icon="0" data="100"/>
+          </items>
+        </combobox>
+
+        <!--on_btn_select_cbx 在lua脚本中运行-->
+        <button size="-2,25" extend_top="10" on_command="on_btn_select_cbx">setcursel(-1)</button>
+      </group>
+
+      <group text="listbox" size="-1,-2" layout="vbox" extend_left="20" padding="10,10,10,10">
+        <listbox name="lb_test" size="250,0" weight="1" hotTrack="1" itemSkin="skin_tab_left" class="cls_edit"  iconSkin="skin_menuicon" itemHeight="30" colorText="#000000" colorSelText="#FFFFFF" colorItemBkgnd="#FFFFFF" colorItemSelBkgnd="#000088">
+          <items>
+            <item text="item1" icon="1" data="100"/>
+            <item text="item2" icon="2" data="100"/>
+            <item text="item3" icon="3" data="103"/>
+            <item text="item4" icon="4" data="100"/>
+            <item text="item5" icon="5" data="105"/>
+            <item text="item6" icon="0" data="100"/>
+          </items>
+        </listbox>
+        <button size="-2,30" extend_top="10" name="btn_init_listbox">init listbox</button>
+      </group>
+
+
+    </page>
+    <page title="treectrl">
+      <include src="layout:treectrl"/>
+    </page>
+    <page title="propertygrid">
+      <propgrid pos="10,50,-100,-10" nameWidth="180" orderType="group" switchSkin="skin_propswitch" colorBkgnd="#ffffff" itemHeight="30">
+        <cmdbtnstyle skin="_skin.sys.btn.normal">...</cmdbtnstyle>
+        <groups>
+          <propgroup name="group1" description="desc of group1">
+            <proptext name="text1.1" value="value 1.1">
+              <proptext name="text1.1.3" value="value 1.1.3"/>
+              <proptext name="text1.1.1" value="value 1.1.1"/>
+              <proptext name="text1.1.2" value="value 1.1.2">
+                <proptext name="text1.1.2" value="value 1.1.2"/>
+              </proptext>
+            </proptext>
+            <proptext name="text1.2" value="value 1.2"></proptext>
+          </propgroup>
+          <propgroup name="group2" description="desc of group2">
+            <propoption name="option2.1" value="1" options="true|false|empty"/>
+            <propsize name="size2.1" value="200,300" childrenNames="宽|高"/>
+            <proptext name="text2.2" value="value 2.2"></proptext>
+            <propcolor name="color2.1" value="#00ff00" format="#%02x%02x%02x%02x"/>
+            <proptext name="text2.1" value="value 2.1"/>
+            <proptext name="text2.3" value="value 2.3"/>
+            <proptext name="text2.4" value="value 2.4"/>
+            <proptext name="text2.5" value="value 2.5"/>
+            <proptext name="text2.6" value="value 2.6"/>
+            <proptext name="text2.7" value="value 2.7"/>
+            <proptext name="text2.8" value="value 2.8"/>
+          </propgroup>
+        </groups>
+      </propgrid>
+    </page>
+  </tabctrl>
+</include>

@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resource>
+  <UIDEF>
+    <file name="xml_init" path="uidef\init.xml"  />
+  </UIDEF>
+  
+  <values>
+  	<file name="string" path="values\string.xml" />
+  	<file name="color" path="values\color.xml" />
+    <file name="skin" path="values\skin.xml" />
+  </values>
+
+  <ICON>
+    <file name="ICON_0"  path="image\img_logo.ico"/>
+    <file name="ICON_LOGO"  path="image\img_logo.ico"/>
+    <file name="ICON_MM_ONLINE"  path="image\MM\imonline.ico"/>
+    <file name="ICON_MM_OFFLINE"  path="image\mm\offline.ico"/>
+    <file name="ICON_Loading1"  path="image\32\loading_1.ico"/>
+    <file name="ICON_Loading2"  path="image\32\loading_2.ico"/>
+    <file name="ICON_Loading3"  path="image\32\loading_3.ico"/>
+    <file name="ICON_Loading4"  path="image\32\loading_4.ico"/>
+    <file name="ICON_Loading5"  path="image\32\loading_5.ico"/>
+    <file name="ICON_Loading6"  path="image\32\loading_6.ico"/>
+  </ICON>
+  <CURSOR>
+    <file name="ANI_ARROW"  path="image\021.ani" />
+    <file name="CUR_TST" path="image\camera_capture.cur"/>
+  </CURSOR>
+  <SMENU>
+    <file name="menu_test" path="xml\menu_test.xml"  />
+    <file name="menu_lv" path="xml\menu_lv.xml"  />
+  </SMENU>
+  <SMENUEX>
+    <file name="menu_tray" path="xml\menuex_test.xml"/>
+  </SMENUEX>
+  <LAYOUT>
+    <file name="page_ctrls" path="xml\page_ctrls.xml"  />
+    <file name="maindlg" path="xml\dlg_main.xml"  />
+    <file name="page_layout" path="xml\page_layout.xml"  />
+    <file name="page_skia" path="xml\page_skia.xml"  />
+    <file name="page_misc" path="xml\page_misc.xml"  />
+    <file name="page_webkit" path="xml\page_webkit.xml"  />
+    <file name="page_about" path="xml\page_about.xml"  />
+    <file name="page_animator" path="xml\page_animator.xml"/>
+    <file name="treectrl" path="xml\treectrl.xml" />
+    <file name="page_script" path="xml\page_script.xml"/>
+    <file name="dlg_formatmsg" path="xml\dlg_formatmsg.xml"/>
+    <file name="template_calendar" path="xml\calendar.xml"/>
+    <file name="dlg_skiatext" path="xml\dlg_skiatext.xml"/>
+    <file name="page_treeview" path="xml\page_treeview.xml"/>
+    <file name="dlg_clock" path="xml\dlg_clock.xml"/>
+    <file name="dlg_set_skin" path="xml\dlg_skinset.xml"/>
+    <file name="dlg_tip" path="xml\dlg_tip.xml"/>
+    <file name="dlg_wrap_content" path="xml\dlg_wrap_content.xml"/>
+  </LAYOUT>
+  <IMGX>
+    <file name="qrbg" path="image\thDKT76T9X.png"/>
+    <file name="img_busy" path="image\img_busy.png"/>
+    <file name="btn_expand" path="image\btn_expand.png"/>
+	  <file name="jpg_bkgnd" path="image\Tulips.png"/>
+    <!--file name="png_page_icons"   path="image\page_icons.png" /-->
+    <file name="png_small_icons"  path="image\small_icons.png" />
+    <file name="webbtn_back"  path="image\webbtn_back.png" />
+    <file name="webbtn_forward"  path="image\webbtn_forward.png" />
+    <file name="webbtn_refresh"  path="image\webbtn_refresh.png" />    
+    <file name="png_treeicon"			 path="image\TreeIcon.png"/>
+    <file name="png_menu_border"  path="image\menuborder.png" />
+    <file name="png_vscroll"  path="image\vscrollbar.png" />
+    <file name="png_hscroll"  path="image\hscrollbar.png" />
+    <file name="png_tab_left"  path="image\tab_left.png" />
+    <file name="png_tab_left_splitter"  path="image\tab_left_splitter.png" />
+    <file name="png_tab_main"  path="image\tab_main.png" />
+    <file name="btn_menu" path="image\btn_menu.png"  />
+    <file name="png_propswitch" path="image\propswitch.png"/>
+    <file name="png_animode" path="image\animode.png"/>
+    <file name="png_chrome_tab_new" path="image\chromeTabNew.png"/>
+    <file name="png_chrome_tab_close" path="image\chromeTabClose.png"/>	
+	  <file name="png_lcex_header" path="image\lcex_header.png"/>
+	  <file name="png_lcex_header_arrow" path="image\lcex_header_arrow.png"/>
+	  <file name="png_lcex_selectrange" path="image\lcex_selectrange.png"/>
+	  <file name="png_icon1" path="image\icon\1.png"/>
+	  <file name="png_icon2" path="image\icon\2.png"/>
+	  <file name="png_icon3" path="image\icon\3.png"/>
+	  <file name="png_icon4" path="image\icon\4.png"/>
+	  <file name="png_icon5" path="image\icon\5.png"/>
+	  <file name="png_icon6" path="image\icon\6.png"/>
+	  <file name="png_icon7" path="image\icon\7.png"/>
+	  <file name="png_star1" path="image\icon\star_green.png"/>
+	  <file name="png_install" path="image\icon\button_install.png"/>
+    <file name="png_mask" path="image\mask.png"/>
+    <file name="png_avatar" path="image\avatar.png"/>
+
+    <file name="png_img_bk" path="image\item_bk.png"/>
+    <file name="png_btn_skin" path="image\btn_skin.png"/>
+    <file name="tip_bg" path="image\tip_bg.png"/>
+  </IMGX> 
+  <img.calendar2>
+    <file name="png_skin_btn_semiarc" path="img.calendar2\skin_btn_semiarc.png"/>
+    <file name="png_skin_btn_curve" path="img.calendar2\skin_btn_curve.png"/>
+    <file name="png_line_1px" path="img.calendar2\gradient_1px.png"/>
+    <file name="png_radio_button" path="img.calendar2\button_radio_aio.png"/>
+    <file name="cal_arrow_left" path="img.calendar2\cal_arrow_left.png"/>
+    <file name="cal_arrow_right" path="img.calendar2\cal_arrow_right.png"/>
+    <file name="cal_btn_day" path="img.calendar2\cal_day_skin.png"/>
+  </img.calendar2>
+  <img.dock>
+    <file name="PNG_MAINBK"  path="image\appledock\bk1.png"    />
+    <file name="PNG_ICON_1"  path="image\appledock\1.png"    />
+    <file name="PNG_ICON_2"  path="image\appledock\2.png"    />
+    <file name="PNG_ICON_3"  path="image\appledock\3.png"    />
+    <file name="PNG_ICON_4"  path="image\appledock\4.png"    />
+    <file name="PNG_ICON_5"  path="image\appledock\5.png"    />
+    <file name="PNG_ICON_6"  path="image\appledock\6.png"    />
+    <file name="PNG_ICON_7"  path="image\appledock\7.png"    />
+    <file name="PNG_ICON_8"  path="image\appledock\8.png"    />
+    <file name="PNG_ICON_9"  path="image\appledock\9.png"    />
+    <file name="PNG_ICON_10"  path="image\appledock\10.png"    />
+  </img.dock>
+  <img.game>
+    <file name="img_coin" path="image\coin.png"/>
+    <file name="gif_win" path="image\win.gif"/>
+    <file name="gif_horse"	path="image\horse.gif"/>
+  </img.game>
+  <img.clock>
+    <file name="background" path="img.clock\background.png"/>
+    <file name="pointer_hour" path="img.clock\pointer_hour.png"/>
+    <file name="pointer_minute" path="img.clock\pointer_minute.png"/>
+    <file name="pointer_second" path="img.clock\pointer_second.png"/>
+  </img.clock>
+  <bkimg>
+  	<file name="skin_pic_0" path="bkimg\1fix.png"/>
+  	<file name="skin_pic_1" path="bkimg\2fix.png"/>
+  	<file name="skin_pic_2" path="bkimg\3fix.png"/>
+  	<file name="skin_pic_3" path="bkimg\4fix.png"/>
+  	<file name="skin_pic_4" path="bkimg\5fix.png"/>
+  	<file name="skin_pic_5" path="bkimg\6fix.png"/>
+  	<file name="skin_pic_6" path="bkimg\7fix.png"/>
+  	<file name="skin_pic_7" path="bkimg\8fix.png"/>
+    <file name="skin_pic_8" path="bkimg\9fix.png"/>
+    <file name="skin_pic_9" path="bkimg\10fix.png"/>
+    <file name="skin_pic_10" path="bkimg\11fix.png"/>
+    <file name="skin_pic_11" path="bkimg\12fix.png"/>
+    <file name="skin_pic_12" path="bkimg\13fix.png"/>
+    <file name="skin_pic_13" path="bkimg\14fix.png"/>
+    <file name="skin_pic_14" path="bkimg\15fix.png"/>
+    <file name="skin_pic_15" path="bkimg\16fix.png"/>
+    <file name="skin_pic_16" path="bkimg\17fix.png"/>
+    <file name="skin_pic_17" path="bkimg\18fix.png"/>
+  </bkimg>
+  <GIF>
+    <file name="gif_penguin"	path="image\penguin.gif"/>
+  </GIF>
+  <apng>
+    <file name="apng_haha"	path="image\apng_haha.png"/>
+  </apng>
+  <rtf>
+    <file name="rtf_test"	path="rtf\RTF测试.rtf"/>
+  </rtf>
+  <lua>
+    <file name="lua_test" path="lua\test.lua"/>
+  </lua>
+  <translator>
+    <file name="lang_cn" path="translation files\lang_cn.xml"/>
+  </translator>
+  <flash>
+    <file name="apple.swf" path="flash\apple.swf"/>
+  </flash>
+  <ImgTrayMenu>
+    <file name="circulation"   path="image\TrayMenu\circulation.png" />
+    <file name="ilike"   path="image\TrayMenu\ilike.png" />    
+    <file name="next"   path="image\TrayMenu\next.png" />
+    <file name="pause"   path="image\TrayMenu\pause.png" />
+    <file name="play"   path="image\TrayMenu\play.png" />
+    <file name="pre"   path="image\TrayMenu\pre.png" />    
+    <file name="volume"   path="image\TrayMenu\volume.png" />
+    <file name="menu_ico"   path="image\TrayMenu\menu_ico.png" />
+  </ImgTrayMenu>
+</resource>
+

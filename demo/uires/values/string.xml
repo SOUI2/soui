@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <string>
+    <title value="soui demo version:%d.%d.%d.%d"/>   
+    <mccol_1 value="软件名称"/>
+    <mccol_2 value="软件评分"/>
+    <mccol_3 value="大小"/>
+    <mccol_4 value="安装时间"/>
+    <mccol_5 value="使用频率"/>
+    <mccol_6 value="操作"/>
+    <setskinwndtitle value="设置皮肤"/>
+  </string>

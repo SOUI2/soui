@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<skin>
+  <!--全局skin对象-->
+  <!--imglist name="skin_page_icons"	src="imgx:png_page_icons" states="9" alpha="100"/-->
+  <imglist name="skin_small_icons" src="imgx:png_small_icons" states="12"/>
+  <imglist name="skin_tree_icon"		src="imgx:png_treeicon" states="3"/>
+
+  <imglist name="skin_menuicon" src="imgx:png_small_icons" states="12"/>
+  <imglist name="skin_webbtn_back" src="imgx:webbtn_back" states="4"/>
+  <imglist name="skin_webbtn_forward" src="imgx:webbtn_forward" states="4"/>
+  <imglist name="skin_webbtn_refresh" src="imgx:webbtn_refresh" states="4"/>
+  <imgframe name="skin_tab_left" src="imgx:png_tab_left" states="3" margin="1,1,1,1"/>
+  <imglist name="skin_tab_left_splitter" src="imgx:png_tab_left_splitter"/>
+  <imglist name="skin_tab_main" src="imgx:png_tab_main" states="3"/>
+  <imglist name="skin_btn_menu" src="imgx:btn_menu" states="3"/>
+  <imglist name="skin_propswitch" src="imgx:png_propswitch" states="4"/>
+  <imglist name="skin_bkgnd" src="IMGX:jpg_bkgnd"/>
+  <imglist name="skin_btn_expand" src="imgx:btn_expand" states="6"/>
+  <vscrollbar name="skin_vscrollbar" src="imgx:png_vscroll" states="3" margin="4"/>
+  <newScrollbar name="skin_new_scrollbar" srcVert="imgx:png_vscroll" srcHorz="imgx:png_hscroll" states="3" margin="4"/>
+  <imglist name="skin_chrome_tab_new" src="imgx:png_chrome_tab_new" states="3"/>
+  <imglist name="skin_chrome_tab_close" src="imgx:png_chrome_tab_close" states="3"/>
+
+  <imgframe name="skin_btn_curve" src="img.calendar2:png_skin_btn_curve"    />
+  <imgframe name="skin_btn_semiarc" src="img.calendar2:png_skin_btn_semiarc"     />
+  <imgframe name="skin_png_line_1px" src="img.calendar2:png_line_1px"      />
+  <imgframe  name="skin_png_radio_button" src="img.calendar2:png_radio_button" states="8"    margin="3" />
+  <imgframe name="cal_arrow_left" src="img.calendar2:cal_arrow_left"  states="3" />
+  <imgframe name="cal_arrow_right" src="img.calendar2:cal_arrow_right"  states="3"   />
+  <imgframe name="cal_btn_day" src="img.calendar2:cal_btn_day"  states="3"   />
+
+  <imgframe name="skin_lcex_header" src="imgx:png_lcex_header" states="4" margin-x="2" margin-y="2"/>
+  <imgframe name="skin_lcex_header_arrow" src="imgx:png_lcex_header_arrow" states="2"  />
+  <imgframe name="skin_lcex_selectrange" src="imgx:png_lcex_selectrange" margin-x="1" margin-y="1"/>
+  <imgframe name="skin_icon1" src="imgx:png_icon1" />
+  <imgframe name="skin_icon2" src="imgx:png_icon2" />
+  <imgframe name="skin_icon3" src="imgx:png_icon3" />
+  <imgframe name="skin_icon4" src="imgx:png_icon4" />
+  <imgframe name="skin_icon5" src="imgx:png_icon5" />
+  <imgframe name="skin_icon6" src="imgx:png_icon6" />
+  <imgframe name="skin_icon7" src="imgx:png_icon7" />
+  <imgframe name="skin_star1" src="imgx:png_star1" states="2" />
+  <imgframe name="skin_install" src="imgx:png_install" states="3" />
+
+  <gif name="gif_horse" src="img.game:gif_horse"/>
+  <gif name="gif_win" src="img.game:gif_win"/>
+  <imglist name="img_coin" src="img.game:img_coin"/>
+  <imglist name="skin_avatar" src="imgx:png_avatar"/>
+  <imglist name="skin_busy"	src="imgx:img_busy" states="8"/>
+
+  <imglist name="skin_dock_bg" src="img.dock:PNG_MAINBK"/>
+  <imglist name="skin_png_icon_1" src="img.dock:PNG_ICON_1"/>
+  <imglist name="skin_png_icon_2" src="img.dock:PNG_ICON_2"/>
+  <imglist name="skin_png_icon_3" src="img.dock:PNG_ICON_3"/>
+  <imglist name="skin_png_icon_4" src="img.dock:PNG_ICON_4"/>
+  <imglist name="skin_png_icon_5" src="img.dock:PNG_ICON_5"/>
+  <imglist name="skin_png_icon_6" src="img.dock:PNG_ICON_6"/>
+  <imglist name="skin_png_icon_7" src="img.dock:PNG_ICON_7"/>
+  <imglist name="skin_png_icon_8" src="img.dock:PNG_ICON_8"/>
+  <imglist name="skin_png_icon_9" src="img.dock:PNG_ICON_9"/>
+  <imglist name="skin_png_icon_10" src="img.dock:PNG_ICON_10"/>
+
+  <imglist name="skin_avatar_none" src="imgx:png_avatar" filterLevel="none"/>
+  <imglist name="skin_avatar_low" src="imgx:png_avatar" filterLevel="low"/>
+  <imglist name="skin_avatar_medium" src="imgx:png_avatar" filterLevel="medium"/>
+  <imglist name="skin_avatar_high" src="imgx:png_avatar" filterLevel="high"/>
+  <imgframe name="skin_item_bk" src="imgx:png_img_bk" states="3" margin="3,3,3,3"/>
+
+  <imglist name="skin_btn_skin" src="imgx:png_btn_skin" states="3"/>
+  <!--背景图不允许调色-->
+  <imglist name="skin_bkimg_0" src="bkimg:skin_pic_0" colorizeEnable="0" autoFit="0"/>
+  <imglist name="skin_bkimg_1" src="bkimg:skin_pic_1" colorizeEnable="0" autoFit="0"/>
+  <imglist name="skin_bkimg_2" src="bkimg:skin_pic_2" colorizeEnable="0" autoFit="0"/>
+  <imglist name="skin_bkimg_3" src="bkimg:skin_pic_3" colorizeEnable="0" autoFit="0"/>
+  <imglist name="skin_bkimg_4" src="bkimg:skin_pic_4" colorizeEnable="0" autoFit="0"/>
+  <imglist name="skin_bkimg_5" src="bkimg:skin_pic_5" colorizeEnable="0" autoFit="0"/>
+  <imglist name="skin_bkimg_6" src="bkimg:skin_pic_6" colorizeEnable="0" autoFit="0"/>
+  <imglist name="skin_bkimg_7" src="bkimg:skin_pic_7" colorizeEnable="0" autoFit="0"/>
+  <demoskin name="demoskinbk"/>
+  <imglist name="skin_qrbg"	src="imgx:qrbg"/>
+  <imgframe name="skin_tip_bg" src="imgx:tip_bg" margin="46,5,5,20"/>
+
+  <!--menuex-->
+  <imglist name="TrayMenu_btn_circulation" src="ImgTrayMenu:circulation" states="8"/>
+  <imglist name="TrayMenu_btn_ilike" src="ImgTrayMenu:ilike" states="4"/>
+  <imglist name="TrayMenu_btn_next" src="ImgTrayMenu:next" states="3"/>
+  <imglist name="TrayMenu_btn_pause" src="ImgTrayMenu:pause" states="3"/>
+  <imglist name="TrayMenu_btn_play" src="ImgTrayMenu:play" states="3"/>
+  <imglist name="TrayMenu_btn_pre" src="ImgTrayMenu:pre" states="3"/>
+  <imglist name="TrayMenu_btn_volume" src="ImgTrayMenu:volume" states="4"/>
+  <imglist name="TrayMenu_menu_ico" src="ImgTrayMenu:menu_ico" states="3"/>
+  <colorrect name="TrayMenu_menu_bkgnd" hover="#cccccc"/>
+  <colorrect name="TrayMenu_menu_sep" normal="#cccccc"/>
+</skin>

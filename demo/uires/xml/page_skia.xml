@@ -1,0 +1,33 @@
+﻿<include>
+  <tabctrl pos="0,[10,-0,-0" tabAlign="top" tabSkin="skin_tab_left" tabInterSkin="skin_tab_left_splitter" tabInterSize="2" tabHeight="30">
+
+    <page title="filter level">
+      <tabctrl pos="0,[10,-0,-0" tabAlign="top" tabSkin="skin_tab_left" tabInterSkin="skin_tab_left_splitter" tabInterSize="2" tabHeight="30">
+        <page title="none">
+          <img pos="0,0,-0,-0" skin="skin_avatar_none"/>
+        </page>
+        <page title="low">
+          <img pos="0,0,-0,-0" skin="skin_avatar_low"/>
+        </page>
+        <page title="medium">
+          <img pos="0,0,-0,-0" skin="skin_avatar_medium"/>
+        </page>
+        <page title="high">
+          <img pos="0,0,-0,-0" skin="skin_avatar_high"/>
+        </page>
+      </tabctrl>
+    </page>
+    <page title="path" layout="vbox">
+
+      <window size="-2,-1" layout="hbox">
+        <text size="-1,-1">path, left button: add point, right button: remove point.</text>
+        <text size="-1,-1" extend_left="10dp">path length:</text>
+        <text size="-1,-1" name="txt_path_length" colorText="#ff0000">0</text>
+      </window>
+      
+      <pathView size="-2,0" weight="1" cornerRadius="8" lineStyle="3" lineWidth="3" lineColor="#00ff00" name="pv_test">
+        演示path,使用skia渲染时有效（GDI渲染模块没有实现)
+      </pathView>
+    </page>
+  </tabctrl>
+</include>
