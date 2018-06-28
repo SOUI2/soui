@@ -1,0 +1,670 @@
+﻿// Created by Microsoft (R) C/C++ Compiler Version 15.00.30729.01 (a4822400).
+//
+// flash10t.tli
+//
+// Wrapper implementations for Win32 type library C:\WINDOWS\system32\Macromed\Flash\Flash10t.ocx
+// compiler-generated file created 07/31/11 at 23:16:51 - DO NOT EDIT!
+
+#pragma once
+
+//
+// interface IShockwaveFlash wrapper method implementations
+//
+
+inline long IShockwaveFlash::GetReadyState ( ) {
+    long _result = 0;
+    HRESULT _hr = get_ReadyState(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long IShockwaveFlash::GetTotalFrames ( ) {
+    long _result = 0;
+    HRESULT _hr = get_TotalFrames(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline VARIANT_BOOL IShockwaveFlash::GetPlaying ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_Playing(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IShockwaveFlash::PutPlaying ( VARIANT_BOOL pVal ) {
+    HRESULT _hr = put_Playing(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline int IShockwaveFlash::GetQuality ( ) {
+    int _result = 0;
+    HRESULT _hr = get_Quality(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IShockwaveFlash::PutQuality ( int pVal ) {
+    HRESULT _hr = put_Quality(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline int IShockwaveFlash::GetScaleMode ( ) {
+    int _result = 0;
+    HRESULT _hr = get_ScaleMode(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IShockwaveFlash::PutScaleMode ( int pVal ) {
+    HRESULT _hr = put_ScaleMode(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline int IShockwaveFlash::GetAlignMode ( ) {
+    int _result = 0;
+    HRESULT _hr = get_AlignMode(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IShockwaveFlash::PutAlignMode ( int pVal ) {
+    HRESULT _hr = put_AlignMode(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IShockwaveFlash::GetBackgroundColor ( ) {
+    long _result = 0;
+    HRESULT _hr = get_BackgroundColor(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IShockwaveFlash::PutBackgroundColor ( long pVal ) {
+    HRESULT _hr = put_BackgroundColor(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IShockwaveFlash::GetLoop ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_Loop(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IShockwaveFlash::PutLoop ( VARIANT_BOOL pVal ) {
+    HRESULT _hr = put_Loop(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IShockwaveFlash::GetMovie ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Movie(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IShockwaveFlash::PutMovie ( _bstr_t pVal ) {
+    HRESULT _hr = put_Movie(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IShockwaveFlash::GetFrameNum ( ) {
+    long _result = 0;
+    HRESULT _hr = get_FrameNum(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IShockwaveFlash::PutFrameNum ( long pVal ) {
+    HRESULT _hr = put_FrameNum(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline HRESULT IShockwaveFlash::SetZoomRect ( long left, long top, long right, long bottom ) {
+    HRESULT _hr = raw_SetZoomRect(left, top, right, bottom);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IShockwaveFlash::Zoom ( int factor ) {
+    HRESULT _hr = raw_Zoom(factor);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IShockwaveFlash::Pan ( long x, long y, int mode ) {
+    HRESULT _hr = raw_Pan(x, y, mode);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IShockwaveFlash::Play ( ) {
+    HRESULT _hr = raw_Play();
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IShockwaveFlash::Stop ( ) {
+    HRESULT _hr = raw_Stop();
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IShockwaveFlash::Back ( ) {
+    HRESULT _hr = raw_Back();
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IShockwaveFlash::Forward ( ) {
+    HRESULT _hr = raw_Forward();
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IShockwaveFlash::Rewind ( ) {
+    HRESULT _hr = raw_Rewind();
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IShockwaveFlash::StopPlay ( ) {
+    HRESULT _hr = raw_StopPlay();
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IShockwaveFlash::GotoFrame ( long FrameNum ) {
+    HRESULT _hr = raw_GotoFrame(FrameNum);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline long IShockwaveFlash::CurrentFrame ( ) {
+    long _result = 0;
+    HRESULT _hr = raw_CurrentFrame(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline VARIANT_BOOL IShockwaveFlash::IsPlaying ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = raw_IsPlaying(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long IShockwaveFlash::PercentLoaded ( ) {
+    long _result = 0;
+    HRESULT _hr = raw_PercentLoaded(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline VARIANT_BOOL IShockwaveFlash::FrameLoaded ( long FrameNum ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = raw_FrameLoaded(FrameNum, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline long IShockwaveFlash::FlashVersion ( ) {
+    long _result = 0;
+    HRESULT _hr = raw_FlashVersion(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline _bstr_t IShockwaveFlash::GetWMode ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_WMode(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IShockwaveFlash::PutWMode ( _bstr_t pVal ) {
+    HRESULT _hr = put_WMode(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IShockwaveFlash::GetSAlign ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_SAlign(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IShockwaveFlash::PutSAlign ( _bstr_t pVal ) {
+    HRESULT _hr = put_SAlign(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IShockwaveFlash::GetMenu ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_Menu(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IShockwaveFlash::PutMenu ( VARIANT_BOOL pVal ) {
+    HRESULT _hr = put_Menu(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IShockwaveFlash::GetBase ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Base(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IShockwaveFlash::PutBase ( _bstr_t pVal ) {
+    HRESULT _hr = put_Base(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IShockwaveFlash::GetScale ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Scale(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IShockwaveFlash::PutScale ( _bstr_t pVal ) {
+    HRESULT _hr = put_Scale(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IShockwaveFlash::GetDeviceFont ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_DeviceFont(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IShockwaveFlash::PutDeviceFont ( VARIANT_BOOL pVal ) {
+    HRESULT _hr = put_DeviceFont(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IShockwaveFlash::GetEmbedMovie ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_EmbedMovie(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IShockwaveFlash::PutEmbedMovie ( VARIANT_BOOL pVal ) {
+    HRESULT _hr = put_EmbedMovie(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IShockwaveFlash::GetBGColor ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_BGColor(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IShockwaveFlash::PutBGColor ( _bstr_t pVal ) {
+    HRESULT _hr = put_BGColor(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IShockwaveFlash::GetQuality2 ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_Quality2(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IShockwaveFlash::PutQuality2 ( _bstr_t pVal ) {
+    HRESULT _hr = put_Quality2(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline HRESULT IShockwaveFlash::LoadMovie ( int layer, _bstr_t url ) {
+    HRESULT _hr = raw_LoadMovie(layer, url);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IShockwaveFlash::TGotoFrame ( _bstr_t target, long FrameNum ) {
+    HRESULT _hr = raw_TGotoFrame(target, FrameNum);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IShockwaveFlash::TGotoLabel ( _bstr_t target, _bstr_t label ) {
+    HRESULT _hr = raw_TGotoLabel(target, label);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline long IShockwaveFlash::TCurrentFrame ( _bstr_t target ) {
+    long _result = 0;
+    HRESULT _hr = raw_TCurrentFrame(target, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline _bstr_t IShockwaveFlash::TCurrentLabel ( _bstr_t target ) {
+    BSTR _result = 0;
+    HRESULT _hr = raw_TCurrentLabel(target, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline HRESULT IShockwaveFlash::TPlay ( _bstr_t target ) {
+    HRESULT _hr = raw_TPlay(target);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IShockwaveFlash::TStopPlay ( _bstr_t target ) {
+    HRESULT _hr = raw_TStopPlay(target);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IShockwaveFlash::SetVariable ( _bstr_t name, _bstr_t value ) {
+    HRESULT _hr = raw_SetVariable(name, value);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline _bstr_t IShockwaveFlash::GetVariable ( _bstr_t name ) {
+    BSTR _result = 0;
+    HRESULT _hr = raw_GetVariable(name, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline HRESULT IShockwaveFlash::TSetProperty ( _bstr_t target, int property, _bstr_t value ) {
+    HRESULT _hr = raw_TSetProperty(target, property, value);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline _bstr_t IShockwaveFlash::TGetProperty ( _bstr_t target, int property ) {
+    BSTR _result = 0;
+    HRESULT _hr = raw_TGetProperty(target, property, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline HRESULT IShockwaveFlash::TCallFrame ( _bstr_t target, int FrameNum ) {
+    HRESULT _hr = raw_TCallFrame(target, FrameNum);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IShockwaveFlash::TCallLabel ( _bstr_t target, _bstr_t label ) {
+    HRESULT _hr = raw_TCallLabel(target, label);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IShockwaveFlash::TSetPropertyNum ( _bstr_t target, int property, double value ) {
+    HRESULT _hr = raw_TSetPropertyNum(target, property, value);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline double IShockwaveFlash::TGetPropertyNum ( _bstr_t target, int property ) {
+    double _result = 0;
+    HRESULT _hr = raw_TGetPropertyNum(target, property, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline double IShockwaveFlash::TGetPropertyAsNumber ( _bstr_t target, int property ) {
+    double _result = 0;
+    HRESULT _hr = raw_TGetPropertyAsNumber(target, property, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline _bstr_t IShockwaveFlash::GetSWRemote ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_SWRemote(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IShockwaveFlash::PutSWRemote ( _bstr_t pVal ) {
+    HRESULT _hr = put_SWRemote(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IShockwaveFlash::GetFlashVars ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_FlashVars(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IShockwaveFlash::PutFlashVars ( _bstr_t pVal ) {
+    HRESULT _hr = put_FlashVars(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IShockwaveFlash::GetAllowScriptAccess ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_AllowScriptAccess(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IShockwaveFlash::PutAllowScriptAccess ( _bstr_t pVal ) {
+    HRESULT _hr = put_AllowScriptAccess(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IShockwaveFlash::GetMovieData ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_MovieData(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IShockwaveFlash::PutMovieData ( _bstr_t pVal ) {
+    HRESULT _hr = put_MovieData(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline IUnknownPtr IShockwaveFlash::GetInlineData ( ) {
+    IUnknown * _result = 0;
+    HRESULT _hr = get_InlineData(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return IUnknownPtr(_result, false);
+}
+
+inline void IShockwaveFlash::PutInlineData ( IUnknown * ppIUnknown ) {
+    HRESULT _hr = put_InlineData(ppIUnknown);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline VARIANT_BOOL IShockwaveFlash::GetSeamlessTabbing ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_SeamlessTabbing(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IShockwaveFlash::PutSeamlessTabbing ( VARIANT_BOOL pVal ) {
+    HRESULT _hr = put_SeamlessTabbing(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline HRESULT IShockwaveFlash::EnforceLocalSecurity ( ) {
+    HRESULT _hr = raw_EnforceLocalSecurity();
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline VARIANT_BOOL IShockwaveFlash::GetProfile ( ) {
+    VARIANT_BOOL _result = 0;
+    HRESULT _hr = get_Profile(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IShockwaveFlash::PutProfile ( VARIANT_BOOL pVal ) {
+    HRESULT _hr = put_Profile(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IShockwaveFlash::GetProfileAddress ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_ProfileAddress(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IShockwaveFlash::PutProfileAddress ( _bstr_t pVal ) {
+    HRESULT _hr = put_ProfileAddress(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline long IShockwaveFlash::GetProfilePort ( ) {
+    long _result = 0;
+    HRESULT _hr = get_ProfilePort(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}
+
+inline void IShockwaveFlash::PutProfilePort ( long pVal ) {
+    HRESULT _hr = put_ProfilePort(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IShockwaveFlash::CallFunction ( _bstr_t request ) {
+    BSTR _result = 0;
+    HRESULT _hr = raw_CallFunction(request, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline HRESULT IShockwaveFlash::SetReturnValue ( _bstr_t returnValue ) {
+    HRESULT _hr = raw_SetReturnValue(returnValue);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IShockwaveFlash::DisableLocalSecurity ( ) {
+    HRESULT _hr = raw_DisableLocalSecurity();
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline _bstr_t IShockwaveFlash::GetAllowNetworking ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_AllowNetworking(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IShockwaveFlash::PutAllowNetworking ( _bstr_t pVal ) {
+    HRESULT _hr = put_AllowNetworking(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+inline _bstr_t IShockwaveFlash::GetAllowFullScreen ( ) {
+    BSTR _result = 0;
+    HRESULT _hr = get_AllowFullScreen(&_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _bstr_t(_result, false);
+}
+
+inline void IShockwaveFlash::PutAllowFullScreen ( _bstr_t pVal ) {
+    HRESULT _hr = put_AllowFullScreen(pVal);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+}
+
+//
+// interface ICanHandleException wrapper method implementations
+//
+
+inline HRESULT ICanHandleException::CanHandleException ( EXCEPINFO * pExcepInfo, VARIANT * pvar ) {
+    HRESULT _hr = raw_CanHandleException(pExcepInfo, pvar);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+//
+// dispinterface _IShockwaveFlashEvents wrapper method implementations
+//
+
+inline HRESULT _IShockwaveFlashEvents::OnReadyStateChange ( long newState ) {
+    return _com_dispatch_method(this, DISPID_READYSTATECHANGE, DISPATCH_METHOD, VT_EMPTY, NULL, 
+        L"\x0003", newState);
+}
+
+inline HRESULT _IShockwaveFlashEvents::OnProgress ( long percentDone ) {
+    return _com_dispatch_method(this, 0x7a6, DISPATCH_METHOD, VT_EMPTY, NULL, 
+        L"\x0003", percentDone);
+}
+
+inline HRESULT _IShockwaveFlashEvents::FSCommand ( _bstr_t command, _bstr_t args ) {
+    return _com_dispatch_method(this, 0x96, DISPATCH_METHOD, VT_EMPTY, NULL, 
+        L"\x0008\x0008", (BSTR)command, (BSTR)args);
+}
+
+inline HRESULT _IShockwaveFlashEvents::FlashCall ( _bstr_t request ) {
+    return _com_dispatch_method(this, 0xc5, DISPATCH_METHOD, VT_EMPTY, NULL, 
+        L"\x0008", (BSTR)request);
+}
+
+//
+// interface IDispatchEx wrapper method implementations
+//
+
+inline HRESULT IDispatchEx::GetDispID ( _bstr_t bstrName, unsigned long grfdex, long * pid ) {
+    HRESULT _hr = raw_GetDispID(bstrName, grfdex, pid);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IDispatchEx::RemoteInvokeEx ( long id, unsigned long lcid, unsigned long dwFlags, DISPPARAMS * pdp, VARIANT * pvarRes, EXCEPINFO * pei, struct IServiceProvider * pspCaller, unsigned int cvarRefArg, unsigned int * rgiRefArg, VARIANT * rgvarRefArg ) {
+    HRESULT _hr = raw_RemoteInvokeEx(id, lcid, dwFlags, pdp, pvarRes, pei, pspCaller, cvarRefArg, rgiRefArg, rgvarRefArg);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IDispatchEx::DeleteMemberByName ( _bstr_t bstrName, unsigned long grfdex ) {
+    HRESULT _hr = raw_DeleteMemberByName(bstrName, grfdex);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IDispatchEx::DeleteMemberByDispID ( long id ) {
+    HRESULT _hr = raw_DeleteMemberByDispID(id);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IDispatchEx::GetMemberProperties ( long id, unsigned long grfdexFetch, unsigned long * pgrfdex ) {
+    HRESULT _hr = raw_GetMemberProperties(id, grfdexFetch, pgrfdex);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IDispatchEx::GetMemberName ( long id, BSTR * pbstrName ) {
+    HRESULT _hr = raw_GetMemberName(id, pbstrName);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IDispatchEx::GetNextDispID ( unsigned long grfdex, long id, long * pid ) {
+    HRESULT _hr = raw_GetNextDispID(grfdex, id, pid);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
+
+inline HRESULT IDispatchEx::GetNameSpaceParent ( IUnknown * * ppunk ) {
+    HRESULT _hr = raw_GetNameSpaceParent(ppunk);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _hr;
+}
