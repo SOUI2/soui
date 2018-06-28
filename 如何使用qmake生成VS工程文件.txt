@@ -1,0 +1,7 @@
+SOUI使用qmake生成VS工程文件。
+在common.pri中定义了几个自定义的参数：DLL_SOUI ，USING_MT，CAN_DEBUG
+DLL_SOUI： 指示为SOUI产生DLL版本。
+USING_MT： 指示整个项目使用MT方式连接CRT
+CAN_DEBUG：指示为生成的Release版本生产调试符号
+
+具体使用方法参见make(dll-win32-vs08).bat中CONFIG参数的配置。

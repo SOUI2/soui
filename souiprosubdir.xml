@@ -1,0 +1,8 @@
+<DIRS>
+  <dir path="third-part"/>
+  <dir path="utilities"/>
+  <dir path="soui-sys-resource"/>
+  <dir path="soui"/>
+  <dir path="components"/>
+  <dir path="demos"/>
+</DIRS>
