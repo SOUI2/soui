@@ -1,0 +1,1071 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9,00"
+	Name="7z"
+	ProjectGUID="{26F48E3D-FD30-30BA-B450-C448DE4FBC9E}"
+	Keyword="Qt4VSv1.0">
+	<Platforms>
+		<Platform
+			Name="Win32" />
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="..\..\bin\"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			ConfigurationType="4"
+			IntermediateDirectory="..\..\obj\release\7z\"
+			UseOfMfc="0">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=".,.,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
+				AdditionalOptions="/MP -w34100 -w34189 -w44996"
+				AssemblerListingLocation="..\..\obj\release\7z\"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4100,4101,4102,4189,4996"
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="..\..\obj\release\7z\"
+				Optimization ="1"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,EXTERNAL_CODECS,NO_REGISTRY,_7ZIP_LARGE_PAGES,_7ZIP_ST_9,QT_NO_DYNAMIC_CAST,NDEBUG"
+				ProgramDataBaseFileName="$(IntDir)"
+				RuntimeLibrary="0"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="true"
+				WarningLevel="3" />
+			<Tool
+				Name="VCCustomBuildTool" />
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\7z.lib"
+				SuppressStartupBanner="true" />
+			<Tool
+				Name="VCManifestTool" />
+			<Tool
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
+			<Tool
+				Name="VCPostBuildEventTool" />
+			<Tool
+				Name="VCPreBuildEventTool" />
+			<Tool
+				Name="VCPreLinkEventTool" />
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,EXTERNAL_CODECS,NO_REGISTRY,_7ZIP_LARGE_PAGES,_7ZIP_ST_9,QT_NO_DYNAMIC_CAST"
+				ResourceOutputFileName="$(OutDir)\$(InputName).res" />
+		</Configuration>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="..\..\bin\"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			ConfigurationType="4"
+			IntermediateDirectory="..\..\obj\debug\7z\"
+			UseOfMfc="0">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=".,.,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
+				AdditionalOptions="/MP -w34100 -w34189 -w44996"
+				AssemblerListingLocation="..\..\obj\debug\7z\"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4100,4101,4102,4189,4996"
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="..\..\obj\debug\7z\"
+				Optimization ="4"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,EXTERNAL_CODECS,NO_REGISTRY,_7ZIP_LARGE_PAGES,_7ZIP_ST_9,QT_NO_DYNAMIC_CAST"
+				ProgramDataBaseFileName="$(IntDir)"
+				RuntimeLibrary="1"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="true"
+				WarningLevel="3" />
+			<Tool
+				Name="VCCustomBuildTool" />
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\7zd.lib"
+				SuppressStartupBanner="true" />
+			<Tool
+				Name="VCManifestTool" />
+			<Tool
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
+			<Tool
+				Name="VCPostBuildEventTool" />
+			<Tool
+				Name="VCPreBuildEventTool" />
+			<Tool
+				Name="VCPreLinkEventTool" />
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,EXTERNAL_CODECS,NO_REGISTRY,_7ZIP_LARGE_PAGES,_7ZIP_ST_9,QT_NO_DYNAMIC_CAST,_DEBUG"
+				ResourceOutputFileName="$(OutDir)\$(InputName).res" />
+		</Configuration>
+	</Configurations>
+	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			<File
+				RelativePath="CPP\7zip\Crypto\7zAes.cpp" />
+			<File
+				RelativePath="C\7zBuf2.c" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zCompressionMode.cpp" />
+			<File
+				RelativePath="C\7zCrc.c" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zDecode.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zEncode.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zExtract.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zFolderInStream.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zHandler.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zHandlerOut.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zHeader.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zIn.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zOut.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zProperties.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zSpecStream.cpp" />
+			<File
+				RelativePath="C\7zStream.c" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zUpdate.cpp" />
+			<File
+				RelativePath="C\Aes.c" />
+			<File
+				RelativePath="C\Alloc.c" />
+			<File
+				RelativePath="CPP\7zip\Archive\ArchiveExports.cpp" />
+			<File
+				RelativePath="SevenZip\ArchiveExtractCallback.cpp" />
+			<File
+				RelativePath="SevenZip\ArchiveExtractCallbackMemory.cpp" />
+			<File
+				RelativePath="SevenZip\ArchiveOpenCallback.cpp" />
+			<File
+				RelativePath="SevenZip\ArchiveUpdateCallback.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\BZip2Crc.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\BZip2Decoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\BZip2Encoder.cpp" />
+			<File
+				RelativePath="C\Bcj2.c" />
+			<File
+				RelativePath="CPP\7zip\Compress\Bcj2Coder.cpp" />
+			<File
+				RelativePath="C\Bcj2Enc.c" />
+			<File
+				RelativePath="CPP\7zip\Compress\BcjCoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\BitlDecoder.cpp" />
+			<File
+				RelativePath="C\Blake2s.c" />
+			<File
+				RelativePath="SevenZip\BlobBuffer.cpp" />
+			<File
+				RelativePath="C\Bra.c" />
+			<File
+				RelativePath="C\Bra86.c" />
+			<File
+				RelativePath="C\BraIA64.c" />
+			<File
+				RelativePath="CPP\7zip\Compress\BranchMisc.cpp" />
+			<File
+				RelativePath="C\BwtSort.c" />
+			<File
+				RelativePath="CPP\Common\CRC.cpp" />
+			<File
+				RelativePath="CPP\7zip\Common\CWrappers.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Cab\CabBlockInStream.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Cab\CabHandler.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Cab\CabHeader.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Cab\CabIn.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Chm\ChmIn.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\CodecExports.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Common\CoderMixer2.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\CopyCoder.cpp" />
+			<File
+				RelativePath="C\CpuArch.c" />
+			<File
+				RelativePath="CPP\7zip\Common\CreateCoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\DeflateDecoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\DeflateEncoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\DeflateProps.cpp" />
+			<File
+				RelativePath="C\Delta.c" />
+			<File
+				RelativePath="CPP\7zip\Archive\DllExports2.cpp" />
+			<File
+				RelativePath="C\DllSecur.c" />
+			<File
+				RelativePath="CPP\7zip\Archive\Common\DummyOutStream.cpp" />
+			<File
+				RelativePath="CPP\Common\DynLimBuf.cpp" />
+			<File
+				RelativePath="SevenZip\ErpExcept.cpp" />
+			<File
+				RelativePath="CPP\Windows\FileDir.cpp" />
+			<File
+				RelativePath="CPP\Windows\FileFind.cpp" />
+			<File
+				RelativePath="CPP\Windows\FileIO.cpp" />
+			<File
+				RelativePath="CPP\Windows\FileName.cpp" />
+			<File
+				RelativePath="SevenZip\FileStream.cpp" />
+			<File
+				RelativePath="SevenZip\FileStreamMemory.cpp" />
+			<File
+				RelativePath="SevenZip\FileSys.cpp" />
+			<File
+				RelativePath="CPP\7zip\Common\FilterCoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Common\FindSignature.cpp" />
+			<File
+				RelativePath="SevenZip\GUIDs.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\HandlerCont.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Common\HandlerOut.cpp" />
+			<File
+				RelativePath="CPP\7zip\Crypto\HmacSha1.cpp" />
+			<File
+				RelativePath="CPP\7zip\Crypto\HmacSha256.cpp" />
+			<File
+				RelativePath="C\HuffEnc.c" />
+			<File
+				RelativePath="CPP\7zip\Compress\ImplodeDecoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\ImplodeHuffmanDecoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Common\InBuffer.cpp" />
+			<File
+				RelativePath="CPP\7zip\Common\InOutTempBuffer.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Common\InStreamWithCRC.cpp" />
+			<File
+				RelativePath="SevenZip\InStreamWrapper.cpp" />
+			<File
+				RelativePath="CPP\Common\IntToString.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Iso\IsoHandler.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Iso\IsoHeader.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Iso\IsoIn.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Common\ItemNameUtils.cpp" />
+			<File
+				RelativePath="CPP\7zip\Common\LimitedStreams.cpp" />
+			<File
+				RelativePath="C\LzFind.c" />
+			<File
+				RelativePath="C\LzFindMt.c" />
+			<File
+				RelativePath="CPP\7zip\Compress\LzOutWindow.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\LzhDecoder.cpp" />
+			<File
+				RelativePath="C\Lzma2Dec.c" />
+			<File
+				RelativePath="CPP\7zip\Compress\Lzma2Decoder.cpp" />
+			<File
+				RelativePath="C\Lzma2Enc.c" />
+			<File
+				RelativePath="CPP\7zip\Compress\Lzma2Encoder.cpp" />
+			<File
+				RelativePath="C\LzmaDec.c" />
+			<File
+				RelativePath="CPP\7zip\Compress\LzmaDecoder.cpp" />
+			<File
+				RelativePath="C\LzmaEnc.c" />
+			<File
+				RelativePath="CPP\7zip\Compress\LzmaEncoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\LzmsDecoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\LzxDecoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Common\MemBlocks.cpp" />
+			<File
+				RelativePath="CPP\7zip\Common\MethodId.cpp" />
+			<File
+				RelativePath="CPP\7zip\Common\MethodProps.cpp" />
+			<File
+				RelativePath="C\MtCoder.c" />
+			<File
+				RelativePath="CPP\7zip\Archive\Common\MultiStream.cpp" />
+			<File
+				RelativePath="CPP\7zip\Crypto\MyAes.cpp" />
+			<File
+				RelativePath="CPP\Common\MyMap.cpp" />
+			<File
+				RelativePath="CPP\Common\MyString.cpp" />
+			<File
+				RelativePath="CPP\Common\MyVector.cpp" />
+			<File
+				RelativePath="CPP\Common\MyWindows.cpp" />
+			<File
+				RelativePath="CPP\Common\MyXml.cpp" />
+			<File
+				RelativePath="CPP\Common\NewHandler.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Nsis\NsisDecode.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Nsis\NsisHandler.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Nsis\NsisIn.cpp" />
+			<File
+				RelativePath="CPP\7zip\Common\OffsetStream.cpp" />
+			<File
+				RelativePath="CPP\7zip\Common\OutBuffer.cpp" />
+			<File
+				RelativePath="CPP\7zip\Common\OutMemStream.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Common\OutStreamWithCRC.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Common\OutStreamWithSha1.cpp" />
+			<File
+				RelativePath="SevenZip\OutStreamWrapper.cpp" />
+			<File
+				RelativePath="SevenZip\OutStreamWrapperMemory.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Common\ParseProperties.cpp" />
+			<File
+				RelativePath="SevenZip\PathScanner.cpp" />
+			<File
+				RelativePath="CPP\7zip\Crypto\Pbkdf2HmacSha1.cpp" />
+			<File
+				RelativePath="C\Ppmd7.c" />
+			<File
+				RelativePath="C\Ppmd7Dec.c" />
+			<File
+				RelativePath="C\Ppmd7Enc.c" />
+			<File
+				RelativePath="C\Ppmd8.c" />
+			<File
+				RelativePath="C\Ppmd8Dec.c" />
+			<File
+				RelativePath="C\Ppmd8Enc.c" />
+			<File
+				RelativePath="CPP\7zip\Compress\PpmdDecoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\PpmdEncoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\PpmdZip.cpp" />
+			<File
+				RelativePath="CPP\7zip\Common\ProgressMt.cpp" />
+			<File
+				RelativePath="CPP\7zip\Common\ProgressUtils.cpp" />
+			<File
+				RelativePath="CPP\7zip\Common\PropId.cpp" />
+			<File
+				RelativePath="CPP\Windows\PropVariant.cpp" />
+			<File
+				RelativePath="SevenZip\PropVariant2.cpp" />
+			<File
+				RelativePath="CPP\Windows\PropVariantUtils.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\QuantumDecoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Crypto\RandGen.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\Rar1Decoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Crypto\Rar20Crypto.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\Rar2Decoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\Rar3Decoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\Rar3Vm.cpp" />
+			<File
+				RelativePath="CPP\7zip\Crypto\Rar5Aes.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\Rar5Decoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Crypto\RarAes.cpp" />
+			<File
+				RelativePath="SevenZip\SevenZipArchive.cpp" />
+			<File
+				RelativePath="SevenZip\SevenZipCompressor.cpp" />
+			<File
+				RelativePath="SevenZip\SevenZipException.cpp" />
+			<File
+				RelativePath="SevenZip\SevenZipExtractor.cpp" />
+			<File
+				RelativePath="SevenZip\SevenZipExtractorMemory.cpp" />
+			<File
+				RelativePath="SevenZip\SevenZipLister.cpp" />
+			<File
+				RelativePath="C\Sha1.c" />
+			<File
+				RelativePath="C\Sha256.c" />
+			<File
+				RelativePath="CPP\7zip\Compress\ShrinkDecoder.cpp" />
+			<File
+				RelativePath="C\Sort.c" />
+			<File
+				RelativePath="CPP\7zip\Common\StreamBinder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Common\StreamObjects.cpp" />
+			<File
+				RelativePath="CPP\7zip\Common\StreamUtils.cpp" />
+			<File
+				RelativePath="CPP\Common\StringConvert.cpp" />
+			<File
+				RelativePath="CPP\Common\StringToInt.cpp" />
+			<File
+				RelativePath="CPP\Windows\Synchronization.cpp" />
+			<File
+				RelativePath="CPP\Windows\System.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Tar\TarHandler.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Tar\TarHandlerOut.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Tar\TarHeader.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Tar\TarIn.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Tar\TarOut.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Tar\TarUpdate.cpp" />
+			<File
+				RelativePath="C\Threads.c" />
+			<File
+				RelativePath="CPP\Windows\TimeUtils.cpp" />
+			<File
+				RelativePath="CPP\Common\UTFConvert.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Udf\UdfIn.cpp" />
+			<File
+				RelativePath="CPP\7zip\Common\UniqBlocks.cpp" />
+			<File
+				RelativePath="SevenZip\UsefulFunctions.cpp" />
+			<File
+				RelativePath="CPP\7zip\Common\VirtThread.cpp" />
+			<File
+				RelativePath="CPP\Common\Wildcard.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Wim\WimHandler.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Wim\WimHandlerOut.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Wim\WimIn.cpp" />
+			<File
+				RelativePath="CPP\7zip\Crypto\WzAes.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\XpressDecoder.cpp" />
+			<File
+				RelativePath="C\Xz.c" />
+			<File
+				RelativePath="C\XzCrc64.c" />
+			<File
+				RelativePath="C\XzCrc64Opt.c" />
+			<File
+				RelativePath="C\XzDec.c" />
+			<File
+				RelativePath="C\XzEnc.c" />
+			<File
+				RelativePath="C\XzIn.c" />
+			<File
+				RelativePath="CPP\7zip\Compress\ZDecoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Zip\ZipAddCommon.cpp" />
+			<File
+				RelativePath="CPP\7zip\Crypto\ZipCrypto.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Zip\ZipHandler.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Zip\ZipHandlerOut.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Zip\ZipIn.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Zip\ZipItem.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Zip\ZipOut.cpp" />
+			<File
+				RelativePath="CPP\7zip\Crypto\ZipStrong.cpp" />
+			<File
+				RelativePath="CPP\7zip\Archive\Zip\ZipUpdate.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\ZlibDecoder.cpp" />
+			<File
+				RelativePath="CPP\7zip\Compress\ZlibEncoder.cpp" />
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File
+				RelativePath="CPP\7zip\Crypto\7zAes.h" />
+			<File
+				RelativePath="CPP\7zip\Crypto\7zAesRegister.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zCompressionMode.h" />
+			<File
+				RelativePath="C\7zCrc.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zDecode.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zEncode.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zFolderInStream.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zHandler.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zHandlerOut.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zHeader.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zIn.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zItem.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zOut.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zProperties.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zSpecStream.h" />
+			<File
+				RelativePath="C\7zTypes.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\7z\7zUpdate.h" />
+			<File
+				RelativePath="include\7zpp.h" />
+			<File
+				RelativePath="C\Aes.h" />
+			<File
+				RelativePath="C\Alloc.h" />
+			<File
+				RelativePath="SevenZip\ArchiveExtractCallback.h" />
+			<File
+				RelativePath="SevenZip\ArchiveExtractCallbackMemory.h" />
+			<File
+				RelativePath="SevenZip\ArchiveOpenCallback.h" />
+			<File
+				RelativePath="SevenZip\ArchiveUpdateCallback.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\BZip2Const.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\BZip2Crc.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\BZip2Decoder.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\BZip2Encoder.h" />
+			<File
+				RelativePath="C\Bcj2.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\Bcj2Coder.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\BcjCoder.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\BitlDecoder.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\BitlEncoder.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\BitmDecoder.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\BitmEncoder.h" />
+			<File
+				RelativePath="C\Blake2.h" />
+			<File
+				RelativePath="SevenZip\BlobBuffer.h" />
+			<File
+				RelativePath="C\Bra.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\BranchMisc.h" />
+			<File
+				RelativePath="C\BwtSort.h" />
+			<File
+				RelativePath="CPP\7zip\Common\CWrappers.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Cab\CabBlockInStream.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Cab\CabHandler.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Cab\CabHeader.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Cab\CabIn.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Cab\CabItem.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Chm\ChmHandler.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Chm\ChmIn.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Common\CoderMixer2.h" />
+			<File
+				RelativePath="CPP\Common\Common.h" />
+			<File
+				RelativePath="C\Compiler.h" />
+			<File
+				RelativePath="SevenZip\CompressionFormat.h" />
+			<File
+				RelativePath="SevenZip\CompressionLevel.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\CopyCoder.h" />
+			<File
+				RelativePath="C\CpuArch.h" />
+			<File
+				RelativePath="CPP\7zip\Common\CreateCoder.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\DeflateConst.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\DeflateDecoder.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\DeflateEncoder.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\DeflateProps.h" />
+			<File
+				RelativePath="CPP\Common\Defs.h" />
+			<File
+				RelativePath="CPP\Windows\Defs.h" />
+			<File
+				RelativePath="C\Delta.h" />
+			<File
+				RelativePath="C\DllSecur.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Common\DummyOutStream.h" />
+			<File
+				RelativePath="CPP\Common\DynLimBuf.h" />
+			<File
+				RelativePath="CPP\Common\DynamicBuffer.h" />
+			<File
+				RelativePath="SevenZip\Enum.h" />
+			<File
+				RelativePath="SevenZip\ErpExcept.h" />
+			<File
+				RelativePath="CPP\Windows\FileDir.h" />
+			<File
+				RelativePath="CPP\Windows\FileFind.h" />
+			<File
+				RelativePath="CPP\Windows\FileIO.h" />
+			<File
+				RelativePath="SevenZip\FileInfo.h" />
+			<File
+				RelativePath="CPP\Windows\FileName.h" />
+			<File
+				RelativePath="SevenZip\FileStream.h" />
+			<File
+				RelativePath="SevenZip\FileStreamMemory.h" />
+			<File
+				RelativePath="SevenZip\FileSys.h" />
+			<File
+				RelativePath="CPP\7zip\Common\FilterCoder.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Common\FindSignature.h" />
+			<File
+				RelativePath="SevenZip\GUIDs.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\HandlerCont.h" />
+			<File
+				RelativePath="CPP\7zip\Crypto\HmacSha1.h" />
+			<File
+				RelativePath="CPP\7zip\Crypto\HmacSha256.h" />
+			<File
+				RelativePath="C\HuffEnc.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\HuffmanDecoder.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\IArchive.h" />
+			<File
+				RelativePath="CPP\7zip\ICoder.h" />
+			<File
+				RelativePath="CPP\7zip\IDecl.h" />
+			<File
+				RelativePath="CPP\7zip\IPassword.h" />
+			<File
+				RelativePath="CPP\7zip\IProgress.h" />
+			<File
+				RelativePath="CPP\7zip\IStream.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\ImplodeDecoder.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\ImplodeHuffmanDecoder.h" />
+			<File
+				RelativePath="CPP\7zip\Common\InBuffer.h" />
+			<File
+				RelativePath="CPP\7zip\Common\InOutTempBuffer.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Common\InStreamWithCRC.h" />
+			<File
+				RelativePath="SevenZip\InStreamWrapper.h" />
+			<File
+				RelativePath="CPP\Common\IntToString.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Iso\IsoHandler.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Iso\IsoHeader.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Iso\IsoIn.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Iso\IsoItem.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Common\ItemNameUtils.h" />
+			<File
+				RelativePath="CPP\7zip\Common\LimitedStreams.h" />
+			<File
+				RelativePath="SevenZip\ListCallback.h" />
+			<File
+				RelativePath="C\LzFind.h" />
+			<File
+				RelativePath="C\LzFindMt.h" />
+			<File
+				RelativePath="C\LzHash.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\LzOutWindow.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\LzhDecoder.h" />
+			<File
+				RelativePath="C\Lzma2Dec.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\Lzma2Decoder.h" />
+			<File
+				RelativePath="C\Lzma2Enc.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\Lzma2Encoder.h" />
+			<File
+				RelativePath="C\LzmaDec.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\LzmaDecoder.h" />
+			<File
+				RelativePath="C\LzmaEnc.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\LzmaEncoder.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\LzmsDecoder.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\Lzx.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\LzxDecoder.h" />
+			<File
+				RelativePath="CPP\7zip\Common\MemBlocks.h" />
+			<File
+				RelativePath="CPP\7zip\Common\MethodId.h" />
+			<File
+				RelativePath="CPP\7zip\Common\MethodProps.h" />
+			<File
+				RelativePath="C\MtCoder.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\Mtf8.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Common\MultiStream.h" />
+			<File
+				RelativePath="CPP\7zip\Crypto\MyAes.h" />
+			<File
+				RelativePath="CPP\Common\MyBuffer.h" />
+			<File
+				RelativePath="CPP\Common\MyCom.h" />
+			<File
+				RelativePath="CPP\Common\MyException.h" />
+			<File
+				RelativePath="CPP\Common\MyInitGuid.h" />
+			<File
+				RelativePath="CPP\Common\MyLinux.h" />
+			<File
+				RelativePath="CPP\Common\MyMap.h" />
+			<File
+				RelativePath="CPP\Common\MyString.h" />
+			<File
+				RelativePath="CPP\Common\MyTypes.h" />
+			<File
+				RelativePath="CPP\Common\MyUnknown.h" />
+			<File
+				RelativePath="CPP\Common\MyVector.h" />
+			<File
+				RelativePath="CPP\Common\MyWindows.h" />
+			<File
+				RelativePath="CPP\Common\MyXml.h" />
+			<File
+				RelativePath="CPP\Common\NewHandler.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Nsis\NsisDecode.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Nsis\NsisHandler.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Nsis\NsisIn.h" />
+			<File
+				RelativePath="CPP\7zip\Common\OffsetStream.h" />
+			<File
+				RelativePath="CPP\7zip\Common\OutBuffer.h" />
+			<File
+				RelativePath="CPP\7zip\Common\OutMemStream.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Common\OutStreamWithCRC.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Common\OutStreamWithSha1.h" />
+			<File
+				RelativePath="SevenZip\OutStreamWrapper.h" />
+			<File
+				RelativePath="SevenZip\OutStreamWrapperMemory.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Common\ParseProperties.h" />
+			<File
+				RelativePath="SevenZip\PathScanner.h" />
+			<File
+				RelativePath="CPP\7zip\Crypto\Pbkdf2HmacSha1.h" />
+			<File
+				RelativePath="C\Ppmd.h" />
+			<File
+				RelativePath="C\Ppmd7.h" />
+			<File
+				RelativePath="C\Ppmd8.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\PpmdDecoder.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\PpmdEncoder.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\PpmdZip.h" />
+			<File
+				RelativePath="C\Precomp.h" />
+			<File
+				RelativePath="SevenZip\ProgressCallback.h" />
+			<File
+				RelativePath="CPP\7zip\Common\ProgressMt.h" />
+			<File
+				RelativePath="CPP\7zip\Common\ProgressUtils.h" />
+			<File
+				RelativePath="CPP\7zip\PropID.h" />
+			<File
+				RelativePath="CPP\Windows\PropVariant.h" />
+			<File
+				RelativePath="SevenZip\PropVariant2.h" />
+			<File
+				RelativePath="CPP\Windows\PropVariantUtils.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\QuantumDecoder.h" />
+			<File
+				RelativePath="CPP\7zip\Crypto\RandGen.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\Rar1Decoder.h" />
+			<File
+				RelativePath="CPP\7zip\Crypto\Rar20Crypto.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\Rar2Decoder.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\Rar3Decoder.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\Rar3Vm.h" />
+			<File
+				RelativePath="CPP\7zip\Crypto\Rar5Aes.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\Rar5Decoder.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Rar\Rar5Handler.h" />
+			<File
+				RelativePath="CPP\7zip\Crypto\RarAes.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Rar\RarHandler.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Rar\RarHeader.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Rar\RarItem.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Rar\RarVol.h" />
+			<File
+				RelativePath="CPP\7zip\Common\RegisterArc.h" />
+			<File
+				RelativePath="CPP\7zip\Common\RegisterCodec.h" />
+			<File
+				RelativePath="C\RotateDefs.h" />
+			<File
+				RelativePath="SevenZip\SevenString.h" />
+			<File
+				RelativePath="SevenZip\SevenZipArchive.h" />
+			<File
+				RelativePath="SevenZip\SevenZipCompressor.h" />
+			<File
+				RelativePath="SevenZip\SevenZipException.h" />
+			<File
+				RelativePath="SevenZip\SevenZipExtractor.h" />
+			<File
+				RelativePath="SevenZip\SevenZipExtractorMemory.h" />
+			<File
+				RelativePath="SevenZip\SevenZipLister.h" />
+			<File
+				RelativePath="C\Sha1.h" />
+			<File
+				RelativePath="CPP\7zip\Crypto\Sha1Cls.h" />
+			<File
+				RelativePath="C\Sha256.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\ShrinkDecoder.h" />
+			<File
+				RelativePath="C\Sort.h" />
+			<File
+				RelativePath="CPP\7zip\Common\StreamBinder.h" />
+			<File
+				RelativePath="CPP\7zip\Common\StreamObjects.h" />
+			<File
+				RelativePath="CPP\7zip\Common\StreamUtils.h" />
+			<File
+				RelativePath="CPP\Common\StringConvert.h" />
+			<File
+				RelativePath="CPP\Common\StringToInt.h" />
+			<File
+				RelativePath="CPP\Windows\Synchronization.h" />
+			<File
+				RelativePath="CPP\Windows\System.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Tar\TarHandler.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Tar\TarHeader.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Tar\TarIn.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Tar\TarItem.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Tar\TarOut.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Tar\TarUpdate.h" />
+			<File
+				RelativePath="CPP\Windows\Thread.h" />
+			<File
+				RelativePath="C\Threads.h" />
+			<File
+				RelativePath="CPP\Windows\TimeUtils.h" />
+			<File
+				RelativePath="CPP\Common\UTFConvert.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Udf\UdfHandler.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Udf\UdfIn.h" />
+			<File
+				RelativePath="CPP\7zip\Common\UniqBlocks.h" />
+			<File
+				RelativePath="SevenZip\UsefulFunctions.h" />
+			<File
+				RelativePath="CPP\7zip\Common\VirtThread.h" />
+			<File
+				RelativePath="CPP\Common\Wildcard.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Wim\WimHandler.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Wim\WimIn.h" />
+			<File
+				RelativePath="CPP\7zip\Crypto\WzAes.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\XpressDecoder.h" />
+			<File
+				RelativePath="C\Xz.h" />
+			<File
+				RelativePath="C\XzCrc64.h" />
+			<File
+				RelativePath="C\XzEnc.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\XzHandler.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\ZDecoder.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Zip\ZipAddCommon.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Zip\ZipCompressionMode.h" />
+			<File
+				RelativePath="CPP\7zip\Crypto\ZipCrypto.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Zip\ZipHandler.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Zip\ZipHeader.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Zip\ZipIn.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Zip\ZipItem.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Zip\ZipOut.h" />
+			<File
+				RelativePath="CPP\7zip\Crypto\ZipStrong.h" />
+			<File
+				RelativePath="CPP\7zip\Archive\Zip\ZipUpdate.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\ZlibDecoder.h" />
+			<File
+				RelativePath="CPP\7zip\Compress\ZlibEncoder.h" />
+		</Filter>
+		<Filter
+			Name="asm"
+			UniqueIdentifier="{E0D8C965-CC5F-43d7-AD63-FAEF0BBC0F85}-asm"
+			ParseFiles="false">
+			<File
+				RelativePath="Asm\x86\7zCrcOpt.asm">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="Asm\x86\7zCrcOpt.asm"
+						CommandLine="ml.exe -c -WX -W3 -Fo$(IntDir)$(InputName).obj Asm\x86\7zCrcOpt.asm"
+						Description="asm build"
+						Outputs="$(IntDir)$(InputName).obj"
+						Path="." />
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="Asm\x86\7zCrcOpt.asm"
+						CommandLine="ml.exe -c -WX -W3 -Fo$(IntDir)$(InputName).obj Asm\x86\7zCrcOpt.asm"
+						Description="asm build"
+						Outputs="$(IntDir)$(InputName).obj"
+						Path="." />
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="Asm\x86\AesOpt.asm">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="Asm\x86\AesOpt.asm"
+						CommandLine="ml.exe -c -WX -W3 -Fo$(IntDir)$(InputName).obj Asm\x86\AesOpt.asm"
+						Description="asm build"
+						Outputs="$(IntDir)$(InputName).obj"
+						Path="." />
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="Asm\x86\AesOpt.asm"
+						CommandLine="ml.exe -c -WX -W3 -Fo$(IntDir)$(InputName).obj Asm\x86\AesOpt.asm"
+						Description="asm build"
+						Outputs="$(IntDir)$(InputName).obj"
+						Path="." />
+				</FileConfiguration>
+			</File>
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

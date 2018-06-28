@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9,00"
+	Name="lua-52"
+	ProjectGUID="{C61FBE81-669D-36D2-B56D-AE6D8752DC39}"
+	Keyword="Qt4VSv1.0">
+	<Platforms>
+		<Platform
+			Name="Win32" />
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="..\..\bin\"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			ConfigurationType="4"
+			IntermediateDirectory="..\..\obj\release\lua-52\"
+			UseOfMfc="0">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=".,.,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
+				AdditionalOptions="/MP -w34100 -w34189 -w44996"
+				AssemblerListingLocation="..\..\obj\release\lua-52\"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4100,4101,4102,4189,4996"
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="..\..\obj\release\lua-52\"
+				Optimization ="1"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
+				ProgramDataBaseFileName="$(IntDir)"
+				RuntimeLibrary="0"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="true"
+				WarningLevel="3" />
+			<Tool
+				Name="VCCustomBuildTool" />
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\lua-52.lib"
+				SuppressStartupBanner="true" />
+			<Tool
+				Name="VCManifestTool" />
+			<Tool
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
+			<Tool
+				Name="VCPostBuildEventTool" />
+			<Tool
+				Name="VCPreBuildEventTool" />
+			<Tool
+				Name="VCPreLinkEventTool" />
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				ResourceOutputFileName="$(OutDir)\$(InputName).res" />
+		</Configuration>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="..\..\bin\"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			ConfigurationType="4"
+			IntermediateDirectory="..\..\obj\debug\lua-52\"
+			UseOfMfc="0">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=".,.,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
+				AdditionalOptions="/MP -w34100 -w34189 -w44996"
+				AssemblerListingLocation="..\..\obj\debug\lua-52\"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4100,4101,4102,4189,4996"
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="..\..\obj\debug\lua-52\"
+				Optimization ="4"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				ProgramDataBaseFileName="$(IntDir)"
+				RuntimeLibrary="1"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="true"
+				WarningLevel="3" />
+			<Tool
+				Name="VCCustomBuildTool" />
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\lua-52d.lib"
+				SuppressStartupBanner="true" />
+			<Tool
+				Name="VCManifestTool" />
+			<Tool
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
+			<Tool
+				Name="VCPostBuildEventTool" />
+			<Tool
+				Name="VCPreBuildEventTool" />
+			<Tool
+				Name="VCPreLinkEventTool" />
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,_DEBUG"
+				ResourceOutputFileName="$(OutDir)\$(InputName).res" />
+		</Configuration>
+	</Configurations>
+	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			<File
+				RelativePath="src\lapi.c" />
+			<File
+				RelativePath="src\lauxlib.c" />
+			<File
+				RelativePath="src\lbaselib.c" />
+			<File
+				RelativePath="src\lbitlib.c" />
+			<File
+				RelativePath="src\lcode.c" />
+			<File
+				RelativePath="src\lcorolib.c" />
+			<File
+				RelativePath="src\lctype.c" />
+			<File
+				RelativePath="src\ldblib.c" />
+			<File
+				RelativePath="src\ldebug.c" />
+			<File
+				RelativePath="src\ldo.c" />
+			<File
+				RelativePath="src\ldump.c" />
+			<File
+				RelativePath="src\lfunc.c" />
+			<File
+				RelativePath="src\lgc.c" />
+			<File
+				RelativePath="src\linit.c" />
+			<File
+				RelativePath="src\liolib.c" />
+			<File
+				RelativePath="src\llex.c" />
+			<File
+				RelativePath="src\lmathlib.c" />
+			<File
+				RelativePath="src\lmem.c" />
+			<File
+				RelativePath="src\loadlib.c" />
+			<File
+				RelativePath="src\lobject.c" />
+			<File
+				RelativePath="src\lopcodes.c" />
+			<File
+				RelativePath="src\loslib.c" />
+			<File
+				RelativePath="src\lparser.c" />
+			<File
+				RelativePath="src\lstate.c" />
+			<File
+				RelativePath="src\lstring.c" />
+			<File
+				RelativePath="src\lstrlib.c" />
+			<File
+				RelativePath="src\ltable.c" />
+			<File
+				RelativePath="src\ltablib.c" />
+			<File
+				RelativePath="src\ltm.c" />
+			<File
+				RelativePath="src\lundump.c" />
+			<File
+				RelativePath="src\lvm.c" />
+			<File
+				RelativePath="src\lzio.c" />
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File
+				RelativePath="src\lapi.h" />
+			<File
+				RelativePath="src\lauxlib.h" />
+			<File
+				RelativePath="src\lcode.h" />
+			<File
+				RelativePath="src\lctype.h" />
+			<File
+				RelativePath="src\ldebug.h" />
+			<File
+				RelativePath="src\ldo.h" />
+			<File
+				RelativePath="src\lfunc.h" />
+			<File
+				RelativePath="src\lgc.h" />
+			<File
+				RelativePath="src\llex.h" />
+			<File
+				RelativePath="src\llimits.h" />
+			<File
+				RelativePath="src\lmem.h" />
+			<File
+				RelativePath="src\lobject.h" />
+			<File
+				RelativePath="src\lopcodes.h" />
+			<File
+				RelativePath="src\lparser.h" />
+			<File
+				RelativePath="src\lstate.h" />
+			<File
+				RelativePath="src\lstring.h" />
+			<File
+				RelativePath="src\ltable.h" />
+			<File
+				RelativePath="src\ltm.h" />
+			<File
+				RelativePath="src\lua.hpp" />
+			<File
+				RelativePath="src\lua.h" />
+			<File
+				RelativePath="src\luaconf.h" />
+			<File
+				RelativePath="src\lualib.h" />
+			<File
+				RelativePath="src\lundump.h" />
+			<File
+				RelativePath="src\lvm.h" />
+			<File
+				RelativePath="src\lzio.h" />
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

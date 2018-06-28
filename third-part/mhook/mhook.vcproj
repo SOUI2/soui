@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9,00"
+	Name="mhook"
+	ProjectGUID="{96954A2E-CEE8-38BB-A476-71E1E8897FC6}"
+	Keyword="Qt4VSv1.0">
+	<Platforms>
+		<Platform
+			Name="Win32" />
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="..\..\bin\"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			ConfigurationType="4"
+			IntermediateDirectory="..\..\obj\release\mhook\"
+			UseOfMfc="0">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=".,.,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
+				AdditionalOptions="/MP -w34100 -w34189 -w44996"
+				AssemblerListingLocation="..\..\obj\release\mhook\"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4100,4101,4102,4189,4996"
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="..\..\obj\release\mhook\"
+				Optimization ="1"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
+				ProgramDataBaseFileName="$(IntDir)"
+				RuntimeLibrary="0"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="true"
+				WarningLevel="3" />
+			<Tool
+				Name="VCCustomBuildTool" />
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\mhook.lib"
+				SuppressStartupBanner="true" />
+			<Tool
+				Name="VCManifestTool" />
+			<Tool
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
+			<Tool
+				Name="VCPostBuildEventTool" />
+			<Tool
+				Name="VCPreBuildEventTool" />
+			<Tool
+				Name="VCPreLinkEventTool" />
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				ResourceOutputFileName="$(OutDir)\$(InputName).res" />
+		</Configuration>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="..\..\bin\"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			ConfigurationType="4"
+			IntermediateDirectory="..\..\obj\debug\mhook\"
+			UseOfMfc="0">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=".,.,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
+				AdditionalOptions="/MP -w34100 -w34189 -w44996"
+				AssemblerListingLocation="..\..\obj\debug\mhook\"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4100,4101,4102,4189,4996"
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="..\..\obj\debug\mhook\"
+				Optimization ="4"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				ProgramDataBaseFileName="$(IntDir)"
+				RuntimeLibrary="1"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="true"
+				WarningLevel="3" />
+			<Tool
+				Name="VCCustomBuildTool" />
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\mhookd.lib"
+				SuppressStartupBanner="true" />
+			<Tool
+				Name="VCManifestTool" />
+			<Tool
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
+			<Tool
+				Name="VCPostBuildEventTool" />
+			<Tool
+				Name="VCPreBuildEventTool" />
+			<Tool
+				Name="VCPreLinkEventTool" />
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,_DEBUG"
+				ResourceOutputFileName="$(OutDir)\$(InputName).res" />
+		</Configuration>
+	</Configurations>
+	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			<File
+				RelativePath="disasm-lib\cpu.c" />
+			<File
+				RelativePath="disasm-lib\disasm.c" />
+			<File
+				RelativePath="disasm-lib\disasm_x86.c" />
+			<File
+				RelativePath="mhook-lib\mhook.cpp" />
+			<File
+				RelativePath="disasm-lib\misc.c" />
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File
+				RelativePath="disasm-lib\cpu.h" />
+			<File
+				RelativePath="disasm-lib\disasm.h" />
+			<File
+				RelativePath="disasm-lib\disasm_x86.h" />
+			<File
+				RelativePath="disasm-lib\disasm_x86_tables.h" />
+			<File
+				RelativePath="mhook-lib\mhook.h" />
+			<File
+				RelativePath="disasm-lib\misc.h" />
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

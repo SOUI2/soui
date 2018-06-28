@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9,00"
+	Name="png"
+	ProjectGUID="{70DF9119-E171-3EAC-90BD-D844577CBF15}"
+	Keyword="Qt4VSv1.0">
+	<Platforms>
+		<Platform
+			Name="Win32" />
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="..\..\bin\"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			ConfigurationType="4"
+			IntermediateDirectory="..\..\obj\release\png\"
+			UseOfMfc="0">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=".,.,..\zlib,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
+				AdditionalOptions="/MP"
+				AssemblerListingLocation="..\..\obj\release\png\"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4100,4101,4102,4189,4996"
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="..\..\obj\release\png\"
+				Optimization ="1"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
+				ProgramDataBaseFileName="$(IntDir)"
+				RuntimeLibrary="0"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="true"
+				WarningLevel="3" />
+			<Tool
+				Name="VCCustomBuildTool" />
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\png.lib"
+				SuppressStartupBanner="true" />
+			<Tool
+				Name="VCManifestTool" />
+			<Tool
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
+			<Tool
+				Name="VCPostBuildEventTool" />
+			<Tool
+				Name="VCPreBuildEventTool" />
+			<Tool
+				Name="VCPreLinkEventTool" />
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				ResourceOutputFileName="$(OutDir)\$(InputName).res" />
+		</Configuration>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="..\..\bin\"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			ConfigurationType="4"
+			IntermediateDirectory="..\..\obj\debug\png\"
+			UseOfMfc="0">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=".,.,..\zlib,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
+				AdditionalOptions="/MP"
+				AssemblerListingLocation="..\..\obj\debug\png\"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4100,4101,4102,4189,4996"
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="..\..\obj\debug\png\"
+				Optimization ="4"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				ProgramDataBaseFileName="$(IntDir)"
+				RuntimeLibrary="1"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="true"
+				WarningLevel="3" />
+			<Tool
+				Name="VCCustomBuildTool" />
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\pngd.lib"
+				SuppressStartupBanner="true" />
+			<Tool
+				Name="VCManifestTool" />
+			<Tool
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
+			<Tool
+				Name="VCPostBuildEventTool" />
+			<Tool
+				Name="VCPreBuildEventTool" />
+			<Tool
+				Name="VCPreLinkEventTool" />
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,_DEBUG"
+				ResourceOutputFileName="$(OutDir)\$(InputName).res" />
+		</Configuration>
+	</Configurations>
+	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			<File
+				RelativePath="png.c" />
+			<File
+				RelativePath="pngerror.c" />
+			<File
+				RelativePath="pngget.c" />
+			<File
+				RelativePath="pngmem.c" />
+			<File
+				RelativePath="pngpread.c" />
+			<File
+				RelativePath="pngread.c" />
+			<File
+				RelativePath="pngrio.c" />
+			<File
+				RelativePath="pngrtran.c" />
+			<File
+				RelativePath="pngrutil.c" />
+			<File
+				RelativePath="pngset.c" />
+			<File
+				RelativePath="pngtrans.c" />
+			<File
+				RelativePath="pngwio.c" />
+			<File
+				RelativePath="pngwrite.c" />
+			<File
+				RelativePath="pngwtran.c" />
+			<File
+				RelativePath="pngwutil.c" />
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File
+				RelativePath="png.h" />
+			<File
+				RelativePath="pngconf.h" />
+			<File
+				RelativePath="pngdebug.h" />
+			<File
+				RelativePath="pnginfo.h" />
+			<File
+				RelativePath="pnglibconf.h" />
+			<File
+				RelativePath="pngpriv.h" />
+			<File
+				RelativePath="pngstruct.h" />
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

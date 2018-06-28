@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9,00"
+	Name="scintilla"
+	ProjectGUID="{8E488E28-CB5B-3132-B76D-EA3B931AF3BE}"
+	Keyword="Qt4VSv1.0">
+	<Platforms>
+		<Platform
+			Name="Win32" />
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="..\..\bin\"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			ConfigurationType="4"
+			IntermediateDirectory="..\..\obj\release\scintilla\"
+			UseOfMfc="0">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=".,.,src,include,lexlib,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
+				AdditionalOptions="/MP"
+				AssemblerListingLocation="..\..\obj\release\scintilla\"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4100,4101,4102,4189,4996"
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="..\..\obj\release\scintilla\"
+				Optimization ="1"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,SCI_LEXER,STATIC_BUILD,QT_NO_DYNAMIC_CAST,NDEBUG"
+				ProgramDataBaseFileName="$(IntDir)"
+				RuntimeLibrary="0"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="true"
+				WarningLevel="3" />
+			<Tool
+				Name="VCCustomBuildTool" />
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\scintilla.lib"
+				SuppressStartupBanner="true" />
+			<Tool
+				Name="VCManifestTool" />
+			<Tool
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
+			<Tool
+				Name="VCPostBuildEventTool" />
+			<Tool
+				Name="VCPreBuildEventTool" />
+			<Tool
+				Name="VCPreLinkEventTool" />
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,SCI_LEXER,STATIC_BUILD,QT_NO_DYNAMIC_CAST"
+				ResourceOutputFileName="$(OutDir)\$(InputName).res" />
+		</Configuration>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="..\..\bin\"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			ConfigurationType="4"
+			IntermediateDirectory="..\..\obj\debug\scintilla\"
+			UseOfMfc="0">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=".,.,src,include,lexlib,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
+				AdditionalOptions="/MP"
+				AssemblerListingLocation="..\..\obj\debug\scintilla\"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4100,4101,4102,4189,4996"
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="..\..\obj\debug\scintilla\"
+				Optimization ="4"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,SCI_LEXER,STATIC_BUILD,QT_NO_DYNAMIC_CAST"
+				ProgramDataBaseFileName="$(IntDir)"
+				RuntimeLibrary="1"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="true"
+				WarningLevel="3" />
+			<Tool
+				Name="VCCustomBuildTool" />
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\scintillad.lib"
+				SuppressStartupBanner="true" />
+			<Tool
+				Name="VCManifestTool" />
+			<Tool
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
+			<Tool
+				Name="VCPostBuildEventTool" />
+			<Tool
+				Name="VCPreBuildEventTool" />
+			<Tool
+				Name="VCPreLinkEventTool" />
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,SCI_LEXER,STATIC_BUILD,QT_NO_DYNAMIC_CAST,_DEBUG"
+				ResourceOutputFileName="$(OutDir)\$(InputName).res" />
+		</Configuration>
+	</Configurations>
+	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			<File
+				RelativePath="lexlib\Accessor.cxx" />
+			<File
+				RelativePath="src\AutoComplete.cxx" />
+			<File
+				RelativePath="src\CallTip.cxx" />
+			<File
+				RelativePath="src\CaseConvert.cxx" />
+			<File
+				RelativePath="src\CaseFolder.cxx" />
+			<File
+				RelativePath="src\Catalogue.cxx" />
+			<File
+				RelativePath="src\CellBuffer.cxx" />
+			<File
+				RelativePath="src\CharClassify.cxx" />
+			<File
+				RelativePath="lexlib\CharacterCategory.cxx" />
+			<File
+				RelativePath="lexlib\CharacterSet.cxx" />
+			<File
+				RelativePath="src\ContractionState.cxx" />
+			<File
+				RelativePath="src\Decoration.cxx" />
+			<File
+				RelativePath="src\Document.cxx" />
+			<File
+				RelativePath="src\Editor.cxx" />
+			<File
+				RelativePath="src\ExternalLexer.cxx" />
+			<File
+				RelativePath="src\Indicator.cxx" />
+			<File
+				RelativePath="src\KeyMap.cxx" />
+			<File
+				RelativePath="lexers\LexHTML.cxx" />
+			<File
+				RelativePath="lexlib\LexerBase.cxx" />
+			<File
+				RelativePath="lexlib\LexerModule.cxx" />
+			<File
+				RelativePath="lexlib\LexerNoExceptions.cxx" />
+			<File
+				RelativePath="lexlib\LexerSimple.cxx" />
+			<File
+				RelativePath="src\LineMarker.cxx" />
+			<File
+				RelativePath="src\PerLine.cxx" />
+			<File
+				RelativePath="win32\PlatWin.cxx" />
+			<File
+				RelativePath="src\PositionCache.cxx" />
+			<File
+				RelativePath="lexlib\PropSetSimple.cxx" />
+			<File
+				RelativePath="src\RESearch.cxx" />
+			<File
+				RelativePath="src\RunStyles.cxx" />
+			<File
+				RelativePath="src\ScintillaBase.cxx" />
+			<File
+				RelativePath="win32\ScintillaWin.cxx" />
+			<File
+				RelativePath="src\Selection.cxx" />
+			<File
+				RelativePath="src\Style.cxx" />
+			<File
+				RelativePath="lexlib\StyleContext.cxx" />
+			<File
+				RelativePath="src\UniConversion.cxx" />
+			<File
+				RelativePath="src\ViewStyle.cxx" />
+			<File
+				RelativePath="lexlib\WordList.cxx" />
+			<File
+				RelativePath="src\XPM.cxx" />
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File
+				RelativePath="\lexlib\Accessor.h" />
+			<File
+				RelativePath="lexlib\Accessor.h" />
+			<File
+				RelativePath="src\AutoComplete.h" />
+			<File
+				RelativePath="src\CallTip.h" />
+			<File
+				RelativePath="src\CaseConvert.h" />
+			<File
+				RelativePath="src\CaseFolder.h" />
+			<File
+				RelativePath="src\Catalogue.h" />
+			<File
+				RelativePath="src\CellBuffer.h" />
+			<File
+				RelativePath="src\CharClassify.h" />
+			<File
+				RelativePath="lexlib\CharacterCategory.h" />
+			<File
+				RelativePath="\lexlib\CharacterSet.h" />
+			<File
+				RelativePath="lexlib\CharacterSet.h" />
+			<File
+				RelativePath="src\ContractionState.h" />
+			<File
+				RelativePath="src\Decoration.h" />
+			<File
+				RelativePath="src\Document.h" />
+			<File
+				RelativePath="src\Editor.h" />
+			<File
+				RelativePath="src\ExternalLexer.h" />
+			<File
+				RelativePath="src\FontQuality.h" />
+			<File
+				RelativePath="\include\ILexer.h" />
+			<File
+				RelativePath="include\ILexer.h" />
+			<File
+				RelativePath="src\Indicator.h" />
+			<File
+				RelativePath="src\KeyMap.h" />
+			<File
+				RelativePath="\lexlib\LexAccessor.h" />
+			<File
+				RelativePath="lexlib\LexAccessor.h" />
+			<File
+				RelativePath="lexlib\LexerBase.h" />
+			<File
+				RelativePath="\lexlib\LexerModule.h" />
+			<File
+				RelativePath="lexlib\LexerModule.h" />
+			<File
+				RelativePath="lexlib\LexerNoExceptions.h" />
+			<File
+				RelativePath="lexlib\LexerSimple.h" />
+			<File
+				RelativePath="src\LineMarker.h" />
+			<File
+				RelativePath="lexlib\OptionSet.h" />
+			<File
+				RelativePath="src\Partitioning.h" />
+			<File
+				RelativePath="src\PerLine.h" />
+			<File
+				RelativePath="\include\Platform.h" />
+			<File
+				RelativePath="include\Platform.h" />
+			<File
+				RelativePath="src\PositionCache.h" />
+			<File
+				RelativePath="lexlib\PropSetSimple.h" />
+			<File
+				RelativePath="src\RESearch.h" />
+			<File
+				RelativePath="src\RunStyles.h" />
+			<File
+				RelativePath="\include\SciLexer.h" />
+			<File
+				RelativePath="include\SciLexer.h" />
+			<File
+				RelativePath="\include\Scintilla.h" />
+			<File
+				RelativePath="include\Scintilla.h" />
+			<File
+				RelativePath="src\ScintillaBase.h" />
+			<File
+				RelativePath="include\ScintillaWidget.h" />
+			<File
+				RelativePath="src\Selection.h" />
+			<File
+				RelativePath="lexlib\SparseState.h" />
+			<File
+				RelativePath="src\SplitVector.h" />
+			<File
+				RelativePath="src\Style.h" />
+			<File
+				RelativePath="\lexlib\StyleContext.h" />
+			<File
+				RelativePath="lexlib\StyleContext.h" />
+			<File
+				RelativePath="lexlib\SubStyles.h" />
+			<File
+				RelativePath="src\UniConversion.h" />
+			<File
+				RelativePath="src\UnicodeFromUTF8.h" />
+			<File
+				RelativePath="src\ViewStyle.h" />
+			<File
+				RelativePath="\lexlib\WordList.h" />
+			<File
+				RelativePath="lexlib\WordList.h" />
+			<File
+				RelativePath="src\XPM.h" />
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>
