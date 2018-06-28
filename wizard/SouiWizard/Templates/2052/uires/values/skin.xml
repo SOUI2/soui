@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<skin>
+  	<imglist name="skin_traymenu_icons"	src="img:traymenu_icons" states="9"/>
+	[!if WIN_STYLES_TAB]
+    <imglist name="skin_tab_main" src="img:png_tab_main" states="3"/>
+    <imglist name="skin_page_icons" src="img:png_page_icons" states="9"/>
+    [!endif]
+</skin>

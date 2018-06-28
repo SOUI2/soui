@@ -1,0 +1,7 @@
+VSWIZARD 7.0
+Wizard=VsWizard.VsWizardEngine.11.0
+
+Param="WIZARD_NAME = SouiDllWizard"
+Param="ABSOLUTE_PATH = %SOUIPATH%\wizard\souidllwizard"
+Param="WIZARD_VERSION = 11.0"
+Param="FALLBACK_LCID = 2052"

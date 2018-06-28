@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<language name="日本语" guid="{23D209C4-2268-49A2-B7F4-8CB57D908D47}">
+  <context>
+    <!--没有上下文的翻译-->
+  </context>
+  <context name="messagebox">
+    <message>
+      <source>ok</source>
+      <translation>確定</translation>
+    </message>
+    <message>
+      <source>cancel</source>
+      <translation>キャンセル</translation>
+    </message>
+    <message>
+      <source>retry</source>
+      <translation>リトライ</translation>
+    </message>
+  </context>
+  <context name="dlg_main">
+    <message>
+      <source>close</source>
+      <translation>窓を閉じて</translation>
+    </message>
+    <message>
+      <source>lang_cn</source>
+      <translation>簡体字</translation>
+    </message>
+    <message>
+      <source>lang_jp</source>
+      <translation>日本語</translation>
+    </message>
+    <message>
+      <source>这是一个由SOUI向导生成的APP框架</source>
+      <translation>これはSOUIガイド生成のAPPフレーム</translation>
+    </message>
+    <message>
+      <source>mainpage</source>
+      <translation>ホームページ </translation>
+    </message>
+    <message>
+      <source>page2</source>
+      <translation>ページ2</translation>
+    </message>
+    <message>
+      <source>页面1</source>
+      <translation>ページ1</translation>
+    </message>
+  </context>
+</language>

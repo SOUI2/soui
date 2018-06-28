@@ -1,0 +1,425 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. -->
+<html dir="LTR">
+<head>
+    <title>SOUI 应用程序向导</title>
+    <meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+    <meta http-equiv="MSThemeCompatible" content="Yes">
+    <link id="LINKURL" rel="stylesheet" href="../../2052/NewStyles.css">
+    <style type="text/css">
+        body {
+            background-image: url(../../Images/leftbanner2.png);
+            background-repeat: repeat-y;
+        }
+    </style>
+</head>
+<body bgcolor="BUTTONFACE" topmargin="0" leftmargin="0" rightmargin="0" bottommargin="0"
+      onload="InitDocument(document);" onkeydown="if (!bValidating) OnKey();" onkeypress="if (!bValidating) OnPress();">
+    <table class="ONE" height="100%" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <col class="LinkPane">
+        <col>
+        <!--OPEN OF INTRODUCTORY INFORMATION TABLE//-->
+        <tr valign="TOP">
+            <td height="79" width="100%" colspan="2">
+                <table class="TWO" border="0" cellpadding="0" cellspacing="0">
+                    <col width="12">
+                    <col>
+                    <col width="12">
+                    <tr>
+                        <td valign="TOP" height="12" width="12">
+                            &nbsp;
+
+                        </td>
+                        <td valign="TOP" height="12">
+                            &nbsp;
+
+                        </td>
+                        <td valign="TOP" height="12" width="12">
+                            &nbsp;
+
+                        </td>
+                        <td class="IMAGE" valign="BOTTOM" width="110" rowspan="2">
+                            <div class="SMALLA" id="WND_DLG_IMAGE">
+                                <img class="SMALL" src="../../Images/Dialog.gif" width="98" height="70" alt="">
+                            </div>
+                            <div class="SMALL" id="WND_TAB_IMAGE">
+                                <img class="SMALL" src="..\..\Images\MDITabs.gif" width="98" height="70" alt="">
+                            </div>
+                        </td>
+                        <td valign="TOP" height="12" width="6" rowspan="2">
+                            &nbsp;
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="TOP" height="65" width="12">
+                            &nbsp;
+
+                        </td>
+                        <td valign="TOP" height="65">
+                            <h4 class="HEAD" id="HEAD">
+                                应用程序类型
+                            </h4>
+                            <p class="SUBHEAD" id="SUBHEAD">
+                                为应用程序指定窗口，界面样式选项。
+                            </p>
+                        </td>
+                        <td valign="TOP" height="65" width="12">
+                            &nbsp;
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="TOP" class="RULE" colspan="5" height="2">
+                            <table border="0" width="100%" height="1" cellpadding="0" cellspacing="0">
+                                <tr valign="TOP">
+                                    <td height="1" width="100%" bgcolor="BUTTONSHADOW"></td>
+                                    <td height="1" width="1" bgcolor="WINDOW"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--CLOSE OF INTRODUCTORY INFORMATION TABLE//-->
+        <!--OPEN OF NAVIGATION, CONTENT, AND BUTTON TABLES//-->
+        <tr valign="TOP">
+            <td class="Three" valign="TOP" height="100%" width="100%">
+                <table class="fixedSize" height="100%" width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr valign="TOP">
+                        <td class="threeCustom" valign="TOP">
+                            <!--OPEN OF NAVIGATION TABLE//-->
+                            <table class="THREE" border="0" cellpadding="0" cellspacing="0">
+                                <col width="12">
+                                <col>
+                                <col width="1">
+                                <tr>
+                                    <td valign="TOP" colspan="3" height="12">
+                                        &nbsp;
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="TOP" height="100%">
+                                        &nbsp;
+
+                                    </td>
+                                    <td valign="TOP" height="100%">
+                                        <!--OPEN OF NAVIGATIONAL LINKS//-->
+                                        <div class="LINK">
+                                            <table width="100%" height="28" border="0" cellpadding="0" cellspacing="0" class="LINKTEXT">
+                                                <tr valign="MIDDLE">
+                                                    <td width="100%">
+                                                        <span class="ACTIVELINK" id="Default" title="查看所选内容的概述。"
+                                                              onclick="Next(document, 'Default.htm');" tabindex="1">概述</span>
+                                                    </td>
+                                                    <td width="4">
+                                                        <img src="../../2052/Images/spacer.gif" height="1" width="1">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="LINKSELECTED">
+                                            <table width="160" height="28" border="0" cellpadding="0" cellspacing="0" class="LINKTEXTSELECTED">
+                                                <tr valign="MIDDLE">
+                                                    <td width="100%">
+                                                        <span id="AppType" title="为应用程序指定窗口，界面样式选项。">
+                                                            应用程序类型
+                                                        </span>
+                                                    </td>
+                                                    <td width="4">
+                                                        <img src="../../2052/Images/spacer.gif" height="1" width="1">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                        <div class="LINK">
+                                            <table width="100%" height="28" border="0" cellpadding="0" cellspacing="0" class="LINKTEXT">
+                                                <tr valign="MIDDLE">
+                                                    <td width="100%">
+                                                        <span class="ACTIVELINK" id="UIFeatures" title="指定控制应用程序外观的选项。"
+                                                              onclick="Next(document, 'UIFeatures.htm');" tabindex="2">用户界面功能</span>
+                                                    </td>
+                                                    <td width="4">
+                                                        <img src="../../2052/Images/spacer.gif" height="1" width="1">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="LINK">
+                                            <table width="100%" height="28" border="0" cellpadding="0" cellspacing="0" class="LINKTEXT">
+                                                <tr valign="MIDDLE">
+                                                    <td width="100%">
+                                                        <span class="ACTIVELINK" id="Advanced" title="指定将置入应用程序中的附加支持。"
+                                                              onclick="Next(document, 'Advanced.htm');" tabindex="3">高级功能</span>
+                                                    </td>
+                                                    <td width="4">
+                                                        <img src="../../2052/Images/spacer.gif" height="1" width="1">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="LINK">
+                                            <table width="100%" height="28" border="0" cellpadding="0" cellspacing="0" class="LINKTEXT">
+                                                <tr valign="MIDDLE">
+                                                    <td width="100%">
+                                                        <span class="ACTIVELINK" id="ProjectOption" title="指定将程序的编译选项。" onclick="Next(document, 'ProjectOption.htm');" tabindex="4">编译选项</span>
+                                                    </td>
+                                                    <td width="4">
+                                                        <img src="../../2052/Images/spacer.gif" height="1" width="1">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <!--CLOSE OF NAVIGATIONAL LINKS//-->
+                                    </td>
+                                    <td width="1">
+                                        <div class="VERTLINE">
+                                            <img src="../../2052/Images/spacer.gif" width="1" height="1" alt="" border="0">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <!--CLOSE OF NAVIGATION TABLE//-->
+            </td>
+            <td valign="TOP" height="100%">
+                <!--OPEN OF CONTENT AND BUTTON TABLE//-->
+                <table class="ONE" border="0" cellpadding="0" cellspacing="0">
+                    <col width="100%">
+                    <tr valign="TOP">
+                        <td height="100%">
+                            <!--OPEN OF CONTENT//-->
+                            <table class="CONTENT" border="0" cellpadding="0" cellspacing="0">
+                                <col width="12">
+                                <col>
+                                <col width="12">
+                                <col>
+                                <col width="12">
+                                <tr>
+                                    <td valign="TOP" height="12" colspan="5">
+                                        &nbsp;
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="TOP" width="12">
+                                        &nbsp;
+
+                                    </td>
+                                    <td valign="TOP">
+                                        <span class="itemTextTop" id="applicationType_title">
+                                            应用程序类型:
+                                            <p class="Spacer">
+                                                &nbsp;
+                                            </p>
+                                            <input type="radio" class="Radio" name="apptype" id="WIN_STYLES_DLG" accesskey="n"
+                                                   title="选择普通界面样式的应用程序。" onClick="OnAppType();">
+                                            <div class="itemTextRadioB" title="选择普通界面样式的应用程序。"
+                                                 id="APP_TYPE_SDI_DIV">
+                                                <label id="SINGLEDOC_TEXT" for="WIN_STYLES_DLG">普通窗口(<u>N</u>)</label>
+                                            </div>
+                                            <br>
+                                            <input type="radio" class="Radio" name="apptype" id="WIN_STYLES_TAB" accesskey="t"
+                                                   title="选择在一个顶级框架窗口内支持多文档界面(MDI)的应用程序。"
+                                                   onclick="OnAppType();">
+                                            <div class="itemTextRadioB" id="SELECT_MULTIDOC_TEXT" title="选择选项卡式界面应用程序。">
+                                                <label id="MULTIDOC_TEXT" for="WIN_STYLES_TAB">选项卡式窗口(<u>T</u>)</label>
+                                            </div>
+                                            <br>
+
+                                            <p class="ElementSpacer">
+                                                渲染引擎:
+                                            </p>
+                                            <p class="ElementSpacer18">&nbsp;</p>
+                                            <input name="projtype" type="radio" class="Radio" id="RADIO_RANDER_GDI" accesskey="g" title="选择使用GDI渲染界面。" onClick="" value="radiobutton" checked>
+                                            <div class="itemTextRadioB" id="SELECT_UI_TEXT" title="使用GDI渲染。">
+                                                <span class="itemTextTop" id="projectType_title">
+                                                    <label id="UI_TEXT" for="PROJECT_STYLE_MFCSTD">使用GDI渲染(<u>G</u>)</label>
+                                                </span>
+                                            </div>
+                                            <br>
+                                            <input name="projtype" type="radio" class="Radio" id="RADIO_RANDER_SKIA" accesskey="s" title="选择使用SKIA渲染界面。" onClick="" value="radiobutton" checked>
+                                            <div class="itemTextRadioB" id="SELECT_UI_TEXT2" title="使用SKIA渲染。">
+                                                <span class="itemTextTop" id="projectType_title3">
+                                                    <label id="UI_TEXT" for="PROJECT_STYLE_MFCSTD2">使用SKIA渲染(<u>S</u>)</label>
+                                                </span>
+                                            </div>
+                                    </td>
+                                    <td valign="TOP" width="12">
+                                        &nbsp;
+
+                                    </td>
+                                    <td valign="TOP">
+                                        <p class="ElementSpacer">
+                                            &nbsp;
+                                        </p>
+
+                                    </td>
+                                </tr>
+                            </table>
+                            <!--CLOSE OF CONTENT//-->
+                        </td>
+                    </tr>
+                    <tr valign="BOTTOM">
+                        <td>
+                            <!--OPEN OF BUTTON HTML//-->
+                            <table border="0" cellpadding="0" cellspacing="0">
+                                <col width="12">
+                                <col>
+                                <col width="75">
+                                <col width="4">
+                                <col width="75">
+                                <col width="4">
+                                <col width="75">
+                                <col width="12">
+                                <tr>
+                                    <td valign="TOP" class="RULE" colspan="8" height="2">
+                                        <table border="0" width="100%" height="1" cellpadding="0" cellspacing="0">
+                                            <tr valign="TOP">
+                                                <td height="1" width="100%" bgcolor="BUTTONSHADOW"></td>
+                                                <td height="1" width="1" bgcolor="WINDOW"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="TOP" height="11" colspan="8">
+                                        &nbsp;
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="MIDDLE" height="23" width="12">
+                                        &nbsp;
+
+                                    </td>
+                                    <td valign="TOP" height="23">
+                                        &nbsp;
+
+                                    </td>
+                                    <td valign="MIDDLE" height="23" width="75">
+                                        <button class="BUTTONS" id="FinishBtn" onClick="OnFinish(document);">
+                                            完成
+                                        </button>
+                                    </td>
+                                    <td valign="MIDDLE" height="23" width="4">
+                                        &nbsp;
+
+                                    </td>
+                                    <td valign="MIDDLE" height="23" width="75">
+                                        <button class="BUTTONS" id="CancelBtn" onClick="window.external.Finish(document, 'cancel');">
+                                            取消
+                                        </button>
+                                    </td>
+                                    <td valign="MIDDLE" height="23" width="4">
+                                        &nbsp;
+
+                                    </td>
+                                    <td valign="MIDDLE" height="23" width="75">
+                                        <button class="BUTTONS" id="HelpBtn" onClick="window.external.OnHelp('vc.appwiz.mfc.exe.apptype');">
+                                            帮助
+                                        </button>
+                                    </td>
+                                    <td valign="MIDDLE" height="23" width="12">
+                                        &nbsp;
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="TOP" height="12" colspan="8">
+                                        &nbsp;
+
+                                    </td>
+                                </tr>
+                            </table>
+                            <!--CLOSE OF BUTTON HTML//-->
+                        </td>
+                    </tr>
+                </table>
+                <!--CLOSE OF NAVIGATION, CONTENT, AND BUTTON TABLES//-->
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+
+<script language="JSCRIPT">
+
+    var tab_array = new Array();
+    tab_array[0] = Default;
+    tab_array[1] = AppType;
+    tab_array[2] = UIFeatures;
+    tab_array[3] = Advanced;
+    tab_array[4] = ProjectOption;
+
+    function InitDocument(document) {
+        setDirection();
+        window.external.Load(document);
+
+        ToggleImage();
+        SetFocus();
+    }
+
+
+    function Next(document, linkto) {
+        window.external.Next(document, linkto);
+    }
+
+    function onClick(obj) {
+        if (obj == null || typeof (obj) == "undefined")
+            return;
+    }
+
+    function OnFinish(document) {
+
+        OnWizFinish(document);
+    }
+
+    function OnAppType() {
+        ToggleImage();
+    }
+
+    function ToggleImage() {
+        WND_DLG_IMAGE.style.display = "none";
+        WND_TAB_IMAGE.style.display = "none";
+
+        if (WIN_STYLES_TAB.checked) {
+            WND_TAB_IMAGE.style.display = "block";
+            return;
+        }
+        if (WIN_STYLES_DLG.checked) {
+            WND_DLG_IMAGE.style.display = "block";
+            return;
+        }
+    }
+
+    function SetFocus() {
+        if (WIN_STYLES_DLG.checked) {
+            WIN_STYLES_DLG.focus();
+            return;
+        }
+        if (WIN_STYLES_TAB.checked) {
+            WIN_STYLES_TAB.focus();
+            return;
+        }
+    }
+
+
+
+</script>
+
+<script id="INCLUDE_SCRIPT" language="JSCRIPT"></script>
+
+<script id="INCLUDE_COMMON" language="JSCRIPT"></script>
+
+<script>
+    //document.scripts("INCLUDE_SCRIPT").src = window.external.FindSymbol("SCRIPT_COMMON_PATH") + "/Script.js";
+    //document.scripts("INCLUDE_COMMON").src = window.external.FindSymbol("SCRIPT_COMMON_PATH") + "/Common.js";
+    document.scripts("INCLUDE_SCRIPT").src = " ../../2052/Script.js";
+    document.scripts("INCLUDE_COMMON").src = " ../../2052/Common.js";
+</script>

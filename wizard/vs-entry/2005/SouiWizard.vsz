@@ -1,0 +1,7 @@
+VSWIZARD 7.0
+Wizard=VsWizard.VsWizardEngine.8.0
+
+Param="WIZARD_NAME = SouiWizard"
+Param="ABSOLUTE_PATH = %SOUIPATH%\wizard\souiwizard"
+Param="FALLBACK_LCID = 2052"
+Param="WIZARD_VERSION = 8.0"

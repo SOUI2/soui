@@ -1,0 +1,43 @@
+﻿<resource>
+  <UIDEF>
+    <file name="XML_INIT" path="uidef\init.xml"/>
+  </UIDEF>
+  <LAYOUT>
+    <file name="XML_MAINWND" path="xml\dlg_main.xml"/>
+[!if WIN_STYLES_TAB]
+    <file name="XML_page" path="xml\page.xml"/>
+[!endif]
+  </LAYOUT>
+  
+  <values>
+  	<file name="string" path="values\string.xml"/>
+  	<file name="color" path="values\color.xml"/>
+  	<file name="skin" path="values\skin.xml"/>
+  </values>
+
+  <IMG>
+[!if CHECKBOX_SHELLNOTIFYICON]
+    <file name="traymenu_icons" path="image\traymenu_icons.png"/>
+[!endif]
+[!if WIN_STYLES_TAB]
+    <file name="png_tab_main" path="image\tab_main.png"/>
+    <file name="png_page_icons" path="image\page_icons.png"/>
+[!endif]    
+  </IMG>
+  <ICON>
+    <file name="ICON_LOGO"  path="image\soui.ico"/>
+  </ICON>
+[!if CHECKBOX_TRANSLATOR_SUPPORT]
+  <translator>
+    <file name="lang_cn"  path="translator\lang_cn.xml"/>
+[!if CHECKBOX_DYNAMIC_TRANSLATOR_SUPPORT]
+    <file name="lang_jp"  path="translator\lang_jp.xml"/>
+[!endif]
+  </translator>
+[!endif]
+[!if CHECKBOX_SHELLNOTIFYICON]
+  <SMENU>
+    <file name="menu_tray" path="xml\menu_tray.xml"/>
+  </SMENU>
+[!endif]
+</resource>

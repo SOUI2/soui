@@ -1,0 +1,57 @@
+﻿<SOUI name="mainWindow" title="@string/title" bigIcon="ICON_LOGO:32" smallIcon="ICON_LOGO:16" width="600" height="400"  margin="5,5,5,5"  resizable="1" wndType="appMain"
+[!if CHECKBOX_SHELLNOTIFYICON]
+toolWindow="1"
+[!else]
+appWnd="1"
+[!endif]
+[!if CHECKBOX_TRANSLUCENT]
+translucent="1" 
+[!endif]
+[!if CHECKBOX_DYNAMIC_TRANSLATOR_SUPPORT]
+trCtx="dlg_main"
+[!endif]
+>
+  <root skin="_skin.sys.wnd.bkgnd" cache="1">
+    <caption pos="0,0,-0,30" show="1" font="adding:0">
+      <icon pos="10,8" src="ICON_LOGO:16"/>
+      <text pos="29,9">@string/title</text>
+      <imgbtn name="btn_close" skin="_skin.sys.btn.close"    pos="-45,0" tip="close" animate="1"/>
+[!if CHECKBOX_MAXIMIZE_BOX]
+      <imgbtn name="btn_max" skin="_skin.sys.btn.maximize"  pos="-83,0" animate="1" />
+      <imgbtn name="btn_restore" skin="_skin.sys.btn.restore"  pos="-83,0" show="0" animate="1" />
+[!if CHECKBOX_MINIMIZE_BOX]
+      <imgbtn name="btn_min" skin="_skin.sys.btn.minimize" pos="-121,0" animate="1" />
+[!endif]
+[!else]
+[!if CHECKBOX_MINIMIZE_BOX]
+      <imgbtn name="btn_min" skin="_skin.sys.btn.minimize" pos="-83,0" animate="1" />
+[!endif]
+[!endif]
+    </caption>
+[!if WIN_STYLES_TAB]
+[!if CHECKBOX_DYNAMIC_TRANSLATOR_SUPPORT]
+    <button pos="|0,[" inset="4,4,4,4" name="zh_cn" offset="-1.1,0" text="lang_cn"/>
+    <button pos="|0,[" inset="4,4,4,4" name="jp" offset="-1.1,0" text="lang_jp"/>
+[!endif]
+    <tabctrl name="tab_main" pos="5,[2,-5,-5" show="1" tabPos="20" curSel="0"  tabInterSize="10"  focusable="0" animateSteps="10" tabHeight="75" tabSkin="skin_tab_main" text-y="50" iconSkin="skin_page_icons" icon-x="10">
+        <page title="mainpage" colorBkgnd="#dae9f2">
+          <text pos="29,9">页面1</text>
+         </page>
+        <page title="page2" colorBkgnd="#dae9f2">
+          <include src="layout:XML_page"/>
+        </page>
+    </tabctrl>
+[!else]
+    <window pos="5,[2,-5,-5">
+      <text pos="|0,|0" offset="-0.5,-0.5">这是一个由SOUI向导生成的APP框架</text>
+[!if CHECKBOX_DYNAMIC_TRANSLATOR_SUPPORT]
+      <button pos="|0,[" inset="4,4,4,4" name="zh_cn" offset="-1.1,0" text="lang_cn"/>
+      <button pos="|0,[" inset="4,4,4,4" name="jp" offset="-1.1,0" text="lang_jp"/>
+[!endif]
+    </window>
+[!endif]
+[!if CHECKBOX_SHELLNOTIFYICON]
+<shellnotifyicon id="110" menu="SMENU:menu_tray" ico="ICON_LOGO:16" tip="110"/>
+[!endif]
+  </root>
+</SOUI>

@@ -1,0 +1,16 @@
+﻿<menu iconSkin="skin_traymenu_icons" itemHeight="26" iconMargin="4" textMargin="8">
+  <item id="1" check="1">导出配置</item>
+  <item id="2" radio="1">导入配置</item>
+  <item id="3" disable="1">检查更新</item>
+  <item id="4">这是测试菜单1</item>
+  <sep/>
+  <item id="5">
+    帮助与反馈
+    <item id="51" icon="0">访问官网</item>
+    <item id="52" icon="1">帮助指南</item>
+    <item id="53" icon="2">错误提交</item>
+    <item id="54" icon="3">关于SOUI</item>
+  </item>
+  <sep/>
+  <item id="6">退出</item>
+</menu>

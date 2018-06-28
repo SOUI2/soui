@@ -1,0 +1,559 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. -->
+<html dir="LTR">
+
+<head>
+    <title>SOUI 应用程序向导</title>
+    <meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+    <meta http-equiv="MSThemeCompatible" content="Yes">
+    <link id="LINKURL" rel="stylesheet" href="../../2052/NewStyles.css">
+
+    <!-- SYMBOL 标记用于设置用户定义符号的默认值。-->
+    <symbol name='WIZARD_DIALOG_TITLE' type="text" value='使用SOUI构建您的应用'></symbol>
+    <symbol name='CHECKBOX_TRANSLATOR_SUPPORT' type=checkbox value=false></symbol>
+    <symbol name='CHECKBOX_DYNAMIC_TRANSLATOR_SUPPORT' type=checkbox value=false></symbol>
+    <symbol name='CHECKBOX_USE_LUA' type=checkbox value=false></symbol>
+    <symbol name='CHECKBOX_SHELLNOTIFYICON' type=checkbox value=false></symbol>
+    <symbol name='CHECKBOX_MINIMIZE_BOX' type=checkbox value=true></symbol>
+    <symbol name='CHECKBOX_MAXIMIZE_BOX' type=checkbox value=true></symbol>
+    <symbol name='CHECKBOX_MAXIMIZED' type=checkbox value=false></symbol>
+    <symbol name='RADIO_RANDER_GDI' type=radio value=true></symbol>
+    <symbol name='RADIO_RANDER_SKIA' type=radio value=false></symbol>
+    <SYMBOL NAME="ResLoaderType" TYPE=num VALUE=0></SYMBOL>
+    <symbol name='project_name' type="text" value='project'></symbol>
+    <symbol name='SOURCE_FILTER' type="text" value='cpp;c;cxx;def;odl;idl;hpj;bat;asm'></symbol>
+    <symbol name='HEADER_FILTER' type="text" value='h;hpp;hxx;hm;inl;inc'></symbol>
+    <symbol name='RESOURCE_FILTER' type="text" value='rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;jpg;jpeg;jpe;manifest'></symbol>
+    <symbol name='SOUIRES_FILTER' type="text" value='idx;xml;png;gif;jpg;ico;lua;bmp'></symbol>
+    <!-- 窗口样式。-->
+    <symbol name="WIN_STYLES_TAB" type="radio" value="false"></symbol>
+    <symbol name="WIN_STYLES_DLG" type="radio" value="true"></symbol>
+    <!-- 系统资源编译到EXE中。-->
+    <symbol name='CHECKBOX_SYSRES_BUILTIN' type=checkbox value=false></symbol>
+     <symbol name='CHECKBOX_RES_PACK_ONLAY_RELEASE' type=checkbox value=true></symbol>
+    <!-- 主窗口半透明。-->
+    <symbol name='CHECKBOX_TRANSLUCENT' type=checkbox value=true></symbol>
+    <!--编译选项-->
+    <SYMBOL NAME="UNICODE" TYPE=select-one VALUE=1></SYMBOL>
+    <SYMBOL NAME="WCHAR" TYPE=select-one VALUE=1></SYMBOL>
+    <SYMBOL NAME="MT" TYPE=select-one VALUE=1></SYMBOL>
+    <SYMBOL NAME="SUPPORT_XP" TYPE="select-one" VALUE="0"></SYMBOL>    
+    
+    <style type="text/css">
+        body {
+            background-image: url(../../Images/leftbanner2.png);
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+
+<body bgcolor="BUTTONFACE" topmargin="0" leftmargin="0" rightmargin="0" bottommargin="0" onload="InitDocument(document);" onkeydown="if (!bValidating) OnKey();" onkeypress="if (!bValidating) OnPress();">
+
+    <table class="ONE" height="100%" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <col class="LinkPane">
+        <col>
+
+        <!--OPEN OF INTRODUCTORY INFORMATION TABLE//-->
+        <tr valign="TOP">
+            <td height="79" width="100%" colspan="2">
+                <table class="TWO" border="0" cellpadding="0" cellspacing="0">
+                    <col width="12">
+                    <col>
+                    <col width="12">
+                    <tr>
+                        <td valign="TOP" height="12" width="12">
+                            &nbsp;
+
+                        </td>
+
+                        <td valign="TOP" height="12">
+                            &nbsp;
+
+                        </td>
+
+                        <td valign="TOP" height="12" width="12">
+                            &nbsp;
+
+                        </td>
+
+                        <td class="IMAGE" valign="BOTTOM" width="110" rowspan="2">
+                            <div class="SMALLA" id="Layer0">
+                                <img class="SMALLEST" src="..\..\Images\MFC_Color.gif" width="63" height="63" alt="" border="0">
+                            </div>
+                        </td>
+
+                        <td valign="TOP" height="12" width="6" rowspan="2">
+                            &nbsp;
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td valign="TOP" height="65" width="12">
+                            &nbsp;
+
+                        </td>
+
+                        <td valign="TOP" height="65">
+                            <h4 class="HEAD" id="HEAD">欢迎使用SOUI 应用程序向导</h4>
+                            <p class="SUBHEAD" id="SUBHEAD">此向导将使用您指定的属性生成一个 SOUI 应用程序项目。</p>
+                        </td>
+                        <td valign="TOP" height="65" width="12">
+                            &nbsp;
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td valign="TOP" class="RULE" colspan="5" height="2">
+                            <table border="0" width="100%" height="1" cellpadding="0" cellspacing="0">
+                                <tr valign="TOP">
+                                    <td height="1" width="100%" bgcolor="BUTTONSHADOW"></td>
+                                    <td height="1" width="1" bgcolor="WINDOW"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--CLOSE OF INTRODUCTORY INFORMATION TABLE//-->
+        <!--OPEN OF NAVIGATION, CONTENT, AND BUTTON TABLES//-->
+        <tr valign="TOP">
+            <td class="Three" valign="TOP" height="100%" width="100%">
+                <table class="fixedSize" height="100%" width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr valign="TOP">
+                        <td class="threeCustom" valign="TOP">
+                            <!--OPEN OF NAVIGATION TABLE//-->
+
+                            <table class="THREE" border="0" cellpadding="0" cellspacing="0">
+                                <col width="12">
+                                <col>
+                                <col width="1">
+                                <tr>
+                                    <td valign="TOP" colspan="3" height="12">
+                                        &nbsp;
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="TOP" height="100%">
+                                        &nbsp;
+
+                                    </td>
+                                    <td valign="TOP" height="100%">
+                                        <!--OPEN OF NAVIGATIONAL LINKS//-->
+
+                                        <div class="LINKSELECTED">
+                                            <span class="VERTLINE1">
+                                                <img src="../../2052/Images/spacer.gif" width="1" height="1" alt="" border="0">
+                                            </span>
+                                            <span class="HORILINE1">
+                                                <table width="167" height="100%" border="0" cellpadding="0" cellspacing="0">
+                                                    <tr valign="TOP">
+                                                        <td class="DOTTEDLINE" height="1"></td>
+                                                    </tr>
+                                                    <tr valign="TOP">
+                                                        <td height="100%">
+                                                            <img src="../../2052/Images/spacer.gif" width="1" height="1" alt="" border="0">
+                                                        </td>
+                                                    </tr>
+                                                    <tr valign="TOP">
+                                                        <td class="DOTTEDLINE" height="1"></td>
+                                                    </tr>
+                                                </table>
+                                            </span>
+                                            <table width="160" height="28" border="0" cellpadding="0" cellspacing="0" class="LINKTEXTSELECTED">
+                                                <tr valign="MIDDLE">
+                                                    <td width="100%">
+                                                        <span id="Default" title="查看所选内容的概述。">概述</span>
+                                                    </td>
+                                                    <td width="4">
+                                                        <img src="../../2052/Images/spacer.gif" height="1" width="1">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                        <div class="LINK">
+                                            <table width="100%" height="28" border="0" cellpadding="0" cellspacing="0" class="LINKTEXT">
+                                                <tr valign="MIDDLE">
+                                                    <td width="100%">
+                                                        <span class="ACTIVELINK" id="AppType" title="为应用程序指定窗口，界面样式选项。" onclick="Next(document, 'AppType.htm');" tabindex="1">应用程序类型</span>
+                                                    </td>
+                                                    <td width="4">
+                                                        <img src="../../2052/Images/spacer.gif" height="1" width="1">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                        <div class="LINK">
+                                            <table width="100%" height="28" border="0" cellpadding="0" cellspacing="0" class="LINKTEXT">
+                                                <tr valign="MIDDLE">
+                                                    <td width="100%">
+                                                        <span class="ACTIVELINK" id="UIFeatures" title="指定控制应用程序外观的选项。" onclick="Next(document, 'UIFeatures.htm');" tabindex="2">用户界面功能</span>
+                                                    </td>
+                                                    <td width="4">
+                                                        <img src="../../2052/Images/spacer.gif" height="1" width="1">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                        <div class="LINK">
+                                            <table width="100%" height="28" border="0" cellpadding="0" cellspacing="0" class="LINKTEXT">
+                                                <tr valign="MIDDLE">
+                                                    <td width="100%">
+                                                        <span class="ACTIVELINK" id="Advanced" title="指定将置入应用程序中的附加支持。" onclick="Next(document, 'Advanced.htm');" tabindex="3">高级功能</span>
+                                                    </td>
+                                                    <td width="4">
+                                                        <img src="../../2052/Images/spacer.gif" height="1" width="1">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                        <div class="LINK">
+                                            <table width="100%" height="28" border="0" cellpadding="0" cellspacing="0" class="LINKTEXT">
+                                                <tr valign="MIDDLE">
+                                                    <td width="100%">
+                                                        <span class="ACTIVELINK" id="ProjectOption" title="指定将程序的编译选项。" onclick="Next(document, 'ProjectOption.htm');" tabindex="4">编译选项</span>
+                                                    </td>
+                                                    <td width="4">
+                                                        <img src="../../2052/Images/spacer.gif" height="1" width="1">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <!--CLOSE OF NAVIGATIONAL LINKS//-->
+                                    </td>
+                                    <td width="1">
+                                        <div class="VERTLINE">
+                                            <img src="../../2052/Images/spacer.gif" width="1" height="1" alt="" border="0">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+                <!--CLOSE OF NAVIGATION TABLE//-->
+            </td>
+
+            <td valign="TOP" height="100%">
+                <!--OPEN OF CONTENT AND BUTTON TABLE//-->
+
+                <table class="ONE" border="0" cellpadding="0" cellspacing="0">
+                    <col width="100%">
+                    <tr valign="TOP">
+                        <td height="100%">
+                            <!--OPEN OF CONTENT//-->
+
+                            <table class="CONTENT" border="0" cellpadding="0" cellspacing="0">
+                                <col width="12">
+                                <col width="100%">
+                                <col width="12">
+                                <tr>
+                                    <td valign="TOP" height="12" colspan="3">
+                                        &nbsp;
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="TOP" width="12">
+                                        &nbsp;
+
+                                    </td>
+                                    <td valign="TOP">
+                                        <span class="ItemTextTop" id="PROJECT_SETTINGS">这些是当前项目设置: </span>
+
+                                        <ul>
+                                            <li class="LIST">
+                                                <span class="SideBtnHidden" id="WIN_STYTLE_SUMMARY" title="">
+                                                    <label for="WIN_STYTLE_SUMMARY"></label>
+                                                </span>
+                                            </li>
+                                            <li class="LIST">
+                                                <span class="SideBtnHidden" id="APP_RANDER_SUMMARY" title="">
+                                                    <label for="APP_RANDER_SUMMARY"></label>
+                                                </span>
+                                            </li>
+                                            <li class="LIST">
+                                                <span class="SideBtnHidden" id="TRANSLATOR_SUMMARY" title="">
+                                                    <label for="TRANSLATOR_SUMMARY"></label>
+                                                </span>
+                                            </li>
+                                            <li class="LIST">
+                                                <span class="SideBtnHidden" id="SYSRES_SUMMARY" title="">
+                                                    <label for="SYSRES_SUMMARY"></label>
+                                                </span>
+                                            </li>
+                                            <li class="LIST">
+                                                <span class="SideBtnHidden" id="USERRES_SUMMARY" title="">
+                                                    <label for="USERRES_SUMMARY"></label>
+                                                </span>
+                                            </li>
+                                            <li class="LIST">
+                                                <span class="SideBtnHidden" id="TRANSLUCENT_SUMMARY" title="">
+                                                    <label for="TRANSLUCENT_SUMMARY"></label>
+                                                </span>
+                                            </li>
+
+                                        </ul>
+
+                                        <span class="ItemText" id="FinishText">在任一窗口中单击“完成”<b></b>，接受当前设置。</span>
+
+                                        <p class="ElementSpacer2">&nbsp;</p>
+
+                                        <span class="ItemText" id="README_REMINDER" title="">创建项目后，请参阅该项目的 readme.txt 文件，了解有关项目功能和所生成的文件的信息。</span>
+                                    </td>
+
+                                </tr>
+                            </table>
+
+                            <!--CLOSE OF CONTENT//-->
+                        </td>
+                    </tr>
+                    <tr valign="BOTTOM">
+                        <td>
+                            <!--OPEN OF BUTTON HTML//-->
+
+                            <table border="0" cellpadding="0" cellspacing="0">
+                                <col width="12">
+                                <col>
+                                <col width="75">
+                                <col width="4">
+                                <col width="75">
+                                <col width="4">
+                                <col width="75">
+                                <col width="12">
+                                <tr>
+                                    <td valign="TOP" class="RULE" colspan="8" height="2">
+                                        <table border="0" width="100%" height="1" cellpadding="0" cellspacing="0">
+                                            <tr valign="TOP">
+                                                <td height="1" width="100%" bgcolor="BUTTONSHADOW"></td>
+                                                <td height="1" width="1" bgcolor="WINDOW"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td valign="TOP" height="11" colspan="8">
+                                        &nbsp;
+
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td valign="MIDDLE" height="23" width="12">
+                                        &nbsp;
+
+                                    </td>
+                                    <td valign="TOP" height="23">
+                                        &nbsp;
+
+                                    </td>
+                                    <td valign="MIDDLE" height="23" width="75">
+                                        <button class="BUTTONS" id="FinishBtn" onclick="OnFinish(document);">完成</button>
+                                    </td>
+                                    <td valign="MIDDLE" height="23" width="4">
+                                        &nbsp;
+
+                                    </td>
+                                    <td valign="MIDDLE" height="23" width="75">
+                                        <button class="BUTTONS" id="CancelBtn" onclick="window.external.Finish(document, 'cancel');">取消</button>
+                                    </td>
+                                    <td valign="MIDDLE" height="23" width="4">
+                                        &nbsp;
+
+                                    </td>
+                                    <td valign="MIDDLE" height="23" width="75">
+                                        <button class="BUTTONS" id="HelpBtn" onclick="window.external.OnHelp('vc.appwiz.mfc.exe.overview');">帮助</button>
+                                    </td>
+                                    <td valign="MIDDLE" height="23" width="12">
+                                        &nbsp;
+
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td valign="TOP" height="12" colspan="8">
+                                        &nbsp;
+
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!--CLOSE OF BUTTON HTML//-->
+                        </td>
+                    </tr>
+                </table>
+
+                <!--CLOSE OF NAVIGATION, CONTENT, AND BUTTON TABLES//-->
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>
+
+<script language="JSCRIPT">
+
+    var tab_array = new Array();
+    tab_array[0] = Default;
+    tab_array[1] = AppType;
+    tab_array[2] = UIFeatures;
+    tab_array[3] = Advanced;
+    tab_array[4] = ProjectOption;
+
+    function InitControls() {
+        if (window.external.FindSymbol("RADIO_RANDER_GDI")) {
+            L_REN_Text = "使用GDI渲染（生成程序更小）";
+            APP_RANDER_SUMMARY.innerText = L_REN_Text;
+        }
+        else {
+            L_REN_Text = "使用SKIA渲染（可以有更快的执行速度）";
+            APP_RANDER_SUMMARY.innerText = L_REN_Text;
+        }
+        if (window.external.FindSymbol("WIN_STYLES_TAB")) {
+            L_WIN_Text = "使用选项卡式窗口";
+            WIN_STYTLE_SUMMARY.innerText = L_WIN_Text;
+        }
+        else {
+            L_WIN_Text = "使用常规样式窗口";
+            WIN_STYTLE_SUMMARY.innerText = L_WIN_Text;
+        }
+        if (window.external.FindSymbol("CHECKBOX_TRANSLATOR_SUPPORT")) {
+            L_TRA_Text = "支持语言翻译";
+            TRANSLATOR_SUMMARY.innerText = L_TRA_Text;
+        }
+        else {
+            L_TRA_Text = "不使用语言翻译";
+            TRANSLATOR_SUMMARY.innerText = L_TRA_Text;
+        }
+
+        if (window.external.FindSymbol("CHECKBOX_SYSRES_BUILTIN")) {
+            L_SYSRES_Text = "将系统资源编译到EXE中";
+            SYSRES_SUMMARY.innerText = L_SYSRES_Text;
+        }
+        else {
+            L_SYSRES_Text = "从系统资源DLL中加载系统资源";
+            SYSRES_SUMMARY.innerText = L_SYSRES_Text;
+        }
+
+        if (window.external.FindSymbol("CHECKBOX_RES_PE")) {
+            L_USERRES_Text = "将用户资源编译到EXE中";
+            USERRES_SUMMARY.innerText = L_USERRES_Text;
+        }
+        else {
+            L_USERRES_Text = "不把用户资源编译到EXE中（默认工程从文件加载资源）";
+            USERRES_SUMMARY.innerText = L_USERRES_Text;
+        }
+
+        if (window.external.FindSymbol("CHECKBOX_TRANSLUCENT")) {
+            L_SYSRES_Text = "主窗口半透明（不能在主窗口上放置真窗口，如IE控件）";
+            TRANSLUCENT_SUMMARY.innerText = L_SYSRES_Text;
+        }
+        else {
+            L_SYSRES_Text = "主窗口不透明（可以在主窗口上放置真窗口，如IE控件）";
+            TRANSLUCENT_SUMMARY.innerText = L_SYSRES_Text;
+        }       
+    }
+
+    function LoadConfig(configFile)
+    {
+        try {
+            var fso = new ActiveXObject("Scripting.FileSystemObject");
+            var keyValue = {};
+			keyValue["UNICODE"] = 1;//unicode
+			keyValue["WCHAR"] = 1;//wchar
+			keyValue["MT"] = 1;//static linked to CRT
+			keyValue["SUPPORT_XP"] = 0;//dont support XP
+            var reg2 = /(\w+)=(\d+)/;
+
+            if (fso.FileExists(configFile)) {
+                var f = fso.OpenTextFile(configFile, 1);
+                var s = "";
+                while (!f.AtEndOfStream) {
+                    s = f.ReadLine();
+                    s.replace(reg2, function (a, b, c) {
+                        keyValue[b] = c;
+                    });
+                    }
+                f.Close();
+                }
+            window.external.AddSymbol('UNICODE', keyValue["UNICODE"]);
+            window.external.AddSymbol('WCHAR', keyValue["WCHAR"]);
+            window.external.AddSymbol('MT', keyValue["MT"]);
+            window.external.AddSymbol('SUPPORT_XP', keyValue["SUPPORT_XP"]);
+        }
+        catch (e) {
+            throw e;
+        }
+    }
+
+    // 这是一个初始化页面的函数的示例
+    //
+    function InitDocument(document) {
+        setDirection();
+
+        if (window.external.FindSymbol('DOCUMENT_FIRST_LOAD')) {
+            // 此函数基于上面的 SYMBOL
+            // 标记中指定的值设置默认符号
+            //
+            window.external.SetDefaults(document);
+            //从文件加载编译选项
+
+            var wsh = new ActiveXObject("WScript.Shell");
+            var strConfigPath = wsh.Environment("system").Item("SOUIPATH");
+            var strConfigFile = strConfigPath + '\\config\\build.cfg';
+            LoadConfig(strConfigFile);
+        }
+
+        // 加载文档并用合适的
+        // 符号值初始化控件
+        //
+        window.external.Load(document);
+        InitControls();
+    }
+
+    // 如果向导多于 1 页，则此
+    // 函数将浏览到指定的页
+    //
+    function Next(document, linkto) {
+        window.external.Next(document, linkto);
+    }
+
+    // 这是一个在用户单击"完成"时
+    // 被调用的函数的示例
+    //
+    function OnFinish(document) {
+        OnWizFinish(document);
+    }
+
+</script>
+
+<script id="INCLUDE_SCRIPT" language="JSCRIPT"></script>
+
+<script id="INCLUDE_COMMON" language="JSCRIPT"></script>
+
+<!--
+Common.js 是一个脚本文件，其中包含向导使用的 Helper
+函数。如果要从 Html 脚本调用这些
+函数，请包含此行。
+//-->
+
+<script>    
+   /* var strPath = window.external.FindSymbol("PRODUCT_INSTALLATION_DIR");
+    strPath += "VCWizards/";
+    strPath += window.external.GetHostLocale();
+    var strScriptPath = strPath + "/Script.js";
+    var strCommonPath = strPath + "/Common.js";
+    document.scripts("INCLUDE_SCRIPT").src = strScriptPath;
+    document.scripts("INCLUDE_COMMON").src = strCommonPath;*/
+    document.scripts("INCLUDE_SCRIPT").src = " ../../2052/Script.js";
+    document.scripts("INCLUDE_COMMON").src = " ../../2052/Common.js";
+</script>
