@@ -21,6 +21,7 @@ namespace SOUI
 
 	void SPathView::AddPoint(const POINT *pts,int nPts)
 	{
+		if(!m_path) return;
 		for(int i=0;i<nPts;i++)
 		{
 			m_lstPoints.Add(pts[i]);
