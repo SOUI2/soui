@@ -4,5 +4,5 @@
   <dir path="soui-sys-resource"/>
   <dir path="soui"/>
   <dir path="components"/>
-  <dir path="demos"/>
+  <dir path="demo"/>
 </DIRS>
