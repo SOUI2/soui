@@ -7,7 +7,7 @@ OBJ_DIR = obj
 WCHAR = ON
 MACHINE = -machine:X86
 
-!IF "$(ARC)" == "x64"
+!IF "$(ABI)" == "x64"
 MACHINE = -machine:X64
 OUTPUT_DIR = bin64
 OBJ_DIR = obj64

@@ -29,7 +29,11 @@ SOUI是目前为数不多的轻量级可快速开发window桌面程序开源Dire
     * `7.是否为release版本生成调试信息[1=生成;2=不生成]:`(根据自大项目需求选择)
     * `open[o], compile[c] "soui.sln" or quit(q) [o,c or q]?`输入英文字母o表示打开工程项目,c表示直接编译debug与release,q表示直接退出当前窗口
 * ### `nmake`(目前仅支持编译成dll形式)
-    * 打开编译工具命令控制台窗口,输入"nmake",默认生成
+    * 打开编译工具命令控制台窗口,输入"nmake",默认生成 x86 release 的 soui 内核依赖与两个渲染组件(gdi各skia) 图片解码组件为 png 还有 demo 运行程序,CRT为动态链接
+    * 其它额外编译参数如下:
+        * `nmake TYPE=Debug` 表示生成 x86 debug 模式
+        * `nmake ABI=x64` 表示生成 x86 的 release 模式,如果需要 debug 模式在后面增加 `TYPE=Debug` 即可
+        * `nmake CRT=-MT` 表示静态链接CRT  
 * ### `cmake`(目前暂时有问题,等待完善)
 
 ###### 论坛
