@@ -14,7 +14,7 @@
   <text pos="10,[5">git.oschina：</text><edit pos="150,{0,@-1,@30" readOnly="1">https://gitee.com/setousoft/soui</edit>
   
   
-  <group pos="10,[5,-10,@350" align="left" show="1" text="支持SOUI发展" layout="hbox" padding="10,10,10,0" align="center">
+  <group pos="10,[5,-10,@350" align="left" show="1" text="支持SOUI发展" layout="hbox" padding="10,10,10,0">
     <window size="0,-2" layout="vbox" gravity="center" weight="1">
       <text>微信赞助</text>
       <qrctrl size="300,300" skin="skin_qrbg" qrrect="92,139,199,246"  colorBkgnd="#ffffff">wxp://f2f0J_TGrQJ7F_KjpfCdDTFNKDAvDFIYrSM5</qrctrl>

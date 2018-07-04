@@ -7,26 +7,37 @@ OBJ_DIR = obj
 WCHAR = ON
 MACHINE = -machine:X86
 
+!IF "$(ARC)" == "x64"
+MACHINE = -machine:X64
+OUTPUT_DIR = bin64
+OBJ_DIR = obj64
+!ELSE
+MACHINE = -machine:X86
+OUTPUT_DIR = bin
+OBJ_DIR = obj
+!ENDIF
+
 !IF "$(TYPE)" == "Debug"
 EXT = d
 OBJ_DIR = $(OBJ_DIR)\debug
+CFLAGS = -DDEBUG -D_DEBUG
+CXXFLAGS = -DDEBUG -D_DEBUG
+OPTIMIZE = -Od
 !ELSE
 OBJ_DIR = $(OBJ_DIR)\release
+CFLAGS = -DNDEBUG -D_NDEBUG
+CXXFLAGS = -DNDEBUG -D_NDEBUG
+OPTIMIZE = -O2
 !ENDIF
 
 !IF "$(WCHAR)" == "ON"
-CFLAGS = -Zc:wchar_t
-CXXFLAGS = -Zc:wchar_t
+CFLAGS = $(CFLAGS) -Zc:wchar_t
+CXXFLAGS = $(CXXFLAGS) -Zc:wchar_t
 !ELSE
-CFLAGS = -Zc:wchar_t-
-CXXFLAGS = -Zc:wchar_t-
+CFLAGS = $(CFLAGS) -Zc:wchar_t-
+CXXFLAGS = $(CXXFLAGS) -Zc:wchar_t-
 !ENDIF
 
-!IF "$(ARC)" == "x64"
-MACHINE = -machine:X64
-!ELSE
-MACHINE = -machine:X86
-!ENDIF
 
 RC = rc.exe
 LIB_EXE = lib.exe
@@ -48,7 +59,7 @@ LDCONSOLEFLAGS = -subsystem:console $(MACHINE) -nologo -libpath:"$(OUTPUT_DIR)"
 UTILITIES = utilities
 UTILITIES_DIR = $(UTILITIES)
 UTILITIES_SRC = $(UTILITIES_DIR)/src
-UTILITIES_HEADER = -I$(UTILITIES_DIR)/include -I$(UTILITIES_DIR)/include/sobject
+UTILITIES_FLAGS = -I$(UTILITIES_DIR)/include -I$(UTILITIES_DIR)/include/sobject
 
 UTILITIES_OBJS = $(OBJ_DIR)/$(UTILITIES)/sobject.obj\
 				$(OBJ_DIR)/$(UTILITIES)/pugixml.obj\
@@ -62,7 +73,7 @@ UTILITIES_OBJS = $(OBJ_DIR)/$(UTILITIES)/sobject.obj\
 SOUI = soui
 SOUI_DIR = $(SOUI)
 SOUI_SRC = $(SOUI_DIR)/src
-SOUI_HEADER = -I$(UTILITIES_DIR)/include\
+SOUI_FLAGS = -I$(UTILITIES_DIR)/include\
 			 -I$(SOUI_DIR)\
 			 -I$(SOUI_DIR)/include\
 			 -I$(SOUI_DIR)/include/activex\
@@ -75,7 +86,7 @@ SOUI_HEADER = -I$(UTILITIES_DIR)/include\
 			 -I$(SOUI_DIR)/include/interface\
 			 -I$(SOUI_DIR)/include/layout\
 			 -I$(SOUI_DIR)/include/res.mgr\
-			 -I$(SOUI_DIR)/src/updatelayeredwindow
+			 -I$(SOUI_DIR)/src/updatelayeredwindow -DSOUI_EXPORTS
 
 SOUI_OBJS = $(OBJ_DIR)/$(SOUI)/SApp.obj $(OBJ_DIR)/$(SOUI)/SAxContainer.obj $(OBJ_DIR)/$(SOUI)/SBStr.obj $(OBJ_DIR)/$(SOUI)/SInterpolatorImpl.obj\
 			$(OBJ_DIR)/$(SOUI)/SActiveX.obj $(OBJ_DIR)/$(SOUI)/SCalendar.obj $(OBJ_DIR)/$(SOUI)/SCaption.obj $(OBJ_DIR)/$(SOUI)/SCmnCtrl.obj\
@@ -128,8 +139,8 @@ GTEST_DIR = third-part/$(GTEST)
 GTEST_SRC = $(GTEST_DIR)/src
 GTEST_OBJS = $(OBJ_DIR)/$(GTEST)/gtest-all.obj $(OBJ_DIR)/$(GTEST)/gtest_main.obj
 
-LUA = lua
-LUA_DIR = third-part/$(LUA)-52
+LUA = lua-52
+LUA_DIR = third-part/$(LUA)
 LUA_SRC = $(LUA_DIR)/src
 LUA_OBJS = $(OBJ_DIR)/$(LUA)/lua.obj
 LUA_LIB_OBJS = $(OBJ_DIR)/$(LUA)/lapi.obj $(OBJ_DIR)/$(LUA)/lauxlib.obj $(OBJ_DIR)/$(LUA)/lbaselib.obj $(OBJ_DIR)/$(LUA)/lbitlib.obj\
@@ -395,56 +406,77 @@ IMG_DECODER_WIC_DIR = components/$(IMG_DECODER_WIC)
 IMG_DECODER_WIC_FLAGS = -I$(SOUI)/include -I$(UTILITIES)/include
 IMG_DECODER_WIC_OBJS = $(OBJ_DIR)/$(IMG_DECODER_WIC)/imgdecoder-wic.obj
 
-#默认只编译gdip的图片解码器  $(IMG_DECODER_PNG) $(IMG_DECODER_STB) $(IMG_DECODER_WIC)
-all: makedir $(SCINTILLA) $(JSONCPP) $(GTEST) $(MHOOK) $(SMILEY) $(SOUI_RESOURCE) $(UTILITIES) $(SOUI) $(SCRIPTMODULE) $(LOG4Z) $(RES_ZIP) $(RES_7Z) $(TRANSLATOR) $(RENDER_GDI) $(RENDER_SKIA) $(IMG_DECODER_GDIP)
+DEMO = demo
+DEMO_DIR = $(DEMO)
+DEMO_FLAGS = -I$(DEMO_DIR) -I$(UTILITIES)/include -I$(SOUI)/include -Ithird-part/wke/include -Ithird-part/$(MHOOK)/mhook-lib -Icomponents
+DEMO_OBJS = $(OBJ_DIR)/$(DEMO)/FormatMsgDlg.obj $(OBJ_DIR)/$(DEMO)/MainDlg.obj $(OBJ_DIR)/$(DEMO)/QR_Encode.obj $(OBJ_DIR)/$(DEMO)/SChromeTabCtrl.obj\
+			$(OBJ_DIR)/$(DEMO)/SDemoSkin.obj $(OBJ_DIR)/$(DEMO)/SDocHostUIHandler.obj $(OBJ_DIR)/$(DEMO)/SFreeMoveWindow.obj $(OBJ_DIR)/$(DEMO)/SGifPlayer.obj\
+			$(OBJ_DIR)/$(DEMO)/SHeaderCtrlEx.obj $(OBJ_DIR)/$(DEMO)/SInterpolatorView.obj $(OBJ_DIR)/$(DEMO)/SMCListViewEx.obj $(OBJ_DIR)/$(DEMO)/SPathView.obj\
+			$(OBJ_DIR)/$(DEMO)/SQrCtrl.obj $(OBJ_DIR)/$(DEMO)/SRatingBar.obj $(OBJ_DIR)/$(DEMO)/SShellNofityHwnd2.obj $(OBJ_DIR)/$(DEMO)/SShellNotifyIcon.obj\
+			$(OBJ_DIR)/$(DEMO)/SSkinAPNG.obj $(OBJ_DIR)/$(DEMO)/SSkinGif.obj $(OBJ_DIR)/$(DEMO)/SSkinImgFrame3.obj $(OBJ_DIR)/$(DEMO)/SSkinLoader.obj\
+			$(OBJ_DIR)/$(DEMO)/STabCtrlHeaderBinder.obj $(OBJ_DIR)/$(DEMO)/SWkeWebkit.obj $(OBJ_DIR)/$(DEMO)/SetSkinWnd2.obj $(OBJ_DIR)/$(DEMO)/SmileyCreateHook.obj\
+			$(OBJ_DIR)/$(DEMO)/dataobject.obj $(OBJ_DIR)/$(DEMO)/demo.obj $(OBJ_DIR)/$(DEMO)/genericserver.obj $(OBJ_DIR)/$(DEMO)/httpserver.obj\
+			$(OBJ_DIR)/$(DEMO)/magnetframe.obj $(OBJ_DIR)/$(DEMO)/memflash.obj $(OBJ_DIR)/$(DEMO)/richeditole.obj $(OBJ_DIR)/$(DEMO)/scalendar2.obj\
+			$(OBJ_DIR)/$(DEMO)/schatedit.obj $(OBJ_DIR)/$(DEMO)/sclock.obj $(OBJ_DIR)/$(DEMO)/sdesktopdock.obj $(OBJ_DIR)/$(DEMO)/sfadeframe.obj\
+			$(OBJ_DIR)/$(DEMO)/siectrl.obj $(OBJ_DIR)/$(DEMO)/simagemaskwnd.obj $(OBJ_DIR)/$(DEMO)/sipaddressctrl.obj $(OBJ_DIR)/$(DEMO)/slistctrlex.obj\
+			$(OBJ_DIR)/$(DEMO)/smatrixwindow.obj $(OBJ_DIR)/$(DEMO)/spropertygrid.obj $(OBJ_DIR)/$(DEMO)/spropertyitem-color.obj $(OBJ_DIR)/$(DEMO)/spropertyitem-option.obj\
+			$(OBJ_DIR)/$(DEMO)/spropertyitem-size.obj $(OBJ_DIR)/$(DEMO)/spropertyitem-text.obj $(OBJ_DIR)/$(DEMO)/spropertyitembase.obj $(OBJ_DIR)/$(DEMO)/sradiobox2.obj\
+			$(OBJ_DIR)/$(DEMO)/sscrolltext.obj $(OBJ_DIR)/$(DEMO)/threadObject.obj $(OBJ_DIR)/$(DEMO)/tipwnd.obj $(OBJ_DIR)/$(DEMO)/uianimationwnd.obj\
+			$(OBJ_DIR)/$(DEMO)/stdafx.h.obj $(OBJ_DIR)/$(DEMO)/demo.res
+
+
+#默认只编译gdip的图片解码器
+#7z 默认不使用,要使用7z自行编译,例如"nmake resprovider-7zip"
+#gtest与jsoncpp有需要自行编译,例如"nmake gtest"
+all: precheck $(MHOOK) $(SMILEY) $(SOUI_RESOURCE) $(UTILITIES) $(SOUI) $(SCRIPTMODULE) $(LOG4Z) $(RES_ZIP) $(TRANSLATOR) $(RENDER_GDI) $(RENDER_SKIA) $(IMG_DECODER_PNG) $(DEMO)
 #=======================================================================utilities=======================================================================
 {$(UTILITIES_SRC)/pugixml}.cpp.obj:
-	$(CXX) $(CXXFLAGS) $(UTILITIES_HEADER) -DUTILITIES_EXPORTS -Fo$(OBJ_DIR)/$(UTILITIES)/ -Fd$(OUTPUT_DIR)/$(UTILITIES)$(EXT) -c $<
+	$(CXX) $(CXXFLAGS) $(UTILITIES_FLAGS) -DUTILITIES_EXPORTS -Fo$(OBJ_DIR)/$(UTILITIES)/ -Fd$(OUTPUT_DIR)/$(UTILITIES)$(EXT) -c $<
 
 {$(UTILITIES_SRC)/sobject}.cpp.obj:
-	$(CXX) $(CXXFLAGS) $(UTILITIES_HEADER) -DUTILITIES_EXPORTS -Fo$(OBJ_DIR)/$(UTILITIES)/ -Fd$(OUTPUT_DIR)/$(UTILITIES)$(EXT) -c $<
+	$(CXX) $(CXXFLAGS) $(UTILITIES_FLAGS) -DUTILITIES_EXPORTS -Fo$(OBJ_DIR)/$(UTILITIES)/ -Fd$(OUTPUT_DIR)/$(UTILITIES)$(EXT) -c $<
 
 {$(UTILITIES_SRC)/string}.cpp.obj:
-	$(CXX) $(CXXFLAGS) $(UTILITIES_HEADER) -DUTILITIES_EXPORTS -Fo$(OBJ_DIR)/$(UTILITIES)/ -Fd$(OUTPUT_DIR)/$(UTILITIES)$(EXT) -c $<
+	$(CXX) $(CXXFLAGS) $(UTILITIES_FLAGS) -DUTILITIES_EXPORTS -Fo$(OBJ_DIR)/$(UTILITIES)/ -Fd$(OUTPUT_DIR)/$(UTILITIES)$(EXT) -c $<
 
 {$(UTILITIES_SRC)}.cpp.obj:
-	$(CXX) $(CXXFLAGS) $(UTILITIES_HEADER) -DUTILITIES_EXPORTS -Fo$(OBJ_DIR)/$(UTILITIES)/ -Fd$(OUTPUT_DIR)/$(UTILITIES)$(EXT) -c $<
+	$(CXX) $(CXXFLAGS) $(UTILITIES_FLAGS) -DUTILITIES_EXPORTS -Fo$(OBJ_DIR)/$(UTILITIES)/ -Fd$(OUTPUT_DIR)/$(UTILITIES)$(EXT) -c $<
 
-$(UTILITIES): $(UTILITIES_OBJS)
+$(UTILITIES): precheck $(UTILITIES_OBJS)
 	$(LD) $(LDFLAGS) /OUT:"$(OUTPUT_DIR)/$(UTILITIES)$(EXT).dll" /DLL $(UTILITIES_OBJS) $(LIBS)
 
 #=======================================================================soui=======================================================================
 {$(SOUI_SRC)/activex}.cpp.obj:
-	$(CXX) $(CXXFLAGS) $(SOUI_HEADER) -DSOUI_EXPORTS -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
+	$(CXX) $(CXXFLAGS) $(SOUI_FLAGS) -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
 
 {$(SOUI_SRC)/animator}.cpp.obj:
-	$(CXX) $(CXXFLAGS) $(SOUI_HEADER) -DSOUI_EXPORTS -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
+	$(CXX) $(CXXFLAGS) $(SOUI_FLAGS) -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
 
 {$(SOUI_SRC)/control}.cpp.obj:
-	$(CXX) $(CXXFLAGS) $(SOUI_HEADER) -DSOUI_EXPORTS -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
+	$(CXX) $(CXXFLAGS) $(SOUI_FLAGS) -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
 
 {$(SOUI_SRC)/core}.cpp.obj:
-	$(CXX) $(CXXFLAGS) $(SOUI_HEADER) -DSOUI_EXPORTS -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
+	$(CXX) $(CXXFLAGS) $(SOUI_FLAGS) -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
 	
 {$(SOUI_SRC)/event}.cpp.obj:
-	$(CXX) $(CXXFLAGS) $(SOUI_HEADER) -DSOUI_EXPORTS -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
+	$(CXX) $(CXXFLAGS) $(SOUI_FLAGS) -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
 
 {$(SOUI_SRC)/helper}.cpp.obj:
-	$(CXX) $(CXXFLAGS) $(SOUI_HEADER) -DSOUI_EXPORTS -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
+	$(CXX) $(CXXFLAGS) $(SOUI_FLAGS) -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
 
 {$(SOUI_SRC)/layout}.cpp.obj:
-	$(CXX) $(CXXFLAGS) $(SOUI_HEADER) -DSOUI_EXPORTS -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
+	$(CXX) $(CXXFLAGS) $(SOUI_FLAGS) -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
 
 {$(SOUI_SRC)/res.mgr}.cpp.obj:
-	$(CXX) $(CXXFLAGS) $(SOUI_HEADER) -DSOUI_EXPORTS -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
+	$(CXX) $(CXXFLAGS) $(SOUI_FLAGS) -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
 
 {$(SOUI_SRC)/updatelayeredwindow}.cpp.obj:
-	$(CXX) $(CXXFLAGS) $(SOUI_HEADER) -DSOUI_EXPORTS -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
+	$(CXX) $(CXXFLAGS) $(SOUI_FLAGS) -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
 
 {$(SOUI_SRC)}.cpp.obj:
-	$(CXX) $(CXXFLAGS) $(SOUI_HEADER) -DSOUI_EXPORTS -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
+	$(CXX) $(CXXFLAGS) $(SOUI_FLAGS) -Fo$(OBJ_DIR)/$(SOUI)/ -Fd$(OUTPUT_DIR)/$(SOUI)$(EXT) -c $<
 
-$(SOUI): presoui $(SOUI_OBJS)
+$(SOUI): precheck presoui $(SOUI_OBJS)
 	$(LD) $(LDFLAGS) -out:"$(OUTPUT_DIR)/$(SOUI)$(EXT).dll" -dll $(SOUI_OBJS) $(LIBS) $(UTILITIES)$(EXT).lib
 
 #=======================================================================soui-sys-resource=======================================================================
@@ -452,7 +484,7 @@ $(SOUI): presoui $(SOUI_OBJS)
 $(OBJ_DIR)/$(SOUI_RESOURCE)/$(SOUI_RESOURCE).res: $(SOUI_RESOURCE_DIR)/$(SOUI_RESOURCE).rc
 	$(RC) -I$(SOUI_RESOURCE_DIR) -Fo"$(OBJ_DIR)/$(SOUI_RESOURCE)/$(SOUI_RESOURCE).res" $(SOUI_RESOURCE_DIR)/$(SOUI_RESOURCE).rc
 
-$(SOUI_RESOURCE): $(SOUI_RESOURCE_OBJS)
+$(SOUI_RESOURCE): precheck $(SOUI_RESOURCE_OBJS)
 	$(LD) $(LDFLAGS) -out:"$(OUTPUT_DIR)/$(SOUI_RESOURCE)$(EXT).dll" -dll -noentry $(SOUI_RESOURCE_OBJS) $(LIBS)
 
 #=======================================================================zlib=======================================================================
@@ -460,21 +492,21 @@ $(SOUI_RESOURCE): $(SOUI_RESOURCE_OBJS)
 {$(ZLIB_DIR)}.c.obj:
 	$(CC) $(CFLAGS) -Fo$(OBJ_DIR)/$(ZLIB)/ -Fd$(OUTPUT_DIR)/$(ZLIB)$(EXT) -c $<
 
-$(ZLIB): $(ZLIB_OBJS)
+$(ZLIB): precheck $(ZLIB_OBJS)
 	$(LIB_EXE) -nologo $(MACHINE) -out:"$(OUTPUT_DIR)/$(ZLIB)$(EXT).lib" $(ZLIB_OBJS)
 
 #=======================================================================png=======================================================================
 {$(PNG_DIR)}.c.obj:
 	$(CC) $(CFLAGS) -I$(ZLIB_DIR) -Fo$(OBJ_DIR)/$(PNG)/ -Fd$(OUTPUT_DIR)/$(PNG)$(EXT) -c $<
 
-$(PNG): $(PNG_OBJS)
+$(PNG): precheck $(PNG_OBJS)
 	$(LIB_EXE) -nologo $(MACHINE) -out:"$(OUTPUT_DIR)/$(PNG)$(EXT).lib" $(PNG_OBJS)
 
 #=======================================================================smiley=======================================================================
 {$(SMILEY_DIR)}.cpp.obj:
 	$(CXX) $(CXXFLAGS) -Fo$(OBJ_DIR)/$(SMILEY)/ -Fd$(OUTPUT_DIR)/$(SMILEY)$(EXT) -c $<
 
-$(SMILEY): $(SMILEY_OBJS)
+$(SMILEY): precheck $(SMILEY_OBJS)
 	$(LIB_EXE) -nologo $(MACHINE) -out:"$(OUTPUT_DIR)/$(SMILEY)$(EXT).lib" $(SMILEY_OBJS)
 
 #=======================================================================mhook=======================================================================
@@ -484,7 +516,7 @@ $(SMILEY): $(SMILEY_OBJS)
 {$(MHOOK_DIR)/mhook-lib}.cpp.obj:
 	$(CXX) $(CXXFLAGS) -Fo$(OBJ_DIR)/$(MHOOK)/ -Fd$(OUTPUT_DIR)/$(MHOOK)$(EXT) -c $<
 
-$(MHOOK): $(MHOOK_OBJS)
+$(MHOOK): precheck $(MHOOK_OBJS)
 	$(LIB_EXE) -nologo $(MACHINE) -out:"$(OUTPUT_DIR)/$(MHOOK)$(EXT).lib" $(MHOOK_OBJS)
 
 #=======================================================================gtest=======================================================================
@@ -494,14 +526,14 @@ $(OBJ_DIR)/$(GTEST)/gtest-all.obj: $(GTEST_SRC)/gtest-all.cc
 $(OBJ_DIR)/$(GTEST)/gtest_main.obj: $(GTEST_SRC)/gtest_main.cc
 	$(CXX) $(CXXFLAGS) -I$(GTEST_DIR) -I$(GTEST_DIR)/include -Fo$(OBJ_DIR)/$(GTEST)/gtest_main.obj -Fd$(OUTPUT_DIR)/$(GTEST)$(EXT) -c $(GTEST_SRC)/gtest_main.cc
 
-$(GTEST): $(GTEST_OBJS)
+$(GTEST): precheck $(GTEST_OBJS)
 	$(LIB_EXE) -nologo $(MACHINE) -out:"$(OUTPUT_DIR)/$(GTEST)$(EXT).lib" $(GTEST_OBJS)
 
 #=======================================================================lua=======================================================================
 {$(LUA_SRC)}.c.obj:
 	$(CC) $(CFLAGS) -Fo$(OBJ_DIR)/$(LUA)/ -Fd$(OUTPUT_DIR)/$(LUA)$(EXT) -c $<
 
-$(LUA): $(LUA_LIB_OBJS) $(LUA_OBJS) $(LUA_COMPILER_OBJS)
+$(LUA): precheck $(LUA_LIB_OBJS) $(LUA_OBJS) $(LUA_COMPILER_OBJS)
 	$(LIB_EXE) -nologo $(MACHINE) -out:"$(OUTPUT_DIR)/$(LUA)$(EXT).lib" $(LUA_LIB_OBJS)
 	$(LD) $(LDCONSOLEFLAGS) -out:"$(OUTPUT_DIR)/$(LUA)$(EXT).exe" $(LUA_OBJS) $(LIBS) $(LUA)$(EXT).lib
 	$(LD) $(LDCONSOLEFLAGS) -out:"$(OUTPUT_DIR)/$(LUA)c$(EXT).exe" $(LUA_COMPILER_OBJS) $(LIBS) $(LUA)$(EXT).lib
@@ -510,7 +542,7 @@ $(LUA): $(LUA_LIB_OBJS) $(LUA_OBJS) $(LUA_COMPILER_OBJS)
 {$(JSONCPP_SRC)/lib_json}.cpp.obj:
 	$(CXX) $(CXXFLAGS) -I$(JSONCPP_DIR)/include -Fo$(OBJ_DIR)/$(JSONCPP)/ -Fd$(OUTPUT_DIR)/$(JSONCPP)$(EXT) -c $<
 
-$(JSONCPP): $(JSONCPP_OBJS)
+$(JSONCPP): precheck $(JSONCPP_OBJS)
 	$(LIB_EXE) -nologo $(MACHINE) -out:"$(OUTPUT_DIR)/$(JSONCPP)$(EXT).lib" $(JSONCPP_OBJS)
 
 #=======================================================================scintilla=======================================================================
@@ -526,7 +558,7 @@ $(JSONCPP): $(JSONCPP_OBJS)
 {$(SCINTILLA_DIR)/lexlib}.cxx.obj:
 	$(CXX) $(CXXFLAGS) $(SCINTILLA_HEADER) -Fo$(OBJ_DIR)/$(SCINTILLA)/ -Fd$(OUTPUT_DIR)/$(SCINTILLA)$(EXT) -c $<
 
-$(SCINTILLA): $(SCINTILLA_OBJS)
+$(SCINTILLA): precheck $(SCINTILLA_OBJS)
 	$(LIB_EXE) -nologo $(MACHINE) -out:"$(OUTPUT_DIR)/$(SCINTILLA)$(EXT).lib" $(SCINTILLA_OBJS)
 
 #=======================================================================7z=======================================================================
@@ -590,7 +622,7 @@ $(OBJ_DIR)/$(7Z)/7zCrcOpt.obj: $(7Z_DIR)/Asm/x86/7zCrcOpt.asm
 {$(7Z_DIR)/C}.c.obj:
 	$(CC) $(CFLAGS) $(7Z_FLAGS) -Fo$(OBJ_DIR)/$(7Z)/ -Fd$(OUTPUT_DIR)/$(7Z)$(EXT) -c $<
 
-$(7Z): $(7Z_OBJS)
+$(7Z): precheck $(7Z_OBJS)
 	$(LIB_EXE) -nologo $(MACHINE) -out:"$(OUTPUT_DIR)/$(7Z)$(EXT).lib" $(7Z_OBJS)
 
 #=======================================================================skia=======================================================================
@@ -658,7 +690,7 @@ $(7Z): $(7Z_OBJS)
 {$(SKIA_SRC)/sfnt}.cpp.obj:
 	$(CXX) $(CXXFLAGS) $(SKIA_FLAGS) -Fo$(OBJ_DIR)/$(SKIA)/ -Fd$(OUTPUT_DIR)/$(SKIA)$(EXT) -c $<
 
-$(SKIA): $(SKIA_OBJS)
+$(SKIA): precheck $(SKIA_OBJS)
 	$(LIB_EXE) -nologo $(MACHINE) -out:"$(OUTPUT_DIR)/$(SKIA)$(EXT).lib" $(SKIA_OBJS)
 
 #=======================================================================skia=======================================================================
@@ -666,7 +698,7 @@ $(SKIA): $(SKIA_OBJS)
 {$(LOG4Z_DIR)}.cpp.obj:
 	$(CXX) $(CXXFLAGS) -I$(UTILITIES_DIR)/include -I$(SOUI_DIR)/include -Fo$(OBJ_DIR)/$(LOG4Z)/ -Fd$(OUTPUT_DIR)/$(LOG4Z)$(EXT) -c $<
 
-$(LOG4Z): $(LOG4Z_OBJS)
+$(LOG4Z): precheck $(LOG4Z_OBJS)
 	$(LD) $(LDFLAGS) -out:"$(OUTPUT_DIR)/$(LOG4Z)$(EXT).dll" -dll $(LOG4Z_OBJS) $(UTILITIES)$(EXT).lib $(LIBS)
 
 #=======================================================================resprovider-7zip=======================================================================
@@ -683,7 +715,7 @@ $(OBJ_DIR)/$(RES_7Z)/cursoricon.obj: $(RES_7Z_DIR)/cursoricon.cpp
 $(OBJ_DIR)/$(RES_7Z)/zip7Archive.obj: $(RES_7Z_DIR)/zip7Archive.cpp
 	$(CXX) $(CXXFLAGS) $(RES_7Z_FLAGS) -Fo$(OBJ_DIR)/$(RES_7Z)/ -Fd$(OUTPUT_DIR)/$(RES_7Z)$(EXT) -c $(RES_7Z_DIR)/zip7Archive.cpp
 
-$(RES_7Z): $(7Z) $(RES_7Z_OBJS)
+$(RES_7Z): precheck $(7Z) $(RES_7Z_OBJS)
 	$(LD) $(LDFLAGS) -out:"$(OUTPUT_DIR)/$(RES_7Z)$(EXT).dll" -dll $(RES_7Z_OBJS) $(7Z)$(EXT).lib $(UTILITIES)$(EXT).lib $(LIBS)
 
 #=======================================================================resprovider-zip=======================================================================
@@ -691,7 +723,7 @@ $(RES_7Z): $(7Z) $(RES_7Z_OBJS)
 {$(RES_ZIP_DIR)}.cpp.obj:
 	$(CXX) $(CXXFLAGS) $(RES_ZIP_FLAGS) -Fo$(OBJ_DIR)/$(RES_ZIP)/ -Fd$(OUTPUT_DIR)/$(RES_ZIP)$(EXT) -c $<
 
-$(RES_ZIP): $(ZLIB) $(RES_ZIP_OBJS)
+$(RES_ZIP): precheck $(ZLIB) $(RES_ZIP_OBJS)
 	$(LD) $(LDFLAGS) -out:"$(OUTPUT_DIR)/$(RES_ZIP)$(EXT).dll" -dll $(RES_ZIP_OBJS) $(ZLIB)$(EXT).lib $(UTILITIES)$(EXT).lib $(LIBS)
 
 #=======================================================================translator=======================================================================
@@ -699,7 +731,7 @@ $(RES_ZIP): $(ZLIB) $(RES_ZIP_OBJS)
 {$(TRANSLATOR_DIR)}.cpp.obj:
 	$(CXX) $(CXXFLAGS) $(TRANSLATOR_FLAGS) -Fo$(OBJ_DIR)/$(TRANSLATOR)/ -Fd$(OUTPUT_DIR)/$(TRANSLATOR)$(EXT) -c $<
 
-$(TRANSLATOR): $(TRANSLATOR_OBJS)
+$(TRANSLATOR): precheck $(TRANSLATOR_OBJS)
 	$(LD) $(LDFLAGS) -out:"$(OUTPUT_DIR)/$(TRANSLATOR)$(EXT).dll" -dll $(TRANSLATOR_OBJS) $(UTILITIES)$(EXT).lib $(LIBS)
 
 #=======================================================================scriptmodule-lua=======================================================================
@@ -713,7 +745,7 @@ $(TRANSLATOR): $(TRANSLATOR_OBJS)
 {$(SCRIPTMODULE_SRC)}.cpp.obj:
 	$(CXX) $(CXXFLAGS) $(SCRIPTMODULE_FLAGS) -Fo$(OBJ_DIR)/$(SCRIPTMODULE)/ -Fd$(OUTPUT_DIR)/$(SCRIPTMODULE)$(EXT) -c $<
 
-$(SCRIPTMODULE): $(LUA) $(SCRIPTMODULE_OBJS)
+$(SCRIPTMODULE): precheck $(LUA) $(SCRIPTMODULE_OBJS)
 	$(LD) $(LDFLAGS) -out:"$(OUTPUT_DIR)/$(SCRIPTMODULE)$(EXT).dll" -dll $(SCRIPTMODULE_OBJS) $(LUA)$(EXT).lib $(SOUI)$(EXT).lib $(UTILITIES)$(EXT).lib $(LIBS)
 
 #=======================================================================render-gdi=======================================================================
@@ -721,7 +753,7 @@ $(SCRIPTMODULE): $(LUA) $(SCRIPTMODULE_OBJS)
 {$(RENDER_GDI_DIR)}.cpp.obj:
 	$(CXX) $(CXXFLAGS) $(RENDER_GDI_FLAGS) -Fo$(OBJ_DIR)/$(RENDER_GDI)/ -Fd$(OUTPUT_DIR)/$(RENDER_GDI)$(EXT) -c $<
 
-$(RENDER_GDI): $(RENDER_GDI_OBJS)
+$(RENDER_GDI): precheck $(RENDER_GDI_OBJS)
 	$(LD) $(LDFLAGS) -out:"$(OUTPUT_DIR)/$(RENDER_GDI).dll" -dll $(RENDER_GDI_OBJS) $(UTILITIES)$(EXT).lib $(LIBS)
 
 #=======================================================================render-skia=======================================================================
@@ -729,7 +761,7 @@ $(RENDER_GDI): $(RENDER_GDI_OBJS)
 {$(RENDER_SKIA_DIR)}.cpp.obj:
 	$(CXX) $(CXXFLAGS) $(RENDER_SKIA_FLAGS) -Fo$(OBJ_DIR)/$(RENDER_SKIA)/ -Fd$(OUTPUT_DIR)/$(RENDER_SKIA)$(EXT) -c $<
 
-$(RENDER_SKIA): $(SKIA) $(RENDER_SKIA_OBJS)
+$(RENDER_SKIA): precheck $(SKIA) $(RENDER_SKIA_OBJS)
 	$(LD) $(LDFLAGS) -out:"$(OUTPUT_DIR)/$(RENDER_SKIA)$(EXT).dll" -dll $(RENDER_SKIA_OBJS) $(SKIA)$(EXT).lib $(UTILITIES)$(EXT).lib shlwapi.lib Usp10.lib opengl32.lib $(LIBS)
 
 #=======================================================================imgdecoder-png=======================================================================
@@ -737,7 +769,7 @@ $(RENDER_SKIA): $(SKIA) $(RENDER_SKIA_OBJS)
 {$(IMG_DECODER_PNG_DIR)}.cpp.obj:
 	$(CXX) $(CXXFLAGS) $(IMG_DECODER_PNG_FLAGS) -Fo$(OBJ_DIR)/$(IMG_DECODER_PNG)/ -Fd$(OUTPUT_DIR)/$(IMG_DECODER_PNG)$(EXT) -c $<
 
-$(IMG_DECODER_PNG): $(ZLIB) $(PNG) $(IMG_DECODER_PNG_OBJS)
+$(IMG_DECODER_PNG): precheck $(ZLIB) $(PNG) $(IMG_DECODER_PNG_OBJS)
 	$(LD) $(LDFLAGS) -out:"$(OUTPUT_DIR)/$(IMG_DECODER_PNG)$(EXT).dll" -dll $(IMG_DECODER_PNG_OBJS) $(PNG)$(EXT).lib $(ZLIB)$(EXT).lib $(LIBS)
 
 #=======================================================================imgdecoder-gdip=======================================================================
@@ -745,7 +777,7 @@ $(IMG_DECODER_PNG): $(ZLIB) $(PNG) $(IMG_DECODER_PNG_OBJS)
 $(OBJ_DIR)/$(IMG_DECODER_GDIP)/imgdecoder-gdip.obj: $(IMG_DECODER_GDIP_DIR)/imgdecoder-gdip.cpp
 	$(CXX) $(CXXFLAGS) $(IMG_DECODER_GDIP_FLAGS) -Fo$(OBJ_DIR)/$(IMG_DECODER_GDIP)/ -Fd$(OUTPUT_DIR)/$(IMG_DECODER_GDIP)$(EXT) -c $(IMG_DECODER_GDIP_DIR)/imgdecoder-gdip.cpp
 
-$(IMG_DECODER_GDIP): $(IMG_DECODER_GDIP_OBJS)
+$(IMG_DECODER_GDIP): precheck $(IMG_DECODER_GDIP_OBJS)
 	$(LD) $(LDFLAGS) -out:"$(OUTPUT_DIR)/$(IMG_DECODER_GDIP)$(EXT).dll" -dll $(IMG_DECODER_GDIP_OBJS) $(LIBS)
 
 #=======================================================================imgdecoder-gdip=======================================================================
@@ -753,7 +785,7 @@ $(IMG_DECODER_GDIP): $(IMG_DECODER_GDIP_OBJS)
 {$(IMG_DECODER_STB_DIR)}.cpp.obj:
 	$(CXX) $(CXXFLAGS) $(IMG_DECODER_STB_FLAGS) -Fo$(OBJ_DIR)/$(IMG_DECODER_STB)/ -Fd$(OUTPUT_DIR)/$(IMG_DECODER_STB)$(EXT) -c $<
 
-$(IMG_DECODER_STB): $(IMG_DECODER_STB_OBJS)
+$(IMG_DECODER_STB): precheck $(IMG_DECODER_STB_OBJS)
 	$(LD) $(LDFLAGS) -out:"$(OUTPUT_DIR)/$(IMG_DECODER_STB)$(EXT).dll" -dll $(IMG_DECODER_STB_OBJS) $(LIBS)
 
 #=======================================================================imgdecoder-gdip=======================================================================
@@ -761,15 +793,69 @@ $(IMG_DECODER_STB): $(IMG_DECODER_STB_OBJS)
 {$(IMG_DECODER_WIC_DIR)}.cpp.obj:
 	$(CXX) $(CXXFLAGS) $(IMG_DECODER_WIC_FLAGS) -Fo$(OBJ_DIR)/$(IMG_DECODER_WIC)/ -Fd$(OUTPUT_DIR)/$(IMG_DECODER_WIC)$(EXT) -c $<
 
-$(IMG_DECODER_WIC): $(IMG_DECODER_WIC_OBJS)
+$(IMG_DECODER_WIC): precheck $(IMG_DECODER_WIC_OBJS)
 	$(LD) $(LDFLAGS) -out:"$(OUTPUT_DIR)/$(IMG_DECODER_WIC)$(EXT).dll" -dll $(IMG_DECODER_WIC_OBJS) $(LIBS)
+
+#=======================================================================imgdecoder-gdip=======================================================================
+
+{$(DEMO_DIR)}.cpp.obj:
+	$(CXX) $(CXXFLAGS) $(DEMO_FLAGS) -Fo$(OBJ_DIR)/$(DEMO)/ -Fd$(OUTPUT_DIR)/$(DEMO)$(EXT) -c $<
+
+{$(DEMO_DIR)/appledock}.cpp.obj:
+	$(CXX) $(CXXFLAGS) $(DEMO_FLAGS) -Fo$(OBJ_DIR)/$(DEMO)/ -Fd$(OUTPUT_DIR)/$(DEMO)$(EXT) -c $<
+
+{$(DEMO_DIR)/clock}.cpp.obj:
+	$(CXX) $(CXXFLAGS) $(DEMO_FLAGS) -Fo$(OBJ_DIR)/$(DEMO)/ -Fd$(OUTPUT_DIR)/$(DEMO)$(EXT) -c $<	
+
+{$(DEMO_DIR)/magnet}.cpp.obj:
+	$(CXX) $(CXXFLAGS) $(DEMO_FLAGS) -Fo$(OBJ_DIR)/$(DEMO)/ -Fd$(OUTPUT_DIR)/$(DEMO)$(EXT) -c $<
+
+{$(DEMO_DIR)/skin}.cpp.obj:
+	$(CXX) $(CXXFLAGS) $(DEMO_FLAGS) -Fo$(OBJ_DIR)/$(DEMO)/ -Fd$(OUTPUT_DIR)/$(DEMO)$(EXT) -c $<
+
+{$(DEMO_DIR)/httpsvr}.cpp.obj:
+	$(CXX) $(CXXFLAGS) $(DEMO_FLAGS) -Fo$(OBJ_DIR)/$(DEMO)/ -Fd$(OUTPUT_DIR)/$(DEMO)$(EXT) -c $<
+
+{$(DEMO_DIR)/trayicon}.cpp.obj:
+	$(CXX) $(CXXFLAGS) $(DEMO_FLAGS) -Fo$(OBJ_DIR)/$(DEMO)/ -Fd$(OUTPUT_DIR)/$(DEMO)$(EXT) -c $<
+
+{$(DEMO_DIR)/qrcode}.cpp.obj:
+	$(CXX) $(CXXFLAGS) $(DEMO_FLAGS) -Fo$(OBJ_DIR)/$(DEMO)/ -Fd$(OUTPUT_DIR)/$(DEMO)$(EXT) -c $<
+
+{$(DEMO_DIR)/uianimation}.cpp.obj:
+	$(CXX) $(CXXFLAGS) $(DEMO_FLAGS) -Fo$(OBJ_DIR)/$(DEMO)/ -Fd$(OUTPUT_DIR)/$(DEMO)$(EXT) -c $<
+
+{$(DEMO_DIR)/../controls.extend}.cpp.obj:
+	$(CXX) $(CXXFLAGS) $(DEMO_FLAGS) -Fo$(OBJ_DIR)/$(DEMO)/ -Fd$(OUTPUT_DIR)/$(DEMO)$(EXT) -c $<
+
+{$(DEMO_DIR)/../controls.extend/propgrid}.cpp.obj:
+	$(CXX) $(CXXFLAGS) $(DEMO_FLAGS) -Fo$(OBJ_DIR)/$(DEMO)/ -Fd$(OUTPUT_DIR)/$(DEMO)$(EXT) -c $<
+
+{$(DEMO_DIR)/../controls.extend/propgrid/propitem}.cpp.obj:
+	$(CXX) $(CXXFLAGS) $(DEMO_FLAGS) -Fo$(OBJ_DIR)/$(DEMO)/ -Fd$(OUTPUT_DIR)/$(DEMO)$(EXT) -c $<
+
+{$(DEMO_DIR)/../controls.extend/reole}.cpp.obj:
+	$(CXX) $(CXXFLAGS) $(DEMO_FLAGS) -Fo$(OBJ_DIR)/$(DEMO)/ -Fd$(OUTPUT_DIR)/$(DEMO)$(EXT) -c $<
+
+{$(DEMO_DIR)/../controls.extend/SMcListViewEx}.cpp.obj:
+	$(CXX) $(CXXFLAGS) $(DEMO_FLAGS) -Fo$(OBJ_DIR)/$(DEMO)/ -Fd$(OUTPUT_DIR)/$(DEMO)$(EXT) -c $<
+
+{$(DEMO_DIR)/../controls.extend/gif}.cpp.obj:
+	$(CXX) $(CXXFLAGS) $(DEMO_FLAGS) -Fo$(OBJ_DIR)/$(DEMO)/ -Fd$(OUTPUT_DIR)/$(DEMO)$(EXT) -c $<
+
+$(OBJ_DIR)/$(DEMO)/$(DEMO).res: $(DEMO_DIR)/$(DEMO).rc
+	$(RC) -I$(DEMO_DIR) -Fo"$(OBJ_DIR)/$(DEMO)/$(DEMO).res" $(DEMO_DIR)/$(DEMO).rc
+
+$(DEMO): precheck predemo $(SCRIPTMODULE) $(DEMO_OBJS)
+	$(LD) $(LDFLAGS) -out:"$(OUTPUT_DIR)/$(DEMO)$(EXT).exe" $(DEMO_OBJS) $(UTILITIES)$(EXT).lib $(SOUI)$(EXT).lib $(MHOOK)$(EXT).lib $(SMILEY)$(EXT).lib $(LIBS)
 
 clean:
 	if exist $(OBJ_DIR) rd /S/Q $(OBJ_DIR)\.
 	if exist $(OUTPUT_DIR) rd /S/Q $(OUTPUT_DIR)\.
 
-makedir:
-	echo off
+precheck:
+	copy "config\options\dll.h" "config\core-def.h"
+	copy "config\options\com-dll.h" "config\com-def.h"
 	if not exist $(OUTPUT_DIR) mkdir $(OUTPUT_DIR)
 	if not exist $(OBJ_DIR) mkdir $(OBJ_DIR)
 	if not exist $(OBJ_DIR)\$(UTILITIES) mkdir $(OBJ_DIR)\$(UTILITIES)
@@ -796,8 +882,14 @@ makedir:
 	if not exist $(OBJ_DIR)\$(IMG_DECODER_GDIP) mkdir $(OBJ_DIR)\$(IMG_DECODER_GDIP)
 	if not exist $(OBJ_DIR)\$(IMG_DECODER_STB) mkdir $(OBJ_DIR)\$(IMG_DECODER_STB)
 	if not exist $(OBJ_DIR)\$(IMG_DECODER_WIC) mkdir $(OBJ_DIR)\$(IMG_DECODER_WIC)
+	if not exist $(OBJ_DIR)\$(DEMO) mkdir $(OBJ_DIR)\$(DEMO)
 
 presoui:
 	if not exist $(SOUI)\include\souistd.h.cpp echo #include "souistd.h">>$(SOUI)\include\souistd.h.cpp
+
+predemo:
+	cd $(DEMO_DIR)
+	..\tools\uiresbuilder.exe -i "uires/uires.idx" -p uires -r .\res\soui_res.rc2 -h .\res\resource.h idtable
+	cd ..
 
 rebuild: clean all
