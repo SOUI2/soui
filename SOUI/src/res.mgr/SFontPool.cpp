@@ -158,12 +158,15 @@ IFontPtr SFontPool::_CreateFont(const FontInfo &fontInfo,pugi::xml_node xmlExPro
 	LOGFONT lfNew={0};
         
 	lfNew.lfCharSet     = fontInfo.style.attr.byCharset;
-    lfNew.lfWeight      = (fontInfo.style.attr.fBold ? FW_BOLD : FW_NORMAL);
+
+	//优先使用weigth属性.
+	lfNew.lfWeight      = fontInfo.style.attr.byWeight * 4;
+	if(lfNew.lfWeight == 0)//没有weight属性时检查bold属性.
+		lfNew.lfWeight      = (fontInfo.style.attr.fBold ? FW_BOLD : FW_NORMAL);
     lfNew.lfUnderline   = (FALSE != fontInfo.style.attr.fUnderline);
     lfNew.lfItalic      = (FALSE != fontInfo.style.attr.fItalic);
     lfNew.lfStrikeOut   = (FALSE != fontInfo.style.attr.fStrike);
 	lfNew.lfHeight = -abs((short)fontInfo.style.attr.cSize);
-	lfNew.lfWeight = fontInfo.style.attr.byWeight * 4;
     lfNew.lfQuality = CLEARTYPE_QUALITY;
     
     
