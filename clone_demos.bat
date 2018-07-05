@@ -27,3 +27,5 @@ git clone https://github.com/soui-demo/souieditor.git
 git clone https://github.com/soui-demo/DropDemo.git
 git clone https://github.com/soui-demo/ThreeClearGame.git
 git clone https://github.com/soui-demo/baiduwp.git
+git clone https://github.com/soui-demo/ScreenShotTool.git
+git clone https://github.com/soui-demo/SoftMaster.git
