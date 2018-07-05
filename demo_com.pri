@@ -23,18 +23,15 @@ CONFIG(USING_MT){
 CONFIG(debug, debug|release) {
 	OBJECTS_DIR =   debug
 	DESTDIR = debug
-	CONFIG(x64){
-		DESTDIR = $$DESTDIR"64"
-	}	
-	QMAKE_LIBDIR += $$DESTDIR
 }
 else {
 	OBJECTS_DIR =   release
 	DESTDIR = release
-	CONFIG(x64){
-		DESTDIR = $$DESTDIR"64"
-	}
-	QMAKE_LIBDIR += $$DESTDIR
+}
+
+CONFIG(x64){
+	OBJECTS_DIR = $$OBJECTS_DIR"64"
+	DESTDIR = $$DESTDIR"64"
 }
 
 CONFIG(x64){
