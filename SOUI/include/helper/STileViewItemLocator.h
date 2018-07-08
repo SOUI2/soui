@@ -13,6 +13,7 @@ public:
     void OnDataSetChanged() {}
     
     int GetItemHeight(int iItem) const;
+
     void SetItemHeight(int iItem, int nHeight);
     
     //获取item的CRect(相对于TileView)
@@ -36,23 +37,23 @@ public:
     int GetTotalHeight();
     
     int Item2Position(int iItem);
+
     int Position2Item(int position);
     
     int GetScrollLineSize() const;
     
-    int GetMarginSize() const
-    {
-        return m_nItemMargin.toPixelSize(m_scale);
-    }
+	int GetMarginSize() const;
 
     int SetScale(int scale);
-    
+
+	int GetCountInRow()const;
+
+	int GetItemLineHeight() const;
+
+	int GetItemWidth()const;
 protected:
     //行高（包括间隔）
-    int GetItemLineHeight() const
-    {
-        return m_nItemHeight.toPixelSize(m_scale) + m_nItemMargin.toPixelSize(m_scale);
-    }
+    
 
     int m_scale;
     SLayoutSize m_nItemWidth;      //item宽
