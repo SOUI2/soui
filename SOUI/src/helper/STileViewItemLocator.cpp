@@ -30,6 +30,26 @@ int STileViewItemLocator::GetScrollLineSize() const
     return GetItemLineHeight();
 }
 
+int STileViewItemLocator::GetMarginSize() const
+{
+	return m_nItemMargin.toPixelSize(m_scale);
+}
+
+int STileViewItemLocator::GetCountInRow()const
+{
+	return m_nCountInRow;
+}
+
+int STileViewItemLocator::GetItemLineHeight() const
+{
+	return m_nItemHeight.toPixelSize(m_scale) + m_nItemMargin.toPixelSize(m_scale);
+}
+
+int STileViewItemLocator::GetItemWidth()const
+{
+	return m_nItemWidth.toPixelSize(m_scale) + m_nItemMargin.toPixelSize(m_scale);
+}
+
 int STileViewItemLocator::SetScale(int scale)
 {
     m_scale = scale;
