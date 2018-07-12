@@ -91,8 +91,10 @@ namespace SOUI
 
     int SActiveX::OnCreate( LPVOID )
     {
+		int nRet = __super::OnCreate(NULL);
+		if(nRet != 0) return nRet;
         if(IsEqualCLSID(m_clsid,CLSID_NULL)) return 0;
-
+		
         if(!m_bDelayInit) InitActiveX();
         return 0;
     }

@@ -13,17 +13,17 @@ else{
 CONFIG(debug, debug|release) {
 	OBJECTS_DIR =   $$dir/obj/debug/$$TARGET
 	DESTDIR = $$dir/bin
-CONFIG(x64){
-	DESTDIR = $$DESTDIR"64"
-}	
+	CONFIG(x64){
+		DESTDIR = $$DESTDIR"64"
+	}	
 	QMAKE_LIBDIR += $$DESTDIR
 }
 else {
 	OBJECTS_DIR =   $$dir/obj/release/$$TARGET
 	DESTDIR = $$dir/bin
-CONFIG(x64){
-	DESTDIR = $$DESTDIR"64"
-}
+	CONFIG(x64){
+		DESTDIR = $$DESTDIR"64"
+	}
 	QMAKE_LIBDIR += $$DESTDIR
 }
 
