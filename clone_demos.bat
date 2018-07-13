@@ -32,3 +32,4 @@ git clone https://github.com/soui-demo/SoftMaster.git
 git clone https://github.com/soui-demo/SweepingEdge.git
 git clone https://github.com/soui-demo/iectrl.git
 git clone https://github.com/soui-demo/mfc.demo.git
+git clone https://github.com/soui-demo/CapScreenDemo.git
