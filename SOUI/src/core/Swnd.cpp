@@ -863,7 +863,7 @@ namespace SOUI
 		IRenderTarget *pRT=GetRenderTarget(OLEDC_OFFSCREEN,rgn);//不自动画背景
 
 		PaintBackground(pRT,&rcWnd);
-		OnNcPaint(pRT);
+		SSendMessage(WM_NCPAINT, (WPARAM)pRT);
 		PaintForeground(pRT,&rcWnd);
 
 		ReleaseRenderTarget(pRT);
