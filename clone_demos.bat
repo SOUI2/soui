@@ -31,3 +31,4 @@ git clone https://github.com/soui-demo/ScreenShotTool.git
 git clone https://github.com/soui-demo/SoftMaster.git
 git clone https://github.com/soui-demo/SweepingEdge.git
 git clone https://github.com/soui-demo/iectrl.git
+git clone https://github.com/soui-demo/mfc.demo.git
