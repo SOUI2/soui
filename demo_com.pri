@@ -1,6 +1,6 @@
 CONFIG -= qt
 CONFIG += stl_off  
-
+CONFIG += debug_and_release
 !CONFIG(DISABLE_WCHAR){
 	#打开wchar_t为内置类型
 	QMAKE_CXXFLAGS += /Zc:wchar_t
