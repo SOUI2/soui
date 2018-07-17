@@ -275,7 +275,7 @@ class SOUI_EXP SImageButton : public SButton
 public:
     SImageButton()
     {
-        m_bFocusable=FALSE;
+        m_bDrawFocusRect=FALSE;
     }
 };
 
