@@ -7,29 +7,43 @@ COLOR 1f
 cd ..
 mkdir soui-demo
 cd soui-demo
-git clone https://github.com/soui-demo/UiEditor.git
-git clone https://github.com/soui-demo/qqlogin.git
-git clone https://github.com/soui-demo/360.git
-git clone https://github.com/soui-demo/360Preview.git
-git clone https://github.com/soui-demo/souispy.git
-git clone https://github.com/soui-demo/PcManager.git
-git clone https://github.com/soui-demo/SoTool.git
-git clone https://github.com/soui-demo/mclistview_demo.git
-git clone https://github.com/soui-demo/souitest.git
-git clone https://github.com/soui-demo/VUI.git
-git clone https://github.com/soui-demo/BesLyric.git
-git clone https://github.com/soui-demo/QQMain.git
-git clone https://github.com/soui-demo/FrogPlay.git
-git clone https://github.com/soui-demo/MultiLangs.git
-git clone https://github.com/soui-demo/TXMgr.git
-git clone https://github.com/soui-demo/SLogViewer.git
-git clone https://github.com/soui-demo/souieditor.git
-git clone https://github.com/soui-demo/DropDemo.git
-git clone https://github.com/soui-demo/ThreeClearGame.git
-git clone https://github.com/soui-demo/baiduwp.git
-git clone https://github.com/soui-demo/ScreenShotTool.git
-git clone https://github.com/soui-demo/SoftMaster.git
-git clone https://github.com/soui-demo/SweepingEdge.git
-git clone https://github.com/soui-demo/iectrl.git
-git clone https://github.com/soui-demo/mfc.demo.git
-git clone https://github.com/soui-demo/CapScreenDemo.git
+
+call :update_repo UiEditor
+call :update_repo qqlogin
+call :update_repo 360
+call :update_repo 360Preview
+call :update_repo souispy
+call :update_repo PcManager
+call :update_repo SoTool
+call :update_repo mclistview_demo
+call :update_repo souitest
+call :update_repo VUI
+call :update_repo BesLyric
+call :update_repo QQMain
+call :update_repo FrogPlay
+call :update_repo MultiLangs
+call :update_repo TXMgr
+call :update_repo SLogViewer
+call :update_repo souieditor
+call :update_repo DropDemo
+call :update_repo ThreeClearGame
+call :update_repo baiduwp
+call :update_repo ScreenShotTool
+call :update_repo SoftMaster
+call :update_repo SweepingEdge
+call :update_repo iectrl
+call :update_repo mfc.demo
+call :update_repo CapScreenDemo
+
+goto :eof
+
+:update_repo
+if not exist %1 (
+  echo "clone %1"
+  git clone https://github.com/soui-demo/%1.git
+) else (
+  echo "pull %1"
+  cd %1
+  git pull https://github.com/soui-demo/%1.git
+  cd ..
+)
