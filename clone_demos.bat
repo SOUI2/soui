@@ -34,6 +34,8 @@ call :update_repo SweepingEdge
 call :update_repo iectrl
 call :update_repo mfc.demo
 call :update_repo CapScreenDemo
+call :update_repo SOUI-CEF
+call :update_repo nsisdemo
 
 goto :eof
 
