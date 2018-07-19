@@ -548,11 +548,7 @@ HRESULT STextHost::TxGetPropertyBits( DWORD dwMask, DWORD *pdwBits )
 }
 
 HRESULT STextHost::TxNotify( DWORD iNotify, void *pv )
-{
-    if(iNotify==EN_REQUESTRESIZE)
-    {
-        return S_OK;
-    }
+{   
     return m_pRichEdit->OnTxNotify(iNotify,pv);
 }
 
