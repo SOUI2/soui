@@ -15,6 +15,8 @@ namespace SOUI
 
         SMenuEx * GetSubMenu();
 
+		SMenuEx * CreatePopMenu();
+
         SMenuEx * GetOwnerMenu();
 
         void HideSubMenu();
@@ -69,8 +71,7 @@ namespace SOUI
 
         BOOL LoadMenu(LPCTSTR pszMenu);
         BOOL LoadMenu(pugi::xml_node xmlNode);
-
-        UINT TrackPopupMenu(UINT flag,int x,int y,HWND hOwner,int nScale = 100);
+		UINT TrackPopupMenu(UINT flag,int x,int y,HWND hOwner,int nScale = 100);
 		static void ExitPopupMenu(int nCmdId=0);
 
         SMenuExItem * GetParentItem() {return m_pParent;}
@@ -82,6 +83,9 @@ namespace SOUI
 		void SetContextHelpId(DWORD dwId);
 		BOOL InsertMenu(UINT uPos,UINT uFlag,int nId,LPCTSTR lpNewItem);
     protected:
+		//创建一个空菜单,不应该在外部调用
+		BOOL CreateNullMenu();
+
         int OnMouseActivate(HWND wndTopLevel, UINT nHitTest, UINT message);
         void OnTimer(UINT_PTR timeID);
         void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);

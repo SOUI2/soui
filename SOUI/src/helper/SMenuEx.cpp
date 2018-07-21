@@ -383,6 +383,18 @@ namespace SOUI
 		return m_pSubMenu;
 	}
 
+	SMenuEx *SMenuExItem::CreatePopMenu()
+	{
+		if (m_pSubMenu)
+			return m_pSubMenu;
+		m_pSubMenu = new SMenuEx(this);
+		if (m_pSubMenu->CreateNullMenu())
+			return m_pSubMenu;
+		//走到这就是创建失败了 
+		delete m_pSubMenu;
+		return m_pSubMenu = NULL;		 
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 
 
@@ -594,6 +606,23 @@ namespace SOUI
 
 		return TRUE;
 	}
+	//创建一个空菜单
+	BOOL SMenuEx::CreateNullMenu()
+	{
+		if (IsWindow()) return FALSE;		
+
+		HWND hWnd = Create(NULL, WS_POPUP, WS_EX_TOOLWINDOW | WS_EX_TOPMOST, 0, 0, 0, 0);
+		pugi::xml_document souiXml;
+		pugi::xml_node root = souiXml.append_child(L"SOUI");
+		root.append_attribute(L"translucent").set_value(1);		
+		_InitFromXml(root, 0, 0);
+		if (!hWnd) return FALSE;
+
+		SMenuExRoot *pMenuRoot = new SMenuExRoot(this);
+		InsertChild(pMenuRoot);
+		pMenuRoot->SSendMessage(WM_CREATE);
+		pMenuRoot->GetLayoutParam()->SetWrapContent(Both);
+	}
 
 	SMenuExItem * SMenuEx::GetMenuItem(int nID)
 	{
@@ -770,8 +799,7 @@ namespace SOUI
 	{
 		return MA_NOACTIVATE;
 	}
-
-
+	
 	void SMenuEx::RunMenu(HWND hOwner)
 	{
 		SASSERT(s_MenuData);
@@ -1124,6 +1152,7 @@ namespace SOUI
 			if (uFlag & MF_POPUP)
 			{
 				pMenuItem->m_pSubMenu = new SMenuEx(pMenuItem);
+				pMenuItem->m_pSubMenu->CreateNullMenu();
 			}
 
             SStringW strId;
