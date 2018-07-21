@@ -622,6 +622,7 @@ namespace SOUI
 		InsertChild(pMenuRoot);
 		pMenuRoot->SSendMessage(WM_CREATE);
 		pMenuRoot->GetLayoutParam()->SetWrapContent(Both);
+		return TRUE;
 	}
 
 	SMenuExItem * SMenuEx::GetMenuItem(int nID)
