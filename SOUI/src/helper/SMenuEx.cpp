@@ -1159,8 +1159,7 @@ namespace SOUI
             strId.Format(L"%d", nId);
             pMenuItem->SetAttribute(L"ID", strId);
 		}
-
-		return FALSE;
+		return TRUE;
 	}
 
 	void SMenuEx::SendInitPopupMenu2Owner(int idx)
