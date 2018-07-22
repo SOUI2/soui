@@ -383,18 +383,6 @@ namespace SOUI
 		return m_pSubMenu;
 	}
 
-	SMenuEx *SMenuExItem::CreatePopMenu()
-	{
-		if (m_pSubMenu)
-			return m_pSubMenu;
-		m_pSubMenu = new SMenuEx(this);
-		if (m_pSubMenu->CreateNullMenu())
-			return m_pSubMenu;
-		//走到这就是创建失败了 
-		delete m_pSubMenu;
-		return m_pSubMenu = NULL;		 
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 
 
@@ -554,7 +542,11 @@ namespace SOUI
 		m_hostAttr.SetTranslucent(true);
 	}
 
-	SMenuEx::SMenuEx(SMenuExItem *pParent) :m_pParent(pParent), m_pHoverItem(NULL), m_pCheckItem(NULL)
+	SMenuEx::SMenuEx(SMenuExItem *pParent) 
+		:m_pParent(pParent)
+		, m_pHoverItem(NULL)
+		, m_pCheckItem(NULL)
+		, m_bMenuInitialized(FALSE)
 	{
 
 	}
@@ -606,24 +598,6 @@ namespace SOUI
 
 		return TRUE;
 	}
-	//创建一个空菜单
-	BOOL SMenuEx::CreateNullMenu()
-	{
-		if (IsWindow()) return FALSE;		
-
-		HWND hWnd = Create(NULL, WS_POPUP, WS_EX_TOOLWINDOW | WS_EX_TOPMOST, 0, 0, 0, 0);
-		pugi::xml_document souiXml;
-		pugi::xml_node root = souiXml.append_child(L"SOUI");
-		root.append_attribute(L"translucent").set_value(1);		
-		_InitFromXml(root, 0, 0);
-		if (!hWnd) return FALSE;
-
-		SMenuExRoot *pMenuRoot = new SMenuExRoot(this);
-		InsertChild(pMenuRoot);
-		pMenuRoot->SSendMessage(WM_CREATE);
-		pMenuRoot->GetLayoutParam()->SetWrapContent(Both);
-		return TRUE;
-	}
 
 	SMenuExItem * SMenuEx::GetMenuItem(int nID)
 	{
@@ -646,22 +620,23 @@ namespace SOUI
 			s_MenuData->AddRef();
 
 		HWND hActive = hOwner;
-		if (!hActive) hActive = ::GetActiveWindow();
-
-		if (::IsWindow(hOwner))
+		if (!hOwner || !::IsWindowEnabled(hOwner)) hActive = ::GetActiveWindow();
+		/*
+		if (::IsWindow(hActive))
 		{
-			SetWindowLongPtr(GWLP_HWNDPARENT, (ULONG_PTR)hOwner);
+			SetParent(hActive);
 		}
+		*/
 
-		HWND hOwnerParent = hOwner;
-		while (::GetParent(hOwnerParent))
+		HWND hRoot = hActive;
+		while (::GetParent(hRoot))
 		{
-			hOwnerParent = ::GetParent(hOwnerParent);
+			hRoot = ::GetParent(hRoot);
 		}
-		SetForegroundWindow(hOwnerParent);
+		SetForegroundWindow(hRoot);
 
 		ShowMenu(flag, x, y);
-		RunMenu(hOwner);
+		RunMenu(hRoot);
 		HideMenu(FALSE);
 
 		if (hActive)
@@ -800,8 +775,9 @@ namespace SOUI
 	{
 		return MA_NOACTIVATE;
 	}
-	
-	void SMenuEx::RunMenu(HWND hOwner)
+
+
+	void SMenuEx::RunMenu(HWND hRoot)
 	{
 		SASSERT(s_MenuData);
 
@@ -809,13 +785,6 @@ namespace SOUI
 		BOOL bMsgQuit(FALSE);
 		HWND hCurMenu(NULL);
 
-		HWND hRoot = hOwner;
-		for (;;)
-		{
-			HWND hParent = ::GetParent(hRoot);
-			if (!hParent) break;
-			hRoot = hParent;
-		}
 		for (;;)
 		{
 
@@ -1111,23 +1080,24 @@ namespace SOUI
 
 		if (uFlag & MF_BYPOSITION)
 		{
-			UINT i = 0;
-			SWindow *p = pMenuRoot->GetWindow(GSW_FIRSTCHILD);
-			while (i < uPos && p)
+			if (uPos != -1)
 			{
-				i++;
-				p = p->GetWindow(GSW_NEXTSIBLING);
+				UINT i = 0;
+				SWindow *p = pMenuRoot->GetWindow(GSW_FIRSTCHILD);
+				while (i < uPos && p)
+				{
+					i++;
+					p = p->GetWindow(GSW_NEXTSIBLING);
+				}
+				pItemRef = p;
 			}
-			pItemRef = p;
 		}
 		else//MF_BYCOMMAND
 		{
 			pItemRef = pMenuRoot->FindChildByID2<SMenuExItem>(uPos);
-		    if (!pItemRef) return FALSE;
+			if (!pItemRef) return FALSE;
 		}
 
-        //MF_BYPOSITION方式插入时,如果uPos大于菜单项总数,应在末尾插入,而此时pItemRef为NULL
-        //if (!pItemRef) return FALSE;
         
 		SMenuExItem *pMenuItem = (SMenuExItem*)pMenuRoot->CreateMenuItem((uFlag & MF_SEPARATOR) ? SMenuExSep::GetClassName() : SMenuExItem::GetClassName());
 
@@ -1153,13 +1123,13 @@ namespace SOUI
 			if (uFlag & MF_POPUP)
 			{
 				pMenuItem->m_pSubMenu = new SMenuEx(pMenuItem);
-				pMenuItem->m_pSubMenu->CreateNullMenu();
 			}
 
             SStringW strId;
             strId.Format(L"%d", nId);
             pMenuItem->SetAttribute(L"ID", strId);
 		}
+
 		return TRUE;
 	}
 
@@ -1169,7 +1139,7 @@ namespace SOUI
 
 		if (::IsWindow(s_MenuData->GetOwner()))
 		{
-			::SendMessage(s_MenuData->GetOwner(), WM_INITMENUPOPUP, (WPARAM)this, idx);
+			::SendMessage(s_MenuData->GetOwner(), WM_INITMENUPOPUP, (WPARAM)this, (LPARAM)idx);
 		}
 		m_bMenuInitialized = TRUE;
 	}

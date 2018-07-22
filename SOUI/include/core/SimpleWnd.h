@@ -170,6 +170,18 @@ public:
         return ::SetWindowLongPtr(m_hWnd, nIndex, dwNewLong);
     }
 
+	HWND SetParent(HWND hWndNewParent)
+	{
+		SASSERT(::IsWindow(m_hWnd));
+		return ::SetParent(m_hWnd, hWndNewParent);
+	}
+
+	BOOL IsWindowEnabled() const
+	{
+		SASSERT(::IsWindow(m_hWnd));
+		return ::IsWindowEnabled(m_hWnd);
+	}
+
     BOOL ModifyStyle(DWORD dwRemove, DWORD dwAdd, UINT nFlags = 0);
 
     BOOL ModifyStyleEx(DWORD dwRemove, DWORD dwAdd, UINT nFlags = 0);

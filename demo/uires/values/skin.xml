@@ -92,4 +92,5 @@
   <imglist name="TrayMenu_menu_ico" src="ImgTrayMenu:menu_ico" states="3"/>
   <colorrect name="TrayMenu_menu_bkgnd" hover="#cccccc"/>
   <colorrect name="TrayMenu_menu_sep" normal="#cccccc"/>
+  <imgframe name="TrayMenu_border" src="IMGX:png_menu_border" margin="2,2,2,2"/>
 </skin>

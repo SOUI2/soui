@@ -81,6 +81,18 @@ namespace SOUI
 		DWORD GetContextHelpId() const;
 
 		void SetContextHelpId(DWORD dwId);
+
+		/**
+		* InsertMenu
+		* @brief    插入菜单项
+		* @param uPos -- 插入位置，-1代表append
+		* @param uFlag -- uFlag, MF_BYPOSITION|MF_BYCOMMAND
+		* @param nId -- menu id
+		* @param lpNewItem -- menu string
+		* @return   BOOL, true or false
+		*
+		* Describe
+		*/
 		BOOL InsertMenu(UINT uPos,UINT uFlag,int nId,LPCTSTR lpNewItem);
     protected:
 		//创建一个空菜单,不应该在外部调用
