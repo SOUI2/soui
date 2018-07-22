@@ -1082,23 +1082,24 @@ namespace SOUI
 
 		if (uFlag & MF_BYPOSITION)
 		{
-			UINT i = 0;
-			SWindow *p = pMenuRoot->GetWindow(GSW_FIRSTCHILD);
-			while (i < uPos && p)
+			if (uPos != -1)
 			{
-				i++;
-				p = p->GetWindow(GSW_NEXTSIBLING);
+				UINT i = 0;
+				SWindow *p = pMenuRoot->GetWindow(GSW_FIRSTCHILD);
+				while (i < uPos && p)
+				{
+					i++;
+					p = p->GetWindow(GSW_NEXTSIBLING);
+				}
+				pItemRef = p;
 			}
-			pItemRef = p;
 		}
 		else//MF_BYCOMMAND
 		{
 			pItemRef = pMenuRoot->FindChildByID2<SMenuExItem>(uPos);
-		    if (!pItemRef) return FALSE;
+			if (!pItemRef) return FALSE;
 		}
 
-        //MF_BYPOSITION方式插入时,如果uPos大于菜单项总数,应在末尾插入,而此时pItemRef为NULL
-        //if (!pItemRef) return FALSE;
         
 		SMenuExItem *pMenuItem = (SMenuExItem*)pMenuRoot->CreateMenuItem((uFlag & MF_SEPARATOR) ? SMenuExSep::GetClassName() : SMenuExItem::GetClassName());
 
@@ -1131,7 +1132,7 @@ namespace SOUI
             pMenuItem->SetAttribute(L"ID", strId);
 		}
 
-		return FALSE;
+		return TRUE;
 	}
 
 	void SMenuEx::SendInitPopupMenu2Owner(int idx)
