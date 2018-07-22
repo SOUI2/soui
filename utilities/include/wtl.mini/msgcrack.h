@@ -956,12 +956,23 @@ public: \
             return TRUE; \
     }
 
-// void OnInitMenuPopup(CMenuHandle menuPopup, UINT nIndex, BOOL bSysMenu)
+// void OnInitMenuPopup(HMENU menuPopup, UINT nIndex, BOOL bSysMenu)
 #define MSG_WM_INITMENUPOPUP(func) \
     if (uMsg == WM_INITMENUPOPUP) \
     { \
         SetMsgHandled(TRUE); \
         func((HMENU)wParam, (UINT)LOWORD(lParam), (BOOL)HIWORD(lParam)); \
+        lResult = 0; \
+        if(IsMsgHandled()) \
+            return TRUE; \
+    }
+
+// void OnInitMenuPopup(SMenuEx* menuPopup, UINT nIndex)
+#define MSG_WM_INITMENUPOPUP_EX(func) \
+    if (uMsg == WM_INITMENUPOPUP) \
+    { \
+        SetMsgHandled(TRUE); \
+        func((SMenuEx*)wParam, (int)(lParam)); \
         lResult = 0; \
         if(IsMsgHandled()) \
             return TRUE; \

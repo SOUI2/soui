@@ -542,7 +542,11 @@ namespace SOUI
 		m_hostAttr.SetTranslucent(true);
 	}
 
-	SMenuEx::SMenuEx(SMenuExItem *pParent) :m_pParent(pParent), m_pHoverItem(NULL), m_pCheckItem(NULL)
+	SMenuEx::SMenuEx(SMenuExItem *pParent) 
+		:m_pParent(pParent)
+		, m_pHoverItem(NULL)
+		, m_pCheckItem(NULL)
+		, m_bMenuInitialized(FALSE)
 	{
 
 	}
@@ -616,22 +620,23 @@ namespace SOUI
 			s_MenuData->AddRef();
 
 		HWND hActive = hOwner;
-		if (!hActive) hActive = ::GetActiveWindow();
-
-		if (::IsWindow(hOwner))
+		if (!hOwner || !::IsWindowEnabled(hOwner)) hActive = ::GetActiveWindow();
+		/*
+		if (::IsWindow(hActive))
 		{
-			SetWindowLongPtr(GWLP_HWNDPARENT, (ULONG_PTR)hOwner);
+			SetParent(hActive);
 		}
+		*/
 
-		HWND hOwnerParent = hOwner;
-		while (::GetParent(hOwnerParent))
+		HWND hRoot = hActive;
+		while (::GetParent(hRoot))
 		{
-			hOwnerParent = ::GetParent(hOwnerParent);
+			hRoot = ::GetParent(hRoot);
 		}
-		SetForegroundWindow(hOwnerParent);
+		SetForegroundWindow(hRoot);
 
 		ShowMenu(flag, x, y);
-		RunMenu(hOwner);
+		RunMenu(hRoot);
 		HideMenu(FALSE);
 
 		if (hActive)
@@ -772,7 +777,7 @@ namespace SOUI
 	}
 
 
-	void SMenuEx::RunMenu(HWND hOwner)
+	void SMenuEx::RunMenu(HWND hRoot)
 	{
 		SASSERT(s_MenuData);
 
@@ -780,13 +785,6 @@ namespace SOUI
 		BOOL bMsgQuit(FALSE);
 		HWND hCurMenu(NULL);
 
-		HWND hRoot = hOwner;
-		for (;;)
-		{
-			HWND hParent = ::GetParent(hRoot);
-			if (!hParent) break;
-			hRoot = hParent;
-		}
 		for (;;)
 		{
 
@@ -1141,7 +1139,7 @@ namespace SOUI
 
 		if (::IsWindow(s_MenuData->GetOwner()))
 		{
-			::SendMessage(s_MenuData->GetOwner(), WM_INITMENUPOPUP, (WPARAM)this, idx);
+			::SendMessage(s_MenuData->GetOwner(), WM_INITMENUPOPUP, (WPARAM)this, (LPARAM)idx);
 		}
 		m_bMenuInitialized = TRUE;
 	}
