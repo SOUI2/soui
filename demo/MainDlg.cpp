@@ -152,11 +152,6 @@ void LoadSkinFormXml(SDemoSkin *skin, SkinType *skinType, SkinLoadInf *skininf)
 			break;
 		}
 	}
-	else
-	{
-		//在这里恢复默认皮肤
-		SMessageBox(NULL, _T("找不到系统主题配置文件。"), _T("警告"), NULL);
-	}
 }
 bool CMainDlg::LoadSkin()
 {
