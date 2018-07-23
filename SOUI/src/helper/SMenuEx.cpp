@@ -1125,11 +1125,39 @@ namespace SOUI
 				pMenuItem->m_pSubMenu = new SMenuEx(pMenuItem);
 			}
 
-            SStringW strId;
-            strId.Format(L"%d", nId);
-            pMenuItem->SetAttribute(L"ID", strId);
+            pMenuItem->SetAttribute(L"ID", SStringW().Format(L"%d",nId));
+			if (uFlag & MF_CHECKED)
+			{
+				pMenuItem->SetAttribute(L"check", L"1");
+			}
 		}
 
+		return TRUE;
+	}
+
+	BOOL SMenuEx::DeleteMenu(UINT uPos, UINT uFlag)
+	{
+		SMenuExRoot *pMenuRoot = sobj_cast<SMenuExRoot>(GetRoot()->GetWindow(GSW_FIRSTCHILD));
+		SASSERT(pMenuRoot);
+		SWindow * pItemRef = NULL;
+
+		if (uFlag & MF_BYPOSITION)
+		{
+			UINT i = 0;
+			SWindow *p = pMenuRoot->GetWindow(GSW_FIRSTCHILD);
+			while (i < uPos && p)
+			{
+				i++;
+				p = p->GetWindow(GSW_NEXTSIBLING);
+			}
+			pItemRef = p;
+		}
+		else//MF_BYCOMMAND
+		{
+			pItemRef = pMenuRoot->FindChildByID2<SMenuExItem>(uPos);
+		}
+		if (!pItemRef) return FALSE;
+		pMenuRoot->DestroyChild(pItemRef);
 		return TRUE;
 	}
 

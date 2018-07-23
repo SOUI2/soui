@@ -94,6 +94,8 @@ namespace SOUI
 		* Describe
 		*/
 		BOOL InsertMenu(UINT uPos,UINT uFlag,int nId,LPCTSTR lpNewItem);
+
+		BOOL DeleteMenu(UINT uPos, UINT uFlag);
     protected:
 		//创建一个空菜单,不应该在外部调用
 		BOOL CreateNullMenu();
