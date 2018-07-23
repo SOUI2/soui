@@ -168,7 +168,8 @@ namespace SOUI
 
     void SComboBase::OnLButtonDown( UINT nFlags,CPoint pt )
     {
-        SetFocus();
+		if (m_bFocusable)
+			SetFocus();
         DropDown();
     }
 
