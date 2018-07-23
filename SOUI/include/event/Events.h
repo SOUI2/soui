@@ -144,8 +144,13 @@ namespace SOUI
             , sender(pSender)
             , bubbleUp(true)
         {
-            idFrom = pSender->GetID();
-            nameFrom = pSender->GetName();
+            if(NULL!=pSender) {
+                idFrom = pSender->GetID();
+                nameFrom = pSender->GetName();
+            } else {
+               idFrom = 0;
+               nameFrom = NULL;
+            }
         }
 
         virtual ~EventArgs(void) {}

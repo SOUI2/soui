@@ -1,7 +1,9 @@
-﻿<menuRoot itemHeight="38" iconPos="12" iconSkin="TrayMenu_menu_ico" textOffset="18" font="face:微软雅黑,size:14" sepSkin="TrayMenu_menu_sep"  itemSkin="TrayMenu_menu_bkgnd" maxWidth="198" minWidth="198" margin="1,1,1,1" colorBorder="#cccccc" colorBkgnd="#ffffff">
+﻿<menuRoot itemHeight="38" iconPos="12" iconSkin="TrayMenu_menu_ico" textOffset="18" font="face:微软雅黑,size:14" 
+          sepSkin="TrayMenu_menu_sep"  itemSkin="TrayMenu_menu_bkgnd" maxWidth="198" minWidth="198" 
+          margin="2,2,2,2" colorBkgnd="#ffffff" ncSkin="TrayMenu_border" alpha="220">
   <menuItem height="56">
     <window pos="0,0" size="-2,-2" colorBkgnd="#ffffff">
-    <imgbtn pos="]-20,|" offset="-1,-0.5" cursor="hand" skin="TrayMenu_btn_pre" name="menu_btn_pre"/>
+    <imgbtn pos="]-20,|" offset="-1,-0.5" cursor="hand" skin="TrayMenu_btn_pre" name="menu_btn_pre" />
     <imgbtn pos="|,|" offset="-0.5,-0.5" cursor="hand" skin="TrayMenu_btn_play" name="menu_btn_play"/>
     <imgbtn pos="[+20,|" offset="0,-0.5" cursor="hand" skin="TrayMenu_btn_next" name="menu_btn_next"/>
   </window>
