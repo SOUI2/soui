@@ -668,6 +668,7 @@ namespace SOUI
 	{
 		SMenuExRoot *pMenuRoot = sobj_cast<SMenuExRoot>(GetRoot()->GetWindow(GSW_FIRSTCHILD));
 
+		SendInitPopupMenu2Owner(0);
 		SASSERT(pMenuRoot);
 		pMenuRoot->SDispatchMessage(UM_SETSCALE, GetScale(), 0);
 
