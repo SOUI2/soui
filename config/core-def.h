@@ -1,2 +1,2 @@
-//使用DLL方式编译SOUI及UTILITES
-#define DLL_CORE
+//使用LIB编译SOUI,UTILITES and COLL-MEM模块
+#define LIB_ALL

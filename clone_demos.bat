@@ -7,7 +7,7 @@ COLOR 1f
 cd ..
 mkdir soui-demo
 cd soui-demo
-
+goto createsln
 call :update_repo UiEditor
 call :update_repo qqlogin
 call :update_repo 360
@@ -41,7 +41,7 @@ SET /p selected=1.是否生成soui_demo.sln工程[1=YES;Other=No]:
 if %selected% neq 1 (
 	goto :eof
 ) 
-
+:createsln
 If Defined SOUIPATH (
 Echo %SOUIPATH%
 ) Else (
@@ -183,8 +183,9 @@ if %specs%==win32-msvc2017 (
 ) else (
 	%SOUIPATH%\tools\qmake -tp vc -r -spec %SOUIPATH%\tools\mkspecs\%specs% "CONFIG += !cfg! "
 )
-goto :eof
 pause
+goto :eof
+
 
 
 

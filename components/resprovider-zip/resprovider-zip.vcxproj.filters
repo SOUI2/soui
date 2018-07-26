@@ -53,7 +53,4 @@
       <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="ResProvider-Zip.rc" />
-  </ItemGroup>
 </Project>
