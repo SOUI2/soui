@@ -732,9 +732,9 @@ namespace SOUI
 					rcMenu.MoveToX(x + subMenuOffset);
 				}
 
-				if (rcMenu.bottom > mi.rcMonitor.bottom)
+				if (rcMenu.top < mi.rcMonitor.top)
 				{
-					rcMenu.MoveToY(y - szMenu.cy);
+					rcMenu.MoveToY(y + szMenu.cy);
 				}
 			}
 
