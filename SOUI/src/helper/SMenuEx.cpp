@@ -1072,7 +1072,8 @@ namespace SOUI
 		::PostMessage(s_MenuData->GetOwner(), WM_NULL, 0, 0);
 	}
 
-	BOOL SMenuEx::InsertMenu(UINT uPos, UINT uFlag, int nId, LPCTSTR lpNewItem)
+
+	SWindow * SMenuEx::FindItem(UINT uPos, UINT uFlag)
 	{
 		SMenuExRoot *pMenuRoot = sobj_cast<SMenuExRoot>(GetRoot()->GetWindow(GSW_FIRSTCHILD));
 		SASSERT(pMenuRoot);
@@ -1095,9 +1096,18 @@ namespace SOUI
 		else//MF_BYCOMMAND
 		{
 			pItemRef = pMenuRoot->FindChildByID2<SMenuExItem>(uPos);
-			if (!pItemRef) return FALSE;
 		}
+		return pItemRef;
+	}
 
+	BOOL SMenuEx::InsertMenu(UINT uPos, UINT uFlag, int nId, LPCTSTR lpNewItem)
+	{
+		SMenuExRoot *pMenuRoot = sobj_cast<SMenuExRoot>(GetRoot()->GetWindow(GSW_FIRSTCHILD));
+		SASSERT(pMenuRoot);
+		SWindow * pItemRef = FindItem(uPos,uFlag);
+
+		if (uFlag & MF_BYCOMMAND && !pItemRef)
+			return FALSE;
         
 		SMenuExItem *pMenuItem = (SMenuExItem*)pMenuRoot->CreateMenuItem((uFlag & MF_SEPARATOR) ? SMenuExSep::GetClassName() : SMenuExItem::GetClassName());
 
@@ -1139,25 +1149,88 @@ namespace SOUI
 	{
 		SMenuExRoot *pMenuRoot = sobj_cast<SMenuExRoot>(GetRoot()->GetWindow(GSW_FIRSTCHILD));
 		SASSERT(pMenuRoot);
-		SWindow * pItemRef = NULL;
-
-		if (uFlag & MF_BYPOSITION)
-		{
-			UINT i = 0;
-			SWindow *p = pMenuRoot->GetWindow(GSW_FIRSTCHILD);
-			while (i < uPos && p)
-			{
-				i++;
-				p = p->GetWindow(GSW_NEXTSIBLING);
-			}
-			pItemRef = p;
-		}
-		else//MF_BYCOMMAND
-		{
-			pItemRef = pMenuRoot->FindChildByID2<SMenuExItem>(uPos);
-		}
+		SWindow * pItemRef = FindItem(uPos, uFlag);
 		if (!pItemRef) return FALSE;
 		pMenuRoot->DestroyChild(pItemRef);
+		return TRUE;
+	}
+
+	BOOL SMenuEx::CheckMenuItem(UINT uPos, UINT uFlag)
+	{
+		SMenuExRoot *pMenuRoot = sobj_cast<SMenuExRoot>(GetRoot()->GetWindow(GSW_FIRSTCHILD));
+		SASSERT(pMenuRoot);
+		SWindow * pItemRef = FindItem(uPos, uFlag);
+		if (!pItemRef) return FALSE;
+
+		if (uFlag & MF_CHECKED)
+		{
+			pItemRef->SetAttribute(L"check", L"1");
+		}
+		else
+		{
+			pItemRef->SetAttribute(L"check", L"0");
+		}
+		return TRUE;
+	}
+
+	BOOL SMenuEx::CheckMenuRadioltem(UINT idFirst, UINT idLast, UINT idCheck, UINT uFlags)
+	{
+		SMenuExRoot *pMenuRoot = sobj_cast<SMenuExRoot>(GetRoot()->GetWindow(GSW_FIRSTCHILD));
+		SASSERT(pMenuRoot);
+		SWindow * pItemRefFirst = FindItem(idFirst, uFlags);
+		SWindow * pItemRefLast = FindItem(idLast, uFlags);
+		SWindow * pItemRefCheck = FindItem(idCheck, uFlags);
+
+		if (!pItemRefFirst || !pItemRefLast || !pItemRefCheck)
+			return FALSE;
+		
+		int idxFirst = -1;
+		int idxLast = -1 ;
+		int idxCheck = -1;
+
+		SWindow *pChild = pMenuRoot->GetWindow(GSW_FIRSTCHILD);
+		int i = 0;
+		while (pChild)
+		{
+			if (pChild == pItemRefFirst)
+				idxFirst = i;
+			else if (pChild == pItemRefCheck)
+				idxCheck = i;
+			else if (pChild == pItemRefLast)
+				idxLast = i;
+			pChild = pChild->GetWindow(GSW_NEXTSIBLING);
+			i++;
+		}
+		if (idxFirst == -1 || idxLast == -1 || idxCheck == -1)
+			return FALSE;
+		if (idxFirst < idxLast)
+		{
+			SWindow *t = pItemRefFirst;
+			pItemRefFirst = pItemRefLast;
+			pItemRefLast = t;
+			int tIdx = idxFirst;
+			idxFirst = idxLast;
+			idxLast = tIdx;
+		}
+
+		if (idxFirst > idxCheck || idxLast < idxCheck)
+			return FALSE;
+		
+		pChild = pItemRefFirst;
+		for (;;)
+		{
+			pChild->SetAttribute(L"radio", L"1");
+			if (pChild == pItemRefCheck)
+			{
+				pChild->SetAttribute(L"check", L"1");
+			}
+			else
+			{
+				pChild->SetAttribute(L"check", L"0");
+			}
+			if (pChild == pItemRefLast) break;
+			else pChild = pChild->GetWindow(GSW_NEXTSIBLING);
+		}
 		return TRUE;
 	}
 
@@ -1187,4 +1260,3 @@ namespace SOUI
 	}
 
 }
-

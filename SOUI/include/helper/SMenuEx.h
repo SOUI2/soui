@@ -15,8 +15,6 @@ namespace SOUI
 
         SMenuEx * GetSubMenu();
 
-		SMenuEx * CreatePopMenu();
-
         SMenuEx * GetOwnerMenu();
 
         void HideSubMenu();
@@ -96,6 +94,10 @@ namespace SOUI
 		BOOL InsertMenu(UINT uPos,UINT uFlag,int nId,LPCTSTR lpNewItem);
 
 		BOOL DeleteMenu(UINT uPos, UINT uFlag);
+
+		BOOL CheckMenuItem(UINT uPos, UINT uFlag);
+
+		BOOL CheckMenuRadioltem(UINT idFirst, UINT idLast, UINT idCheck, UINT uFlags);
     protected:
 		//创建一个空菜单,不应该在外部调用
 		BOOL CreateNullMenu();
@@ -114,6 +116,8 @@ namespace SOUI
         virtual BOOL _HandleEvent(EventArgs *pEvt);
 		virtual const SStringW & GetTranslatorContext();
 		virtual int GetScale() const;
+
+		SWindow * FindItem(UINT uPos, UINT uFlag);
 
         void ShowMenu(UINT uFlag,int x,int y);
         void HideMenu(BOOL bUncheckParentItem);
