@@ -4,6 +4,7 @@
 
 namespace SOUI
 {
+	class SMenuExRoot;
     class SMenuEx;
     class SOUI_EXP SMenuExItem : public SWindow
     {
@@ -92,7 +93,7 @@ namespace SOUI
 		* Describe
 		*/
 		BOOL InsertMenu(UINT uPos,UINT uFlag,int nId,LPCTSTR lpNewItem);
-
+		
 		BOOL DeleteMenu(UINT uPos, UINT uFlag);
 
 		BOOL CheckMenuItem(UINT uPos, UINT uFlag);
@@ -100,8 +101,7 @@ namespace SOUI
 		BOOL CheckMenuRadioltem(UINT idFirst, UINT idLast, UINT idCheck, UINT uFlags);
     protected:
 		//创建一个空菜单,不应该在外部调用
-		BOOL CreateNullMenu();
-
+		BOOL IniNullMenu(SMenuExRoot *ParentRoot);
         int OnMouseActivate(HWND wndTopLevel, UINT nHitTest, UINT message);
         void OnTimer(UINT_PTR timeID);
         void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);

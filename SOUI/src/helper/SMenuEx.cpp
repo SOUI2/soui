@@ -20,7 +20,7 @@ namespace SOUI
 	class SMenuExRoot : public SWindow
 	{
 		SOUI_CLASS_NAME(SMenuExRoot, L"menuRoot")
-			friend class SMenuEx;
+		friend class SMenuEx;
 		friend class SMenuExItem;
 	protected:
 		ISkinObj * m_pItemSkin;
@@ -40,6 +40,22 @@ namespace SOUI
 		SLayoutSize  m_nSubMenuOffset;
 
 		DWORD	  m_dwContextHelpId;
+		
+		void Copy(SMenuExRoot* pNewMenuExRoot)
+		{
+			pNewMenuExRoot->m_pItemSkin = m_pItemSkin;
+			pNewMenuExRoot->m_pIconSkin = m_pIconSkin;
+			pNewMenuExRoot->m_pCheckSkin = m_pCheckSkin;
+			pNewMenuExRoot->m_pArrowSkin = m_pArrowSkin;
+			pNewMenuExRoot->m_pSepSkin = m_pSepSkin;
+			pNewMenuExRoot->m_nItemHei = m_nItemHei;
+			pNewMenuExRoot->m_nIconBarWidth = m_nIconBarWidth;
+			pNewMenuExRoot->m_nTextOffset = m_nTextOffset;
+			pNewMenuExRoot->m_iconX = m_iconX;
+			pNewMenuExRoot->m_iconY = m_iconY;
+			pNewMenuExRoot->m_nMinWidth = m_nMinWidth;
+			pNewMenuExRoot->m_nSubMenuOffset = m_nSubMenuOffset;
+		}
 
 		HRESULT OnAttrIconPos(const SStringW & strValue, BOOL bLoading);
 
@@ -74,8 +90,7 @@ namespace SOUI
 			m_nMinWidth.setSize(WIDTH_MENU_MIN, SLayoutSize::dp);
 			OnAttrLayout(SVBox::GetClassName(), TRUE);//set layout to vbox
 		}
-
-
+		
 		SMenuExItem * GetNextMenuItem(SMenuExItem *pItem, BOOL bForword, int nCount = 0);
 
 		CSize CalcMenuSize()
@@ -1071,8 +1086,7 @@ namespace SOUI
 		s_MenuData->ExitMenu(nCmdId);
 		::PostMessage(s_MenuData->GetOwner(), WM_NULL, 0, 0);
 	}
-
-
+	
 	SWindow * SMenuEx::FindItem(UINT uPos, UINT uFlag)
 	{
 		SMenuExRoot *pMenuRoot = sobj_cast<SMenuExRoot>(GetRoot()->GetWindow(GSW_FIRSTCHILD));
@@ -1133,6 +1147,7 @@ namespace SOUI
 			if (uFlag & MF_POPUP)
 			{
 				pMenuItem->m_pSubMenu = new SMenuEx(pMenuItem);
+				pMenuItem->m_pSubMenu->IniNullMenu(pMenuRoot);
 			}
 
             pMenuItem->SetAttribute(L"ID", SStringW().Format(L"%d",nId));
@@ -1142,6 +1157,26 @@ namespace SOUI
 			}
 		}
 
+		return TRUE;
+	}
+
+	BOOL SMenuEx::IniNullMenu(SMenuExRoot *ParentRoot)
+	{
+		HWND hWnd = Create(NULL, WS_POPUP, WS_EX_TOOLWINDOW | WS_EX_TOPMOST, 0, 0, 0, 0);
+		pugi::xml_document souiXml;
+		pugi::xml_node root = souiXml.append_child(L"SOUI");
+		root.append_attribute(L"translucent").set_value(1);		
+		_InitFromXml(root, 0, 0);
+		if (!hWnd) return FALSE;
+		SMenuExRoot *pMenuRoot = new SMenuExRoot(this);		
+		if (ParentRoot)
+		{
+			//拷贝属性
+			ParentRoot->Copy(pMenuRoot);
+		}
+		InsertChild(pMenuRoot);
+		pMenuRoot->SSendMessage(WM_CREATE);
+		pMenuRoot->GetLayoutParam()->SetWrapContent(Both);
 		return TRUE;
 	}
 
