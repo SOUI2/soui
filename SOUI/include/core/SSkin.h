@@ -17,13 +17,13 @@ enum
 };
 
 #define IIF_STATE2(the_state, normal_value, hover_value) \
-    (((the_state) & WndState_Hover) ? (hover_value) : (normal_value))
+    (((the_state) & SOUI::WndState_Hover) ? (hover_value) : (normal_value))
 
 #define IIF_STATE3(the_state, normal_value, hover_value, pushdown_value) \
-    (((the_state) & (WndState_PushDown|WndState_Check)) ? (pushdown_value) : IIF_STATE2(the_state, normal_value, hover_value))
+    (((the_state) & (SOUI::WndState_PushDown|SOUI::WndState_Check)) ? (pushdown_value) : IIF_STATE2(the_state, normal_value, hover_value))
 
 #define IIF_STATE4(the_state, normal_value, hover_value, pushdown_value, disable_value) \
-    (((the_state) & WndState_Disable) ? (disable_value) : IIF_STATE3(the_state, normal_value, hover_value, pushdown_value))
+    (((the_state) & SOUI::WndState_Disable) ? (disable_value) : IIF_STATE3(the_state, normal_value, hover_value, pushdown_value))
 
 
 //////////////////////////////////////////////////////////////////////////
