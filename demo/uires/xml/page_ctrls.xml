@@ -155,7 +155,7 @@
       </window>
     </page>
     <page title="buttons" colorBorder="#ffff00" margin-x="15" margin-y="15">
-      <button name="btn_msgbox" pos="10,50" width="200" height="30" accel="ctrl+alt+f9" font="bold:1" animate="0">show msg box</button>
+      <imgbtn name="btn_msgbox" pos="10,40" width="200" height="40" accel="ctrl+alt+f9" font="bold:1" skin="win10btn" animate="1">show msg box</imgbtn>
       <text pos="10,[5">press "ctrl+alt+f9" to activate the msgbox button</text>
       <link pos="10,130" maxWidth="100" class="cls_btn_weblink" dotted="1" href="www.setoutsoft.cn">www.setoutsoft.cn</link>
       <img pos="10,[10,@100,@100" skin="skin_page_icons" iconIndex="2" tip="img tip" msgTransparent="0"/>
@@ -188,22 +188,22 @@
         <radio pos="[10,{0" name="radio_4">radio 4</radio>
       </group>
       <group pos="[50,{0,@180,@100">
-        radio2
-        <radio2 pos="10,0" id="10000" name="radio2_1"  skin="skin_webbtn_forward"></radio2>
-        <radio2 pos="[20,{0" id="10001" name="radio2_2"  skin="skin_webbtn_forward"></radio2>
-        <radio2 pos="[20,{0" id="10002" name="radio2_3" skin="skin_webbtn_forward"></radio2>
-        <radio2 pos="10,[10" id="10003" name="radio2_4" checked="1" skin="skin_webbtn_forward"></radio2>
-        <radio2 pos="[20,{0" id="10004" name="radio2_5" skin="skin_webbtn_forward"></radio2>
-        <radio2 pos="[20,{0" id="10005" name="radio2_6" skin="skin_webbtn_forward"></radio2>
+        radio+reset
+        <radio pos="10,0" id="10000" name="radio2_1" drawFocusRect="0" skin="skin_webbtn_forward"></radio>
+        <radio pos="[20,{0" id="10001" name="radio2_2" drawFocusRect="0" skin="skin_webbtn_forward"></radio>
+        <radio pos="[20,{0" id="10002" name="radio2_3" drawFocusRect="0" skin="skin_webbtn_forward"></radio>
+        <radio pos="10,[10" id="10003" name="radio2_4" drawFocusRect="0" checked="1" skin="skin_webbtn_forward"></radio>
+        <radio pos="[20,{0" id="10004" name="radio2_5" drawFocusRect="0" skin="skin_webbtn_forward"></radio>
+        <radio pos="[20,{0" id="10005" name="radio2_6" drawFocusRect="0" skin="skin_webbtn_forward"></radio>
       </group>
       <group pos="10,[0,@180,@100">
         radio3
-        <radio2 pos="10,0" name="radio3_1"  skin="skin_webbtn_forward"></radio2>
-        <radio2 pos="[20,{0" name="radio3_2"  skin="skin_webbtn_forward"></radio2>
-        <radio2 pos="[20,{0" name="radio3_3" skin="skin_webbtn_forward"></radio2>
-        <radio2 pos="10,[10" name="radio3_4" checked="1" skin="skin_webbtn_forward"></radio2>
-        <radio2 pos="[20,{0" name="radio3_5" skin="skin_webbtn_forward"></radio2>
-        <radio2 pos="[20,{0" name="radio3_6" skin="skin_webbtn_forward"></radio2>
+        <radio2 pos="10,0" name="radio3_1"  skin="skin_webbtn_back"></radio2>
+        <radio2 pos="[20,{0" name="radio3_2"  skin="skin_webbtn_back"></radio2>
+        <radio2 pos="[20,{0" name="radio3_3" skin="skin_webbtn_back"></radio2>
+        <radio2 pos="10,[10" name="radio3_4" checked="1" skin="skin_webbtn_back"></radio2>
+        <radio2 pos="[20,{0" name="radio3_5" skin="skin_webbtn_back"></radio2>
+        <radio2 pos="[20,{0" name="radio3_6" skin="skin_webbtn_back"></radio2>
       </group>
       <group pos="10,[0,@180,@100">
         Btn
