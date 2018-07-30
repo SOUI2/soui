@@ -45,17 +45,20 @@ BOOL SSkinImgList::IgnoreState()
 
 int SSkinImgList::GetStates()
 {
-	int nReset = m_arrReset.GetCount();
+	int nReset = m_arrStateMap.GetCount();
     return (m_nStates > nReset) ?  m_nStates : nReset;
 }
 
-HRESULT SSkinImgList::OnAttrReset(const SStringW & strValue, BOOL bLoading)
+HRESULT SSkinImgList::OnAttrStateMap(const SStringW & strValue, BOOL bLoading)
 {
-	m_arrReset.RemoveAll();
-	for (int i = 0; i < strValue.GetLength(); i++)
+	m_arrStateMap.RemoveAll();
+	
+	SStringTList strLst;
+	SplitString(strValue, '-', strLst);
+	
+	for(int i=0; i<strLst.GetCount(); ++i)
 	{
-		DWORD dw = strValue[i] - 48;
-		m_arrReset.Add(dw);
+		m_arrStateMap.Add(_ttoi(strLst[i]));
 	}
 
 	return S_OK;
@@ -66,8 +69,8 @@ void SSkinImgList::_Draw(IRenderTarget *pRT, LPCRECT rcDraw, DWORD dwState,BYTE 
     if(!m_pImg) return;
 
 	// 尝试 重新设置
-	if(dwState < m_arrReset.GetCount())
-		dwState = m_arrReset[dwState];
+	if(dwState < m_arrStateMap.GetCount())
+		dwState = m_arrStateMap[dwState];
 
     SIZE sz = GetSkinSize();
     RECT rcSrc = {0, 0, sz.cx, sz.cy};
@@ -118,7 +121,7 @@ void SSkinImgList::_Scale(ISkinObj * skinObj, int nScale)
 	pRet->m_bVertical = m_bVertical;
 	pRet->m_filterLevel = m_filterLevel;
 	pRet->m_bAutoFit = m_bAutoFit;
-	pRet->m_arrReset = m_arrReset;
+	pRet->m_arrStateMap = m_arrStateMap;
 	
 	CSize szSkin = GetSkinSize();
 	szSkin.cx = MulDiv(szSkin.cx, nScale, 100);
@@ -181,7 +184,7 @@ void SSkinImgFrame::_Scale(ISkinObj *skinObj, int nScale)
 // SSkinButton
 SSkinButton::SSkinButton()
     : m_nCornerRadius(2)
-	, m_fCornerPer(0.0)
+	, m_fCornerPercent(0.0)
 {
     m_colors.m_crBorder[0] = RGB(0x70, 0x70, 0x70);
 	m_colors.m_crBorder[1] = CR_INVALID;		// 不改变 原有的效果
@@ -201,11 +204,11 @@ SSkinButton::SSkinButton()
 void SSkinButton::_Draw(IRenderTarget *pRT, LPCRECT prcDraw, DWORD dwState,BYTE byAlpha)
 {
 	int nCorner = m_nCornerRadius;
-	if (m_fCornerPer > 0.0)
+	if (m_fCornerPercent > 0.0)
 	{
 		int nW = prcDraw->right - prcDraw->left;
 		int nH = prcDraw->bottom - prcDraw->top;
-		nCorner = (nW < nH) ? (int)(nW * m_fCornerPer) : (int)(nH * m_fCornerPer);
+		nCorner = (nW < nH) ? (int)(nW * m_fCornerPercent) : (int)(nH * m_fCornerPercent);
 	}
    	// 只有 在 需要渐变的情况下 才 需要 这个
 	if (m_colors.m_crUp[dwState] != m_colors.m_crDown[dwState])
@@ -428,7 +431,7 @@ void SSkinScrollbar::_Scale(ISkinObj *skinObj, int nScale)
 // SSkinColor
 SSkinColorRect::SSkinColorRect()
 	: m_nRadius(0)
-	, m_fCornerPer(0.0)
+	, m_fCornerPercent(0.0)
 {
     m_crStates[0]=RGBA(255,255,255,255);
     m_crStates[1]=CR_INVALID;
@@ -445,11 +448,11 @@ void SSkinColorRect::_Draw(IRenderTarget *pRT, LPCRECT prcDraw, DWORD dwState,BY
 	if(dwState > 3) return;
 
 	int nCorner = m_nRadius;
-	if (m_fCornerPer > 0.0)
+	if (m_fCornerPercent > 0.0)
 	{
 		int nW = prcDraw->right - prcDraw->left;
 		int nH = prcDraw->bottom - prcDraw->top;
-		nCorner = (nW < nH) ? (int)(nW * m_fCornerPer) : (int)(nH * m_fCornerPer);
+		nCorner = (nW < nH) ? (int)(nW * m_fCornerPercent) : (int)(nH * m_fCornerPercent);
 	}
 	    
     if(m_crStates[dwState] == CR_INVALID)

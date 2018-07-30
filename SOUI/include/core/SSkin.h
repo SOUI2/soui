@@ -71,17 +71,17 @@ protected:
     virtual void _Draw(IRenderTarget *pRT, LPCRECT rcDraw, DWORD dwState,BYTE byAlpha);
 
     virtual UINT GetExpandMode();
-	HRESULT OnAttrReset(const SStringW & strValue, BOOL bLoading);
+	HRESULT OnAttrStateMap(const SStringW & strValue, BOOL bLoading);
     
     CAutoRefPtr<IBitmap> m_pImg;
-	int  m_nStates;				  // skin 状态值
+	int  m_nStates;				  // skin 状态值 
     BOOL m_bTile;
     BOOL m_bAutoFit;
     BOOL m_bVertical;
     CAutoRefPtr<IBitmap> m_imgBackup;   //色调调整前的备分
 
     FilterLevel m_filterLevel;
-	SArray<DWORD> m_arrReset;				// 重新设置的 状态值  
+	SArray<DWORD> m_arrStateMap;				// 状态 映射
     SOUI_ATTRS_BEGIN()
         ATTR_IMAGEAUTOREF(L"src", m_pImg, FALSE)    //skinObj引用的图片文件定义在uires.idx中的name属性。
         ATTR_INT(L"tile", m_bTile, FALSE)    //绘制是否平铺,0--位伸（默认），其它--平铺
@@ -94,7 +94,7 @@ protected:
             ATTR_ENUM_VALUE(L"medium",kMedium_FilterLevel)
             ATTR_ENUM_VALUE(L"high",kHigh_FilterLevel)
         ATTR_ENUM_END(m_filterLevel)
-		ATTR_CUSTOM(L"reset", OnAttrReset)			// 现在 还 只 支持 0-9 之间的 状态 
+		ATTR_CUSTOM(L"stateMap", OnAttrStateMap)			// 状态 映射
     SOUI_ATTRS_END()
 };
 
@@ -180,7 +180,7 @@ protected:
     BTNCOLORS   m_colorsBackup;
 
     int         m_nCornerRadius;
-	float		m_fCornerPer;				// 圆角 百分比 0.5 半圆
+	float		m_fCornerPercent;				// 圆角 百分比 0.5 半圆
     
     SOUI_ATTRS_BEGIN()
         ATTR_COLOR(L"colorBorder", m_colors.m_crBorder[0], TRUE)               //正常 边框颜色
@@ -196,7 +196,7 @@ protected:
         ATTR_COLOR(L"colorUpDisable", m_colors.m_crUp[ST_DISABLE], TRUE)     //禁用状态渐变起始颜色
         ATTR_COLOR(L"colorDownDisable", m_colors.m_crDown[ST_DISABLE], TRUE) //禁用状态渐变终止颜色
         ATTR_INT(L"cornerRadius",m_nCornerRadius,TRUE)              //圆角大小
-		ATTR_FLOAT(L"cornerPer", m_fCornerPer, TRUE)				// 圆角 百分比 0.5 半圆 会覆盖 cornerRadius 
+		ATTR_FLOAT(L"cornerPercent", m_fCornerPercent, TRUE)				// 圆角 百分比 0.5 半圆 会覆盖 cornerRadius 
     SOUI_ATTRS_END()
 
 
@@ -319,12 +319,12 @@ protected:
         ATTR_COLOR(L"pushdown",m_crStates[2],FALSE)
         ATTR_COLOR(L"disable",m_crStates[3],FALSE)
         ATTR_INT(L"cornerRadius",m_nRadius,FALSE)
-		ATTR_FLOAT(L"cornerPer", m_fCornerPer, FALSE)				// 圆角 百分比 0.5 半圆 会覆盖 cornerRadius 
+		ATTR_FLOAT(L"cornerPercent", m_fCornerPercent, FALSE)				// 圆角 百分比 0.5 半圆 会覆盖 cornerRadius 
     SOUI_ATTRS_END()
 
 
     int      m_nRadius;
-	float	m_fCornerPer;				// 圆角 百分比 0.5 半圆
+	float	m_fCornerPercent;				// 圆角 百分比 0.5 半圆
     COLORREF m_crStates[4];
 };
 
