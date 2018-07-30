@@ -134,7 +134,7 @@ public: \
 
 #define CHAIN_MSG_MAP_MEMBER(theChainMember) \
     { \
-    if(theChainMember.ProcessWindowMessage(hWnd, uMsg, wParam, lParam, lResult)) \
+    if((theChainMember).ProcessWindowMessage(hWnd, uMsg, wParam, lParam, lResult)) \
     return TRUE; \
     }
 

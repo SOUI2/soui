@@ -34,6 +34,7 @@ namespace SOUI
         EVT_STATECHANGED,
 		EVT_LBUTTONDOWN,
 		EVT_LBUTTONUP,
+		EVT_UPDATE_TOOLTIP,
 
         //两个窗口鼠标状态事件
         EVT_MOUSE_HOVER=9000,
@@ -288,6 +289,16 @@ namespace SOUI
         EventSwndMouseHover(SObject *pSender):TplEventArgs<EventSwndMouseHover>(pSender){}
         enum{EventID=EVT_MOUSE_HOVER};
     };
+
+	class SOUI_EXP EventSwndUpdateTooltip : public TplEventArgs<EventSwndUpdateTooltip>
+	{
+		SOUI_CLASS_NAME(EventSwndUpdateTooltip, L"on_update_tooltip")
+	public:
+		EventSwndUpdateTooltip(SObject *pSender) :TplEventArgs<EventSwndUpdateTooltip>(pSender), bUpdated(FALSE){}
+		enum { EventID = EVT_UPDATE_TOOLTIP };
+		SStringT strToolTip;
+		BOOL bUpdated;
+	};
 
     class SOUI_EXP EventItemPanelRclick : public TplEventArgs<EventItemPanelRclick>
     {

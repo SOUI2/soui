@@ -123,19 +123,17 @@ namespace SOUI
 			hMonitor = MonitorFromRect(&rcWnd, MONITOR_DEFAULTTONEAREST);	 
 			mi.cbSize = sizeof(mi);
 			GetMonitorInfo(hMonitor, &mi);	
-			int cx=mi.rcWork.right;
-			int cy=mi.rcWork.bottom;
+			int cx=mi.rcMonitor.right;
+			int cy=mi.rcMonitor.bottom;
 			/*增加部分结束*/
 
 
             rcWnd.right=rcWnd.left+rcText.right+2*MARGIN_TIP;
             rcWnd.bottom=rcWnd.top+rcText.bottom+2*MARGIN_TIP;
 			//去掉下面这两行
-            //int cx = GetSystemMetrics(SM_CXSCREEN);			 
-            //int cy = GetSystemMetrics(SM_CYSCREEN);
             if(rcWnd.right>cx) rcWnd.OffsetRect(cx-rcWnd.right,0);
             if(rcWnd.bottom>cy) rcWnd.OffsetRect(0,cy-rcWnd.bottom);
-            SetWindowPos(HWND_TOPMOST,rcWnd.left,rcWnd.top,rcWnd.Width(),rcWnd.Height(),SWP_NOSENDCHANGING|SWP_SHOWWINDOW|SWP_NOACTIVATE);
+            SetWindowPos(HWND_TOPMOST,rcWnd.left,rcWnd.top,rcWnd.Width(),rcWnd.Height(),SWP_SHOWWINDOW|SWP_NOACTIVATE| SWP_NOOWNERZORDER);
         }
     }
 

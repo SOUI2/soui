@@ -79,7 +79,7 @@ IFontPtr SFontPool::GetFont( const SStringW & strFont ,int scale)
 	short cSize = 0;
 
 	pugi::xml_document docExProp;
-	pugi::xml_node nodePropEx = docExProp.root();
+	pugi::xml_node nodePropEx = docExProp.append_child();
     for(int i=(int)fontProp.GetCount()-1;i>=0;i--)
     {
         SStringWList strPair;
