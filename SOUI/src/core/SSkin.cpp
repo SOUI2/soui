@@ -45,8 +45,10 @@ BOOL SSkinImgList::IgnoreState()
 
 int SSkinImgList::GetStates()
 {
-	int nReset = m_arrStateMap.GetCount();
-    return (m_nStates > nReset) ?  m_nStates : nReset;
+	int nStates = m_arrStateMap.GetCount();
+	if (nStates > 0) return nStates;
+	
+	return m_nStates;
 }
 
 HRESULT SSkinImgList::OnAttrStateMap(const SStringW & strValue, BOOL bLoading)
@@ -67,9 +69,9 @@ HRESULT SSkinImgList::OnAttrStateMap(const SStringW & strValue, BOOL bLoading)
 void SSkinImgList::_Draw(IRenderTarget *pRT, LPCRECT rcDraw, DWORD dwState,BYTE byAlpha)
 {
     if(!m_pImg) return;
-
-	// 尝试 重新设置
-	if(dwState < m_arrStateMap.GetCount())
+		
+	int nCount = m_arrStateMap.GetCount();
+	if(nCount > 0 && dwState < nCount)
 		dwState = m_arrStateMap[dwState];
 
     SIZE sz = GetSkinSize();
