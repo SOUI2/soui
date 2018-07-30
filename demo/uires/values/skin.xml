@@ -8,7 +8,7 @@
 
   <imglist name="skin_menuicon" src="imgx:png_small_icons" states="12"/>
   <imglist name="skin_webbtn_back" src="imgx:webbtn_back" states="4" />
-  <imglist name="skin_webbtn_forward" src="imgx:webbtn_forward" states="4" reset="01232223" />
+  <imglist name="skin_webbtn_forward" src="imgx:webbtn_forward" states="4" stateMap="0-1-2-3-2-2-2-3" />
   <imglist name="skin_webbtn_refresh" src="imgx:webbtn_refresh" states="4"/>
   <imgframe name="skin_tab_left" src="imgx:png_tab_left" states="3" margin="1,1,1,1"/>
   <imglist name="skin_tab_left_splitter" src="imgx:png_tab_left_splitter"/>
@@ -25,7 +25,7 @@
   <imgframe name="skin_btn_curve" src="img.calendar2:png_skin_btn_curve"    />
   <imgframe name="skin_btn_semiarc" src="img.calendar2:png_skin_btn_semiarc"     />
   <imgframe name="skin_png_line_1px" src="img.calendar2:png_line_1px"      />
-  <imgframe  name="skin_png_radio_button" src="img.calendar2:png_radio_button" states="8"    margin="3" />
+  <imgframe  name="skin_png_radio_button" src="img.calendar2:png_radio_button" states="8" margin="3" />
   <imgframe name="cal_arrow_left" src="img.calendar2:cal_arrow_left"  states="3" />
   <imgframe name="cal_arrow_right" src="img.calendar2:cal_arrow_right"  states="3"   />
   <imgframe name="cal_btn_day" src="img.calendar2:cal_btn_day"  states="3"   />
@@ -93,5 +93,5 @@
   <colorrect name="TrayMenu_menu_bkgnd" hover="#cccccc"/>
   <colorrect name="TrayMenu_menu_sep" normal="#cccccc"/>
   <imgframe name="TrayMenu_border" src="IMGX:png_menu_border" margin="2,2,2,2"/>
-  <button name="win10btn" colorBorder="#ADADAD" colorUp="#E1E1E1" colorDown="#E1E1E1"  colorBorderHover="#0078D7" colorUpHover="#E5F1FB" colorDownHover="#E5F1FB" colorBorderPush="#005499" colorUpPush="#CCE4F7" colorDownPush="#CCE4F7" cornerPer="0.5"/>
+  <button name="win10btn" colorBorder="#ADADAD" colorUp="#E1E1E1" colorDown="#E1E1E1"  colorBorderHover="#0078D7" colorUpHover="#E5F1FB" colorDownHover="#E5F1FB" colorBorderPush="#005499" colorUpPush="#CCE4F7" colorDownPush="#CCE4F7" cornerPercent="0.5"/>
 </skin>
