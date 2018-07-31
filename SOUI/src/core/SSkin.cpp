@@ -45,7 +45,7 @@ BOOL SSkinImgList::IgnoreState()
 
 int SSkinImgList::GetStates()
 {
-	int nStates = m_arrStateMap.GetCount();
+	int nStates = (int)m_arrStateMap.GetCount();
 	if (nStates > 0) return nStates;
 	
 	return m_nStates;
@@ -70,8 +70,8 @@ void SSkinImgList::_Draw(IRenderTarget *pRT, LPCRECT rcDraw, DWORD dwState,BYTE 
 {
     if(!m_pImg) return;
 		
-	int nCount = m_arrStateMap.GetCount();
-	if(nCount > 0 && dwState < nCount)
+	size_t nCount = m_arrStateMap.GetCount();
+	if(dwState < nCount)
 		dwState = m_arrStateMap[dwState];
 
     SIZE sz = GetSkinSize();
