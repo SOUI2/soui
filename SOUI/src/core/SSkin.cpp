@@ -55,12 +55,12 @@ HRESULT SSkinImgList::OnAttrStateMap(const SStringW & strValue, BOOL bLoading)
 {
 	m_arrStateMap.RemoveAll();
 	
-	SStringTList strLst;
+	SStringWList strLst;
 	SplitString(strValue, '-', strLst);
 	
-	for(int i=0; i<strLst.GetCount(); ++i)
+	for(size_t i=0; i<strLst.GetCount(); ++i)
 	{
-		m_arrStateMap.Add(_ttoi(strLst[i]));
+		m_arrStateMap.Add(_wtoi(strLst[i]));
 	}
 
 	return S_OK;
