@@ -8,6 +8,7 @@ cd ..
 mkdir soui-demo
 cd soui-demo
 
+call :update_repo TimDemo
 call :update_repo UiEditor
 call :update_repo qqlogin
 call :update_repo 360
