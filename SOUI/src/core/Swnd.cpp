@@ -187,10 +187,8 @@ namespace SOUI
 			// 当你看到这个东西的时候，我不幸的告诉你，你的其他线程在刷界面
 			// 这是一件很危险的事情
 			DWORD dwCurThreadID = GetCurrentThreadId();
-
-			BOOL bOK = (m_nMainThreadId == dwCurThreadID); // 当前线程和构造对象时的线程一致
-
-			SASSERT_FMT(bOK, _T("请准备好红包再到群里提问"));
+			DWORD dwProcID=GetCurrentProcessId();
+			SASSERT_FMT(m_nMainThreadId == dwCurThreadID, _T("ProcessID:%d,请准备好红包再到群里提问"), dwProcID);
 		}
 #endif
 	}
