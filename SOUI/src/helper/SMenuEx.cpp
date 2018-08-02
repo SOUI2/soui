@@ -20,7 +20,7 @@ namespace SOUI
 	class SMenuExRoot : public SWindow
 	{
 		SOUI_CLASS_NAME(SMenuExRoot, L"menuRoot")
-			friend class SMenuEx;
+		friend class SMenuEx;
 		friend class SMenuExItem;
 	protected:
 		ISkinObj * m_pItemSkin;
@@ -40,6 +40,22 @@ namespace SOUI
 		SLayoutSize  m_nSubMenuOffset;
 
 		DWORD	  m_dwContextHelpId;
+		
+		void Copy(SMenuExRoot* pNewMenuExRoot)
+		{
+			pNewMenuExRoot->m_pItemSkin = m_pItemSkin;
+			pNewMenuExRoot->m_pIconSkin = m_pIconSkin;
+			pNewMenuExRoot->m_pCheckSkin = m_pCheckSkin;
+			pNewMenuExRoot->m_pArrowSkin = m_pArrowSkin;
+			pNewMenuExRoot->m_pSepSkin = m_pSepSkin;
+			pNewMenuExRoot->m_nItemHei = m_nItemHei;
+			pNewMenuExRoot->m_nIconBarWidth = m_nIconBarWidth;
+			pNewMenuExRoot->m_nTextOffset = m_nTextOffset;
+			pNewMenuExRoot->m_iconX = m_iconX;
+			pNewMenuExRoot->m_iconY = m_iconY;
+			pNewMenuExRoot->m_nMinWidth = m_nMinWidth;
+			pNewMenuExRoot->m_nSubMenuOffset = m_nSubMenuOffset;
+		}
 
 		HRESULT OnAttrIconPos(const SStringW & strValue, BOOL bLoading);
 
@@ -74,8 +90,7 @@ namespace SOUI
 			m_nMinWidth.setSize(WIDTH_MENU_MIN, SLayoutSize::dp);
 			OnAttrLayout(SVBox::GetClassName(), TRUE);//set layout to vbox
 		}
-
-
+		
 		SMenuExItem * GetNextMenuItem(SMenuExItem *pItem, BOOL bForword, int nCount = 0);
 
 		CSize CalcMenuSize()
@@ -542,7 +557,11 @@ namespace SOUI
 		m_hostAttr.SetTranslucent(true);
 	}
 
-	SMenuEx::SMenuEx(SMenuExItem *pParent) :m_pParent(pParent), m_pHoverItem(NULL), m_pCheckItem(NULL)
+	SMenuEx::SMenuEx(SMenuExItem *pParent) 
+		:m_pParent(pParent)
+		, m_pHoverItem(NULL)
+		, m_pCheckItem(NULL)
+		, m_bMenuInitialized(FALSE)
 	{
 
 	}
@@ -616,22 +635,23 @@ namespace SOUI
 			s_MenuData->AddRef();
 
 		HWND hActive = hOwner;
-		if (!hActive) hActive = ::GetActiveWindow();
-
-		if (::IsWindow(hOwner))
+		if (!hOwner || !::IsWindowEnabled(hOwner)) hActive = ::GetActiveWindow();
+		/*
+		if (::IsWindow(hActive))
 		{
-			SetWindowLongPtr(GWLP_HWNDPARENT, (ULONG_PTR)hOwner);
+			SetParent(hActive);
 		}
+		*/
 
-		HWND hOwnerParent = hOwner;
-		while (::GetParent(hOwnerParent))
+		HWND hRoot = hActive;
+		while (::GetParent(hRoot))
 		{
-			hOwnerParent = ::GetParent(hOwnerParent);
+			hRoot = ::GetParent(hRoot);
 		}
-		SetForegroundWindow(hOwnerParent);
+		SetForegroundWindow(hRoot);
 
 		ShowMenu(flag, x, y);
-		RunMenu(hOwner);
+		RunMenu(hRoot);
 		HideMenu(FALSE);
 
 		if (hActive)
@@ -663,6 +683,7 @@ namespace SOUI
 	{
 		SMenuExRoot *pMenuRoot = sobj_cast<SMenuExRoot>(GetRoot()->GetWindow(GSW_FIRSTCHILD));
 
+		SendInitPopupMenu2Owner(0);
 		SASSERT(pMenuRoot);
 		pMenuRoot->SDispatchMessage(UM_SETSCALE, GetScale(), 0);
 
@@ -727,6 +748,10 @@ namespace SOUI
 					rcMenu.MoveToX(x + subMenuOffset);
 				}
 
+				if (rcMenu.top < mi.rcMonitor.top)
+				{
+					rcMenu.MoveToY(y + szMenu.cy);
+				}
 				if (rcMenu.bottom > mi.rcMonitor.bottom)
 				{
 					rcMenu.MoveToY(y - szMenu.cy);
@@ -772,7 +797,7 @@ namespace SOUI
 	}
 
 
-	void SMenuEx::RunMenu(HWND hOwner)
+	void SMenuEx::RunMenu(HWND hRoot)
 	{
 		SASSERT(s_MenuData);
 
@@ -780,13 +805,6 @@ namespace SOUI
 		BOOL bMsgQuit(FALSE);
 		HWND hCurMenu(NULL);
 
-		HWND hRoot = hOwner;
-		for (;;)
-		{
-			HWND hParent = ::GetParent(hRoot);
-			if (!hParent) break;
-			hRoot = hParent;
-		}
 		for (;;)
 		{
 
@@ -1073,8 +1091,8 @@ namespace SOUI
 		s_MenuData->ExitMenu(nCmdId);
 		::PostMessage(s_MenuData->GetOwner(), WM_NULL, 0, 0);
 	}
-
-	BOOL SMenuEx::InsertMenu(UINT uPos, UINT uFlag, int nId, LPCTSTR lpNewItem)
+	
+	SWindow * SMenuEx::FindItem(UINT uPos, UINT uFlag)
 	{
 		SMenuExRoot *pMenuRoot = sobj_cast<SMenuExRoot>(GetRoot()->GetWindow(GSW_FIRSTCHILD));
 		SASSERT(pMenuRoot);
@@ -1082,23 +1100,33 @@ namespace SOUI
 
 		if (uFlag & MF_BYPOSITION)
 		{
-			UINT i = 0;
-			SWindow *p = pMenuRoot->GetWindow(GSW_FIRSTCHILD);
-			while (i < uPos && p)
+			if (uPos != -1)
 			{
-				i++;
-				p = p->GetWindow(GSW_NEXTSIBLING);
+				UINT i = 0;
+				SWindow *p = pMenuRoot->GetWindow(GSW_FIRSTCHILD);
+				while (i < uPos && p)
+				{
+					i++;
+					p = p->GetWindow(GSW_NEXTSIBLING);
+				}
+				pItemRef = p;
 			}
-			pItemRef = p;
 		}
 		else//MF_BYCOMMAND
 		{
 			pItemRef = pMenuRoot->FindChildByID2<SMenuExItem>(uPos);
-		    if (!pItemRef) return FALSE;
 		}
+		return pItemRef;
+	}
 
-        //MF_BYPOSITION方式插入时,如果uPos大于菜单项总数,应在末尾插入,而此时pItemRef为NULL
-        //if (!pItemRef) return FALSE;
+	BOOL SMenuEx::InsertMenu(UINT uPos, UINT uFlag, int nId, LPCTSTR lpNewItem)
+	{
+		SMenuExRoot *pMenuRoot = sobj_cast<SMenuExRoot>(GetRoot()->GetWindow(GSW_FIRSTCHILD));
+		SASSERT(pMenuRoot);
+		SWindow * pItemRef = FindItem(uPos,uFlag);
+
+		if (uFlag & MF_BYCOMMAND && !pItemRef)
+			return FALSE;
         
 		SMenuExItem *pMenuItem = (SMenuExItem*)pMenuRoot->CreateMenuItem((uFlag & MF_SEPARATOR) ? SMenuExSep::GetClassName() : SMenuExItem::GetClassName());
 
@@ -1124,14 +1152,126 @@ namespace SOUI
 			if (uFlag & MF_POPUP)
 			{
 				pMenuItem->m_pSubMenu = new SMenuEx(pMenuItem);
+				pMenuItem->m_pSubMenu->IniNullMenu(pMenuRoot);
 			}
 
-            SStringW strId;
-            strId.Format(L"%d", nId);
-            pMenuItem->SetAttribute(L"ID", strId);
+            pMenuItem->SetAttribute(L"ID", SStringW().Format(L"%d",nId));
+			if (uFlag & MF_CHECKED)
+			{
+				pMenuItem->SetAttribute(L"check", L"1");
+			}
 		}
 
-		return FALSE;
+		return TRUE;
+	}
+
+	BOOL SMenuEx::IniNullMenu(SMenuExRoot *ParentRoot)
+	{
+		HWND hWnd = Create(NULL, WS_POPUP, WS_EX_TOOLWINDOW | WS_EX_TOPMOST, 0, 0, 0, 0);
+		pugi::xml_document souiXml;
+		pugi::xml_node root = souiXml.append_child(L"SOUI");
+		root.append_attribute(L"translucent").set_value(1);		
+		_InitFromXml(root, 0, 0);
+		if (!hWnd) return FALSE;
+		SMenuExRoot *pMenuRoot = new SMenuExRoot(this);		
+		if (ParentRoot)
+		{
+			//拷贝属性
+			ParentRoot->Copy(pMenuRoot);
+		}
+		InsertChild(pMenuRoot);
+		pMenuRoot->SSendMessage(WM_CREATE);
+		pMenuRoot->GetLayoutParam()->SetWrapContent(Both);
+		return TRUE;
+	}
+
+	BOOL SMenuEx::DeleteMenu(UINT uPos, UINT uFlag)
+	{
+		SMenuExRoot *pMenuRoot = sobj_cast<SMenuExRoot>(GetRoot()->GetWindow(GSW_FIRSTCHILD));
+		SASSERT(pMenuRoot);
+		SWindow * pItemRef = FindItem(uPos, uFlag);
+		if (!pItemRef) return FALSE;
+		pMenuRoot->DestroyChild(pItemRef);
+		return TRUE;
+	}
+
+	BOOL SMenuEx::CheckMenuItem(UINT uPos, UINT uFlag)
+	{
+		SMenuExRoot *pMenuRoot = sobj_cast<SMenuExRoot>(GetRoot()->GetWindow(GSW_FIRSTCHILD));
+		SASSERT(pMenuRoot);
+		SWindow * pItemRef = FindItem(uPos, uFlag);
+		if (!pItemRef) return FALSE;
+
+		if (uFlag & MF_CHECKED)
+		{
+			pItemRef->SetAttribute(L"check", L"1");
+		}
+		else
+		{
+			pItemRef->SetAttribute(L"check", L"0");
+		}
+		return TRUE;
+	}
+
+	BOOL SMenuEx::CheckMenuRadioltem(UINT idFirst, UINT idLast, UINT idCheck, UINT uFlags)
+	{
+		SMenuExRoot *pMenuRoot = sobj_cast<SMenuExRoot>(GetRoot()->GetWindow(GSW_FIRSTCHILD));
+		SASSERT(pMenuRoot);
+		SWindow * pItemRefFirst = FindItem(idFirst, uFlags);
+		SWindow * pItemRefLast = FindItem(idLast, uFlags);
+		SWindow * pItemRefCheck = FindItem(idCheck, uFlags);
+
+		if (!pItemRefFirst || !pItemRefLast || !pItemRefCheck)
+			return FALSE;
+		
+		int idxFirst = -1;
+		int idxLast = -1 ;
+		int idxCheck = -1;
+
+		SWindow *pChild = pMenuRoot->GetWindow(GSW_FIRSTCHILD);
+		int i = 0;
+		while (pChild)
+		{
+			if (pChild == pItemRefFirst)
+				idxFirst = i;
+			else if (pChild == pItemRefCheck)
+				idxCheck = i;
+			else if (pChild == pItemRefLast)
+				idxLast = i;
+			pChild = pChild->GetWindow(GSW_NEXTSIBLING);
+			i++;
+		}
+		if (idxFirst == -1 || idxLast == -1 || idxCheck == -1)
+			return FALSE;
+		if (idxFirst < idxLast)
+		{
+			SWindow *t = pItemRefFirst;
+			pItemRefFirst = pItemRefLast;
+			pItemRefLast = t;
+			int tIdx = idxFirst;
+			idxFirst = idxLast;
+			idxLast = tIdx;
+		}
+
+		if (idxFirst > idxCheck || idxLast < idxCheck)
+			return FALSE;
+		
+		pChild = pItemRefFirst;
+		for (;;)
+		{
+			pChild->SetAttribute(L"radio", L"1");
+			if (pChild == pItemRefCheck)
+			{
+				pChild->SetAttribute(L"check", L"1");
+			}
+			else
+			{
+				pChild->SetAttribute(L"check", L"0");
+			}
+			if (pChild == pItemRefLast) break;
+			else pChild = pChild->GetWindow(GSW_NEXTSIBLING);
+		}
+		return TRUE;
 	}
 
 	void SMenuEx::SendInitPopupMenu2Owner(int idx)
@@ -1140,7 +1280,7 @@ namespace SOUI
 
 		if (::IsWindow(s_MenuData->GetOwner()))
 		{
-			::SendMessage(s_MenuData->GetOwner(), WM_INITMENUPOPUP, (WPARAM)this, idx);
+			::SendMessage(s_MenuData->GetOwner(), WM_INITMENUPOPUP, (WPARAM)this, (LPARAM)idx);
 		}
 		m_bMenuInitialized = TRUE;
 	}
@@ -1160,4 +1300,3 @@ namespace SOUI
 	}
 
 }
-

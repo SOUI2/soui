@@ -728,7 +728,7 @@ void SRichEdit::OnSetFocus(SWND wndOld)
         if(m_fAutoSel) SetSel((DWORD)MAKELONG(0,-1),TRUE);
     }
 
-	if (ES_PASSWORD & m_dwStyle)
+	if (ES_PASSWORD & m_dwStyle || ES_NUMBER & m_dwStyle)
 	{
 		m_hCurIMC = ImmAssociateContext(GetContainer()->GetHostHwnd(), NULL);
 	}
@@ -745,7 +745,7 @@ void SRichEdit::OnKillFocus(SWND wndFocus)
         m_pTxtHost->TxShowCaret(FALSE);
     }
 
-	if (ES_PASSWORD & m_dwStyle)
+	if (ES_PASSWORD & m_dwStyle || ES_NUMBER & m_dwStyle)
 	{
 		ImmAssociateContext(GetContainer()->GetHostHwnd(), m_hCurIMC);
 	}

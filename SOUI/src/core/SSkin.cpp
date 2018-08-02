@@ -13,13 +13,13 @@ namespace SOUI
 //////////////////////////////////////////////////////////////////////////
 // SSkinImgList
 SSkinImgList::SSkinImgList()
-:m_nStates(1)
-,m_bTile(FALSE)
-,m_bVertical(FALSE)
-,m_filterLevel(kNone_FilterLevel)
-,m_bAutoFit(TRUE)
+	: m_nStates(1)
+	, m_bTile(FALSE)
+	, m_bVertical(FALSE)
+	, m_filterLevel(kNone_FilterLevel)
+	, m_bAutoFit(TRUE)
 {
-
+	
 }
 
 SSkinImgList::~SSkinImgList()
@@ -28,11 +28,14 @@ SSkinImgList::~SSkinImgList()
 
 SIZE SSkinImgList::GetSkinSize()
 {
-    SIZE ret = {0, 0};
-    if(m_pImg) ret=m_pImg->Size();
-    if(m_bVertical) ret.cy/=m_nStates;
-    else ret.cx/=m_nStates;
-    return ret;
+	SIZE ret = {0, 0};
+	if(m_pImg)
+		ret = m_pImg->Size();
+	if(m_bVertical)
+		ret.cy /= m_nStates;
+    else 
+		ret.cx /= m_nStates;
+	return ret;
 }
 
 BOOL SSkinImgList::IgnoreState()
@@ -42,19 +45,42 @@ BOOL SSkinImgList::IgnoreState()
 
 int SSkinImgList::GetStates()
 {
-    return m_nStates;
+	int nStates = (int)m_arrStateMap.GetCount();
+	if (nStates > 0) return nStates;
+	
+	return m_nStates;
+}
+
+HRESULT SSkinImgList::OnAttrStateMap(const SStringW & strValue, BOOL bLoading)
+{
+	m_arrStateMap.RemoveAll();
+	
+	SStringWList strLst;
+	SplitString(strValue, '-', strLst);
+	
+	for(size_t i=0; i<strLst.GetCount(); ++i)
+	{
+		m_arrStateMap.Add(_wtoi(strLst[i]));
+	}
+
+	return S_OK;
 }
 
 void SSkinImgList::_Draw(IRenderTarget *pRT, LPCRECT rcDraw, DWORD dwState,BYTE byAlpha)
 {
     if(!m_pImg) return;
-    SIZE sz=GetSkinSize();
-    RECT rcSrc={0,0,sz.cx,sz.cy};
+		
+	size_t nCount = m_arrStateMap.GetCount();
+	if(dwState < nCount)
+		dwState = m_arrStateMap[dwState];
+
+    SIZE sz = GetSkinSize();
+    RECT rcSrc = {0, 0, sz.cx, sz.cy};
     if(m_bVertical) 
-        OffsetRect(&rcSrc,0, dwState * sz.cy);
+        OffsetRect(&rcSrc, 0, dwState*sz.cy);
     else
-        OffsetRect(&rcSrc, dwState * sz.cx, 0);
-    pRT->DrawBitmapEx(rcDraw,m_pImg,&rcSrc,GetExpandMode(),byAlpha);
+        OffsetRect(&rcSrc, dwState*sz.cx, 0);
+    pRT->DrawBitmapEx(rcDraw ,m_pImg, &rcSrc, GetExpandMode(), byAlpha);
 }
 
 UINT SSkinImgList::GetExpandMode()
@@ -97,25 +123,26 @@ void SSkinImgList::_Scale(ISkinObj * skinObj, int nScale)
 	pRet->m_bVertical = m_bVertical;
 	pRet->m_filterLevel = m_filterLevel;
 	pRet->m_bAutoFit = m_bAutoFit;
+	pRet->m_arrStateMap = m_arrStateMap;
 	
 	CSize szSkin = GetSkinSize();
-	szSkin.cx = MulDiv(szSkin.cx,nScale,100);
-	szSkin.cy = MulDiv(szSkin.cy,nScale,100);
+	szSkin.cx = MulDiv(szSkin.cx, nScale, 100);
+	szSkin.cy = MulDiv(szSkin.cy, nScale, 100);
 	if(m_bVertical)
 	{
-		szSkin.cy *= GetStates();
+		szSkin.cy *= m_nStates;
 	}else
 	{
-		szSkin.cx *= GetStates();
+		szSkin.cx *= m_nStates;
 	}
 
 	if(m_imgBackup)
 	{
-		m_imgBackup->Scale(&pRet->m_imgBackup,szSkin.cx,szSkin.cy,kHigh_FilterLevel);
+		m_imgBackup->Scale(&pRet->m_imgBackup, szSkin.cx, szSkin.cy, kHigh_FilterLevel);
 	}
 	if(m_pImg)
 	{
-		m_pImg->Scale(&pRet->m_pImg,szSkin.cx,szSkin.cy,kHigh_FilterLevel);
+		m_pImg->Scale(&pRet->m_pImg, szSkin.cx, szSkin.cy, kHigh_FilterLevel);
 	}
 }
 
@@ -159,51 +186,71 @@ void SSkinImgFrame::_Scale(ISkinObj *skinObj, int nScale)
 // SSkinButton
 SSkinButton::SSkinButton()
     : m_nCornerRadius(2)
+	, m_fCornerPercent(0.0)
 {
-    m_colors.m_crBorder = RGB(0x70, 0x70, 0x70);
-    m_colors.m_crUp[0]=(RGB(0xEE, 0xEE, 0xEE));
-    m_colors.m_crDown[0]=(RGB(0xD6, 0xD6, 0xD6));
-    m_colors.m_crUp[1]=(RGB(0xEE, 0xEE, 0xEE));
-    m_colors.m_crDown[1]=(RGB(0xE0, 0xE0, 0xE0));
-    m_colors.m_crUp[2]=(RGB(0xCE, 0xCE, 0xCE));
-    m_colors.m_crDown[2]=(RGB(0xC0, 0xC0, 0xC0));
-    m_colors.m_crUp[3]=(RGB(0x8E, 0x8E, 0x8E));
-    m_colors.m_crDown[3]=(RGB(0x80, 0x80, 0x80));
+    m_colors.m_crBorder[0] = RGB(0x70, 0x70, 0x70);
+	m_colors.m_crBorder[1] = CR_INVALID;		// 不改变 原有的效果
+	m_colors.m_crBorder[2] = CR_INVALID;
+	m_colors.m_crBorder[3] = CR_INVALID;
+
+    m_colors.m_crUp[0] = (RGB(0xEE, 0xEE, 0xEE));
+    m_colors.m_crDown[0] = (RGB(0xD6, 0xD6, 0xD6));
+    m_colors.m_crUp[1] = (RGB(0xEE, 0xEE, 0xEE));
+    m_colors.m_crDown[1] = (RGB(0xE0, 0xE0, 0xE0));
+    m_colors.m_crUp[2] = (RGB(0xCE, 0xCE, 0xCE));
+    m_colors.m_crDown[2] = (RGB(0xC0, 0xC0, 0xC0));
+    m_colors.m_crUp[3] = (RGB(0x8E, 0x8E, 0x8E));
+    m_colors.m_crDown[3] = (RGB(0x80, 0x80, 0x80));
 }
 
 void SSkinButton::_Draw(IRenderTarget *pRT, LPCRECT prcDraw, DWORD dwState,BYTE byAlpha)
 {
-    CRect rcDraw = *prcDraw;
-    
-    rcDraw.DeflateRect(1, 1);
-    CAutoRefPtr<IRegion> rgnClip;
-    if(m_nCornerRadius>2)
-    {
-        GETRENDERFACTORY->CreateRegion(&rgnClip);
-        //the last two params of CreateRoundRectRgn are width and height of ellipse, thus we should multiple corner radius by 2.
-        HRGN hRgn = ::CreateRoundRectRgn(prcDraw->left,prcDraw->top,prcDraw->right+1,prcDraw->bottom+1,m_nCornerRadius*2,m_nCornerRadius*2);
-        rgnClip->SetRgn(hRgn);
-        DeleteObject(hRgn);
-    }
-    if(rgnClip)
-        pRT->PushClipRegion(rgnClip);
-    if(m_colors.m_crUp[dwState]!=m_colors.m_crDown[dwState])
-        pRT->GradientFill(rcDraw,TRUE,m_colors.m_crUp[dwState],m_colors.m_crDown[dwState],byAlpha);
+	int nCorner = m_nCornerRadius;
+	if (m_fCornerPercent > 0.0)
+	{
+		int nW = prcDraw->right - prcDraw->left;
+		int nH = prcDraw->bottom - prcDraw->top;
+		nCorner = (nW < nH) ? (int)(nW * m_fCornerPercent) : (int)(nH * m_fCornerPercent);
+	}
+   	// 只有 在 需要渐变的情况下 才 需要 这个
+	if (m_colors.m_crUp[dwState] != m_colors.m_crDown[dwState])
+	{
+		CAutoRefPtr<IRegion> rgnClip;
+		if (nCorner > 2)
+		{
+			GETRENDERFACTORY->CreateRegion(&rgnClip);
+			//the last two params of CreateRoundRectRgn are width and height of ellipse, thus we should multiple corner radius by 2.
+			HRGN hRgn = ::CreateRoundRectRgn(prcDraw->left, prcDraw->top, prcDraw->right+1, prcDraw->bottom+1, nCorner*2, nCorner*2);
+			rgnClip->SetRgn(hRgn);
+			DeleteObject(hRgn);
+
+			pRT->PushClipRegion(rgnClip);
+		}
+		CRect rcDraw = *prcDraw;
+		rcDraw.DeflateRect(1, 1);
+		pRT->GradientFill(rcDraw, TRUE, m_colors.m_crUp[dwState], m_colors.m_crDown[dwState], byAlpha);
+
+		pRT->PopClip();
+	}
     else
     {
         SColor cr(m_colors.m_crDown[dwState]);
         cr.updateAlpha(byAlpha);
-        pRT->FillSolidRect(prcDraw,cr.toCOLORREF());
+		if(nCorner > 0)
+			pRT->FillSolidRoundRect(prcDraw, CPoint(nCorner, nCorner), cr.toCOLORREF());
+		else
+			pRT->FillSolidRect(prcDraw,cr.toCOLORREF());
     }
 
-    CAutoRefPtr<IPen> pPen,pOldPen;
-    pRT->CreatePen(PS_SOLID,m_colors.m_crBorder,1,&pPen);
-    pRT->SelectObject(pPen,(IRenderObj**)&pOldPen);
-    pRT->DrawRoundRect(prcDraw,CPoint(m_nCornerRadius,m_nCornerRadius));
-    pRT->SelectObject(pOldPen);
-    
-    if(rgnClip)
-        pRT->PopClip();
+	
+	if (CR_INVALID == m_colors.m_crBorder[dwState])	//  不改变 原因的 效果
+		dwState = 0;
+	// 画 边框
+    CAutoRefPtr<IPen> pPen, pOldPen;
+    pRT->CreatePen(PS_SOLID, m_colors.m_crBorder[dwState] ,1, &pPen);
+    pRT->SelectObject(pPen, (IRenderObj**)&pOldPen);
+    pRT->DrawRoundRect(prcDraw, CPoint(nCorner, nCorner));
+    pRT->SelectObject(pOldPen);   
 }
 
 BOOL SSkinButton::IgnoreState()
@@ -216,11 +263,11 @@ int SSkinButton::GetStates()
     return 4;
 }
 
-void SSkinButton::SetColors( COLORREF crUp[4],COLORREF crDown[4],COLORREF crBorder )
+void SSkinButton::SetColors( COLORREF crUp[4],COLORREF crDown[4],COLORREF crBorder[4] )
 {
-    memcpy(m_colors.m_crUp,crUp,4*sizeof(COLORREF));
-    memcpy(m_colors.m_crDown,crDown,4*sizeof(COLORREF));
-    m_colors.m_crBorder=crBorder;
+    memcpy(m_colors.m_crUp, crUp, 4 * sizeof(COLORREF));
+    memcpy(m_colors.m_crDown, crDown, 4 * sizeof(COLORREF));
+	memcpy(m_colors.m_crBorder, crBorder, 4 * sizeof(COLORREF));
 }
 
 void SSkinButton::OnColorize(COLORREF cr)
@@ -243,9 +290,9 @@ void SSkinButton::OnColorize(COLORREF cr)
         m_crColorize = cr;
 
         //调整颜色值
-        SDIBHelper::Colorize(m_colors.m_crBorder,m_crColorize);
         for(int i=0;i<4;i++)
         {
+			SDIBHelper::Colorize(m_colors.m_crBorder[i], m_crColorize);
             SDIBHelper::Colorize(m_colors.m_crDown[i],m_crColorize);
             SDIBHelper::Colorize(m_colors.m_crUp[i],m_crColorize);
         }
@@ -384,7 +431,9 @@ void SSkinScrollbar::_Scale(ISkinObj *skinObj, int nScale)
 
 //////////////////////////////////////////////////////////////////////////
 // SSkinColor
-SSkinColorRect::SSkinColorRect():m_nRadius(0)
+SSkinColorRect::SSkinColorRect()
+	: m_nRadius(0)
+	, m_fCornerPercent(0.0)
 {
     m_crStates[0]=RGBA(255,255,255,255);
     m_crStates[1]=CR_INVALID;
@@ -398,16 +447,24 @@ SSkinColorRect::~SSkinColorRect()
 
 void SSkinColorRect::_Draw(IRenderTarget *pRT, LPCRECT prcDraw, DWORD dwState,BYTE byAlpha)
 {
-    if(dwState>3) return;
-    
-    if(m_crStates[dwState]==CR_INVALID)
-        dwState =0;
+	if(dwState > 3) return;
+
+	int nCorner = m_nRadius;
+	if (m_fCornerPercent > 0.0)
+	{
+		int nW = prcDraw->right - prcDraw->left;
+		int nH = prcDraw->bottom - prcDraw->top;
+		nCorner = (nW < nH) ? (int)(nW * m_fCornerPercent) : (int)(nH * m_fCornerPercent);
+	}
+	    
+    if(m_crStates[dwState] == CR_INVALID)
+        dwState = 0;
     SColor cr(m_crStates[dwState]);
     cr.updateAlpha(byAlpha);
-    if(m_nRadius!=0)
-        pRT->FillSolidRoundRect(prcDraw,CPoint(m_nRadius,m_nRadius),cr.toCOLORREF());
+    if(nCorner > 0)
+        pRT->FillSolidRoundRect(prcDraw, CPoint(nCorner, nCorner), cr.toCOLORREF());
     else
-        pRT->FillSolidRect(prcDraw,cr.toCOLORREF());
+        pRT->FillSolidRect(prcDraw, cr.toCOLORREF());
 }
 
 int SSkinColorRect::GetStates()

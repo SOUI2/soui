@@ -92,7 +92,7 @@ namespace SOUI
 		m_evtSet.addEvent(EVENTID(EventSwndMouseLeave));
 		m_evtSet.addEvent(EVENTID(EventSwndStateChanged));
 		m_evtSet.addEvent(EVENTID(EventSwndVisibleChanged));
-
+		m_evtSet.addEvent(EVENTID(EventSwndUpdateTooltip));
 		m_evtSet.addEvent(EVENTID(EventLButtonDown));
 		m_evtSet.addEvent(EVENTID(EventLButtonUp));
 
@@ -144,12 +144,23 @@ namespace SOUI
 
 	BOOL SWindow::OnUpdateToolTip(CPoint pt, SwndToolTipInfo &tipInfo)
 	{
-		if(m_strToolTipText.GetText(FALSE).IsEmpty()) 
-			return FALSE;
+		EventSwndUpdateTooltip evt(this);
+		FireEvent(evt);
 		tipInfo.swnd = m_swnd;
-		tipInfo.dwCookie =0;
+		tipInfo.dwCookie = 0;
 		tipInfo.rcTarget = m_rcWindow;
-		tipInfo.strTip = m_strToolTipText.GetText(FALSE);
+
+		if (evt.bUpdated)
+		{
+			tipInfo.strTip = evt.strToolTip;
+			return !tipInfo.strTip.IsEmpty();
+		}
+		else
+		{
+			if (m_strToolTipText.GetText(FALSE).IsEmpty())
+				return FALSE;
+			tipInfo.strTip = m_strToolTipText.GetText(FALSE);
+		}
 		return TRUE;
 	}
 
@@ -167,13 +178,18 @@ namespace SOUI
 	void SWindow::TestMainThread()
 	{
 #ifdef _DEBUG
-		// 当你看到这个东西的时候，我不幸的告诉你，你的其他线程在刷界面
-		// 这是一件很危险的事情
-		DWORD dwCurThreadID = GetCurrentThreadId();
-
-		BOOL bOK = (m_nMainThreadId == dwCurThreadID); // 当前线程和构造对象时的线程一致
-
-		SASSERT_FMT(bOK, _T("请准备好红包再到群里提问"));
+		if (IsBadWritePtr(this, sizeof(SWindow)))
+		{
+			SASSERT_FMT(FALSE, _T("this is null!!!"));
+		}
+		else
+		{
+			// 当你看到这个东西的时候，我不幸的告诉你，你的其他线程在刷界面
+			// 这是一件很危险的事情
+			DWORD dwCurThreadID = GetCurrentThreadId();
+			DWORD dwProcID=GetCurrentProcessId();
+			SASSERT_FMT(m_nMainThreadId == dwCurThreadID, _T("ProcessID:%d,请准备好红包再到群里提问"), dwProcID);
+		}
 #endif
 	}
 

@@ -4,6 +4,7 @@
 
 namespace SOUI
 {
+	class SMenuExRoot;
     class SMenuEx;
     class SOUI_EXP SMenuExItem : public SWindow
     {
@@ -69,8 +70,7 @@ namespace SOUI
 
         BOOL LoadMenu(LPCTSTR pszMenu);
         BOOL LoadMenu(pugi::xml_node xmlNode);
-
-        UINT TrackPopupMenu(UINT flag,int x,int y,HWND hOwner,int nScale = 100);
+		UINT TrackPopupMenu(UINT flag,int x,int y,HWND hOwner,int nScale = 100);
 		static void ExitPopupMenu(int nCmdId=0);
 
         SMenuExItem * GetParentItem() {return m_pParent;}
@@ -80,8 +80,28 @@ namespace SOUI
 		DWORD GetContextHelpId() const;
 
 		void SetContextHelpId(DWORD dwId);
+
+		/**
+		* InsertMenu
+		* @brief    插入菜单项
+		* @param uPos -- 插入位置，-1代表append
+		* @param uFlag -- uFlag, MF_BYPOSITION|MF_BYCOMMAND
+		* @param nId -- menu id
+		* @param lpNewItem -- menu string
+		* @return   BOOL, true or false
+		*
+		* Describe
+		*/
 		BOOL InsertMenu(UINT uPos,UINT uFlag,int nId,LPCTSTR lpNewItem);
+		
+		BOOL DeleteMenu(UINT uPos, UINT uFlag);
+
+		BOOL CheckMenuItem(UINT uPos, UINT uFlag);
+
+		BOOL CheckMenuRadioltem(UINT idFirst, UINT idLast, UINT idCheck, UINT uFlags);
     protected:
+		//创建一个空菜单,不应该在外部调用
+		BOOL IniNullMenu(SMenuExRoot *ParentRoot);
         int OnMouseActivate(HWND wndTopLevel, UINT nHitTest, UINT message);
         void OnTimer(UINT_PTR timeID);
         void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
@@ -96,6 +116,8 @@ namespace SOUI
         virtual BOOL _HandleEvent(EventArgs *pEvt);
 		virtual const SStringW & GetTranslatorContext();
 		virtual int GetScale() const;
+
+		SWindow * FindItem(UINT uPos, UINT uFlag);
 
         void ShowMenu(UINT uFlag,int x,int y);
         void HideMenu(BOOL bUncheckParentItem);
