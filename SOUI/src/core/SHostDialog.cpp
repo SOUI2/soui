@@ -24,15 +24,20 @@ namespace SOUI
         }
                
         BOOL bEnableParent = FALSE;
-        if (hParent && hParent != ::GetDesktopWindow() && ::IsWindowEnabled(hParent))
+		if (hParent && hParent != ::GetDesktopWindow() && ::IsWindowEnabled(hParent))
         {
             ::EnableWindow(hParent, FALSE);
             bEnableParent = TRUE;
         }
         
-        if(!Create(hParent,WS_POPUP | WS_CLIPCHILDREN,0, 0,0,0,0))
-            return 0;
-
+		if (!Create(hParent, WS_POPUP | WS_CLIPCHILDREN, 0, 0, 0, 0, 0))
+		{
+			if (bEnableParent)
+			{
+				::EnableWindow(hParent, TRUE);
+			}
+			return 0;
+		}
         CSimpleWnd::SendMessage(WM_INITDIALOG, (WPARAM)m_hWnd);
         
         if(m_nRetCode == RC_INIT)
