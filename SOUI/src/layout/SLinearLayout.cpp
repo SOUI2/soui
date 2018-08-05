@@ -94,7 +94,7 @@ namespace SOUI
         else if(strValue.CompareNoCase(L"wrapContent") == 0)
 			width.setWrapContent();
         else
-			width.parseString(strValue);
+			width = GETLAYOUTSIZE(strValue);
         return S_OK;
     }
 
@@ -105,7 +105,7 @@ namespace SOUI
         else if(strValue.CompareNoCase(L"wrapContent") == 0)
             height.setWrapContent();
         else
-			height.parseString(strValue);
+			height = GETLAYOUTSIZE(strValue);
         return S_OK;
     }
 
@@ -116,17 +116,17 @@ namespace SOUI
 		size_t nSeg = SplitString(strValue,L',',strList);
 		if(nSeg==1)
 		{
-			extend_left.parseString(strList[0]);
-			extend_right.parseString(strList[0]);
-			extend_top.parseString(strList[0]);
-			extend_bottom.parseString(strList[0]);
+			extend_left = 
+				extend_top =
+				extend_right =
+				extend_bottom = GETLAYOUTSIZE(strList[0]);
 			return S_OK;
 		}else if(nSeg == 4)
 		{
-			extend_left.parseString(strList[0]);
-			extend_top.parseString(strList[1]);
-			extend_right.parseString(strList[2]);
-			extend_bottom.parseString(strList[3]);
+			extend_left = GETLAYOUTSIZE(strList[0]);
+			extend_top = GETLAYOUTSIZE(strList[1]);
+			extend_right = GETLAYOUTSIZE(strList[2]);
+			extend_bottom = GETLAYOUTSIZE(strList[3]);
 			return S_OK;
 		}
 		return E_INVALIDARG;

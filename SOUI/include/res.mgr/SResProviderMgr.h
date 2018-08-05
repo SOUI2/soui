@@ -51,6 +51,9 @@ namespace SOUI
         //获取资源包中的字符串表中固定索引号的字符串，只支持从第一个资源包中查询
         SStringW GetString(int idx);
         
+		//从字符串名返回LayoutSize，字符串可以是：@dim/something (something是在资源包中的Dim表定义的命名字符串)
+		SLayoutSize GetLayoutSize(const SStringW & strSize);
+		SLayoutSize GetLayoutSize(int idx);
     public://helper
         //find the match resprovider from tail to head, which contains the specified resource type and name
         IResProvider * GetMatchResProvider(LPCTSTR pszType,LPCTSTR pszResName);

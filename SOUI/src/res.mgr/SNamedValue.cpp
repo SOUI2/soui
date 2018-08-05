@@ -13,7 +13,7 @@ namespace SOUI
 
 const wchar_t KPrefixString[] = L"@string/";
 const wchar_t KPrefixColor[] = L"@color/";
-
+const wchar_t KPrefixDimension[] = L"@dim/";
 
 const int SIntParser::GetNullValue()
 {
@@ -93,13 +93,41 @@ const COLORREF & SNamedColor::Get(const SStringW & strValue) const
         return String2Value(strValue.Mid(ARRAYSIZE(KPrefixColor)-1));
     }else
     {
-        static COLORREF crTmp;
-        crTmp = SColorParser::GetNullValue();
-        SColorParser::ParseValue(strValue,crTmp);
-        return crTmp;
+        COLORREF crRet = SColorParser::GetNullValue();
+        SColorParser::ParseValue(strValue, crRet);
+        return crRet;
     }
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////
+bool SDimensionParser::ParseValue(const SStringW & strValue, SLayoutSize & value)
+{
+	value.parseString(strValue);
+	return true;
+}
+
+const SLayoutSize SDimensionParser::GetNullValue()
+{
+	return SLayoutSize();
+}
+
+const SLayoutSize & SNamedDimension::Get(const SStringW & strValue) const
+{
+	if (strValue.Left(ARRAYSIZE(KPrefixDimension) - 1) == KPrefixDimension)
+	{
+		return String2Value(strValue.Mid(ARRAYSIZE(KPrefixDimension) - 1));
+	}
+	else
+	{
+		SLayoutSize dimRet = SDimensionParser::GetNullValue();
+		SDimensionParser::ParseValue(strValue, dimRet);
+		return dimRet;
+	}
+
+}
+
+/////////////////////////////////////////////////////////////////////////////////
 void SNamedID::Init2(const NAMEDVALUE *pValue,int nCount,BOOL bSorted)
 {
     m_lstNamedValue.RemoveAll();

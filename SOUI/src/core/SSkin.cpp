@@ -663,12 +663,12 @@ HRESULT SSkinShape::SCornerSize::OnAttrRadius(const SStringW strValue,BOOL bLoad
 	if(nValues == 1)
 	{
 		m_radiusX=
-		m_radiusY=SLayoutSize::fromString(values[0]);
+		m_radiusY= GETLAYOUTSIZE(values[0]);
 		return S_OK;
 	}else if(nValues == 2)
 	{
-		m_radiusX=SLayoutSize::fromString(values[0]);
-		m_radiusY=SLayoutSize::fromString(values[1]);
+		m_radiusX= GETLAYOUTSIZE(values[0]);
+		m_radiusY= GETLAYOUTSIZE(values[1]);
 		return S_OK;
 	}
 	return E_INVALIDARG;

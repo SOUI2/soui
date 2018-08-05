@@ -16,8 +16,8 @@ STileViewItemLocator::STileViewItemLocator(int nItemHei, int nItemWid, int nMarg
 }
 
 STileViewItemLocator::STileViewItemLocator(LPCWSTR szItemHei, LPCWSTR szItemWid, SLayoutSize marginSize) :
-    m_nItemHeight(SLayoutSize::fromString(szItemHei)),
-    m_nItemWidth(SLayoutSize::fromString(szItemWid)),
+    m_nItemHeight(GETLAYOUTSIZE(szItemHei)),
+    m_nItemWidth(GETLAYOUTSIZE(szItemWid)),
     m_nItemMargin(marginSize),
     m_nTileViewWidth(0, SLayoutSize::px),
     m_nCountInRow(1),
@@ -120,7 +120,7 @@ CRect STileViewItemLocator::GetItemRect(int iItem)
 
 void STileViewItemLocator::SetTileViewWidth(LPCWSTR width)
 {
-    m_nTileViewWidth = SLayoutSize::fromString(width);
+    m_nTileViewWidth = GETLAYOUTSIZE(width);
     m_nCountInRow = m_nTileViewWidth.toPixelSize(m_scale) / (m_nItemWidth.toPixelSize(m_scale) + m_nItemMargin.toPixelSize(m_scale));
     if(m_nCountInRow == 0) m_nCountInRow=1;
 }

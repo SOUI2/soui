@@ -199,14 +199,14 @@ namespace SOUI
 		if (1 == values.GetCount())
 		{
 			//只设置X时，让Y方向自动居中
-			m_iconX.parseString(values[0]);
+			m_iconX = GETLAYOUTSIZE(values[0]);
 			m_iconY.parseString(Y_MIDFLAG);
 			return S_OK;
 		}
 		else if (2 != values.GetCount())
 			return E_INVALIDARG;
-		m_iconX.parseString(values[0]);
-		m_iconY.parseString(values[1]);
+		m_iconX = GETLAYOUTSIZE(values[0]);
+		m_iconY = GETLAYOUTSIZE(values[1]);
 		return S_OK;
 	}
 

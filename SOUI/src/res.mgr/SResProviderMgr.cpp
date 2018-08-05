@@ -101,35 +101,33 @@ namespace SOUI
 
     LPCTSTR SResProviderMgr::SysCursorName2ID( LPCTSTR pszCursorName )
     {
+		struct Cursor2ID
+		{
+			LPCTSTR szName;
+			LPCTSTR szID;
+		};
+		static const Cursor2ID cursorMap[] = {
+			{ _T("arrow") ,IDC_ARROW },
+			{ _T("ibeam") ,IDC_IBEAM },
+			{ _T("wait") ,IDC_WAIT },
+			{ _T("cross") ,IDC_CROSS },
+			{ _T("uparrow") ,IDC_UPARROW },
+			{ _T("size") ,IDC_SIZE },
+			{ _T("sizenwse") ,IDC_SIZENWSE },
+			{ _T("sizenesw") ,IDC_SIZENESW },
+			{ _T("sizewe") ,IDC_SIZEWE },
+			{ _T("sizens") ,IDC_SIZENS },
+			{ _T("sizeall") ,IDC_SIZEALL },
+			{ _T("no") ,IDC_NO },
+			{ _T("hand") ,IDC_HAND },
+			{ _T("help") ,IDC_HELP },
+		};
         SAutoLock lock(m_cs);
-        if(!_tcsicmp(pszCursorName,_T("arrow")))
-            return IDC_ARROW;
-        if(!_tcsicmp(pszCursorName,_T("ibeam")))
-            return IDC_IBEAM;
-        if(!_tcsicmp(pszCursorName,_T("wait")))
-            return IDC_WAIT;
-        if(!_tcsicmp(pszCursorName,_T("cross")))
-            return IDC_CROSS;
-        if(!_tcsicmp(pszCursorName,_T("uparrow")))
-            return IDC_UPARROW;
-        if(!_tcsicmp(pszCursorName,_T("size")))
-            return IDC_SIZE;
-        if(!_tcsicmp(pszCursorName,_T("sizenwse")))
-            return IDC_SIZENWSE;
-        if(!_tcsicmp(pszCursorName,_T("sizenesw")))
-            return IDC_SIZENESW;
-        if(!_tcsicmp(pszCursorName,_T("sizewe")))
-            return IDC_SIZEWE;
-        if(!_tcsicmp(pszCursorName,_T("sizens")))
-            return IDC_SIZENS;
-        if(!_tcsicmp(pszCursorName,_T("sizeall")))
-            return IDC_SIZEALL;
-        if(!_tcsicmp(pszCursorName,_T("no")))
-            return IDC_NO;
-        if(!_tcsicmp(pszCursorName,_T("hand")))
-            return IDC_HAND;
-        if(!_tcsicmp(pszCursorName,_T("help")))
-            return IDC_HELP;
+		for (int i = 0; i < ARRAYSIZE(cursorMap); i++)
+		{
+			if (0==_tcsicmp(cursorMap[i].szName, _T("arrow")))
+				return cursorMap[i].szID;
+		}
         return NULL;
    }
 
@@ -321,6 +319,7 @@ namespace SOUI
 
 	static SNamedColor emptyColor;
 	static SNamedString emptyString;
+	static SNamedDimension emptyDim;
 
     COLORREF SResProviderMgr::GetColor(const SStringW & strColor)
     {
@@ -337,7 +336,8 @@ namespace SOUI
 		return SUiDef::getSingleton().GetUiDef()->GetNamedColor().Get(idx);
 	}
 
-    SOUI::SStringW SResProviderMgr::GetString(const SStringW & strString)
+
+    SStringW SResProviderMgr::GetString(const SStringW & strString)
     {
 		if(SUiDef::getSingleton().GetUiDef() == NULL)
 			return emptyString.Get(strString);
@@ -345,11 +345,27 @@ namespace SOUI
 		return SUiDef::getSingleton().GetUiDef()->GetNamedString().Get(strString);
     }
 
-    SOUI::SStringW SResProviderMgr::GetString(int idx)
+    SStringW SResProviderMgr::GetString(int idx)
     {
 		if(SUiDef::getSingleton().GetUiDef() == NULL)
 			return emptyString.Get(idx);
 
 		return SUiDef::getSingleton().GetUiDef()->GetNamedString().Get(idx);
     }
+
+	SLayoutSize SResProviderMgr::GetLayoutSize(const SStringW & strSize)
+	{
+		if (SUiDef::getSingleton().GetUiDef() == NULL)
+			return emptyDim.Get(strSize);
+
+		return SUiDef::getSingleton().GetUiDef()->GetNamedDimension().Get(strSize);
+	}
+
+	SLayoutSize SResProviderMgr::GetLayoutSize(int idx)
+	{
+		if (SUiDef::getSingleton().GetUiDef() == NULL)
+			return emptyDim.Get(idx);
+
+		return SUiDef::getSingleton().GetUiDef()->GetNamedDimension().Get(idx);
+	}
 }

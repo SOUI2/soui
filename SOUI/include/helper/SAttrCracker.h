@@ -90,8 +90,8 @@ public:                                                             \
 #define ATTR_LAYOUTSIZE(attribname, varname, allredraw)             \
 	if (0 == strAttribName.CompareNoCase(attribname))               \
 		{                                                           \
-		varname.parseString(strValue);                              \
-		hRet = allredraw ? S_OK : S_FALSE;                          \
+                varname = GETLAYOUTSIZE(strValue);                  \
+                hRet = allredraw ? S_OK : S_FALSE;                  \
 		}                                                           \
 		else                                                        \
 
@@ -102,8 +102,8 @@ public:                                                             \
 		{                                                           \
 			SStringWList values;									\
 			if(SplitString(strValue,L',',values)!=2) return E_INVALIDARG;\
-			varname[0].parseString(values[0]);                      \
-            varname[1].parseString(values[1]);                      \
+			varname[0]=GETLAYOUTSIZE(values[0]);                    \
+			varname[1]=GETLAYOUTSIZE(values[1]);                    \
 			hRet = allredraw ? S_OK : S_FALSE;                      \
 		}                                                           \
 		else                                                        \
@@ -113,10 +113,10 @@ public:                                                             \
 		{                                                           \
 			SStringWList values;									\
 			if(SplitString(strValue,L',',values)!=4) return E_INVALIDARG;\
-			varname[0].parseString(values[0]);                      \
-            varname[1].parseString(values[1]);                      \
-            varname[2].parseString(values[2]);                      \
-            varname[3].parseString(values[3]);                      \
+			varname[0]=GETLAYOUTSIZE(values[0]);                    \
+			varname[1]=GETLAYOUTSIZE(values[1]);                    \
+			varname[2]=GETLAYOUTSIZE(values[2]);                    \
+			varname[3]=GETLAYOUTSIZE(values[3]);                    \
 			hRet = allredraw ? S_OK : S_FALSE;                      \
 		}                                                           \
 		else                                                        \

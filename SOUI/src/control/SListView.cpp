@@ -692,7 +692,7 @@ namespace SOUI
         if(xmlTemplate)
         {
             m_xmlTemplate.append_copy(xmlTemplate);
-			SLayoutSize nItemHei = SLayoutSize::fromString(xmlTemplate.attribute(L"itemHeight").value());
+			SLayoutSize nItemHei = GETLAYOUTSIZE(xmlTemplate.attribute(L"itemHeight").value());
             if(nItemHei.fSize>0.0f)
             {//指定了itemHeight属性时创建一个固定行高的定位器
                 IListViewItemLocator * pItemLocator = new  SListViewItemLocatorFix(nItemHei,m_nDividerSize);
@@ -700,7 +700,7 @@ namespace SOUI
                 pItemLocator->Release();
             }else
             {//创建一个行高可变的行定位器，从defHeight属性中获取默认行高
-				IListViewItemLocator * pItemLocator = new  SListViewItemLocatorFlex(SLayoutSize::fromString(xmlTemplate.attribute(L"defHeight").as_string(L"30dp")),m_nDividerSize);
+				IListViewItemLocator * pItemLocator = new  SListViewItemLocatorFlex(GETLAYOUTSIZE(xmlTemplate.attribute(L"defHeight").as_string(L"30dp")),m_nDividerSize);
                 SetItemLocator(pItemLocator);
                 pItemLocator->Release();
             }

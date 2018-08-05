@@ -21,6 +21,7 @@ namespace SOUI
 		virtual SStylePool * GetStylePool() =0;
 		virtual SNamedColor & GetNamedColor()  =0;
 		virtual SNamedString & GetNamedString()  =0;
+		virtual SNamedDimension & GetNamedDimension() = 0;
 		virtual SObjDefAttr & GetObjDefAttr() = 0;
 		virtual FontInfo & GetDefFontInfo() = 0;
 	};

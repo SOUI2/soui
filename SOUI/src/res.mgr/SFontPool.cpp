@@ -93,13 +93,11 @@ IFontPtr SFontPool::GetFont( const SStringW & strFont ,int scale)
             strFace = strPair[1];
         }else if(strPair[0] == KFontAdding)
         {
-			SLayoutSize sz;
-			sz.parseString(strPair[1]);
+			SLayoutSize sz = GETLAYOUTSIZE(strPair[1]);
             cAdding=(short)sz.toPixelSize(scale);;
         }else if(strPair[0] == KFontSize)
         {
-			SLayoutSize sz;
-			sz.parseString(strPair[1]);
+			SLayoutSize sz = GETLAYOUTSIZE(strPair[1]);
             cSize=(short)sz.toPixelSize(scale);
         }else if(strPair[0] == KFontItalic)
         {

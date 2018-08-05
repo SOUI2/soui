@@ -345,7 +345,7 @@ namespace SOUI
 			SStringW strText = xmlItem.text().get();
 			strText.TrimBlank();
 			item.strText.SetText(S_CW2T(GETSTRING(strText)));
-            item.cx = SLayoutSize::fromString(xmlItem.attribute(L"width").as_string(L"50"));// .as_int(50);
+            item.cx = GETLAYOUTSIZE(xmlItem.attribute(L"width").as_string(L"50"));// .as_int(50);
 			item.lParam = xmlItem.attribute(L"userData").as_uint(0);
 			item.stFlag = (SHDSORTFLAG)xmlItem.attribute(L"sortFlag").as_uint(ST_NULL);
 			item.bVisible = xmlItem.attribute(L"visible").as_bool(true);

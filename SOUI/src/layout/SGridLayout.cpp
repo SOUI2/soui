@@ -45,7 +45,7 @@ namespace SOUI
 		else if(strValue.CompareNoCase(L"wrapContent") == 0)
 			width.setWrapContent();
 		else
-			width.parseString(strValue);
+			width = GETLAYOUTSIZE(strValue);
 		return S_OK;
 	}
 
@@ -56,7 +56,7 @@ namespace SOUI
 		else if(strValue.CompareNoCase(L"wrapContent") == 0)
 			height.setWrapContent();
 		else
-			height.parseString(strValue);
+			height = GETLAYOUTSIZE(strValue);
 		return S_OK;
 	}
 

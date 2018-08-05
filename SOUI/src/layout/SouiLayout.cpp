@@ -151,7 +151,7 @@ namespace SOUI{
 			pos.nRefID = _wtoi(values[0]);
             if(pos.nRefID == 0) 
                 return FALSE;
-			pos.nPos.parseString(values[1]);
+			pos.nPos = GETLAYOUTSIZE(values[1]);
 
             if(pos.nPos.fSize < 0)
             {
@@ -185,7 +185,7 @@ namespace SOUI{
             {
                 pos.cMinus = 1;
             }
-            pos.nPos.parseString(pszPos);
+            pos.nPos = GETLAYOUTSIZE(pszPos);
         }
 
         return TRUE;
@@ -271,7 +271,7 @@ namespace SOUI{
         else if(strValue.CompareNoCase(L"wrapContent") == 0)
             height.setWrapContent();
         else
-			height.parseString(strValue);
+			height = GETLAYOUTSIZE(strValue);
         return S_OK;
     }
 
@@ -282,7 +282,7 @@ namespace SOUI{
         else if(strValue.CompareNoCase(L"wrapContent") == 0)
             width.setWrapContent();
         else
-			width.parseString(strValue);
+			width = GETLAYOUTSIZE(strValue);
         return S_OK;
     }
 

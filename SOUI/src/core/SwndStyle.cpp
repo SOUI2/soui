@@ -80,13 +80,13 @@ HRESULT SwndStyle::OnAttrMargin(const SStringW& strValue,BOOL bLoading)
 
 HRESULT SwndStyle::OnAttrMarginX(const SStringW& strValue,BOOL bLoading)
 {
-	m_rcMargin[0] = m_rcMargin[2] = SLayoutSize::fromString(strValue);
+	m_rcMargin[0] = m_rcMargin[2] = GETLAYOUTSIZE(strValue);
     return !bLoading?S_OK:S_FALSE;
 }
 
 HRESULT SwndStyle::OnAttrMarginY(const SStringW& strValue,BOOL bLoading)
 {
-	m_rcMargin[1] = m_rcMargin[3] = SLayoutSize::fromString(strValue);
+	m_rcMargin[1] = m_rcMargin[3] = GETLAYOUTSIZE(strValue);
 
 	return !bLoading?S_OK:S_FALSE;
 }
@@ -97,19 +97,19 @@ void SwndStyle::_ParseLayoutSize4(const SStringW & strValue, SLayoutSize layoutS
 	size_t nValues = SplitString(strValue, L',', values);
 	if (nValues == 1)
 	{
-		layoutSizes[0] = layoutSizes[1] = layoutSizes[2] = layoutSizes[3] = SLayoutSize::fromString(values[0]);
+		layoutSizes[0] = layoutSizes[1] = layoutSizes[2] = layoutSizes[3] = GETLAYOUTSIZE(values[0]);
 	}
 	else if (nValues == 2)
 	{
-		layoutSizes[0] = layoutSizes[2] = SLayoutSize::fromString(values[0]);
-		layoutSizes[1] = layoutSizes[3] = SLayoutSize::fromString(values[1]);
+		layoutSizes[0] = layoutSizes[2] = GETLAYOUTSIZE(values[0]);
+		layoutSizes[1] = layoutSizes[3] = GETLAYOUTSIZE(values[1]);
 	}
 	else if (nValues == 4)
 	{
-		layoutSizes[0] = SLayoutSize::fromString(values[0]);
-		layoutSizes[1] = SLayoutSize::fromString(values[1]);
-		layoutSizes[2] = SLayoutSize::fromString(values[2]);
-		layoutSizes[3] = SLayoutSize::fromString(values[3]);
+		layoutSizes[0] = GETLAYOUTSIZE(values[0]);
+		layoutSizes[1] = GETLAYOUTSIZE(values[1]);
+		layoutSizes[2] = GETLAYOUTSIZE(values[2]);
+		layoutSizes[3] = GETLAYOUTSIZE(values[3]);
 	}
 }
 

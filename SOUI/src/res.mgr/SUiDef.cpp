@@ -8,6 +8,7 @@ namespace SOUI{
 	const static WCHAR KNodeUidef[]     = L"uidef" ;
 	const static WCHAR KNodeString[]    = L"string";
 	const static WCHAR KNodeColor[]     = L"color";
+	const static WCHAR KNodeDim[]       = L"dim";
 	const static WCHAR KNodeSkin[]      = L"skin";
 	const static WCHAR KNodeStyle[]     = L"style";
 	const static WCHAR KNodeObjAttr[]   = L"objattr";
@@ -48,6 +49,7 @@ namespace SOUI{
 		virtual SStylePool * GetStylePool(){return pStylePool;}
 		virtual SNamedColor & GetNamedColor() {return namedColor;}
 		virtual SNamedString & GetNamedString() {return namedString;}
+		virtual SNamedDimension & GetNamedDimension() { return namedDim; }
 		virtual SObjDefAttr & GetObjDefAttr(){return objDefAttr;}
 		virtual FontInfo & GetDefFontInfo() { return defFontInfo;}
 
@@ -58,6 +60,7 @@ namespace SOUI{
 
 		SNamedColor   namedColor;
 		SNamedString  namedString;
+		SNamedDimension namedDim;
 		SObjDefAttr   objDefAttr;
 
 		FontInfo	  defFontInfo;
@@ -150,6 +153,15 @@ namespace SOUI{
 						}
 					}
 
+					//load named dimension
+					{
+						pugi::xml_document docData;
+						pugi::xml_node     nodeData = GetSourceXmlNode(root, docData, pResProvider, KNodeDim);
+						if (nodeData)
+						{
+							namedDim.Init(nodeData);
+						}
+					}
 					//load named skin
 					{
 						pugi::xml_document docData;

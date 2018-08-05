@@ -44,6 +44,7 @@
 
 #define GETCOLOR(x)         SOUI::SApplication::getSingleton().GetColor(x)
 #define GETSTRING(x)        SOUI::SApplication::getSingleton().GetString(x)
+#define GETLAYOUTSIZE(x)    SOUI::SApplication::getSingleton().GetLayoutSize(x)
 
 #define CREATEINTERPOLATOR(x)  SOUI::SApplication::getSingleton().CreateInterpolatorByName(x)
 #define RT_LAYOUT _T("LAYOUT")

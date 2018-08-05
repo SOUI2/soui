@@ -4,9 +4,7 @@
 
 #pragma once
 #include "helper/color.h"
-// #include "core/SwndStyle.h"
-// #define GETSTRING(p1) SNamedString::getSingleton().Get(p1)
-// #define GETCOLOR(p1) SNamedColor::getSingleton().Get(p1)
+#include "layout/SLayoutSize.h"
 
 namespace SOUI
 {
@@ -107,9 +105,7 @@ namespace SOUI
     {
     public:
         static bool ParseValue(const SStringW & strValue, SStringW & value);
-
         static const SStringW GetNullValue();
-
     };
 
     class SOUI_EXP SNamedString :public SNamedValue<SStringW,SStringParser>
@@ -120,5 +116,18 @@ namespace SOUI
         const SStringW &  Get(int idx) const {return GetAt(idx);}
     };
 
+	class SDimensionParser
+	{
+	public:
+		static bool ParseValue(const SStringW & strValue, SLayoutSize & value);
+		static const SLayoutSize  GetNullValue();
+	};
 
+	class SOUI_EXP SNamedDimension : public SNamedValue<SLayoutSize, SDimensionParser>
+	{
+	public:
+		//自动转换@dim/namedDimension
+		const SLayoutSize &  Get(const SStringW & strValue) const;
+		const SLayoutSize &  Get(int idx) const { return GetAt(idx); }
+	};
 } //namespace SOUI
