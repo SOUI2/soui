@@ -121,6 +121,19 @@ public:                                                             \
 		}                                                           \
 		else                                                        \
 
+#define ATTR_MARGIN(attribname, varname, allredraw)             \
+	if (0 == strAttribName.CompareNoCase(attribname))               \
+		{                                                           \
+			SStringWList values;									\
+			if(SplitString(strValue,L',',values)!=4) return E_INVALIDARG;\
+			varname.left=GETLAYOUTSIZE(values[0]).toPixelSize(100); \
+			varname.top=GETLAYOUTSIZE(values[1]).toPixelSize(100);  \
+			varname.right=GETLAYOUTSIZE(values[2]).toPixelSize(100);\
+			varname.bottom=GETLAYOUTSIZE(values[3]).toPixelSize(100);\
+			hRet = allredraw ? S_OK : S_FALSE;                      \
+		}                                                           \
+		else                                                        \
+
 
 // Rect = %d,%d,%d,%d StringA
 #define ATTR_RECT(attribname, varname, allredraw)         \

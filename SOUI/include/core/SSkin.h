@@ -1,6 +1,8 @@
 ﻿#pragma once
 
 #include "SSkinObjBase.h"
+#include "../layout/SLayoutSize.h"
+#include "../helper/SplitString.h"
 
 namespace SOUI
 {
@@ -126,6 +128,7 @@ protected:
         ATTR_INT(L"bottom", m_rcMargin.bottom, FALSE)    //九宫格下边距
         ATTR_INT(L"margin-x", m_rcMargin.left=m_rcMargin.right, FALSE)//九宫格左右边距
         ATTR_INT(L"margin-y", m_rcMargin.top=m_rcMargin.bottom, FALSE)//九宫格上下边距
+		ATTR_MARGIN(L"margin2", m_rcMargin,FALSE)
     SOUI_ATTRS_END()
 };
 
