@@ -686,7 +686,7 @@ BOOL SPanel::OnScroll(BOOL bVertical,UINT uCode,int nPos)
     if(nNewPos!=psi->nPos)
     {
         psi->nPos=nNewPos;
-        if(uCode!=SB_THUMBTRACK && IsVisible(TRUE))
+        if(uCode!=SB_THUMBTRACK && IsVisible(TRUE)&& IsScrollBarEnable(bVertical))
         {
             CRect rcRail=GetScrollBarRect(bVertical);
             if(bVertical)
