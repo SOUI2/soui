@@ -93,7 +93,8 @@ const COLORREF & SNamedColor::Get(const SStringW & strValue) const
         return String2Value(strValue.Mid(ARRAYSIZE(KPrefixColor)-1));
     }else
     {
-        COLORREF crRet = SColorParser::GetNullValue();
+		static COLORREF crRet;
+		crRet = SColorParser::GetNullValue();
         SColorParser::ParseValue(strValue, crRet);
         return crRet;
     }
@@ -120,7 +121,8 @@ const SLayoutSize & SNamedDimension::Get(const SStringW & strValue) const
 	}
 	else
 	{
-		SLayoutSize dimRet = SDimensionParser::GetNullValue();
+		static SLayoutSize dimRet;
+		dimRet = SDimensionParser::GetNullValue();
 		SDimensionParser::ParseValue(strValue, dimRet);
 		return dimRet;
 	}
