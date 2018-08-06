@@ -125,7 +125,7 @@ namespace SOUI
         SAutoLock lock(m_cs);
 		for (int i = 0; i < ARRAYSIZE(cursorMap); i++)
 		{
-			if (0==_tcsicmp(cursorMap[i].szName, _T("arrow")))
+			if (0==_tcsicmp(cursorMap[i].szName, pszCursorName))
 				return cursorMap[i].szID;
 		}
         return NULL;
