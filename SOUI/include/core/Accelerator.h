@@ -51,14 +51,6 @@ namespace SOUI
          */    
         ~CAccelerator(void);
 
-        /**
-         * GetKeyName
-         * @brief    将键盘值转换为对应的字符串
-         * @param    WORD vk --  键盘值
-         * @return   SOUI::SStringT -- 键名
-         * Describe  
-         */    
-        SStringT GetKeyName(WORD vk);
 
         /**
          * FormatHotkey
@@ -84,6 +76,17 @@ namespace SOUI
          */    
         WORD GetKey() const {return m_wVK;}
 
+		static WORD VkFromString(LPCTSTR pszKey);
+		/**
+		* GetKeyName
+		* @brief    将键盘值转换为对应的字符串
+		* @param    WORD vk --  键盘值
+		* @return   SOUI::SStringT -- 键名
+		* Describe
+		*/
+		static SStringT GetKeyName(WORD vk);
+
+		static SStringT FormatAccelKey(DWORD dwAccel);
         /**
          * TranslateAccelKey
          * @brief    解析与字符串对应的加速键值
