@@ -171,7 +171,7 @@ add_subdirectory(components)
 
 #
 #
-add_subdirectory(demos)
+add_subdirectory(demo)
 
 message(STATUS "COM_LIBS: ${COM_LIBS}")
 message(STATUS "CORE_LIBS: ${CORE_LIBS}")
