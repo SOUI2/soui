@@ -90,7 +90,8 @@ void SkTextLayoutEx::buildLines()
         {
             m_lines.push(lineHead);
             size_t line_len = breakTextEx(m_paint,text, stop - text, maxWid,0);
-            text += line_len;
+			if (0 == line_len) break;
+			text += line_len;
             lineHead += line_len;
         };
     }
@@ -211,6 +212,10 @@ SkRect SkTextLayoutEx::draw( SkCanvas* canvas )
         {
             y += (height - textHeight)/2.0f;
         }
+		else if (m_uFormat & DT_BOTTOM)
+		{
+			y += (height - textHeight);
+		}
         if(m_uFormat & DT_ELLIPSIS)
         {//只支持在行尾增加省略号
             rcDraw.fRight = rcDraw.fLeft + drawLineEndWithEllipsis(canvas,x,y,0,m_text.count(),fontHeight,m_rcBound.width());
