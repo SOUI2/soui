@@ -10,6 +10,9 @@
   <imglist name="skin_webbtn_back" src="imgx:webbtn_back" states="4" />
   <imglist name="skin_webbtn_forward" src="imgx:webbtn_forward" states="4" stateMap="0-1-2-3-2-2-2-3" />
   <imglist name="skin_webbtn_refresh" src="imgx:webbtn_refresh" states="4"/>
+  <imglist name="skin_message" src="imgx:message" states="3" stateMap="0-1-2-2-1-1-1-1" />
+  <imglist name="skin_contacts" src="imgx:contacts" states="3" stateMap="0-1-2-2-1-1-1-1" />
+  <imglist name="skin_group" src="imgx:group" states="3" stateMap="0-1-2-2-1-1-1-1" />
   <imgframe name="skin_tab_left" src="imgx:png_tab_left" states="3" margin="1,1,1,1"/>
   <imglist name="skin_tab_left_splitter" src="imgx:png_tab_left_splitter"/>
   <imglist name="skin_tab_main" src="imgx:png_tab_main" states="3"/>

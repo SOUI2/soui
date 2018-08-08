@@ -188,7 +188,7 @@
         <radio pos="[10,{0" name="radio_4">radio 4</radio>
       </group>
       <group pos="[50,{0,@180,@100">
-        radio+reset
+        radio+stateMap
         <radio pos="10,0" id="10000" name="radio2_1" drawFocusRect="0" skin="skin_webbtn_forward"></radio>
         <radio pos="[20,{0" id="10001" name="radio2_2" drawFocusRect="0" skin="skin_webbtn_forward"></radio>
         <radio pos="[20,{0" id="10002" name="radio2_3" drawFocusRect="0" skin="skin_webbtn_forward"></radio>
@@ -235,6 +235,15 @@
           <text pos="|0,|0" offset="-0.5,-0.5">page6</text>
         </page>
       </tabctrl>
+	  <window pos="10,[10,@300,@110" layout="hbox" gravity="center" colorBkgnd="#FAFAFA">
+		<window size="20,-2" />
+		<radio size="-1,-2" weight="1" focusable="0" skin="skin_message" skinalign="center" skinvalign="top" text="消息" align="center" valign="top" />
+		<window size="20,-2" />
+		<radio size="-1,-2" weight="1" focusable="0" skin="skin_contacts" skinalign="center" text="联系人" align="center" />
+		<window size="20,-2" />
+		<radio size="-1,-2" weight="1" focusable="0" skin="skin_group" skinalign="center" skinvalign="bottom" text="群组" align="center" valign="bottom" />
+		<window size="20,-2" />
+	  </window>
     </page>
     <page title="prog and slider" colorBorder="#ff0000" margin-x="1" margin-y="1">
       <progress name="prog_test" pos="100,100,@200,@15" font="adding:-8" value="20" min="0" max="100" showPercent="1"/>

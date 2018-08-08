@@ -972,6 +972,8 @@ void SIconWnd::SetIcon(HICON hIcon)
 SRadioBox::SRadioBox()
     : m_pSkin(GETBUILTINSKIN(SKIN_SYS_RADIO))
     , m_pFocusSkin(GETBUILTINSKIN(SKIN_SYS_FOCUSRADIO))
+	, m_uSkinAlign(SwndStyle::Align_Left)
+	, m_uSkinVAlign(SwndStyle::VAlign_Middle)
 {
     m_style.SetAttribute(L"align",L"left");
     m_bFocusable=TRUE;
@@ -983,9 +985,30 @@ CRect SRadioBox::GetRadioRect()
     CRect rcClient;
     GetClientRect(rcClient);
     SASSERT(m_pSkin);
-    CSize szRadioBox=m_pSkin->GetSkinSize();
-    CRect rcRadioBox(rcClient.TopLeft(),szRadioBox);
-    rcRadioBox.OffsetRect(0,(rcClient.Height()-szRadioBox.cy)/2);
+    CSize szRadioBox = m_pSkin->GetSkinSize();
+	CRect rcRadioBox = rcClient;
+
+	switch (m_uSkinAlign)
+	{
+	case SwndStyle::Align_Center:
+		rcRadioBox.left += (rcClient.Width() - szRadioBox.cx) / 2;
+		break;
+	case SwndStyle::Align_Right: 
+		rcRadioBox.left = rcClient.right - szRadioBox.cx;
+		break;
+	}
+	switch (m_uSkinVAlign)
+	{
+	case SwndStyle::VAlign_Middle:
+		rcRadioBox.top += (rcClient.Height() - szRadioBox.cy) / 2;
+		break;
+	case SwndStyle::VAlign_Bottom:
+		rcRadioBox.top = rcClient.bottom - szRadioBox.cy;
+		break;
+	}
+	rcRadioBox.right = rcRadioBox.left + szRadioBox.cx;
+	rcRadioBox.bottom = rcRadioBox.top + szRadioBox.cy;
+    
     return rcRadioBox;
 }
 
@@ -994,8 +1017,26 @@ void SRadioBox::GetTextRect( LPRECT pRect )
 {
     GetClientRect(pRect);
     SASSERT(m_pSkin);
-    CSize szRadioBox=m_pSkin->GetSkinSize();
-    pRect->left+=szRadioBox.cx+RadioBoxSpacing;
+    CSize szRadioBox = m_pSkin->GetSkinSize();
+
+	switch (m_uSkinAlign)
+	{
+	case SwndStyle::Align_Left:
+		pRect->left += (szRadioBox.cx + RadioBoxSpacing);
+		break;
+	case SwndStyle::Align_Right:
+		pRect->right -= (szRadioBox.cx + RadioBoxSpacing);
+		break;
+	}
+	switch (m_uSkinVAlign)
+	{
+	case SwndStyle::VAlign_Top:
+		pRect->top += (szRadioBox.cy + RadioBoxSpacing);
+		break;
+	case SwndStyle::VAlign_Bottom:
+		pRect->bottom -= (szRadioBox.cy + RadioBoxSpacing);
+		break;
+	}
 }
 
 void SRadioBox::OnPaint(IRenderTarget *pRT)
@@ -1008,7 +1049,7 @@ void SRadioBox::OnPaint(IRenderTarget *pRT)
 
 void SRadioBox::DrawFocus(IRenderTarget *pRT)
 {
-    if(m_pFocusSkin&& m_bDrawFocusRect&&IsFocusable())
+    if(m_pFocusSkin && m_bDrawFocusRect && IsFocusable())
 	{
         CRect rcCheckBox=GetRadioRect();
         m_pFocusSkin->Draw(pRT,rcCheckBox,0);
