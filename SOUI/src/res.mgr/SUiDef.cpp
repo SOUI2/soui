@@ -50,20 +50,36 @@ namespace SOUI{
 		virtual SNamedColor & GetNamedColor() {return namedColor;}
 		virtual SNamedString & GetNamedString() {return namedString;}
 		virtual SNamedDimension & GetNamedDimension() { return namedDim; }
-		virtual SObjDefAttr & GetObjDefAttr(){return objDefAttr;}
+		virtual SObjDefAttr * GetObjDefAttr(){return objDefAttr;}
 		virtual FontInfo & GetDefFontInfo() { return defFontInfo;}
+
+		virtual void SetSkinPool(SSkinPool * pSkinPool) 
+		{
+			this->pSkinPool = pSkinPool;
+		}
+		virtual void SetStylePool(SStylePool * pStylePool)
+		{
+			this->pStylePool = pStylePool;
+		}
+		virtual void SetObjDefAttr(SObjDefAttr * pObjDefAttr)
+		{
+			this->objDefAttr = pObjDefAttr;
+		}
 
 	protected:
 
 		CAutoRefPtr<SSkinPool>    pSkinPool;
 		CAutoRefPtr<SStylePool>   pStylePool;
+		CAutoRefPtr<SObjDefAttr>  objDefAttr;
 
 		SNamedColor   namedColor;
 		SNamedString  namedString;
 		SNamedDimension namedDim;
-		SObjDefAttr   objDefAttr;
 
 		FontInfo	  defFontInfo;
+
+
+
 	};
 
 
@@ -170,8 +186,6 @@ namespace SOUI{
 						{
 							pSkinPool.Attach(new SSkinPool);
 							pSkinPool->LoadSkins(nodeData);
-							SSkinPoolMgr::getSingletonPtr()->PushSkinPool(pSkinPool);
-
 						}
 					}
 					//load named style
@@ -182,7 +196,6 @@ namespace SOUI{
 						{
 							pStylePool.Attach(new SStylePool);
 							pStylePool->Init(nodeData);
-							SStylePoolMgr::getSingleton().PushStylePool(pStylePool);
 						}
 					}
 					//load SWindow default attribute
@@ -191,7 +204,8 @@ namespace SOUI{
 						pugi::xml_node     nodeData = GetSourceXmlNode(root,docData,pResProvider,KNodeObjAttr);
 						if(nodeData)
 						{
-							objDefAttr.Init(nodeData);
+							objDefAttr.Attach(new SObjDefAttr);
+							objDefAttr->Init(nodeData);
 						}
 					}
 
@@ -236,7 +250,21 @@ namespace SOUI{
 
 	IUiDefInfo * SUiDef::CreateUiDefInfo(IResProvider *pResProvider, LPCTSTR pszUiDef)
 	{
-		return new SUiDefInfo(pResProvider,pszUiDef);
+		IUiDefInfo * pUiDefInfo = CreateUiDefInfo2(pResProvider, pszUiDef);
+		if (pUiDefInfo->GetSkinPool())
+		{
+			SSkinPoolMgr::getSingletonPtr()->PushSkinPool(pUiDefInfo->GetSkinPool());
+		}
+		if (pUiDefInfo->GetStylePool())
+		{
+			SStylePoolMgr::getSingletonPtr()->PushStylePool(pUiDefInfo->GetStylePool());
+		}
+		return pUiDefInfo;
+	}
+
+	IUiDefInfo * SUiDef::CreateUiDefInfo2(IResProvider *pResProvider, LPCTSTR pszUiDef)
+	{
+		return new SUiDefInfo(pResProvider, pszUiDef);
 	}
 
 	void SUiDef::SetUiDef( IUiDefInfo* pUiDefInfo )

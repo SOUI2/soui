@@ -10,19 +10,21 @@
 #include "res.mgr/SObjDefAttr.h"
 #include "res.mgr/SNamedValue.h"
 
-#define GETCSS(p1) SUiDef::getSingleton().GetUiDef()->GetObjDefAttr().GetDefAttribute(p1)
-
 namespace SOUI
 {
 
 	struct IUiDefInfo : IObjRef
 	{
+		virtual void SetSkinPool(SSkinPool * pSkinPool) = 0;
 		virtual SSkinPool * GetSkinPool() =0;
+		virtual void SetStylePool(SStylePool * pStylePool) = 0;
 		virtual SStylePool * GetStylePool() =0;
+		virtual void SetObjDefAttr(SObjDefAttr * pObjDefAttr) = 0;
+		virtual SObjDefAttr * GetObjDefAttr() = 0;
+
 		virtual SNamedColor & GetNamedColor()  =0;
 		virtual SNamedString & GetNamedString()  =0;
 		virtual SNamedDimension & GetNamedDimension() = 0;
-		virtual SObjDefAttr & GetObjDefAttr() = 0;
 		virtual FontInfo & GetDefFontInfo() = 0;
 	};
 
@@ -35,6 +37,8 @@ namespace SOUI
 		~SUiDef(void);
 
 		static IUiDefInfo * CreateUiDefInfo(IResProvider *pResProvider, LPCTSTR pszUiDef);
+
+		static IUiDefInfo * CreateUiDefInfo2(IResProvider *pResProvider, LPCTSTR pszUiDef);
 
 		
 		IUiDefInfo * GetUiDef(){return m_pCurUiDef;}

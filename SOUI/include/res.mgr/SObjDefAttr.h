@@ -6,7 +6,7 @@
 namespace SOUI
 {
 
-class SOUI_EXP SObjDefAttr :public SCmnMap<pugi::xml_node,SStringW>
+class SOUI_EXP SObjDefAttr :public SCmnMap<pugi::xml_node,SStringW>, public TObjRefImpl2<IObjRef, SObjDefAttr>
 {
 public:
     SObjDefAttr()

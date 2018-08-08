@@ -90,7 +90,10 @@ void SObjectFactoryMgr::SetSwndDefAttr(IObject * pObject) const
 	if (pObject->GetObjectType() != Window) return;
 
     //检索并设置类的默认属性
-    pugi::xml_node defAttr = GETCSS(pszClassName);
+	pugi::xml_node defAttr;
+	SObjDefAttr * pDefObjAttr = SUiDef::getSingleton().GetUiDef()->GetObjDefAttr();
+	if (pDefObjAttr) defAttr = pDefObjAttr->GetDefAttribute(pszClassName);
+
     if(defAttr)
     {
         //优先处理"class"属性
