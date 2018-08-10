@@ -972,8 +972,8 @@ void SIconWnd::SetIcon(HICON hIcon)
 SRadioBox::SRadioBox()
     : m_pSkin(GETBUILTINSKIN(SKIN_SYS_RADIO))
     , m_pFocusSkin(GETBUILTINSKIN(SKIN_SYS_FOCUSRADIO))
-	, m_uSkinAlign(SwndStyle::Align_Left)
-	, m_uSkinVAlign(SwndStyle::VAlign_Middle)
+	, m_uIconAlign(SwndStyle::Align_Left)
+	, m_uIconVAlign(SwndStyle::VAlign_Middle)
 {
     m_style.SetAttribute(L"align",L"left");
     m_bFocusable=TRUE;
@@ -988,7 +988,7 @@ CRect SRadioBox::GetRadioRect()
     CSize szRadioBox = m_pSkin->GetSkinSize();
 	CRect rcRadioBox = rcClient;
 
-	switch (m_uSkinAlign)
+	switch (m_uIconAlign)
 	{
 	case SwndStyle::Align_Center:
 		rcRadioBox.left += (rcClient.Width() - szRadioBox.cx) / 2;
@@ -997,7 +997,7 @@ CRect SRadioBox::GetRadioRect()
 		rcRadioBox.left = rcClient.right - szRadioBox.cx;
 		break;
 	}
-	switch (m_uSkinVAlign)
+	switch (m_uIconVAlign)
 	{
 	case SwndStyle::VAlign_Middle:
 		rcRadioBox.top += (rcClient.Height() - szRadioBox.cy) / 2;
@@ -1019,7 +1019,7 @@ void SRadioBox::GetTextRect( LPRECT pRect )
     SASSERT(m_pSkin);
     CSize szRadioBox = m_pSkin->GetSkinSize();
 
-	switch (m_uSkinAlign)
+	switch (m_uIconAlign)
 	{
 	case SwndStyle::Align_Left:
 		pRect->left += (szRadioBox.cx + RadioBoxSpacing);
@@ -1028,7 +1028,7 @@ void SRadioBox::GetTextRect( LPRECT pRect )
 		pRect->right -= (szRadioBox.cx + RadioBoxSpacing);
 		break;
 	}
-	switch (m_uSkinVAlign)
+	switch (m_uIconVAlign)
 	{
 	case SwndStyle::VAlign_Top:
 		pRect->top += (szRadioBox.cy + RadioBoxSpacing);

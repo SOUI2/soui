@@ -925,16 +925,16 @@ protected:
         ATTR_SKIN(L"skin", m_pSkin, FALSE)
         ATTR_SKIN(L"focusSkin", m_pFocusSkin, FALSE)
         ATTR_CUSTOM(L"checked",OnAttrCheck)
-		ATTR_ENUM_BEGIN(L"skinalign", UINT, TRUE)
+		ATTR_ENUM_BEGIN(L"iconAlign", UINT, TRUE)
 			ATTR_ENUM_VALUE(L"left", SwndStyle::Align_Left)
 			ATTR_ENUM_VALUE(L"center", SwndStyle::Align_Center)
 			ATTR_ENUM_VALUE(L"right", SwndStyle::Align_Right)
-		ATTR_ENUM_END(m_uSkinAlign)
-		ATTR_ENUM_BEGIN(L"skinvalign", UINT, TRUE)
+		ATTR_ENUM_END(m_uIconAlign)
+		ATTR_ENUM_BEGIN(L"iconValign", UINT, TRUE)
 			ATTR_ENUM_VALUE(L"top", SwndStyle::VAlign_Top)
 			ATTR_ENUM_VALUE(L"middle", SwndStyle::VAlign_Middle)
 			ATTR_ENUM_VALUE(L"bottom", SwndStyle::VAlign_Bottom)
-		ATTR_ENUM_END(m_uSkinVAlign)
+		ATTR_ENUM_END(m_uIconVAlign)
     SOUI_ATTRS_END()
 
     SOUI_MSG_MAP_BEGIN()
@@ -947,8 +947,8 @@ protected:
 
 	ISkinObj * m_pSkin;  /**< 皮肤资源 */
 	ISkinObj *m_pFocusSkin; /**< 焦点皮肤资源 */
-	UINT m_uSkinAlign;
-	UINT m_uSkinVAlign;
+	UINT m_uIconAlign;
+	UINT m_uIconVAlign;
 };
 
 /**

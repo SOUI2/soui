@@ -237,11 +237,11 @@
       </tabctrl>
 	  <window pos="10,[10,@300,@110" layout="hbox" gravity="center" colorBkgnd="#FAFAFA">
 		<window size="20,-2" />
-		<radio size="-1,-2" weight="1" focusable="0" skin="skin_message" skinalign="center" skinvalign="top" text="消息" align="center" valign="top" />
+		<radio size="-1,-2" weight="1" focusable="0" skin="skin_message" iconAlign="center" iconValign="top" text="消息" align="center" valign="top" />
 		<window size="20,-2" />
-		<radio size="-1,-2" weight="1" focusable="0" skin="skin_contacts" skinalign="center" text="联系人" align="center" />
+		<radio size="-1,-2" weight="1" focusable="0" skin="skin_contacts" iconAlign="center" text="联系人" align="center" />
 		<window size="20,-2" />
-		<radio size="-1,-2" weight="1" focusable="0" skin="skin_group" skinalign="center" skinvalign="bottom" text="群组" align="center" valign="bottom" />
+		<radio size="-1,-2" weight="1" focusable="0" skin="skin_group" iconAlign="center" iconValign="bottom" text="群组" align="center" valign="bottom" />
 		<window size="20,-2" />
 	  </window>
     </page>
