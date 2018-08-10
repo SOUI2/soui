@@ -97,7 +97,7 @@ void SkTextLayoutEx::buildLines()
     }
 }
 
-SkScalar SkTextLayoutEx::drawLine( SkCanvas *canvas, SkScalar x, SkScalar y, int iBegin,int iEnd,SkScalar fontHei )
+SkScalar SkTextLayoutEx::drawLine( SkCanvas *canvas, SkScalar x, SkScalar y, int iBegin,int iEnd )
 {
     const wchar_t *text=m_text.begin()+iBegin;
 
@@ -138,12 +138,12 @@ SkScalar SkTextLayoutEx::drawLine( SkCanvas *canvas, SkScalar x, SkScalar y, int
     return m_paint->measureText(text,(iEnd-iBegin)*sizeof(wchar_t));
 }
 
-SkScalar SkTextLayoutEx::drawLineEndWithEllipsis( SkCanvas *canvas, SkScalar x, SkScalar y, int iBegin,int iEnd,SkScalar fontHei,SkScalar maxWidth )
+SkScalar SkTextLayoutEx::drawLineEndWithEllipsis( SkCanvas *canvas, SkScalar x, SkScalar y, int iBegin,int iEnd,SkScalar maxWidth )
 {
     SkScalar widReq=m_paint->measureText(m_text.begin()+iBegin,(iEnd-iBegin)*sizeof(wchar_t));
     if(widReq<=m_rcBound.width())
     {
-        return drawLine(canvas,x,y,iBegin,iEnd,fontHei);
+        return drawLine(canvas,x,y,iBegin,iEnd);
     }else
     {
         SkScalar fWidEllipsis = m_paint->measureText(CH_ELLIPSIS,sizeof(CH_ELLIPSIS)-sizeof(wchar_t));
@@ -173,13 +173,9 @@ SkScalar SkTextLayoutEx::drawLineEndWithEllipsis( SkCanvas *canvas, SkScalar x, 
 
 SkRect SkTextLayoutEx::draw( SkCanvas* canvas )
 {
-    float  fontHeight,textHeight;
     SkPaint::FontMetrics metrics;
 
     m_paint->getFontMetrics(&metrics);
-    fontHeight = metrics.fDescent-metrics.fAscent;
-    textHeight = fontHeight;
-
     float lineSpan = metrics.fBottom-metrics.fTop;
 
     SkRect rcDraw = m_rcBound;
@@ -204,24 +200,24 @@ SkRect SkTextLayoutEx::draw( SkCanvas* canvas )
     canvas->clipRect(m_rcBound);
 
     float height = m_rcBound.height();
-    float y=m_rcBound.fTop - metrics.fAscent;
+    float y=m_rcBound.fTop - metrics.fTop;
     if(m_uFormat & DT_SINGLELINE)
     {//单行显示
         rcDraw.fBottom = rcDraw.fTop + lineSpan;
         if(m_uFormat & DT_VCENTER) 
         {
-            y += (height - textHeight)/2.0f;
+            y += (height - lineSpan)/2.0f;
         }
 		else if (m_uFormat & DT_BOTTOM)
 		{
-			y += (height - textHeight);
+			y += (height - lineSpan);
 		}
         if(m_uFormat & DT_ELLIPSIS)
         {//只支持在行尾增加省略号
-            rcDraw.fRight = rcDraw.fLeft + drawLineEndWithEllipsis(canvas,x,y,0,m_text.count(),fontHeight,m_rcBound.width());
+            rcDraw.fRight = rcDraw.fLeft + drawLineEndWithEllipsis(canvas,x,y,0,m_text.count(),m_rcBound.width());
         }else
         {
-            rcDraw.fRight = rcDraw.fLeft + drawLine(canvas,x,y,0,m_text.count(),fontHeight);
+            rcDraw.fRight = rcDraw.fLeft + drawLine(canvas,x,y,0,m_text.count());
         }
     }else
     {//多行显示
@@ -229,11 +225,11 @@ SkRect SkTextLayoutEx::draw( SkCanvas* canvas )
         int iLine = 0;
         while(iLine<m_lines.count())
         {
-            if(y + lineSpan + metrics.fAscent >= m_rcBound.fBottom) 
+            if(y + lineSpan + metrics.fTop >= m_rcBound.fBottom) 
                 break;  //the last visible line
             int iBegin=m_lines[iLine];
             int iEnd = iLine<(m_lines.count()-1)?m_lines[iLine+1]:m_text.count();
-            SkScalar lineWid = drawLine(canvas,x,y,iBegin,iEnd,fontHeight);
+            SkScalar lineWid = drawLine(canvas,x,y,iBegin,iEnd);
             maxLineWid = MAX(maxLineWid,lineWid);
             y += lineSpan;
             iLine ++;
@@ -245,16 +241,16 @@ SkRect SkTextLayoutEx::draw( SkCanvas* canvas )
             SkScalar lineWid;
             if(m_uFormat & DT_ELLIPSIS)
             {//只支持在行尾增加省略号
-                lineWid=drawLineEndWithEllipsis(canvas,x,y,iBegin,iEnd,fontHeight,m_rcBound.width());
+                lineWid=drawLineEndWithEllipsis(canvas,x,y,iBegin,iEnd,m_rcBound.width());
             }else
             {
-                lineWid=drawLine(canvas,x,y,iBegin,iEnd,fontHeight);
+                lineWid=drawLine(canvas,x,y,iBegin,iEnd);
             }
             maxLineWid = MAX(maxLineWid,lineWid);
             y += lineSpan;
         }
         rcDraw.fRight = rcDraw.fLeft + maxLineWid;
-        rcDraw.fBottom = y + metrics.fAscent;
+        rcDraw.fBottom = y + metrics.fBottom;
     }
     canvas->restore();
     return rcDraw;
