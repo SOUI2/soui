@@ -93,6 +93,9 @@
     <file name="png_img_bk" path="image\item_bk.png"/>
     <file name="png_btn_skin" path="image\btn_skin.png"/>
     <file name="tip_bg" path="image\tip_bg.png"/>
+	<file name="message" path="image\message.png"/>
+	<file name="contacts" path="image\contacts.png"/>
+	<file name="group" path="image\group.png"/>
   </IMGX> 
   <img.calendar2>
     <file name="png_skin_btn_semiarc" path="img.calendar2\skin_btn_semiarc.png"/>
