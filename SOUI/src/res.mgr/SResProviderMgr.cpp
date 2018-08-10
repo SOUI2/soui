@@ -94,6 +94,11 @@ namespace SOUI
         }
     }
 
+	IResProvider * SResProviderMgr::GetHeadResProvider() const
+	{
+		return m_lstResPackage.GetHead();
+	}
+
 	IResProvider * SResProviderMgr::GetTailResProvider() const
 	{
 		return m_lstResPackage.GetTail();

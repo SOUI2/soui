@@ -21,6 +21,7 @@ namespace SOUI
         
         void RemoveResProvider(IResProvider * pResProvider);
 
+		IResProvider * GetHeadResProvider() const;
 		IResProvider * GetTailResProvider() const;
         
         //////////////////////////////////////////////////////////////////////////

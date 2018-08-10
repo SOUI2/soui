@@ -54,6 +54,21 @@ namespace SOUI
             return m_lstNamedValue[idx].value;
         }
         
+		int Merge(const SNamedValue & src) {
+			int nDuplicated = 0;
+			for (size_t i = 0; i < src.m_lstNamedValue.GetCount(); i++)
+			{
+				if (m_lstNamedValue.IsEmpty()) break;
+				NAMEDVALUE *pFind = (NAMEDVALUE *)bsearch(&src.m_lstNamedValue[i], m_lstNamedValue.GetData(), m_lstNamedValue.GetCount(), sizeof(NAMEDVALUE), Compare);
+				if (pFind)
+				{
+					m_lstNamedValue.RemoveAt(pFind - m_lstNamedValue.GetData());
+					nDuplicated++;
+				}
+			}
+			m_lstNamedValue.Append(src.m_lstNamedValue);
+			return src.m_lstNamedValue.GetCount() - nDuplicated;
+		}
     protected:
         
         static int Compare(const void * p1,const void * p2)
