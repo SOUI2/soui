@@ -250,7 +250,7 @@ SkRect SkTextLayoutEx::draw( SkCanvas* canvas )
             y += lineSpan;
         }
         rcDraw.fRight = rcDraw.fLeft + maxLineWid;
-        rcDraw.fBottom = y + metrics.fTop + metrics.fBottom;
+        rcDraw.fBottom = y + metrics.fTop;
     }
     canvas->restore();
     return rcDraw;
