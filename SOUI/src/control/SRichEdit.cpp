@@ -618,6 +618,7 @@ SRichEdit::SRichEdit()
     m_sizelExtent.cx=m_sizelExtent.cy=0;
     m_evtSet.addEvent(EVENTID(EventRENotify));
     m_evtSet.addEvent(EVENTID(EventREMenu));
+	m_evtSet.addEvent(EVENTID(EventKeyDown));
 }
 
 
@@ -1223,6 +1224,16 @@ void SRichEdit::OnMouseMove( UINT nFlags, CPoint point )
 
 void SRichEdit::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags )
 {
+	EventKeyDown evt(this);
+	evt.nChar = nChar;
+	evt.nFlags = nFlags;
+	FireEvent(evt);
+	if (evt.bCancel)
+	{
+		SetMsgHandled(FALSE);
+		return;
+	}
+
     if(nChar==VK_RETURN && !(m_dwStyle&ES_WANTRETURN) && !(GetKeyState(VK_CONTROL)&0x8000))
     {
         SetMsgHandled(FALSE);

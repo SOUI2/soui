@@ -36,6 +36,8 @@ namespace SOUI
 		EVT_LBUTTONUP,
 		EVT_UPDATE_TOOLTIP,
 
+		EVT_KEYDOWN=8200,
+
         //两个窗口鼠标状态事件
         EVT_MOUSE_HOVER=9000,
         EVT_MOUSE_LEAVE,
@@ -273,6 +275,17 @@ namespace SOUI
         EventSwndVisibleChanged(SObject *pSender):TplEventArgs<EventSwndVisibleChanged>(pSender){}
         enum{EventID=EVT_VISIBLECHANGED};
     };
+
+	class SOUI_EXP EventKeyDown : public TplEventArgs<EventKeyDown>
+	{
+		SOUI_CLASS_NAME(EventKeyDown, L"on_key_down")
+	public:
+		EventKeyDown(SObject *pSender) :TplEventArgs<EventKeyDown>(pSender) { bCancel = false; }
+		enum { EventID = EVT_KEYDOWN };
+		UINT nChar;
+		UINT nFlags;
+		bool bCancel;
+	};
 
     class SOUI_EXP EventSwndMouseLeave : public TplEventArgs<EventSwndMouseLeave>
     {
