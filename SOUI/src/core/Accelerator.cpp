@@ -197,13 +197,10 @@ namespace SOUI
 
 		if (wModifier == 0 && wVk == 0) return _T("无");
 		SStringT str;
-		if (wModifier == MOD_ALT) str = _T("Alt+");
-		else if (wModifier == MOD_CONTROL) str = _T("Ctrl+");
-		else if (wModifier == MOD_SHIFT) str = _T("Shift+");
-		else if (wModifier == (MOD_ALT | MOD_SHIFT)) str = _T("Shift+Alt+");
-		else if (wModifier == (MOD_ALT | MOD_CONTROL)) str = _T("Ctrl+Alt+");
-		else if (wModifier == (MOD_CONTROL | MOD_SHIFT)) str = _T("Ctrl+Shift+");
-		else if (wModifier == (MOD_ALT | MOD_CONTROL | MOD_SHIFT)) str = _T("Ctrl+Shift+Alt+");
+		if (wModifier & MOD_CONTROL) str = _T("Ctrl+");
+		if (wModifier & MOD_SHIFT) str += _T("Shift+");
+		if (wModifier & MOD_ALT) str += _T("Alt+");
+
 		str += GetKeyName(wVk);
 		return str;
 	}
@@ -232,7 +229,7 @@ namespace SOUI
             }else if(_tcsicmp(pszKey,_T("shift"))==0)
             {
                 wModifier |= MOD_SHIFT;
-            }else
+			}else
             {
 				wKey = VkFromString(pszKey);
                 break;
