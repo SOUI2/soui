@@ -330,6 +330,8 @@ public:
      */
     void SetImage(IBitmap * pBitmap,FilterLevel fl=kNone_FilterLevel);
     
+	IBitmap* GetImage();
+
     /**
      * SImageWnd::SetIcon
      * @param    int nSubID -- 资源ID

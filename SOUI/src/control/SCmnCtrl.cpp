@@ -500,6 +500,11 @@ void SImageWnd::SetImage(IBitmap * pBitmap,FilterLevel fl)
     Invalidate();
 }
 
+IBitmap* SImageWnd::GetImage()
+{
+	return m_pImg;
+}
+
 BOOL SImageWnd::SetIcon( int nSubID )
 {
     if(!m_pSkin) return FALSE;
