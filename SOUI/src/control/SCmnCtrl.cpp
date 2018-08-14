@@ -25,7 +25,7 @@ void SStatic::DrawText(IRenderTarget *pRT,LPCTSTR pszBuf,int cchText,LPRECT pRec
 {
     if(!m_bMultiLines)
     {
-        __super::DrawText(pRT,pszBuf,cchText,pRect,uFormat);
+		OnDrawLine(pRT, pszBuf, 0, cchText, pRect, uFormat);
     }
     else
     {
@@ -53,6 +53,11 @@ void SStatic::DrawText(IRenderTarget *pRT,LPCTSTR pszBuf,int cchText,LPRECT pRec
     }
 }
 
+void SStatic::OnDrawLine(IRenderTarget * pRT, LPCTSTR pszBuf, int iBegin, int cchText, LPRECT pRect, UINT uFormat)
+{
+	pRT->DrawText(pszBuf + iBegin, cchText, pRect, uFormat);
+}
+
 void SStatic::DrawMultiLine(IRenderTarget *pRT,LPCTSTR pszBuf,int cchText,LPRECT pRect,UINT uFormat)
 {
     SIZE szChar;
@@ -75,7 +80,7 @@ void SStatic::DrawMultiLine(IRenderTarget *pRT,LPCTSTR pszBuf,int cchText,LPRECT
             if(pLineTail > pLineHead && !(uFormat & DT_CALCRECT))
             {
                 CRect rcText(pRect->left,pt.y,nRight, pt.y + nLineHei);
-                pRT->DrawText(pLineHead,(int)(pLineTail-pLineHead),&rcText,uFormat);
+				OnDrawLine(pRT,pszBuf, (int)(pLineHead-pszBuf),(int)(pLineTail-pLineHead),&rcText,uFormat);
             }
             pt.y+=nLineHei+m_nLineInter;
             pt.x=pRect->left;
@@ -92,7 +97,7 @@ void SStatic::DrawMultiLine(IRenderTarget *pRT,LPCTSTR pszBuf,int cchText,LPRECT
 			if (pLineTail > pLineHead && !(uFormat & DT_CALCRECT))
 			{
 				CRect rcText(pRect->left, pt.y, nRight, pt.y + nLineHei);
-				pRT->DrawText(pLineHead, (int)(pLineTail - pLineHead), &rcText, uFormat);
+				OnDrawLine(pRT, pszBuf, (int)(pLineHead - pszBuf), (int)(pLineTail - pLineHead), &rcText, uFormat);
 			}
 			pt.y += nLineHei + m_nLineInter;
 			pt.x = pRect->left;
@@ -108,8 +113,8 @@ void SStatic::DrawMultiLine(IRenderTarget *pRT,LPCTSTR pszBuf,int cchText,LPRECT
             if(!(uFormat & DT_CALCRECT))
             {
                 CRect rcText(pRect->left,pt.y,nRight, pt.y + nLineHei);
-                pRT->DrawText(pLineHead,(int)(pLineTail-pLineHead),&rcText,uFormat);
-            }
+				OnDrawLine(pRT, pszBuf, (int)(pLineHead - pszBuf), (int)(pLineTail - pLineHead), &rcText, uFormat);
+			}
             pLineHead = p1;
             
             pt.y+=nLineHei+m_nLineInter;
@@ -129,8 +134,8 @@ void SStatic::DrawMultiLine(IRenderTarget *pRT,LPCTSTR pszBuf,int cchText,LPRECT
     }else if(pLineTail > pLineHead )
     {
         CRect rcText(pRect->left,pt.y,nRight, pt.y + nLineHei);
-        pRT->DrawText(pLineHead,(int)(pLineTail-pLineHead),&rcText,uFormat);
-    }
+		OnDrawLine(pRT, pszBuf, (int)(pLineHead - pszBuf), (int)(pLineTail - pLineHead), &rcText, uFormat);
+	}
     
 }
 
