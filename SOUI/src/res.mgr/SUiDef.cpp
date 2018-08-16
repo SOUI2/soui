@@ -43,7 +43,9 @@ namespace SOUI{
 	class SUiDefInfo : public TObjRefImpl<IUiDefInfo>
 	{
 	public:
-		SUiDefInfo(IResProvider *pResProvide,LPCTSTR pszUidef);
+		SUiDefInfo() {}
+
+		BOOL Init(IResProvider *pResProvide,LPCTSTR pszUidef);
 
 		virtual SSkinPool * GetSkinPool() {return pSkinPool;}
 		virtual SStylePool * GetStylePool(){return pStylePool;}
@@ -77,14 +79,12 @@ namespace SOUI{
 		SNamedDimension namedDim;
 
 		FontInfo	  defFontInfo;
-
-
-
 	};
 
 
-	SUiDefInfo::SUiDefInfo(IResProvider *pResProvider,LPCTSTR pszUidef)
+	BOOL SUiDefInfo::Init(IResProvider *pResProvider,LPCTSTR pszUidef)
 	{
+		BOOL bRet = FALSE;
 		SStringTList strUiDef;
 		if(2!=ParseResID(pszUidef,strUiDef))
 		{
@@ -208,10 +208,11 @@ namespace SOUI{
 							objDefAttr->Init(nodeData);
 						}
 					}
-
+					bRet = TRUE;
 				}
 			}
 		}
+		return bRet;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -264,7 +265,13 @@ namespace SOUI{
 
 	IUiDefInfo * SUiDef::CreateUiDefInfo2(IResProvider *pResProvider, LPCTSTR pszUiDef)
 	{
-		return new SUiDefInfo(pResProvider, pszUiDef);
+		SUiDefInfo *pRet = new SUiDefInfo();
+		//将新uidef设置到系统中，在皮肤初始化的时候可以引用当前定义的颜色表。
+		IUiDefInfo * pOldUiDef = SUiDef::getSingleton().GetUiDef();
+		SUiDef::getSingleton().SetUiDef(pRet);
+		pRet->Init(pResProvider, pszUiDef);
+		SUiDef::getSingleton().SetUiDef(pOldUiDef);
+		return pRet;
 	}
 
 	void SUiDef::SetUiDef( IUiDefInfo* pUiDefInfo )
