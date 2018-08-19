@@ -22,6 +22,28 @@ namespace SOUI
     {
     }
 
+	void SSpinButtonCtrl::SetValue(int nValue)
+	{
+		m_nValue = nValue;
+		OnValueChanged();
+	}
+
+	void SSpinButtonCtrl::SetRange(int nMin, int nMax)
+	{
+		m_nMin = nMin;
+		m_nMax = nMax;
+		if (m_nValue < m_nMin)
+			m_nValue = m_nMin;
+		if (m_nValue > nMax)
+			m_nValue = nMax;
+		OnValueChanged();
+	}
+
+	void SSpinButtonCtrl::SetStep(UINT nStep)
+	{
+		m_uStep = nStep;
+	}
+
     BOOL SSpinButtonCtrl::CreateChildren(pugi::xml_node xmlNode)
     {
         if(!__super::CreateChildren(xmlNode))

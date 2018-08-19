@@ -166,7 +166,6 @@
           <button name="btn_up"/>
           <button name="btn_down"/>
         </spinButton>
-		
       </window>
       <button pos="[0,{0,@100,@30" name="btn_lrc">LRC</button>
       <button pos="[10,{0,@100,@30" name="btn_clock">clock</button>
