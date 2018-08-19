@@ -67,8 +67,8 @@ public:
 
 	CString GetVS2017Dir(LPCTSTR pszEnvName)
 	{
-		const WCHAR *wowkey[2] = {LR"(SOFTWARE\WOW6432Node\Microsoft\VisualStudio\SxS\VS7)",
-			LR"(SOFTWARE\Microsoft\VisualStudio\SxS\VS7)"};
+		const WCHAR *wowkey[2] = {L"(SOFTWARE\\WOW6432Node\\Microsoft\\VisualStudio\\SxS\\VS7)",
+			L"(SOFTWARE\\Microsoft\\VisualStudio\\SxS\\VS7)"};
 
 		CString strRet;
 		HKEY hKey;
@@ -84,7 +84,7 @@ public:
 			if (ERROR_SUCCESS == RegQueryValueEx(hKey, L"15.0", 0, &dwType, (LPBYTE)data, &dwSize))
 			{
 				strRet = data;
-				strRet += LR"(Common7\IDE\)";
+				strRet += L"(Common7\\IDE\\)";
 			}
 			RegCloseKey(hKey);
 		}
