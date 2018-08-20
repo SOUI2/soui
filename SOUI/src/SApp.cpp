@@ -28,6 +28,15 @@
 
 namespace SOUI
 {
+	class SObjectDefaultRegister : public TObjRefImpl<ISystemObjectRegister>
+	{
+	public:
+
+		void RegisterWindows(SObjectFactoryMgr *objFactory);
+		void RegisterSkins(SObjectFactoryMgr *objFactory);
+		void RegisterLayouts(SObjectFactoryMgr *objFactory);
+		void RegisterInterpolator(SObjectFactoryMgr *objFactory);
+	};
 
 class SNullTranslator : public TObjRefImpl<ITranslatorMgr>
 {
@@ -115,11 +124,13 @@ SApplication::SApplication(IRenderFactory *pRendFactory,HINSTANCE hInst,LPCTSTR 
     
     m_pMsgLoop = GetMsgLoopFactory()->CreateMsgLoop();
 
-	pSysObjRegister->RegisterLayouts(this);
-	pSysObjRegister->RegisterSkins(this);
-	pSysObjRegister->RegisterWindows(this);
-	pSysObjRegister->RegisterInterpolator(this);
-	pSysObjRegister->Release();
+	ISystemObjectRegister *pRegister = pSysObjRegister ? pSysObjRegister : new SObjectDefaultRegister();
+	pRegister->RegisterLayouts(this);
+	pRegister->RegisterSkins(this);
+	pRegister->RegisterWindows(this);
+	pRegister->RegisterInterpolator(this);
+	if (pSysObjRegister == NULL)
+		pRegister->Release();
 
 }
 

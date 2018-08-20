@@ -66,15 +66,6 @@ interface SOUI_EXP ISystemObjectRegister : public IObjRef
 	virtual void RegisterInterpolator(SObjectFactoryMgr *objFactory){}
 };
 
-class SOUI_EXP SObjectDefaultRegister : public TObjRefImpl<ISystemObjectRegister>
-{
-public:
-
-	void RegisterWindows(SObjectFactoryMgr *objFactory);
-	void RegisterSkins(SObjectFactoryMgr *objFactory);
-	void RegisterLayouts(SObjectFactoryMgr *objFactory);
-	void RegisterInterpolator(SObjectFactoryMgr *objFactory);
-};
 
 /** 
  * @class     SApplication
@@ -97,7 +88,7 @@ public:
      *
      * Describe  
      */
-    SApplication(IRenderFactory *pRendFactory,HINSTANCE hInst,LPCTSTR pszHostClassName=_T("SOUIHOST"), ISystemObjectRegister *pSysObjRegister = new SObjectDefaultRegister(), BOOL bImeApp = FALSE);
+    SApplication(IRenderFactory *pRendFactory,HINSTANCE hInst,LPCTSTR pszHostClassName=_T("SOUIHOST"), ISystemObjectRegister *pSysObjRegister = NULL, BOOL bImeApp = FALSE);
 
     ~SApplication(void);
 
