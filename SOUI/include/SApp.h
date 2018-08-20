@@ -97,7 +97,7 @@ public:
      *
      * Describe  
      */
-    SApplication(IRenderFactory *pRendFactory,HINSTANCE hInst,LPCTSTR pszHostClassName=_T("SOUIHOST"), ISystemObjectRegister *pSysObjRegister = new SObjectDefaultRegister());
+    SApplication(IRenderFactory *pRendFactory,HINSTANCE hInst,LPCTSTR pszHostClassName=_T("SOUIHOST"), ISystemObjectRegister *pSysObjRegister = new SObjectDefaultRegister(), BOOL bImeApp = FALSE);
 
     ~SApplication(void);
 

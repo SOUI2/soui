@@ -10,7 +10,7 @@ namespace SOUI
     public:
         static CSimpleWndHelper* GetInstance();
 
-        static BOOL Init(HINSTANCE hInst,LPCTSTR pszClassName);
+        static BOOL Init(HINSTANCE hInst,LPCTSTR pszClassName, BOOL bImeApp=FALSE);
         static void Destroy();
 
         HANDLE GetHeap(){return m_hHeap;}
@@ -22,7 +22,7 @@ namespace SOUI
         HINSTANCE GetAppInstance(){return m_hInst;}
         ATOM GetSimpleWndAtom(){return m_atom;}
     private:
-        CSimpleWndHelper(HINSTANCE hInst,LPCTSTR pszClassName);
+        CSimpleWndHelper(HINSTANCE hInst,LPCTSTR pszClassName, BOOL bImeApp);
         ~CSimpleWndHelper();
 
         HANDLE                m_hHeap;
@@ -128,6 +128,8 @@ public:
     virtual ~CSimpleWnd(void);
 
     static ATOM RegisterSimpleWnd(HINSTANCE hInst,LPCTSTR pszSimpleWndName);
+
+	static ATOM RegisterSimpleWnd2(HINSTANCE hInst, LPCTSTR pszSimpleWndName);
 
     HWND Create(LPCTSTR lpWindowName, DWORD dwStyle,DWORD dwExStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent,LPVOID lpParam );
 

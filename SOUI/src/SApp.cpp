@@ -95,7 +95,7 @@ public:
 
 template<> SApplication* SSingleton<SApplication>::ms_Singleton = 0;
 
-SApplication::SApplication(IRenderFactory *pRendFactory,HINSTANCE hInst,LPCTSTR pszHostClassName,ISystemObjectRegister *pSysObjRegister)
+SApplication::SApplication(IRenderFactory *pRendFactory,HINSTANCE hInst,LPCTSTR pszHostClassName,ISystemObjectRegister *pSysObjRegister,BOOL bImeApp)
     :m_hInst(hInst)
     ,m_RenderFactory(pRendFactory)
     ,m_hMainWnd(NULL)
@@ -103,7 +103,7 @@ SApplication::SApplication(IRenderFactory *pRendFactory,HINSTANCE hInst,LPCTSTR 
     SWndSurface::Init();
     _CreateSingletons();
 
-    CSimpleWndHelper::Init(m_hInst,pszHostClassName);
+    CSimpleWndHelper::Init(m_hInst,pszHostClassName,bImeApp);
     STextServiceHelper::Init();
     SRicheditMenuDef::Init();
     m_translator.Attach(new SNullTranslator);

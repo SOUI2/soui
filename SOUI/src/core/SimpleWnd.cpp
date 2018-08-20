@@ -5,13 +5,16 @@ namespace SOUI
 {
     CSimpleWndHelper * CSimpleWndHelper::s_Instance=NULL;
 
-    CSimpleWndHelper::CSimpleWndHelper(HINSTANCE hInst,LPCTSTR pszClassName)
+    CSimpleWndHelper::CSimpleWndHelper(HINSTANCE hInst,LPCTSTR pszClassName,BOOL bImeApp)
         :m_hInst(hInst)
         ,m_sharePtr(NULL)
     {
         InitializeCriticalSection(&m_cs);
         m_hHeap=HeapCreate(HEAP_CREATE_ENABLE_EXECUTE,0,0);
-        m_atom=CSimpleWnd::RegisterSimpleWnd(hInst,pszClassName);
+		if(bImeApp)
+			m_atom = CSimpleWnd::RegisterSimpleWnd2(hInst, pszClassName);
+		else
+			m_atom=CSimpleWnd::RegisterSimpleWnd(hInst,pszClassName);
     }
 
     CSimpleWndHelper::~CSimpleWndHelper()
@@ -26,10 +29,10 @@ namespace SOUI
         return s_Instance;
     }
 
-    BOOL CSimpleWndHelper::Init(HINSTANCE hInst,LPCTSTR pszClassName)
+    BOOL CSimpleWndHelper::Init(HINSTANCE hInst,LPCTSTR pszClassName,BOOL bImeApp)
     {
         if(s_Instance) return FALSE;
-        s_Instance=new CSimpleWndHelper(hInst,pszClassName);
+        s_Instance=new CSimpleWndHelper(hInst,pszClassName,bImeApp);
         return s_Instance!=NULL;
     }
 
@@ -69,15 +72,25 @@ ATOM CSimpleWnd::RegisterSimpleWnd( HINSTANCE hInst,LPCTSTR pszSimpleWndName )
     WNDCLASSEX wcex = {sizeof(WNDCLASSEX),0};
     wcex.cbSize           = sizeof(WNDCLASSEX);
     wcex.style            = CS_HREDRAW | CS_VREDRAW |CS_DBLCLKS ;
-#ifdef IME_SOUI
-    wcex.style           |= CS_IME;
-#endif//IME_SOUI
     wcex.lpfnWndProc      = StartWindowProc; // 第一个处理函数
     wcex.hInstance        = hInst;
     wcex.hCursor          = ::LoadCursor(NULL, IDC_ARROW);
     wcex.hbrBackground    = (HBRUSH)(COLOR_WINDOW+1);
     wcex.lpszClassName    = pszSimpleWndName;
     return ::RegisterClassEx(&wcex);
+}
+
+ATOM CSimpleWnd::RegisterSimpleWnd2(HINSTANCE hInst, LPCTSTR pszSimpleWndName)
+{
+	WNDCLASSEX wcex = { sizeof(WNDCLASSEX),0 };
+	wcex.cbSize = sizeof(WNDCLASSEX);
+	wcex.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS | CS_IME;
+	wcex.lpfnWndProc = StartWindowProc; // 第一个处理函数
+	wcex.hInstance = hInst;
+	wcex.hCursor = ::LoadCursor(NULL, IDC_ARROW);
+	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	wcex.lpszClassName = pszSimpleWndName;
+	return ::RegisterClassEx(&wcex);
 }
 
 HWND CSimpleWnd::Create(LPCTSTR lpWindowName, DWORD dwStyle,DWORD dwExStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent,LPVOID lpParam )
