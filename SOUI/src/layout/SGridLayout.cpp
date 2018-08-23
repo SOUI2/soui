@@ -501,6 +501,8 @@ namespace SOUI
 			int nRemain = netParentWid - nTotalWidth;
 			for(int i=0;i<nCols;i++)
 			{//采用逐行4舍5入的方式解决不能整除的问题.
+				if (SLayoutSize::fequal(totalColsWeight, 0.0f))
+					break;
 				int extra = int(nRemain*pColsWeight[i]/totalColsWeight+0.5f);
 				pCellsWidth[i]+=extra;
 				nRemain -= extra;
@@ -513,6 +515,8 @@ namespace SOUI
 			int nRemain = netParentHei-nTotalHeight;
 			for(int i=0;i<nRows;i++)
 			{//采用逐行4舍5入的方式解决不能整除的问题.
+				if (SLayoutSize::fequal(totalRowsWeight, 0.0f))
+					break;
 				int extra = int(nRemain*pRowsWeight[i]/totalRowsWeight+0.5f);
 				pCellsHeight[i]+=extra;
 				nRemain -= extra;
