@@ -3,7 +3,7 @@
 
 namespace SOUI
 {
-    class SSpinButtonCtrl : public SWindow
+    class SOUI_EXP SSpinButtonCtrl : public SWindow
     {
     SOUI_CLASS_NAME(SSpinButtonCtrl,L"spinButton")
     public:

@@ -230,7 +230,6 @@ SOURCES += src/SApp.cpp \
            src/helper/smenuex.cpp \
            src/helper/smatrix.cpp \
            src/helper/sdibhelper.cpp \
-           src/helper/slog.cpp \
            src/res.mgr/SUiDef.cpp \
            src/res.mgr/SFontPool.cpp \
            src/res.mgr/SObjDefAttr.cpp \
