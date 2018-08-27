@@ -36,9 +36,31 @@ protected:
 
 LRESULT SNotifyReceiver::OnNotifyEvent(UINT uMsg,WPARAM wParam,LPARAM lParam)
 {
-	EventArgs *e = (EventArgs*)lParam;
-	m_pCallback->OnFireEvent(e);
-	e->Release();
+	switch (wParam)
+	{
+	case 0:
+		{
+			EventArgs *e = (EventArgs*)lParam;
+			m_pCallback->OnFireEvent(e);
+			e->Release();
+		}
+		break;
+#if __cplusplus < 201103L
+	case 1:
+		{
+			std::function<void(void)>* f = (std::function<void(void)>*)lParam;
+			(*f)();
+		}
+		break;
+	case 2:
+		{
+			std::function<void(void)>* f = (std::function<void(void)>*)lParam;
+			(*f)();
+			delete f;
+		}
+		break;
+#endif//__cplusplus < 201103L
+	}
 	return 0;
 }
 
@@ -115,5 +137,18 @@ bool SNotifyCenter::UnregisterEventMap( const ISlotFunctor &slot )
 	}
 	return false;
 }
+
+#if __cplusplus < 201103L	
+void SNotifyCenter::RunOnUISync(std::function<void(void)> fn)
+{
+	m_pReceiver->SendMessage(SNotifyReceiver::UM_NOTIFYEVENT, 1, (LPARAM)&fn);
+}
+void SNotifyCenter::RunOnUIAsync(std::function<void(void)> fn)
+{
+	auto f = new std::function<void()>(std::move(fn));
+	m_pReceiver->PostMessage(SNotifyReceiver::UM_NOTIFYEVENT, 2, (LPARAM)f);
+}
+#endif
+
 
 }

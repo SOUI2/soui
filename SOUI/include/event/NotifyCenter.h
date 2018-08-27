@@ -1,6 +1,19 @@
 ﻿#pragma once
 
 #include <core/SSingleton.h>
+#if __cplusplus < 201103L
+#include <functional>
+
+// 将 闭包 传递到了 UI线程 
+// 所以 这里 尽量 将 相同类型的 处理 放到一起 执行  而不是分开调用。
+
+// SendMessage [&] 中的 & 是指 fn里调用的变量 都是 引用拷贝的
+#define SRUNONUISYNC(fn)		SNotifyCenter::getSingletonPtr()->RunOnUISync([&](){fn})
+
+// PostMessage [=] 中的 等号 是指 fn里调用的变量 都是 值拷贝的
+#define SRUNONUI(fn)		SNotifyCenter::getSingletonPtr()->RunOnUIAsync([=](){fn})
+
+#endif
 
 namespace SOUI
 {
@@ -60,7 +73,6 @@ namespace SOUI
         */
 		void FireEventAsync(EventArgs *e);
 
-
         /**
         * RegisterEventMap
         * @brief    注册一个处理通知的对象
@@ -89,5 +101,11 @@ namespace SOUI
 		SList<ISlotFunctor*>	m_evtHandlerMap;
 
 		SNotifyReceiver	 *  m_pReceiver;
+
+#if __cplusplus < 201103L
+	public:
+		void RunOnUISync(std::function<void(void)> fn);
+		void RunOnUIAsync(std::function<void(void)> fn);
+#endif
 	};
 }
