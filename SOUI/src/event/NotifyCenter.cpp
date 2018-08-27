@@ -141,12 +141,12 @@ bool SNotifyCenter::UnregisterEventMap( const ISlotFunctor &slot )
 #if __cplusplus < 201103L	
 void SNotifyCenter::RunOnUISync(std::function<void(void)> fn)
 {
-	ms_Singleton->m_pReceiver->SendMessage(SNotifyReceiver::UM_NOTIFYEVENT, 1, (LPARAM)&fn);
+	m_pReceiver->SendMessage(SNotifyReceiver::UM_NOTIFYEVENT, 1, (LPARAM)&fn);
 }
 void SNotifyCenter::RunOnUIAsync(std::function<void(void)> fn)
 {
 	auto f = new std::function<void()>(std::move(fn));
-	ms_Singleton->m_pReceiver->PostMessage(SNotifyReceiver::UM_NOTIFYEVENT, 2, (LPARAM)f);
+	m_pReceiver->PostMessage(SNotifyReceiver::UM_NOTIFYEVENT, 2, (LPARAM)f);
 }
 #endif
 
