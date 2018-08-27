@@ -863,7 +863,7 @@ UINT CMainDlg::Run()
 		//pEvt->nData = nSleep;
 		//SNotifyCenter::getSingleton().FireEventAsync(pEvt);
 		//pEvt->Release();
-		SRunOnUI(
+		SRUNONUI(
 			SStringW strMsg = SStringW().Format(L"event thread, sleep = %d", nSleep);
 			SChatEdit *pOutput = FindChildByID2<SChatEdit>(R.id.re_notifycenter);
 			pOutput->AppendFormatText(strMsg);

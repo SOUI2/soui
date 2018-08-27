@@ -36,25 +36,31 @@ protected:
 
 LRESULT SNotifyReceiver::OnNotifyEvent(UINT uMsg,WPARAM wParam,LPARAM lParam)
 {
+	switch (wParam)
+	{
+	case 0:
+		{
+			EventArgs *e = (EventArgs*)lParam;
+			m_pCallback->OnFireEvent(e);
+			e->Release();
+		}
+		break;
 #if __cplusplus < 201103L
-	if (1 == wParam || 2 == wParam)
-	{
-		std::function<void(void)>* f = (std::function<void(void)>*)lParam;
-		(*f)();
-		if (2 == wParam)
+	case 1:
+		{
+			std::function<void(void)>* f = (std::function<void(void)>*)lParam;
+			(*f)();
+		}
+		break;
+	case 2:
+		{
+			std::function<void(void)>* f = (std::function<void(void)>*)lParam;
+			(*f)();
 			delete f;
+		}
+		break;
+#endif//__cplusplus < 201103L
 	}
-	else
-	{
-		EventArgs *e = (EventArgs*)lParam;
-		m_pCallback->OnFireEvent(e);
-		e->Release();
-	}
-#else
-	EventArgs *e = (EventArgs*)lParam;
-	m_pCallback->OnFireEvent(e);
-	e->Release();
-#endif
 	return 0;
 }
 
@@ -133,7 +139,7 @@ bool SNotifyCenter::UnregisterEventMap( const ISlotFunctor &slot )
 }
 
 #if __cplusplus < 201103L	
-void SNotifyCenter::RunOnUI(std::function<void(void)> fn)
+void SNotifyCenter::RunOnUISync(std::function<void(void)> fn)
 {
 	ms_Singleton->m_pReceiver->SendMessage(SNotifyReceiver::UM_NOTIFYEVENT, 1, (LPARAM)&fn);
 }

@@ -8,10 +8,10 @@
 // 所以 这里 尽量 将 相同类型的 处理 放到一起 执行  而不是分开调用。
 
 // SendMessage [&] 中的 & 是指 fn里调用的变量 都是 引用拷贝的
-#define SRunOnUI(fn)		SNotifyCenter::RunOnUI([&](){fn})
+#define SRUNONUISYNC(fn)		SNotifyCenter::RunOnUISync([&](){fn})
 
 // PostMessage [=] 中的 等号 是指 fn里调用的变量 都是 值拷贝的
-#define SRunOnUIA(fn)		SNotifyCenter::RunOnUI([=](){fn})
+#define SRUNONUI(fn)		SNotifyCenter::RunOnUIAsync([=](){fn})
 
 #endif
 
@@ -104,7 +104,7 @@ namespace SOUI
 
 #if __cplusplus < 201103L
 	public:
-		static void RunOnUI(std::function<void(void)> fn);
+		static void RunOnUISync(std::function<void(void)> fn);
 		static void RunOnUIAsync(std::function<void(void)> fn);
 #endif
 	};
