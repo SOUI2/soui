@@ -858,11 +858,16 @@ UINT CMainDlg::Run()
 {
 	while(!IsStoped())
 	{
-		EventThread *pEvt = new EventThread(this);
+		//EventThread *pEvt = new EventThread(this);
 		int nSleep = rand()%2000+500;
-		pEvt->nData = nSleep;
-		SNotifyCenter::getSingleton().FireEventAsync(pEvt);
-		pEvt->Release();
+		//pEvt->nData = nSleep;
+		//SNotifyCenter::getSingleton().FireEventAsync(pEvt);
+		//pEvt->Release();
+		SRunOnUI(
+			SStringW strMsg = SStringW().Format(L"event thread, sleep = %d", nSleep);
+			SChatEdit *pOutput = FindChildByID2<SChatEdit>(R.id.re_notifycenter);
+			pOutput->AppendFormatText(strMsg);
+		);
 		Sleep(nSleep);
 	}
 	return 0;
