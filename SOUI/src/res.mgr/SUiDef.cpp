@@ -267,7 +267,7 @@ namespace SOUI{
 	{
 		SUiDefInfo *pRet = new SUiDefInfo();
 		//将新uidef设置到系统中，在皮肤初始化的时候可以引用当前定义的颜色表。
-		IUiDefInfo * pOldUiDef = SUiDef::getSingleton().GetUiDef();
+		CAutoRefPtr<IUiDefInfo> pOldUiDef = SUiDef::getSingleton().GetUiDef();
 		SUiDef::getSingleton().SetUiDef(pRet);
 		pRet->Init(pResProvider, pszUiDef);
 		SUiDef::getSingleton().SetUiDef(pOldUiDef);
