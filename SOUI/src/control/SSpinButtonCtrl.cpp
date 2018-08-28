@@ -44,6 +44,11 @@ namespace SOUI
 		m_uStep = nStep;
 	}
 
+	SWindow * SSpinButtonCtrl::GetBuddy()
+	{
+		return GetParent()->FindChildByName(m_strBuddy);
+	}
+
     BOOL SSpinButtonCtrl::CreateChildren(pugi::xml_node xmlNode)
     {
         if(!__super::CreateChildren(xmlNode))
@@ -135,7 +140,7 @@ namespace SOUI
 
     void SSpinButtonCtrl::OnValueChanged()
     {
-        SWindow *pBuddy = GetParent()->FindChildByName(m_strBuddy);
+        SWindow *pBuddy = GetBuddy();
         if(pBuddy) 
         {
             EventSpinValue2String evt(this);

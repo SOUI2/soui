@@ -13,6 +13,8 @@ namespace SOUI
 		void SetValue(int nValue);
 		void SetRange(int nMin, int nMax);
 		void SetStep(UINT nStep);
+
+		SWindow * GetBuddy();
     protected:
         virtual CSize GetDesiredSize(LPCRECT pRcContainer);
         virtual void UpdateChildrenPosition();
