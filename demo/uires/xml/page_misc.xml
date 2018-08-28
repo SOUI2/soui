@@ -71,7 +71,7 @@
       </matrixWindow>
     </page>
     <page title="free move" colorBkgnd="@color/gray" clipClient="1">
-      <freeMoveWindow name="fmw_test" width="160" height="100" valign="0x20" halign="0x02" distx="20" disty="20" colorBkgnd="@color/blue">
+      <freeMoveWindow name="fmw_test" margin="5,25,5,5" captionHeight="20" captionSkin="skin_caption" colorBorder="#cccccc" width="160" height="100" valign="0x20" halign="0x02" distx="20" disty="20" colorBkgnd="@color/blue">
         <text pos="|0,|0" offset="-0.5,-0.5" multilines="1" colorText="@color/red">drag and resize\n the host to see\n what will happen.</text>
       </freeMoveWindow>
     </page>
