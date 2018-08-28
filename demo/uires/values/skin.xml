@@ -97,4 +97,5 @@
   <colorrect name="TrayMenu_menu_sep" normal="#cccccc"/>
   <imgframe name="TrayMenu_border" src="IMGX:png_menu_border" margin="2,2,2,2"/>
   <button name="win10btn" colorBorder="#ADADAD" colorUp="#E1E1E1" colorDown="#E1E1E1"  colorBorderHover="#0078D7" colorUpHover="#E5F1FB" colorDownHover="#E5F1FB" colorBorderPush="#005499" colorUpPush="#CCE4F7" colorDownPush="#CCE4F7" cornerPercent="0.5"/>
+  <gradation name="skin_caption" colorFrom="#0000bb" colorTo="#0000ff" vertical="0"/>
 </skin>
