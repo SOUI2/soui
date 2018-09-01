@@ -859,11 +859,11 @@ UINT CMainDlg::Run()
 	while(!IsStoped())
 	{
 		int nSleep = rand()%2000+500;
-#if __cplusplus < 201103L
+#if _MSC_VER >= 1600	//VS2010
 		SRUNONUI(
 			SStringW strMsg = SStringW().Format(L"event thread, sleep = %d", nSleep);
-		SChatEdit *pOutput = FindChildByID2<SChatEdit>(R.id.re_notifycenter);
-		pOutput->AppendFormatText(strMsg);
+			SChatEdit *pOutput = FindChildByID2<SChatEdit>(R.id.re_notifycenter);
+			pOutput->AppendFormatText(strMsg);
 		);
 #else
 		EventThread *pEvt = new EventThread(this);

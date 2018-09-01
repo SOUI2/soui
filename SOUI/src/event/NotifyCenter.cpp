@@ -138,7 +138,7 @@ bool SNotifyCenter::UnregisterEventMap( const ISlotFunctor &slot )
 	return false;
 }
 
-#if __cplusplus < 201103L	
+#if _MSC_VER >= 1600	//VS2010
 void SNotifyCenter::RunOnUISync(std::function<void(void)> fn)
 {
 	m_pReceiver->SendMessage(SNotifyReceiver::UM_NOTIFYEVENT, 1, (LPARAM)&fn);

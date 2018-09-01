@@ -1,9 +1,8 @@
 ﻿#pragma once
 
 #include <core/SSingleton.h>
-#if __cplusplus < 201103L
+#if _MSC_VER >= 1600	//VS2010
 #include <functional>
-
 // 将 闭包 传递到了 UI线程 
 // 所以 这里 尽量 将 相同类型的 处理 放到一起 执行  而不是分开调用。
 
@@ -102,7 +101,7 @@ namespace SOUI
 
 		SNotifyReceiver	 *  m_pReceiver;
 
-#if __cplusplus < 201103L
+#if _MSC_VER >= 1600	//VS2010
 	public:
 		void RunOnUISync(std::function<void(void)> fn);
 		void RunOnUIAsync(std::function<void(void)> fn);
