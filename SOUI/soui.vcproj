@@ -373,10 +373,6 @@
 				>
 			</File>
 			<File
-				RelativePath="src\helper\slog.cpp"
-				>
-			</File>
-			<File
 				RelativePath="src\helper\smatrix.cpp"
 				>
 			</File>
