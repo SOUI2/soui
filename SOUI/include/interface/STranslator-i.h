@@ -18,6 +18,7 @@
 
 namespace SOUI
 {
+#define TR_MAX_NAME_LEN	64
     /** 
      * @struct     ITranslator
      * @brief      语言翻译接口
@@ -43,7 +44,9 @@ namespace SOUI
          *
          * Describe  
          */
-        virtual SStringW name()=0;
+        virtual void GetName(wchar_t szBuf[TR_MAX_NAME_LEN])=0;
+
+		virtual bool NameEqual(LPCWSTR pszName) = 0;
         /**
          * guid
          * @brief    获取翻译资源的ID
@@ -58,11 +61,11 @@ namespace SOUI
          * @param    const SStringW & strSrc --  原字符串
          * @param    const SStringW & strCtx --  翻译上下文
          * @param    SStringW & strRet --  翻译后的字符串
-         * @return   BOOL true-翻译成功，false-翻译失败
+         * @return   int - buflen; 0 - no translation; -1 - buf size not enough;  
          *
          * Describe  
          */
-        virtual BOOL tr(const SStringW & strSrc,const SStringW & strCtx,SStringW & strRet)=0;
+        virtual int tr(const SStringW & strSrc,const SStringW & strCtx,wchar_t *pszOut,int nLen) const =0;
 
 		/**
          * updateLogfont
@@ -104,7 +107,7 @@ namespace SOUI
 		*
 		* Describe 
 		*/
-		virtual SStringW GetLanguage() const = 0;
+		virtual void GetLanguage(wchar_t szOut[TR_MAX_NAME_LEN]) const = 0;
 
         /**
          * CreateTranslator
@@ -144,7 +147,7 @@ namespace SOUI
          *
          * Describe  调用ITranslator的tr接口执行具体翻译过程
          */
-        virtual SStringW tr(const SStringW & strSrc,const SStringW & strCtx)=0;
+        virtual int tr(const SStringW & strSrc,const SStringW & strCtx,wchar_t *pszOut,int nLen) const =0;
 
 		/**
          * updateLogfont

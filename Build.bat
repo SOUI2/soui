@@ -110,7 +110,7 @@ if %selected%==1 (
 ) else if %selected%==2 (
 	SET cfg=!cfg! LIB_ALL
 ) else if %selected%==3 (
-	SET cfg=!cfg! CORE_LIB
+	SET cfg=!cfg! LIB_CORE
 ) else (
 	goto error
 )

@@ -80,6 +80,7 @@ namespace SOUI
     // SLang
     STranslator::STranslator()
     {
+		m_szLangName[0]=0;
         m_arrEntry = new SArray<SStrMapEntry*>;
     }
 
@@ -90,12 +91,18 @@ namespace SOUI
         delete m_arrEntry;
     }
 
-    SStringW STranslator::name()
+    void STranslator::GetName(wchar_t szName[TR_MAX_NAME_LEN])
     {
-        return m_strLang;
+		wcscpy_s(szName,TR_MAX_NAME_LEN,m_szLangName);
     }
 
-    GUID STranslator::guid()
+
+	bool STranslator::NameEqual(LPCWSTR pszName)
+	{
+		return wcscmp(m_szLangName,pszName) == 0;
+	}
+
+	GUID STranslator::guid()
     {
         return m_guid;
     }
@@ -112,7 +119,7 @@ namespace SOUI
     
     BOOL STranslator::LoadFromXml( pugi::xml_node xmlLang )
     {
-        m_strLang=xmlLang.attribute(L"name").value();
+        wcscpy_s(m_szLangName,TR_MAX_NAME_LEN,xmlLang.attribute(L"name").value());
         
         OLECHAR szIID[100] = { 0 };
         wcscpy(szIID,xmlLang.attribute(L"guid").value());
@@ -175,7 +182,7 @@ namespace SOUI
         return TRUE;
     }
 
-    BOOL STranslator::tr( const SStringW & strSrc,const SStringW & strCtx,SStringW & strRet )
+    int STranslator::tr( const SStringW & strSrc,const SStringW & strCtx,wchar_t *pszOut, int nBufLen ) const 
     {
         SStrMapEntry** pEntry = (SStrMapEntry**)bsearch(&strCtx,m_arrEntry->GetData(),m_arrEntry->GetCount(),sizeof(SStrMapEntry*),SStrMapEntry::CompareInSearch);
         if(pEntry)
@@ -183,13 +190,20 @@ namespace SOUI
             SStrMap ** pMap=(SStrMap**)bsearch(&strSrc,(*pEntry)->m_arrStrMap.GetData(),(*pEntry)->m_arrStrMap.GetCount(),sizeof(SStrMap*),SStrMap::CompareInSearch);
             if(pMap)
             {//从指定的上下文中查找翻译
-                strRet=(*pMap)->strTranslation;
-                return TRUE;
+                SStringW strRet=(*pMap)->strTranslation;
+				if(pszOut == NULL)
+					return strRet.GetLength()+1;
+					
+				if(nBufLen < strRet.GetLength()+1) 
+					return -1;
+
+				wcscpy_s(pszOut,nBufLen,strRet);
+                return strRet.GetLength()+1;
             }
         }
 		if(!strCtx.IsEmpty())
 		{//从空白上下文中查找
-			return tr(strSrc,SStringW(),strRet);
+			return tr(strSrc,SStringW(),pszOut,nBufLen);
 		}
         return FALSE;
     }
@@ -246,9 +260,9 @@ namespace SOUI
     //  STranslator
     BOOL STranslatorMgr::InstallTranslator(ITranslator *pTranslator)
     {
-		if (m_strLang.IsEmpty())
-			m_strLang = pTranslator->name();
-		if (pTranslator->name() != m_strLang)
+		if (m_szLangName[0]==0)
+			pTranslator->GetName(m_szLangName);
+		if (!pTranslator->NameEqual(m_szLangName))
 			return FALSE;
 
         SPOSITION pos=m_lstLang->GetHeadPosition();
@@ -286,6 +300,7 @@ namespace SOUI
 
     STranslatorMgr::STranslatorMgr( void )
     {
+		m_szLangName[0] = 0;
         m_lstLang=new SList<ITranslator*>;
     }
 
@@ -300,17 +315,17 @@ namespace SOUI
         delete m_lstLang;
     }
 
-    SStringW STranslatorMgr::tr(const SStringW & strSrc,const SStringW & strCtx)
+    int STranslatorMgr::tr(const SStringW & strSrc,const SStringW & strCtx,wchar_t *pszOut,int nBufLen)  const 
     {
-        if(strSrc.IsEmpty()) return strSrc;
-        SStringW strRet;
+        if(strSrc.IsEmpty()) return 0;
         SPOSITION pos=m_lstLang->GetHeadPosition();
         while(pos)
         {
             ITranslator *pLang=m_lstLang->GetNext(pos);
-            if(pLang->tr(strSrc,strCtx,strRet)) return strRet;
+            int nRet = pLang->tr(strSrc,strCtx,pszOut,nBufLen);
+			if(nRet > 0 || nRet == -1) return nRet;
         }
-        return strSrc;
+        return 0;
     }
 
     BOOL STranslatorMgr::CreateTranslator( ITranslator ** ppTranslator )
@@ -322,7 +337,7 @@ namespace SOUI
 
 	void STranslatorMgr::SetLanguage(const SStringW & strLang)
 	{
-		if (m_strLang != strLang)
+		if (wcscmp(m_szLangName, strLang)!=0)
 		{
 			SPOSITION pos = m_lstLang->GetHeadPosition();
 			while (pos)
@@ -332,12 +347,12 @@ namespace SOUI
 			}
 			m_lstLang->RemoveAll();
 		}
-		m_strLang = strLang;
+		wcscpy_s(m_szLangName,TR_MAX_NAME_LEN, strLang);
 	}
 
-	SStringW STranslatorMgr::GetLanguage() const
+	void STranslatorMgr::GetLanguage(wchar_t szName[TR_MAX_NAME_LEN]) const
 	{
-		return m_strLang;
+		wcscpy_s(szName,TR_MAX_NAME_LEN,m_szLangName);
 	}
 
 	BOOL STranslatorMgr::updateLogfont(const SStringW & strName,LOGFONT * pfont)

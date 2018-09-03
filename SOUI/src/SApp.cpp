@@ -44,19 +44,19 @@ public:
     BOOL CreateTranslator(ITranslator **pLang){return FALSE;}
     BOOL InstallTranslator(ITranslator * pLang){return FALSE;}
     BOOL UninstallTranslator(REFGUID id){return FALSE;}
-    SStringW tr(const SStringW & strSrc,const SStringW & strCtx)
+    int tr(const SStringW & strSrc,const SStringW & strCtx, wchar_t *pszOut,int nBufLen) const 
     {
-        return strSrc;
+		return 0;
     } 
 
 
-	virtual void SetLanguage(const SStringW & strLang) override
+	virtual void SetLanguage(const SStringW & strLang)
 	{
 	}
 
-	virtual SStringW GetLanguage() const override
+	virtual void GetLanguage(wchar_t szOut[TR_MAX_NAME_LEN]) const
 	{
-		return SStringW();
+		szOut[0] = 0;
 	}
 
 };
@@ -339,6 +339,18 @@ void SApplication::InitXmlNamedID(const SNamedID::NAMEDVALUE *pNamedValue,int nC
 int SApplication::Str2ID(const SStringW & str)
 {
     return m_namedID.String2Value(str);
+}
+
+
+SStringW SApplication::tr(const SStringW & strSrc,const SStringW & strCtx) const
+{
+	int nRet = m_translator->tr(strSrc,strCtx,NULL,0);
+	if(nRet == 0) return strSrc;
+	SStringW strRet;
+	wchar_t *pBuf = strRet.GetBufferSetLength(nRet-1);
+	m_translator->tr(strSrc,strCtx,pBuf,nRet);
+	strRet.ReleaseBuffer();
+	return strRet;
 }
 
 SWindow * SApplication::CreateWindowByName(LPCWSTR pszWndClass) const

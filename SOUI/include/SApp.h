@@ -39,7 +39,7 @@
 #define LOADIMAGE2(p1)      SOUI::SApplication::getSingleton().LoadImage2(p1)
 #define LOADICON(p1,p2)     SOUI::SApplication::getSingleton().LoadIcon(p1,p2,p2)
 #define LOADICON2(p1)       SOUI::SApplication::getSingleton().LoadIcon2(p1)
-#define TR(p1,p2)           SOUI::SApplication::getSingleton().GetTranslator()->tr(p1,p2)
+#define TR(p1,p2)           SOUI::SApplication::getSingleton().tr(p1,p2)
 #define STR2ID(p1)          SOUI::SApplication::getSingleton().Str2ID(p1)
 
 #define GETCOLOR(x)         SOUI::SApplication::getSingleton().GetColor(x)
@@ -288,6 +288,7 @@ public:
     
     int Str2ID(const SStringW & str);
 
+	SStringW tr(const SStringW & strSrc,const SStringW & strCtx) const;
 	virtual SWindow * CreateWindowByName(LPCWSTR pszWndClass) const;
 	virtual ISkinObj * CreateSkinByName(LPCWSTR pszSkinClass) const;
 	virtual IInterpolator * CreateInterpolatorByName(LPCWSTR pszName) const;

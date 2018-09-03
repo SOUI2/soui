@@ -40,9 +40,11 @@ namespace SOUI
 
         virtual BOOL Load(LPVOID pData,UINT uType);
 
-        virtual SStringW name();
+        virtual void GetName(wchar_t szName[TR_MAX_NAME_LEN]);
+		virtual bool NameEqual(LPCWSTR pszName);
+
         virtual GUID     guid();
-        virtual BOOL tr(const SStringW & strSrc,const SStringW & strCtx,SStringW & strRet);
+        virtual int tr(const SStringW & strSrc,const SStringW & strCtx,wchar_t *pszOut,int nBufLen) const ;
 		virtual BOOL updateLogfont(const SStringW & strName,LOGFONT *pFont);
 		virtual BYTE charsetFromString(const SStringW & strCharset) const;
     protected:
@@ -50,7 +52,7 @@ namespace SOUI
 
 
 
-        SStringW m_strLang;
+		wchar_t	 m_szLangName[TR_MAX_NAME_LEN];
         GUID     m_guid;
         SArray<SStrMapEntry*> * m_arrEntry;
 		SMap<SStringW,TrFontInfo> m_mapFonts;//字体替换信息
@@ -63,7 +65,7 @@ namespace SOUI
         ~STranslatorMgr(void);
 
 		virtual void SetLanguage(const SStringW & strLang);
-		virtual SStringW GetLanguage() const;
+		virtual void GetLanguage(wchar_t szName[TR_MAX_NAME_LEN]) const;
 
         BOOL CreateTranslator(ITranslator ** ppTranslator);
 
@@ -71,14 +73,14 @@ namespace SOUI
 
 		BOOL UninstallTranslator(REFGUID id);
 
-		SStringW tr(const SStringW & strSrc,const SStringW & strCtx);
+		int tr(const SStringW & strSrc,const SStringW & strCtx,wchar_t *pBuf,int nLen)  const ;
 
 		BOOL updateLogfont(const SStringW & strName,LOGFONT * pfont);
 
 
 	protected:
 
-		SStringW m_strLang;
+		wchar_t	 m_szLangName[TR_MAX_NAME_LEN];
 
         SList<ITranslator*> *m_lstLang;
 

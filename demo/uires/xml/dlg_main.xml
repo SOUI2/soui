@@ -49,7 +49,7 @@
     <caption pos="0,0,-0,30" class="cls_txt_red" font="adding:8" focusable="1" drawfocusrect="0">
       <icon pos="10,8" src="ICON_LOGO:16"/>
       <text pos="[5,4" name="txt_title"/>
-      <imgbtn id="1" skin="_skin.sys.btn.close"    pos="-45,0" tip="close \nwindow" animate="1"/>
+      <imgbtn id="1" skin="_skin.sys.btn.close"    pos="-45,0" tip="close" animate="1"/>
       <imgbtn id="2" skin="_skin.sys.btn.maximize"  pos="-83,0" animate="1" />
       <imgbtn id="3" skin="_skin.sys.btn.restore"  pos="-83,0" show="0" animate="1" />
       <imgbtn id="5" skin="_skin.sys.btn.minimize" pos="-121,0" animate="1" />

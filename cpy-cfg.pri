@@ -2,7 +2,7 @@ CONFIG(LIB_ALL){
 	system(copy "config\options\liball.h" "config\core-def.h")
 }
 else{
-	CONFIG(LIB_SOUI){
+	CONFIG(LIB_CORE){
 		system(copy "config\options\lib.h" "config\core-def.h")
 	}
 	else{
