@@ -175,7 +175,7 @@ namespace SOUI
 			SStringW strName = nodeFont.attribute(L"name").as_string();
 			TrFontInfo info;
 			info.lfCharset =charsetFromString(nodeFont.attribute(L"charset").as_string());
-			info.strFaceName = nodeFont.attribute(L"face").as_string();
+			info.strFaceName = S_CW2T(nodeFont.attribute(L"face").as_string());
 			m_mapFonts[strName] = info;
 			nodeFont = nodeFont.next_sibling(L"font");
 		}
