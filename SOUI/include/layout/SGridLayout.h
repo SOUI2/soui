@@ -85,8 +85,10 @@ namespace SOUI
 			ATTR_INT(L"rowCount",m_nRows,TRUE)
 			ATTR_LAYOUTSIZE(L"xInterval",m_xInterval,TRUE)
 			ATTR_LAYOUTSIZE(L"yInterval",m_yInterval,TRUE)
+			ATTR_LAYOUTSIZE(L"interval",m_xInterval=m_yInterval,TRUE)
 			ATTR_GRIDGRAVITY(L"xGravity",m_GravityX,TRUE)
 			ATTR_GRIDGRAVITY(L"yGravity",m_GravityY,TRUE)
+			ATTR_GRIDGRAVITY(L"gravity",m_GravityX=m_GravityY,TRUE)
 		SOUI_ATTRS_BREAK()
 	protected:
 
