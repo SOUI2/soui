@@ -123,6 +123,8 @@ public:
         else m_strImgDecoder = COM_IMGDECODER;
     }
 
+	void SetDllPath(const SOUI::SStringT & strDllPath){}
+
     BOOL CreateImgDecoder(IObjRef ** ppObj)
     {
         if(m_strImgDecoder == _T("imgdecoder-wic"))
@@ -191,6 +193,18 @@ public:
         else m_strImgDecoder = COM_IMGDECODER;
     }
 
+	void SetDllPath(const SOUI::SStringT & strDllPath)
+	{
+		m_strDllPath = strDllPath;
+		if(!m_strDllPath.IsEmpty())
+		{
+			if(m_strDllPath.Right(1)!=_T("\\"))
+			{
+				m_strDllPath+=_T("\\");
+			}
+		}
+	}
+
     BOOL CreateImgDecoder(IObjRef ** ppObj)
     {
 #ifdef _DEBUG
@@ -198,40 +212,40 @@ public:
 #else
         SOUI::SStringT strImgDecoder = m_strImgDecoder+_T(".dll");
 #endif
-        return imgDecLoader.CreateInstance(strImgDecoder,ppObj);
+        return imgDecLoader.CreateInstance(m_strDllPath+strImgDecoder,ppObj);
     }
     
     BOOL CreateRender_GDI(IObjRef **ppObj)
     {
-        return renderLoader.CreateInstance(COM_RENDER_GDI,ppObj);
+        return renderLoader.CreateInstance(m_strDllPath+COM_RENDER_GDI,ppObj);
     }
 
     BOOL CreateRender_Skia(IObjRef **ppObj)
     {
-        return renderLoader.CreateInstance(COM_RENDER_SKIA,ppObj);
+        return renderLoader.CreateInstance(m_strDllPath+COM_RENDER_SKIA,ppObj);
     }
     BOOL CreateScrpit_Lua(IObjRef **ppObj)
     {
-        return scriptLoader.CreateInstance(COM_SCRIPT_LUA,ppObj);
+        return scriptLoader.CreateInstance(m_strDllPath+COM_SCRIPT_LUA,ppObj);
     }
 
     BOOL CreateTranslator(IObjRef **ppObj)
     {
-        return transLoader.CreateInstance(COM_TRANSLATOR,ppObj);
+        return transLoader.CreateInstance(m_strDllPath+COM_TRANSLATOR,ppObj);
     }
     BOOL CreateResProvider_ZIP(IObjRef **ppObj)
     {
-        return zipResLoader.CreateInstance(COM_ZIPRESPROVIDER,ppObj);
+        return zipResLoader.CreateInstance(m_strDllPath+COM_ZIPRESPROVIDER,ppObj);
     }
 
 	BOOL CreateResProvider_7ZIP(IObjRef **ppObj)
 	{
-		return zip7ResLoader.CreateInstance(COM_7ZIPRESPROVIDER, ppObj);
+		return zip7ResLoader.CreateInstance(m_strDllPath+COM_7ZIPRESPROVIDER, ppObj);
 	}
 	
     BOOL CreateLog4z(IObjRef **ppObj)
     {
-        return log4zLoader.CreateInstance(COM_LOG4Z,ppObj);
+        return log4zLoader.CreateInstance(m_strDllPath+COM_LOG4Z,ppObj);
     }
 protected:
     //SComLoader实现从DLL的指定函数创建符号SOUI要求的类COM组件。
@@ -244,5 +258,6 @@ protected:
     SComLoader zip7ResLoader;
     
     SOUI::SStringT m_strImgDecoder;
+	SOUI::SStringT m_strDllPath;
 };
 #endif
