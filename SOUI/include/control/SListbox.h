@@ -242,6 +242,7 @@ public:
      */
     int HitTest(CPoint &pt);
 
+	int FindString(int iFindAfter,LPCTSTR pszText) const;
 protected:
 	virtual HRESULT OnLanguageChanged();
 
