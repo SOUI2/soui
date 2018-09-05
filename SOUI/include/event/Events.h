@@ -849,6 +849,7 @@ namespace SOUI
         }
         enum{EventID=EVT_SPIN_VALUE2STRING};
         
+		bool	 bInit;
         int      nValue;
         SStringT strValue;
     };

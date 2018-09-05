@@ -20,7 +20,7 @@ namespace SOUI
         virtual void UpdateChildrenPosition();
         virtual BOOL CreateChildren(pugi::xml_node xmlNode);
     protected:
-        void OnValueChanged();
+        void OnValueChanged(bool bInit=false);
     
         bool OnUpDownClick(EventArgs *pEvt);
     protected:

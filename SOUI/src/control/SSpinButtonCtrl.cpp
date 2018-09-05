@@ -65,7 +65,7 @@ namespace SOUI
         m_btnUp->GetEventSet()->subscribeEvent(EventCmd::EventID,Subscriber(&SSpinButtonCtrl::OnUpDownClick,this));
         m_btnDown->GetEventSet()->subscribeEvent(EventCmd::EventID,Subscriber(&SSpinButtonCtrl::OnUpDownClick,this));
         
-        OnValueChanged();
+        OnValueChanged(true);
         return TRUE;        
     }
 
@@ -138,12 +138,13 @@ namespace SOUI
         return S_OK;
     }
 
-    void SSpinButtonCtrl::OnValueChanged()
+    void SSpinButtonCtrl::OnValueChanged(bool bInit)
     {
         SWindow *pBuddy = GetBuddy();
         if(pBuddy) 
         {
             EventSpinValue2String evt(this);
+			evt.bInit=bInit;
             evt.nValue = m_nValue;
             evt.strValue = SStringT().Format(_T("%d"),m_nValue);
             FireEvent(evt);

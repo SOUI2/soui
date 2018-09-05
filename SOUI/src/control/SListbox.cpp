@@ -226,6 +226,18 @@ int SListBox::HitTest(CPoint &pt)
     return nRet;
 }
 
+
+int SListBox::FindString(int iFindAfter,LPCTSTR pszText) const
+{
+	if(iFindAfter<0) iFindAfter=-1;
+	for(int i=iFindAfter+1;i<m_arrItems.GetCount();i++)
+	{
+		if(m_arrItems[i]->strText.GetText(TRUE) == pszText)
+			return i;
+	}
+	return -1;
+}
+
 BOOL SListBox::CreateChildren(pugi::xml_node xmlNode)
 {
     if(!xmlNode) return TRUE;
