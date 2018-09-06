@@ -262,7 +262,6 @@ protected:
 
 	void OnWindowPosChanging(LPWINDOWPOS lpWndPos);
         
-	bool onRootResize(EventArgs *e);
 #ifndef DISABLE_SWNDSPY
 protected:
     LRESULT OnSpyMsgSetSpy(UINT uMsg,WPARAM wParam,LPARAM lParam);
@@ -330,7 +329,8 @@ protected://Swindow 虚方法
 
 public:
     virtual void RequestRelayout(SWindow *pSource ,BOOL bSourceResizable );
-    
+	virtual bool onRootResize(EventArgs *e);
+
 public://事件处理接口
     virtual BOOL _HandleEvent(EventArgs *pEvt){return FALSE;}
 
