@@ -35,7 +35,7 @@ namespace SOUI
 
 
 	// 灰度 = 0.299 * red + 0.587 * green + 0.114 * blue 
-	inline void GrayMode(BYTE *pColor,const int &)
+	static void GrayMode(BYTE *pColor,const int &)
 	{
         pColor[0] = pColor[1] = pColor[2] = RGB2GRAY(pColor[0],pColor[1],pColor[2]);
 	}
@@ -47,7 +47,7 @@ namespace SOUI
         int  a1;//[0-256]
     };
 
-    void FillColorizeParam(COLORIZEPARAM &param ,BYTE hue,BYTE sat,float fBlend)
+    static void FillColorizeParam(COLORIZEPARAM &param ,BYTE hue,BYTE sat,float fBlend)
     {
         param.hue = hue;
         param.sat = sat;
@@ -66,7 +66,7 @@ namespace SOUI
         /* initially set for achromatic colors */
     #define HSLUNDEFINED (HSLMAX*2/3)
     ////////////////////////////////////////////////////////////////////////////////
-    RGBQUAD RGBtoHSL(RGBQUAD lRGBColor)
+    static RGBQUAD RGBtoHSL(RGBQUAD lRGBColor)
     {
         BYTE R,G,B;					/* input RGB values */
         BYTE H,L,S;					/* output HSL values */
@@ -109,7 +109,7 @@ namespace SOUI
     }
 
     ////////////////////////////////////////////////////////////////////////////////
-    RGBQUAD RGBtoRGBQUAD(COLORREF cr)
+    static RGBQUAD RGBtoRGBQUAD(COLORREF cr)
     {
         RGBQUAD c;
         c.rgbRed = GetRValue(cr);	/* get R, G, and B out of DWORD */
@@ -119,13 +119,13 @@ namespace SOUI
         return c;
     }
     ////////////////////////////////////////////////////////////////////////////////
-    COLORREF RGBQUADtoRGB (RGBQUAD c)
+    static COLORREF RGBQUADtoRGB (RGBQUAD c)
     {
         return RGB(c.rgbRed,c.rgbGreen,c.rgbBlue);
     }
 
     ////////////////////////////////////////////////////////////////////////////////
-    float HueToRGB(float n1,float n2, float hue)
+    static float HueToRGB(float n1,float n2, float hue)
     {
         //<F. Livraghi> fixed implementation for HSL2RGB routine
         float rValue;
@@ -148,7 +148,7 @@ namespace SOUI
     }
     ////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////
-    RGBQUAD HSLtoRGB(RGBQUAD lHSLColor)
+    static RGBQUAD HSLtoRGB(RGBQUAD lHSLColor)
     { 
         //<F. Livraghi> fixed implementation for HSL2RGB routine
         float h,s,l;
@@ -176,9 +176,9 @@ namespace SOUI
         return rgb;
     }
 
-    inline void ColorizeMode(BYTE *pAbgr, const COLORIZEPARAM & param)
+    static void ColorizeMode(BYTE *pArgb, const COLORIZEPARAM & param)
     {
-        BYTE red = pAbgr[0],green=pAbgr[1],blue=pAbgr[2],alpha=pAbgr[3];
+        BYTE blue=pArgb[0],green=pArgb[1],red = pArgb[2],alpha=pArgb[3];
         
         if(alpha == 0) return;
         if(alpha!=255)
@@ -205,8 +205,8 @@ namespace SOUI
             hsl.rgbBlue = (BYTE)RGB2GRAY(color.rgbRed,color.rgbGreen,color.rgbBlue);
             hsl = HSLtoRGB(hsl);
             red = (BYTE)((hsl.rgbRed * param.a0 + color.rgbRed * param.a1)>>8);
-            green = (BYTE)((hsl.rgbBlue * param.a0 + color.rgbBlue * param.a1)>>8);
-            blue = (BYTE)((hsl.rgbGreen * param.a0 + color.rgbGreen * param.a1)>>8);
+            blue = (BYTE)((hsl.rgbBlue * param.a0 + color.rgbBlue * param.a1)>>8);
+            green= (BYTE)((hsl.rgbGreen * param.a0 + color.rgbGreen * param.a1)>>8);
         }
         if(alpha!=255)
         {
@@ -214,27 +214,25 @@ namespace SOUI
             green = (green *alpha)/255;
             blue = (blue *alpha)/255;
         }
-        pAbgr[0] = red;
-        pAbgr[1] = green;
-        pAbgr[2] = blue;
+        pArgb[0] = blue;
+        pArgb[1] = green;
+        pArgb[2] = red;
     }
 
     bool SDIBHelper::Colorize(IBitmap * pBmp, COLORREF crRef)
     {
         RGBQUAD color = RGBtoRGBQUAD(crRef);
-        RGBQUAD hsl = SOUI::RGBtoHSL(color);
+        RGBQUAD hsl = RGBtoHSL(color);
         COLORIZEPARAM param;
-        FillColorizeParam(param,hsl.rgbRed,hsl.rgbGreen,0.8f);
+		float fBlend = 0.8f;
+		BYTE byAlpha = GetAValue(crRef);
+		if(byAlpha != 0) fBlend = byAlpha*1.0f/255;
+
+        FillColorizeParam(param,hsl.rgbRed,hsl.rgbGreen,fBlend);
 
         DIBINFO di={(LPBYTE)pBmp->LockPixelBits(),pBmp->Width(),pBmp->Height()};
 
-        bool bRet = false;
-        do 
-        {
-
-            bRet =ColorTransform(&di, ColorizeMode,param);
-
-        } while (false);
+        bool bRet = ColorTransform(&di, ColorizeMode,param);
 
         pBmp->UnlockPixelBits(di.pBits);
         return bRet;
@@ -243,11 +241,18 @@ namespace SOUI
     bool SDIBHelper::Colorize(COLORREF & crTarget,COLORREF crRef)
     {
         RGBQUAD color = RGBtoRGBQUAD(crRef);
-        RGBQUAD hsl = SOUI::RGBtoHSL(color);
+        RGBQUAD hsl = RGBtoHSL(color);
         COLORIZEPARAM param;
-        FillColorizeParam(param,hsl.rgbRed,hsl.rgbGreen,0.8f);
+
+		float fBlend = 0.8f;
+		BYTE byAlpha = GetAValue(crRef);
+		if(byAlpha != 0) fBlend = byAlpha*1.0f/255;
+
+        FillColorizeParam(param,hsl.rgbRed,hsl.rgbGreen,fBlend);
         
-        ColorizeMode((BYTE*)&crTarget,param);
+		RGBQUAD argbTarget = RGBtoRGBQUAD(crTarget);
+        ColorizeMode((BYTE*)&argbTarget,param);
+		crTarget = RGBQUADtoRGB(argbTarget);
         return true;
     }   
 
@@ -260,7 +265,7 @@ namespace SOUI
 	}
 	
 
-    COLORREF CalcAvarageRectColor(const DIBINFO &di, RECT rc)
+    static COLORREF CalcAvarageRectColor(const DIBINFO &di, RECT rc)
     {
         LPBYTE pLine= di.pBits + di.nWid * rc.top *4;
         if(rc.right > (int)di.nWid) rc.right=di.nWid;
@@ -288,7 +293,7 @@ namespace SOUI
         return RGB(r,g,b);
     }
     
-    int __cdecl RgbCmp(const void *p1,const void *p2)
+    static int RgbCmp(const void *p1,const void *p2)
     {
         const BYTE * cr1 = (const BYTE*)p1;
         const BYTE * cr2 = (const BYTE*)p2;
