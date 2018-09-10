@@ -66,19 +66,6 @@ interface SOUI_EXP ISystemObjectRegister : public IObjRef
 	virtual void RegisterInterpolator(SObjectFactoryMgr *objFactory){}
 };
 
-
-class SUiDef;
-class SWindowMgr;
-class STimer2;
-class SScriptTimer;
-class SFontPool;
-class SSkinPoolMgr;
-class SStylePoolMgr;
-class SWindowFinder;
-class STextServiceHelper;
-class SRicheditMenuDef;
-class CSimpleWndHelper;
-
 /** 
  * @class     SApplication
  * @brief     SOUI Application
@@ -330,17 +317,7 @@ protected:
     SMessageLoop    * m_pMsgLoop;
 
 	//一组单例指针
-	SUiDef * m_pUiDef;
-	SWindowMgr * m_pWindowMgr;
-	STimer2 * m_pTimer2;
-	SScriptTimer * m_pScriptTimer;
-	SFontPool * m_pFontPool;
-	SSkinPoolMgr * m_pSkinPoolMgr;
-	SStylePoolMgr * m_pStylePoolMgr;
-	SWindowFinder * m_pWindowFinder;
-	STextServiceHelper * m_pTextServiceHelper;
-	SRicheditMenuDef * m_pRicheditMenuDef;
-	CSimpleWndHelper * m_pSimpleWndHelper;
+	void * m_pSingletons[SINGLETON_COUNT];
 };
 
 

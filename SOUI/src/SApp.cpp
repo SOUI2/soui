@@ -108,19 +108,9 @@ SApplication::SApplication(IRenderFactory *pRendFactory,HINSTANCE hInst,LPCTSTR 
     :m_hInst(hInst)
     ,m_RenderFactory(pRendFactory)
     ,m_hMainWnd(NULL)
-	, m_pWindowFinder(NULL)
-	, m_pUiDef(NULL)
-	, m_pWindowMgr(NULL)
-	, m_pTimer2(NULL)
-	, m_pScriptTimer(NULL)
-	, m_pFontPool(NULL)
-	, m_pSkinPoolMgr(NULL)
-	, m_pStylePoolMgr(NULL)
-	, m_pTextServiceHelper(NULL)
-	, m_pRicheditMenuDef(NULL)
-	, m_pSimpleWndHelper(NULL)
 {
     SWndSurface::Init();
+	memset(m_pSingletons, 0, sizeof(m_pSingletons));
     _CreateSingletons(hInst,pszHostClassName,bImeApp);
 
     m_translator.Attach(new SNullTranslator);
@@ -152,52 +142,44 @@ SApplication::~SApplication(void)
 
 void SApplication::_CreateSingletons(HINSTANCE hInst,LPCTSTR pszHostClassName,BOOL bImeApp)
 {
-	m_pUiDef = new SUiDef();
-    m_pWindowMgr = new SWindowMgr();
-    m_pTimer2 = new STimer2();
-    m_pScriptTimer = new SScriptTimer();
-    m_pFontPool = new SFontPool(m_RenderFactory);
-    m_pSkinPoolMgr =  new SSkinPoolMgr();
-    m_pStylePoolMgr =  new SStylePoolMgr();
-    m_pWindowFinder = new SWindowFinder();
-	m_pTextServiceHelper = new STextServiceHelper();
-	m_pRicheditMenuDef = new SRicheditMenuDef();
-	m_pSimpleWndHelper =   new CSimpleWndHelper(hInst, pszHostClassName, bImeApp);
+	m_pSingletons[SUiDef::GetType()] = new SUiDef();
+	m_pSingletons[SWindowMgr::GetType()] = new SWindowMgr();
+	m_pSingletons[STimer2::GetType()] = new STimer2();
+	m_pSingletons[SScriptTimer::GetType()] = new SScriptTimer();
+	m_pSingletons[SFontPool::GetType()] = new SFontPool(m_RenderFactory);
+	m_pSingletons[SSkinPoolMgr::GetType()] =  new SSkinPoolMgr();
+	m_pSingletons[SStylePoolMgr::GetType()] =  new SStylePoolMgr();
+	m_pSingletons[SWindowFinder::GetType()] = new SWindowFinder();
+	m_pSingletons[STextServiceHelper::GetType()] = new STextServiceHelper();
+	m_pSingletons[SRicheditMenuDef::GetType()] = new SRicheditMenuDef();
+	m_pSingletons[CSimpleWndHelper::GetType()] =   new CSimpleWndHelper(hInst, pszHostClassName, bImeApp);
 }
+
+#define DELETE_SINGLETON(x) \
+ delete (x*)m_pSingletons[x::GetType()];\
+ m_pSingletons[x::GetType()] = NULL;
 
 void SApplication::_DestroySingletons()
 {
-	delete m_pRicheditMenuDef;
-	delete m_pTextServiceHelper;
-	delete m_pWindowFinder;
-	delete m_pStylePoolMgr;
-	delete m_pFontPool;
-	delete m_pScriptTimer;
-	delete m_pSkinPoolMgr;
-	delete m_pTimer2;
-	delete m_pWindowMgr;
-	delete m_pUiDef;
-	delete m_pSimpleWndHelper;
+	DELETE_SINGLETON(CSimpleWndHelper);
+	DELETE_SINGLETON(SRicheditMenuDef);
+	DELETE_SINGLETON(STextServiceHelper);
+	DELETE_SINGLETON(SWindowFinder);
+	DELETE_SINGLETON(SStylePoolMgr);
+	DELETE_SINGLETON(SSkinPoolMgr);
+	DELETE_SINGLETON(SFontPool);
+	DELETE_SINGLETON(SScriptTimer);
+	DELETE_SINGLETON(STimer2);
+	DELETE_SINGLETON(SWindowMgr);
+	DELETE_SINGLETON(SUiDef);
 }
 
 
 void * SApplication::GetInnerSingleton(int nType)
 {
-	switch (nType)
-	{
-	case SINGLETON_UIDEF: return m_pUiDef;
-	case SINGLETON_SWNDMGR: return m_pWindowMgr;
-	case SINGLETON_TIMER: return m_pTimer2;
-	case SINGLETON_SCRIPTTIMER: return m_pScriptTimer;
-	case SINGLETON_FONTPOOL: return m_pFontPool;
-	case SINGLETON_STYLEPOOLMGR: return m_pStylePoolMgr;
-	case SINGLETON_SKINPOOLMGR: return m_pSkinPoolMgr;
-	case SINGLETON_WINDOWFINDER: return m_pWindowFinder;
-	case SINGLETON_TEXTSERVICEHELPER:return m_pTextServiceHelper;
-	case SINGLETON_RICHEDITMENUDEF:return m_pRicheditMenuDef;
-	case SINGLETON_SIMPLEWNDHELPER:return m_pSimpleWndHelper;
-	}
-	return NULL;
+	if (nType < 0 || nType >= SINGLETON_COUNT)
+		return NULL;
+	return m_pSingletons[nType];
 }
 
 BOOL SApplication::_LoadXmlDocment( LPCTSTR pszXmlName ,LPCTSTR pszType ,pugi::xml_document & xmlDoc,IResProvider *pResProvider/* = NULL*/)
