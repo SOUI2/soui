@@ -20,9 +20,6 @@
 namespace SOUI
 {
 
-    template<> STextServiceHelper * SSingleton<STextServiceHelper>::ms_Singleton=0;
-    template<> SRicheditMenuDef * SSingleton<SRicheditMenuDef>::ms_Singleton=0;
-
     //////////////////////////////////////////////////////////////////////////
     //  STextServiceHelper
     
@@ -36,13 +33,6 @@ namespace SOUI
     {
         if(m_rich20) FreeLibrary(m_rich20);
         m_funCreateTextServices=NULL;
-    }
-
-    BOOL STextServiceHelper::Init()
-    {
-        if(ms_Singleton) return FALSE;
-        new STextServiceHelper();
-        return TRUE;
     }
 
     HRESULT STextServiceHelper::CreateTextServices(IUnknown *punkOuter, ITextHost *pITextHost, IUnknown **ppUnk)

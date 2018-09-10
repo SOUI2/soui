@@ -1,18 +1,15 @@
 ﻿#pragma once
 
+#include "SSingleton2.h"
 //////////////////////////////////////////////////////////////////////////
 // thunk 技术实现参考http://www.cppblog.com/proguru/archive/2008/08/24/59831.html
 //////////////////////////////////////////////////////////////////////////
 namespace SOUI
 {
 
-    class SOUI_EXP CSimpleWndHelper{
+	class SOUI_EXP CSimpleWndHelper: public SSingleton2<CSimpleWndHelper>{
+		SINGLETON2_TYPE(SINGLETON_SIMPLEWNDHELPER)
     public:
-        static CSimpleWndHelper* GetInstance();
-
-        static BOOL Init(HINSTANCE hInst,LPCTSTR pszClassName, BOOL bImeApp=FALSE);
-        static void Destroy();
-
         HANDLE GetHeap(){return m_hHeap;}
 
         void LockSharePtr(void * p);
@@ -31,8 +28,6 @@ namespace SOUI
 
         ATOM                m_atom;
         HINSTANCE            m_hInst;
-
-        static CSimpleWndHelper* s_Instance;
     };
 
 #if defined(_M_IX86)

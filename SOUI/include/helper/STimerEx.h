@@ -14,6 +14,7 @@ typedef struct tagTIMERINFO
 
 class SOUI_EXP STimer2:public SSingletonMap<STimer2,TIMERINFO,UINT_PTR>
 {
+	SINGLETON2_TYPE(SINGLETON_TIMER)
 public:
     static BOOL SetTimer(SWND swnd,UINT_PTR uTimerID,UINT nElapse)
     {

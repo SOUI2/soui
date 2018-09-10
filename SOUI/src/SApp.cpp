@@ -108,13 +108,21 @@ SApplication::SApplication(IRenderFactory *pRendFactory,HINSTANCE hInst,LPCTSTR 
     :m_hInst(hInst)
     ,m_RenderFactory(pRendFactory)
     ,m_hMainWnd(NULL)
+	, m_pWindowFinder(NULL)
+	, m_pUiDef(NULL)
+	, m_pWindowMgr(NULL)
+	, m_pTimer2(NULL)
+	, m_pScriptTimer(NULL)
+	, m_pFontPool(NULL)
+	, m_pSkinPoolMgr(NULL)
+	, m_pStylePoolMgr(NULL)
+	, m_pTextServiceHelper(NULL)
+	, m_pRicheditMenuDef(NULL)
+	, m_pSimpleWndHelper(NULL)
 {
     SWndSurface::Init();
-    _CreateSingletons();
+    _CreateSingletons(hInst,pszHostClassName,bImeApp);
 
-    CSimpleWndHelper::Init(m_hInst,pszHostClassName,bImeApp);
-    STextServiceHelper::Init();
-    SRicheditMenuDef::Init();
     m_translator.Attach(new SNullTranslator);
     m_tooltipFactory.Attach(new SDefToolTipFactory);
     m_msgLoopFactory.Attach(new SDefMsgLoopFactory);
@@ -138,35 +146,58 @@ SApplication::~SApplication(void)
 {
     GetMsgLoopFactory()->DestoryMsgLoop(m_pMsgLoop);
     
+	SResProviderMgr::RemoveAll();
     _DestroySingletons();
-    CSimpleWndHelper::Destroy();
-    STextServiceHelper::Destroy();
-    SRicheditMenuDef::Destroy();
 }
 
-void SApplication::_CreateSingletons()
+void SApplication::_CreateSingletons(HINSTANCE hInst,LPCTSTR pszHostClassName,BOOL bImeApp)
 {
-	new SUiDef();
-    new SWindowMgr();
-    new STimer2();
-    new SScriptTimer();
-    new SFontPool(m_RenderFactory);
-    new SSkinPoolMgr();
-    new SStylePoolMgr();
-    new SWindowFinder();
+	m_pUiDef = new SUiDef();
+    m_pWindowMgr = new SWindowMgr();
+    m_pTimer2 = new STimer2();
+    m_pScriptTimer = new SScriptTimer();
+    m_pFontPool = new SFontPool(m_RenderFactory);
+    m_pSkinPoolMgr =  new SSkinPoolMgr();
+    m_pStylePoolMgr =  new SStylePoolMgr();
+    m_pWindowFinder = new SWindowFinder();
+	m_pTextServiceHelper = new STextServiceHelper();
+	m_pRicheditMenuDef = new SRicheditMenuDef();
+	m_pSimpleWndHelper =   new CSimpleWndHelper(hInst, pszHostClassName, bImeApp);
 }
 
 void SApplication::_DestroySingletons()
 {
-    SResProviderMgr::RemoveAll();
-    delete SWindowFinder::getSingletonPtr();
-    delete SStylePoolMgr::getSingletonPtr();
-    delete SSkinPoolMgr::getSingletonPtr();
-    delete SFontPool::getSingletonPtr();
-    delete SScriptTimer::getSingletonPtr();
-    delete STimer2::getSingletonPtr();
-    delete SWindowMgr::getSingletonPtr();
-	delete SUiDef::getSingletonPtr();
+	delete m_pRicheditMenuDef;
+	delete m_pTextServiceHelper;
+	delete m_pWindowFinder;
+	delete m_pStylePoolMgr;
+	delete m_pFontPool;
+	delete m_pScriptTimer;
+	delete m_pSkinPoolMgr;
+	delete m_pTimer2;
+	delete m_pWindowMgr;
+	delete m_pUiDef;
+	delete m_pSimpleWndHelper;
+}
+
+
+void * SApplication::GetInnerSingleton(int nType)
+{
+	switch (nType)
+	{
+	case SINGLETON_UIDEF: return m_pUiDef;
+	case SINGLETON_SWNDMGR: return m_pWindowMgr;
+	case SINGLETON_TIMER: return m_pTimer2;
+	case SINGLETON_SCRIPTTIMER: return m_pScriptTimer;
+	case SINGLETON_FONTPOOL: return m_pFontPool;
+	case SINGLETON_STYLEPOOLMGR: return m_pStylePoolMgr;
+	case SINGLETON_SKINPOOLMGR: return m_pSkinPoolMgr;
+	case SINGLETON_WINDOWFINDER: return m_pWindowFinder;
+	case SINGLETON_TEXTSERVICEHELPER:return m_pTextServiceHelper;
+	case SINGLETON_RICHEDITMENUDEF:return m_pRicheditMenuDef;
+	case SINGLETON_SIMPLEWNDHELPER:return m_pSimpleWndHelper;
+	}
+	return NULL;
 }
 
 BOOL SApplication::_LoadXmlDocment( LPCTSTR pszXmlName ,LPCTSTR pszType ,pugi::xml_document & xmlDoc,IResProvider *pResProvider/* = NULL*/)
@@ -368,7 +399,6 @@ IInterpolator * SApplication::CreateInterpolatorByName(LPCWSTR pszName) const
 {
 	return (IInterpolator*)CreateObject(SObjectInfo(pszName, Interpolator));
 }
-
 
 void SApplication::SetLogManager(ILog4zManager * pLogMgr)
 {

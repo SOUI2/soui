@@ -137,7 +137,6 @@ void SSkinPool::OnKeyRemoved(const SSkinPtr & obj )
 }
 
 //////////////////////////////////////////////////////////////////////////
-template<> SSkinPoolMgr * SSingleton<SSkinPoolMgr>::ms_Singleton=0;
 
 SSkinPoolMgr::SSkinPoolMgr()
 {

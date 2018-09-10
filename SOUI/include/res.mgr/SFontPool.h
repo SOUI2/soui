@@ -107,6 +107,7 @@ namespace SOUI
     */
     class SOUI_EXP SFontPool :public SSingletonMap<SFontPool,IFontPtr,FontInfo>
     {
+		SINGLETON2_TYPE(SINGLETON_FONTPOOL)
     public:
         SFontPool(IRenderFactory *pRendFactory);
 

@@ -33,6 +33,7 @@ namespace SOUI
     */
     class SOUI_EXP SStylePool :public SCmnMap<pugi::xml_node,SStringW> , public TObjRefImpl2<IObjRef,SStylePool>
     {
+		SINGLETON2_TYPE(SINGLETON_STYLEPOOLMGR)
     public:
         /**
          * GetStyle
@@ -63,8 +64,9 @@ namespace SOUI
     * 
     * Describe    
     */
-    class SOUI_EXP SStylePoolMgr : public SSingleton<SStylePoolMgr>
+    class SOUI_EXP SStylePoolMgr : public SSingleton2<SStylePoolMgr>
     {
+		SINGLETON2_TYPE(SINGLETON_STYLEPOOLMGR)
     public:
         ~SStylePoolMgr();
         

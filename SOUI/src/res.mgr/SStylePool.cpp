@@ -36,8 +36,6 @@ namespace SOUI
 
     //////////////////////////////////////////////////////////////////////////
     // SStylePoolMgr
-    template<> SStylePoolMgr * SSingleton<SStylePoolMgr>::ms_Singleton=0;
-
     pugi::xml_node SStylePoolMgr::GetStyle( LPCWSTR lpszName)
     {
         SPOSITION pos=m_lstStylePools.GetTailPosition();

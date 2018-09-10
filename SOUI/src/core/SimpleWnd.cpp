@@ -3,8 +3,6 @@
 
 namespace SOUI
 {
-    CSimpleWndHelper * CSimpleWndHelper::s_Instance=NULL;
-
     CSimpleWndHelper::CSimpleWndHelper(HINSTANCE hInst,LPCTSTR pszClassName,BOOL bImeApp)
         :m_hInst(hInst)
         ,m_sharePtr(NULL)
@@ -22,24 +20,6 @@ namespace SOUI
         if(m_hHeap) HeapDestroy(m_hHeap);
         DeleteCriticalSection(&m_cs);
         if(m_atom) UnregisterClass((LPCTSTR)m_atom,m_hInst);
-    }
-
-    CSimpleWndHelper* CSimpleWndHelper::GetInstance()
-    {
-        return s_Instance;
-    }
-
-    BOOL CSimpleWndHelper::Init(HINSTANCE hInst,LPCTSTR pszClassName,BOOL bImeApp)
-    {
-        if(s_Instance) return FALSE;
-        s_Instance=new CSimpleWndHelper(hInst,pszClassName,bImeApp);
-        return s_Instance!=NULL;
-    }
-
-    void CSimpleWndHelper::Destroy()
-    {
-        if(s_Instance) delete s_Instance;
-        s_Instance=NULL;
     }
 
     void CSimpleWndHelper::LockSharePtr(void *p)
@@ -95,15 +75,15 @@ ATOM CSimpleWnd::RegisterSimpleWnd2(HINSTANCE hInst, LPCTSTR pszSimpleWndName)
 
 HWND CSimpleWnd::Create(LPCTSTR lpWindowName, DWORD dwStyle,DWORD dwExStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent,LPVOID lpParam )
 {
-    CSimpleWndHelper::GetInstance()->LockSharePtr(this);
+    CSimpleWndHelper::getSingletonPtr()->LockSharePtr(this);
 
-    m_pThunk=(tagThunk*)HeapAlloc(CSimpleWndHelper::GetInstance()->GetHeap(),HEAP_ZERO_MEMORY,sizeof(tagThunk));
+    m_pThunk=(tagThunk*)HeapAlloc(CSimpleWndHelper::getSingletonPtr()->GetHeap(),HEAP_ZERO_MEMORY,sizeof(tagThunk));
     // 在::CreateWindow返回之前会去调StarWindowProc函数
-    HWND hWnd= ::CreateWindowEx(dwExStyle,(LPCTSTR)CSimpleWndHelper::GetInstance()->GetSimpleWndAtom(), lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, 0, CSimpleWndHelper::GetInstance()->GetAppInstance(), lpParam);
-    CSimpleWndHelper::GetInstance()->UnlockSharePtr(); 
+    HWND hWnd= ::CreateWindowEx(dwExStyle,(LPCTSTR)CSimpleWndHelper::getSingletonPtr()->GetSimpleWndAtom(), lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, 0, CSimpleWndHelper::getSingletonPtr()->GetAppInstance(), lpParam);
+    CSimpleWndHelper::getSingletonPtr()->UnlockSharePtr();
     if(!hWnd)
     {
-        HeapFree(CSimpleWndHelper::GetInstance()->GetHeap(),0,m_pThunk);
+        HeapFree(CSimpleWndHelper::getSingletonPtr()->GetHeap(),0,m_pThunk);
         m_pThunk=NULL;
     }
     return hWnd;
@@ -114,7 +94,7 @@ void CSimpleWnd::OnFinalMessage( HWND hWnd )
 {
     if(m_pThunk)
     {
-        HeapFree(CSimpleWndHelper::GetInstance()->GetHeap(),0,m_pThunk);
+        HeapFree(CSimpleWndHelper::getSingletonPtr()->GetHeap(),0,m_pThunk);
         m_pThunk=NULL;
     }
 }
@@ -167,7 +147,7 @@ LRESULT CALLBACK CSimpleWnd::WindowProc( HWND hWnd, UINT uMsg, WPARAM wParam, LP
 
 LRESULT CALLBACK CSimpleWnd::StartWindowProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
-    CSimpleWnd* pThis=(CSimpleWnd*)CSimpleWndHelper::GetInstance()->GetSharePtr();
+    CSimpleWnd* pThis=(CSimpleWnd*)CSimpleWndHelper::getSingletonPtr()->GetSharePtr();
 
     pThis->m_hWnd=hWnd;
     // 初始化Thunk，做了两件事:1、mov指令替换hWnd为对象指针，2、jump指令跳转到WindowProc
@@ -185,13 +165,13 @@ BOOL CSimpleWnd::SubclassWindow( HWND hWnd )
 {
     SASSERT(::IsWindow(hWnd));
     // Allocate the thunk structure here, where we can fail gracefully.
-    m_pThunk=(tagThunk*)HeapAlloc(CSimpleWndHelper::GetInstance()->GetHeap(),HEAP_ZERO_MEMORY,sizeof(tagThunk));
+    m_pThunk=(tagThunk*)HeapAlloc(CSimpleWndHelper::getSingletonPtr()->GetHeap(),HEAP_ZERO_MEMORY,sizeof(tagThunk));
     m_pThunk->Init((DWORD_PTR)WindowProc, this);
     WNDPROC pProc = (WNDPROC)m_pThunk->GetCodeAddress();
     WNDPROC pfnWndProc = (WNDPROC)::SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)pProc);
     if(pfnWndProc == NULL)
     {
-        HeapFree(CSimpleWndHelper::GetInstance()->GetHeap(),0,m_pThunk);
+        HeapFree(CSimpleWndHelper::getSingletonPtr()->GetHeap(),0,m_pThunk);
         m_pThunk=NULL;
         return FALSE;
     }

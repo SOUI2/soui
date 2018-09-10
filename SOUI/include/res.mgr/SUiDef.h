@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "core/SSingleton.h"
+#include "core/SSingleton2.h"
 #include <unknown/obj-ref-i.h>
 #include <unknown/obj-ref-impl.hpp>
 #include "interface/SResProvider-i.h"
@@ -30,8 +30,9 @@ namespace SOUI
 
 	typedef BOOL (*FunFontCheck)(const SStringT & strFontName);
 
-	class SOUI_EXP SUiDef : public SSingleton<SUiDef>
+	class SOUI_EXP SUiDef : public SSingleton2<SUiDef>
 	{
+		SINGLETON2_TYPE(SINGLETON_UIDEF)
 	public:
 		SUiDef(void);
 		~SUiDef(void);

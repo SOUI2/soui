@@ -15,6 +15,7 @@ namespace SOUI
 
     class SScriptTimer : public SSingletonMap<SScriptTimer,SCRIPTTIMERINFO,UINT_PTR>
     {
+		SINGLETON2_TYPE(SINGLETON_SCRIPTTIMER)
     public:
         ~SScriptTimer();
 

@@ -6,9 +6,6 @@ namespace SOUI
 {
 
 //////////////////////////////////////////////////////////////////////////
-template<> SWindowMgr* SSingleton<SWindowMgr>::ms_Singleton=0;
-
-
 SWindowMgr::SWindowMgr()
     : m_hNextWnd(NULL)
 {

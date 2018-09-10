@@ -144,8 +144,9 @@ protected:
 * 
 * Describe    
 */
-class SOUI_EXP SSkinPoolMgr : public SSingleton<SSkinPoolMgr> 
+class SOUI_EXP SSkinPoolMgr : public SSingleton2<SSkinPoolMgr> 
 {
+	SINGLETON2_TYPE(SINGLETON_SKINPOOLMGR)
 public:
     SSkinPoolMgr();
     ~SSkinPoolMgr();

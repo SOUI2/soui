@@ -1,12 +1,13 @@
 ﻿#pragma once
 
-#include <core/SSingleton.h>
+#include <core/SSingleton2.h>
 #include <core/swnd.h>
 
 namespace SOUI
 {
-    class SOUI_EXP SWindowFinder : public SSingleton<SWindowFinder>
+    class SOUI_EXP SWindowFinder : public SSingleton2<SWindowFinder>
     {
+		SINGLETON2_TYPE(SINGLETON_WINDOWFINDER)
         class SFindInfo
         {
         public:

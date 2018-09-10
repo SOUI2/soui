@@ -6,8 +6,6 @@
 namespace SOUI
 {
 
-    template<> SObjDefAttr* SSingleton<SObjDefAttr>::ms_Singleton=0;
-
 BOOL SObjDefAttr::Init( pugi::xml_node xmlNode )
 {
     if(!xmlNode) return FALSE;

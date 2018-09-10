@@ -21,6 +21,7 @@ class SWindow;
 
 class SOUI_EXP SWindowMgr :public SSingletonMap<SWindowMgr,SWindow*,SWND>
 {
+	SINGLETON2_TYPE(SINGLETON_SWNDMGR)
 public:
 
     SWindowMgr();

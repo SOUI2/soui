@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "SSingleton.h"
+#include "SSingleton2.h"
 #include <souicoll.h>
 namespace SOUI
 {
@@ -77,7 +77,7 @@ protected:
 };
 
 template<class TClass,class TObj,class TKey=SStringA>
-class SSingletonMap :public SSingleton<TClass>, public SCmnMap<TObj,TKey>
+class SSingletonMap :public SSingleton2<TClass>, public SCmnMap<TObj,TKey>
 {
 };
 

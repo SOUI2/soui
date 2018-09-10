@@ -16,7 +16,7 @@
 #include <Richedit.h>
 #include <TextServ.h>
 #include "core/SPanel.h"
-#include "core/SSingleton.h"
+#include "core/SSingleton2.h"
 
 namespace SOUI
 {
@@ -37,8 +37,9 @@ namespace SOUI
     * 
     * Describe    
     */
-    class SOUI_EXP STextServiceHelper: public SSingleton<STextServiceHelper>
+    class SOUI_EXP STextServiceHelper: public SSingleton2<STextServiceHelper>
     {
+		SINGLETON2_TYPE(SINGLETON_TEXTSERVICEHELPER)
     public:
         /**
         * STextServiceHelper::CreateTextServices
@@ -51,26 +52,6 @@ namespace SOUI
         * Describe  
         */
         HRESULT CreateTextServices( IUnknown *punkOuter, ITextHost *pITextHost, IUnknown **ppUnk );
-
-        /**
-        * STextServiceHelper::Init
-        * @brief    初始化 
-        * @return   返回BOOL
-        *
-        * Describe  初始化
-        */
-        static BOOL Init();
-
-        /**
-        * STextServiceHelper::Destroy
-        * @brief    销毁 
-        *
-        * Describe  销毁 
-        */
-        static void Destroy()
-        {
-            if(ms_Singleton) delete ms_Singleton;
-        }
 
     protected:
         /**
@@ -98,33 +79,10 @@ namespace SOUI
     * 
     * Describe    
     */
-    class SOUI_EXP SRicheditMenuDef : public SSingleton<SRicheditMenuDef>
+    class SOUI_EXP SRicheditMenuDef : public SSingleton2<SRicheditMenuDef>
     {
+		SINGLETON2_TYPE(SINGLETON_RICHEDITMENUDEF)
     public:
-        /**
-        * SRicheditMenuDef::Init
-        * @brief    初始化 
-        * @return   返回BOOL
-        *
-        * Describe  初始化
-        */
-        static BOOL Init(){
-            if(ms_Singleton) return FALSE;
-            new SRicheditMenuDef();
-            return TRUE;
-        }
-
-        /**
-        * SRicheditMenuDef::Destroy
-        * @brief    销毁 
-        *
-        * Describe  销毁 
-        */
-        static void Destroy()
-        {
-            if(ms_Singleton) delete ms_Singleton;
-        }
-
         /**
         * SRicheditMenuDef::SetMenuXml
         * @brief    加载xml文件

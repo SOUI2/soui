@@ -67,6 +67,18 @@ interface SOUI_EXP ISystemObjectRegister : public IObjRef
 };
 
 
+class SUiDef;
+class SWindowMgr;
+class STimer2;
+class SScriptTimer;
+class SFontPool;
+class SSkinPoolMgr;
+class SStylePoolMgr;
+class SWindowFinder;
+class STextServiceHelper;
+class SRicheditMenuDef;
+class CSimpleWndHelper;
+
 /** 
  * @class     SApplication
  * @brief     SOUI Application
@@ -292,10 +304,12 @@ public:
 	virtual SWindow * CreateWindowByName(LPCWSTR pszWndClass) const;
 	virtual ISkinObj * CreateSkinByName(LPCWSTR pszSkinClass) const;
 	virtual IInterpolator * CreateInterpolatorByName(LPCWSTR pszName) const;
+
+	void * GetInnerSingleton(int nType);
 protected:
 	virtual void RegisterSystemObjects(){}
 
-    void _CreateSingletons();
+    void _CreateSingletons(HINSTANCE hInst, LPCTSTR pszHostClassName, BOOL bImeApp);
     void _DestroySingletons();
     BOOL _LoadXmlDocment(LPCTSTR pszXmlName ,LPCTSTR pszType ,pugi::xml_document & xmlDoc,IResProvider *pResProvider = NULL);
     
@@ -314,6 +328,19 @@ protected:
     HINSTANCE   m_hInst;
     HWND        m_hMainWnd;
     SMessageLoop    * m_pMsgLoop;
+
+	//一组单例指针
+	SUiDef * m_pUiDef;
+	SWindowMgr * m_pWindowMgr;
+	STimer2 * m_pTimer2;
+	SScriptTimer * m_pScriptTimer;
+	SFontPool * m_pFontPool;
+	SSkinPoolMgr * m_pSkinPoolMgr;
+	SStylePoolMgr * m_pStylePoolMgr;
+	SWindowFinder * m_pWindowFinder;
+	STextServiceHelper * m_pTextServiceHelper;
+	SRicheditMenuDef * m_pRicheditMenuDef;
+	CSimpleWndHelper * m_pSimpleWndHelper;
 };
 
 
