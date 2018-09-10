@@ -10,14 +10,6 @@ namespace SOUI
     static int _tstr_rgInitData[] = { -1, 0, 0, 0, 0, 0, 0, 0 };
 
     TStringData* _tstr_initDataNil = (TStringData*)&_tstr_rgInitData;
-    const void* _tstr_initPszNil = (const void*)(((unsigned char*)&_tstr_rgInitData) + sizeof(TStringData));
-
-    HINSTANCE    _tstr_Instance = NULL;
-    
-    void UTILITIES_API InitLoadString(HINSTANCE hInst)
-    {
-        _tstr_Instance = hInst;
-    }
-
+    const void* _tstr_initPszNil = (const void*)(_tstr_initDataNil+1);
 
 }

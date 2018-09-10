@@ -76,7 +76,7 @@ namespace SOUI
 
     extern TStringData* _tstr_initDataNil;
     extern const void* _tstr_initPszNil;
-    extern HINSTANCE    _tstr_Instance;
+
 
     struct char_traits;
     struct wchar_traits;
@@ -842,20 +842,20 @@ namespace SOUI
             return (psz == NULL) ? -1 : (int)(psz - m_pszData);
         }
 
-        BOOL LoadString(UINT nID)
+        BOOL LoadString(UINT nID,HINSTANCE hInst)
         {
-            SASSERT_FMT(_tstr_Instance, TEXT("please init hinstance for string host using InitLoadString"));
+            SASSERT_FMT(hInst, TEXT("hInstance is null"));
             tchar buf[1024 + 1];
-            int nChar = tchar_traits::LoadString(_tstr_Instance, nID, buf, 1024);
+            int nChar = tchar_traits::LoadString(hInst, nID, buf, 1024);
             if (nChar == 0) return FALSE;
             AssignCopy(nChar, buf);
             return TRUE;
         }
 
-        BOOL __cdecl Format(UINT nFormatID, ...)
+        BOOL __cdecl Format(HINSTANCE hInst,UINT nFormatID, ...)
         {
             TStringT strFormat;
-            if (!strFormat.LoadString(nFormatID))
+            if (!strFormat.LoadString(nFormatID, hInst))
             {
                 Empty();
                 return FALSE;
@@ -867,10 +867,11 @@ namespace SOUI
             va_end(argList);
             return bRet;
         }
-        void __cdecl AppendFormat(UINT nFormatID, ...)
+
+        void __cdecl AppendFormat(HINSTANCE hInst,UINT nFormatID, ...)
         {
             TStringT strFormat;
-            if (!strFormat.LoadString(nFormatID))
+            if (!strFormat.LoadString(nFormatID, hInst))
                 return;
 
             va_list argList;
@@ -1369,10 +1370,6 @@ namespace SOUI
 
     protected:
         tchar* m_pszData;   // pointer to ref counted string data
-
-        // For an empty string, m_pszData will point here
-        // (note: avoids special case of checking for NULL m_pszData)
-        // empty string data (and locked)
     };
 
 #ifdef UTILITIES_EXPORTS
@@ -1386,7 +1383,6 @@ namespace SOUI
     EXPIMP_TEMPLATE template class UTILITIES_API  TStringT<char, char_traits>;
     EXPIMP_TEMPLATE template class UTILITIES_API  TStringT<wchar_t, wchar_traits>;
 
-    void UTILITIES_API InitLoadString(HINSTANCE hInst);
 
     typedef TStringT<char, char_traits>        SStringA;
     typedef TStringT<wchar_t, wchar_traits>     SStringW;

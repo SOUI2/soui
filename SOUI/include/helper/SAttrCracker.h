@@ -46,9 +46,10 @@ public:                                                             \
     }                                                           \
 
  
-#define ATTR_CHAIN(varname)                               \
+#define ATTR_CHAIN(varname,flag)                               \
     if (SUCCEEDED(hRet = varname.SetAttribute(strAttribName, strValue, bLoading)))   \
         {                                                           \
+			hRet |= flag;											\
         }                                                           \
         else                                                        \
 

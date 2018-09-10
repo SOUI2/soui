@@ -180,7 +180,8 @@ IFontPtr SFontPool::_CreateFont(const FontInfo &fontInfo,pugi::xml_node xmlExPro
 
 const FontInfo & SFontPool::GetDefFontInfo() const
 {
-	return SUiDef::getSingleton().GetUiDef()->GetDefFontInfo();
+	SUiDef *pUiDef = SUiDef::getSingletonPtr();
+	return pUiDef->GetUiDef()->GetDefFontInfo();
 }
 
 void SFontPool::UpdateFonts()

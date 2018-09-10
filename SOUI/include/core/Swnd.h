@@ -1298,7 +1298,7 @@ namespace SOUI
             ATTR_INT(L"focusable",m_bFocusable,FALSE)
             ATTR_INT(L"drawFocusRect",m_bDrawFocusRect,TRUE)
             ATTR_INT(L"float",m_bFloat,FALSE)
-            ATTR_CHAIN_PTR((&m_style),HRET_FLAG_STYLE)				//交给SwndStyle处理
+			ATTR_CHAIN(m_style,HRET_FLAG_STYLE)					    //交给SwndStyle处理
 			ATTR_CHAIN_PTR(m_pLayout,HRET_FLAG_LAYOUT)				//交给Layout处理
 			ATTR_CHAIN_PTR(m_pLayoutParam,HRET_FLAG_LAYOUT_PARAM)	//交给LayoutParam处理
         SOUI_ATTRS_END()
