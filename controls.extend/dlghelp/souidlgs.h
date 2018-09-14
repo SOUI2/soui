@@ -357,16 +357,16 @@ public: \
 			ATLASSERT(m_hWnd == NULL);
 
 			//ModuleHelper::AddCreateWndData(&m_thunk.cd, (ATL::CDialogImplBase*)this);
-			SOUI::CSimpleWndHelper::GetInstance()->LockSharePtr(this);
-			m_pThunk = (tagThunk*)HeapAlloc(CSimpleWndHelper::GetInstance()->GetHeap(), HEAP_ZERO_MEMORY, sizeof(tagThunk));
+			SOUI::CSimpleWndHelper::getSingletonPtr()->LockSharePtr(this);
+			m_pThunk = (tagThunk*)HeapAlloc(CSimpleWndHelper::getSingletonPtr()->GetHeap(), HEAP_ZERO_MEMORY, sizeof(tagThunk));
 			BOOL bRet;
 			if (m_bOpenFileDialog)
 				bRet = ::GetOpenFileName(&m_ofn);
 			else
 				bRet = ::GetSaveFileName(&m_ofn);
-			CSimpleWndHelper::GetInstance()->UnlockSharePtr();
+			CSimpleWndHelper::getSingletonPtr()->UnlockSharePtr();
 			m_hWnd = NULL;
-			HeapFree(CSimpleWndHelper::GetInstance()->GetHeap(), 0, m_pThunk);
+			HeapFree(CSimpleWndHelper::getSingletonPtr()->GetHeap(), 0, m_pThunk);
 			return bRet ? IDOK : IDCANCEL;
 		}
 		// Attributes
@@ -1796,7 +1796,7 @@ public: \
 		{
 			if (uMsg != WM_INITDIALOG)
 				return 0;
-			CCommonDialogImplBase* pT = (CCommonDialogImplBase*)CSimpleWndHelper::GetInstance()->GetSharePtr();
+			CCommonDialogImplBase* pT = (CCommonDialogImplBase*)CSimpleWndHelper::getSingletonPtr()->GetSharePtr();
 			ATLASSERT(pT != NULL);
 			ATLASSERT(pT->m_hWnd == NULL);
 			ATLASSERT(::IsWindow(hWnd));
@@ -2224,7 +2224,7 @@ public: \
 
 			if (uMsg == WM_INITDIALOG)
 			{
-				pT = (CCommonDialogImplBase*)CSimpleWndHelper::GetInstance()->GetSharePtr();
+				pT = (CCommonDialogImplBase*)CSimpleWndHelper::getSingletonPtr()->GetSharePtr();
 				lpCC->lCustData = (LPARAM)pT;
 				ATLASSERT(pT != NULL);
 				ATLASSERT(pT->m_hWnd == NULL);
