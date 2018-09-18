@@ -1130,6 +1130,7 @@ HRESULT SRichEdit::DefAttributeProc(const SStringW & strAttribName,const SString
 
 void SRichEdit::OnLButtonDown( UINT nFlags, CPoint point )
 {
+	__super::OnLButtonDown(nFlags, point);
     if(!IsFocused())
     {
         SetFocus();

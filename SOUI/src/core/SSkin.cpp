@@ -229,8 +229,10 @@ void SSkinButton::_Draw(IRenderTarget *pRT, LPCRECT prcDraw, DWORD dwState,BYTE 
 		CRect rcDraw = *prcDraw;
 		rcDraw.DeflateRect(1, 1);
 		pRT->GradientFill(rcDraw, TRUE, m_colors.m_crUp[dwState], m_colors.m_crDown[dwState], byAlpha);
-
-		pRT->PopClip();
+		if (nCorner > 2)
+		{
+			pRT->PopClip();
+		}
 	}
     else
     {
