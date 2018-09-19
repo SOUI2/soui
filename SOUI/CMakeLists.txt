@@ -3,7 +3,7 @@
 # 
 
 #
-# lijinggang@021.com
+# 1394020320@qq.com
 #
 
 add_definitions(-DSOUI_EXPORTS -D_CRT_SECURE_NO_WARNINGS)
