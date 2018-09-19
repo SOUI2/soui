@@ -1,5 +1,5 @@
 #
-# lijinggang@021.com
+# 1394020320@qq.com
 #
 
 cmake_minimum_required(VERSION 2.8)
