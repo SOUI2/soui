@@ -17,7 +17,7 @@ endmacro()
 # 下载并编译Soui-demo中的demo
 #
 if (DOWNLOAD_COMPILE_DEMOS)
-    message("---下载并编译Soui-demo中的demo")
+    message("--- Download the demos in Soui-demo")
     find_package(Git)
     if(Git_FOUND)
         message("Git found: ${GIT_EXECUTABLE}")
