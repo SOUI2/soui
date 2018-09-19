@@ -757,7 +757,8 @@ void STileView::SetSel(int iItem, BOOL bNotify)
     if(bNotify)
     {
         EventLVSelChanging evt(this);
-        evt.iOldSel = nOldSel;
+		evt.bCancel = FALSE;
+		evt.iOldSel = nOldSel;
         evt.iNewSel = nNewSel;
         FireEvent(evt);
         if(evt.bCancel)

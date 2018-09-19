@@ -1448,7 +1448,8 @@ LRESULT SHostWnd::OnScriptTimer( UINT uMsg,WPARAM wParam,LPARAM lParam )
 {
     if(m_pScriptModule)
     {
-        EventTimer evt(this,(UINT)wParam);
+        EventTimer evt(this);
+		evt.uID = wParam;
         m_pScriptModule->executeScriptedEventHandler((LPCSTR)lParam,&evt);
     }
     return 0;

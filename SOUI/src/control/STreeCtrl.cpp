@@ -986,6 +986,7 @@ void STreeCtrl::ItemLButtonDbClick(HSTREEITEM hItem, UINT nFlags,CPoint pt)
         ItemLButtonDown(hItem, nFlags, pt);
     //产生双击事件 add by zhaosheng
     EventTCDbClick dbClick(this);
+	dbClick.bCancel = FALSE;
     dbClick.hItem = hItem;
     FireEvent(dbClick);
     if(!dbClick.bCancel)
@@ -1192,6 +1193,7 @@ BOOL STreeCtrl::SelectItem( HSTREEITEM hItem,BOOL bEnsureVisible/*=TRUE*/ )
     if(hRoot != GetRootItem()) return FALSE;
 
     EventTCSelChanging evt1(this);
+	evt1.bCancel = FALSE;
     evt1.hOldSel=m_hSelItem;
     evt1.hNewSel=hItem;
 

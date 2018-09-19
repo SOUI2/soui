@@ -722,6 +722,7 @@ int SListCtrl::GetTopIndex() const
 void SListCtrl::NotifySelChange(int nOldSel, int nNewSel, BOOL checkBox)
 {
     EventLCSelChanging evt1(this);
+	evt1.bCancel = FALSE;
     evt1.nOldSel=nOldSel;
     evt1.nNewSel=nNewSel;
 

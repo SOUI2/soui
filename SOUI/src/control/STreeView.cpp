@@ -583,6 +583,7 @@ namespace SOUI
         if(bNotify)
         {
             EventTVSelChanging evt(this);
+			evt.bCancel = FALSE;
             evt.hOldSel = m_hSelected;
             evt.hNewSel = hItem;
             FireEvent(evt);

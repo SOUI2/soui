@@ -56,8 +56,10 @@ LRESULT SItemPanel::DoFrameEvent(UINT uMsg,WPARAM wParam,LPARAM lParam)
         case WM_MOUSEHOVER: 
             {
                 ModifyState(WndState_Hover,0,TRUE);
-                EventItemPanelHover evt(this,wParam,lParam);
-                FireEvent(evt);
+                EventItemPanelHover evt(this);
+				evt.wParam = wParam;
+				evt.lParam = lParam;
+				FireEvent(evt);
                 break;
             }
         case WM_MOUSELEAVE: 
@@ -69,20 +71,26 @@ LRESULT SItemPanel::DoFrameEvent(UINT uMsg,WPARAM wParam,LPARAM lParam)
             }
         case WM_LBUTTONDOWN:
             {
-                EventItemPanelClick evt(this,wParam,lParam);
-                FireEvent(evt);
+                EventItemPanelClick evt(this);
+				evt.wParam = wParam;
+				evt.lParam = lParam;
+				FireEvent(evt);
                 break;
             }
         case WM_RBUTTONDOWN:
             {
-                EventItemPanelRclick evt(this,wParam,lParam);
+                EventItemPanelRclick evt(this);
+				evt.wParam = wParam;
+				evt.lParam = lParam;
                 FireEvent(evt);
                 break;
             }
         case WM_LBUTTONDBLCLK:
             {
-                EventItemPanelDbclick evt(this,wParam,lParam);
-                FireEvent(evt);
+                EventItemPanelDbclick evt(this);
+				evt.wParam = wParam;
+				evt.lParam = lParam;
+				FireEvent(evt);
                 break;
             }
         }
@@ -108,7 +116,9 @@ LRESULT SItemPanel::DoFrameEvent(UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 BOOL SItemPanel::OnFireEvent(EventArgs &evt)
 {
-    EventOfPanel evt2(m_pFrmHost,this,&evt);
+    EventOfPanel evt2(m_pFrmHost);
+	evt2.pPanel = this;
+	evt2.pOrgEvt = &evt;
     return m_pFrmHost->FireEvent(evt2);
 }
 

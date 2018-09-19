@@ -540,6 +540,7 @@ BOOL STabCtrl::SetCurSel( int nIndex )
     int nOldPage = m_nCurrentPage;
     
     EventTabSelChanging evt(this);
+	evt.bCancel = FALSE;
     evt.uOldSel=nOldPage;
     evt.uNewSel=nIndex;
 

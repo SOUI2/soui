@@ -742,6 +742,7 @@ namespace SOUI
         if(bNotify)
         {
             EventLVSelChanging evt(this);
+			evt.bCancel = FALSE;
             evt.iOldSel = nOldSel;
             evt.iNewSel = nNewSel;
             FireEvent(evt);

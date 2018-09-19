@@ -15,6 +15,28 @@
 
 #include <sobject/Sobject.hpp>
 
+//定义一组事件定义的宏，简化事件的定义。
+#define SEVENT_BEGIN_EX(evt,id,evt_name, api) \
+class evt : public SOUI::EventArgs \
+{ \
+public:\
+	virtual int GetID() const { return evt::EventID; }\
+	virtual LPCWSTR GetName() const { return evt::GetClassName(); }\
+	SOUI_CLASS_NAME(evt,L#evt_name ) \
+	enum {\
+		EventID = id\
+	};\
+	evt(SObject *pSender) :EventArgs(pSender){}\
+
+#define EVT_EXP
+#define SEVENT_BEGIN(evt,id) \
+SEVENT_BEGIN_EX(evt,id,L"on_"#evt, EVT_EXP)
+
+#define SEVENT_END()\
+};
+
+#define EVENTID(x) x::EventID,x::GetClassName()
+
 namespace SOUI
 {
     class SWindow;
@@ -199,720 +221,993 @@ namespace SOUI
         int nID;
     };
 
-    #define EVENTID(x) x::EventID,x::GetClassName()
 
-    class SOUI_EXP EventInit : public TplEventArgs<EventInit>
-    {
-        SOUI_CLASS_NAME(EventInit,L"on_init")
-    public:
-        EventInit(SObject *pSender):TplEventArgs<EventInit>(pSender){}
-        enum{EventID=EVT_INIT};
-    };
+	SEVENT_BEGIN_EX(EventInit, EVT_INIT, on_init, SOUI_EXP)
+	SEVENT_END()
 
-    class SOUI_EXP EventExit : public TplEventArgs<EventExit>
-    {
-        SOUI_CLASS_NAME(EventExit,L"on_exit")
-    public:
-        EventExit(SObject *pSender):TplEventArgs<EventExit>(pSender){}
-        enum{EventID=EVT_EXIT};
-    };
+    //class SOUI_EXP EventInit : public TplEventArgs<EventInit>
+    //{
+    //    SOUI_CLASS_NAME(EventInit,L"on_init")
+    //public:
+    //    EventInit(SObject *pSender):TplEventArgs<EventInit>(pSender){}
+    //    enum{EventID=EVT_INIT};
+    //};
 
-    class SOUI_EXP EventTimer : public TplEventArgs<EventTimer>
-    {
-        SOUI_CLASS_NAME(EventTimer,L"on_timer")
-    public:
-        EventTimer(SObject *pSender,UINT _uID):TplEventArgs<EventTimer>(pSender),uID(_uID){}
-        enum{EventID=EVT_TIMER};
+		SEVENT_BEGIN_EX(EventExit, EVT_EXIT, on_exit, SOUI_EXP)
+		SEVENT_END()
 
-        UINT uID;
-    };
+    //class SOUI_EXP EventExit : public TplEventArgs<EventExit>
+    //{
+    //    SOUI_CLASS_NAME(EventExit,L"on_exit")
+    //public:
+    //    EventExit(SObject *pSender):TplEventArgs<EventExit>(pSender){}
+    //    enum{EventID=EVT_EXIT};
+    //};
 
-    class SOUI_EXP EventSwndCreate : public TplEventArgs<EventSwndCreate>
-    {
-        SOUI_CLASS_NAME(EventSwndCreate,L"on_create")
-    public:
-        EventSwndCreate(SObject *pSender):TplEventArgs<EventSwndCreate>(pSender){}
-        enum{EventID=EVT_CREATE};
-    };
+		SEVENT_BEGIN_EX(EventTimer, EVT_TIMER, on_timer, SOUI_EXP)
+		    UINT uID;
+		SEVENT_END()
 
-    class SOUI_EXP EventSwndDestroy : public TplEventArgs<EventSwndDestroy>
-    {
-        SOUI_CLASS_NAME(EventSwndDestroy,L"on_destroy")
-    public:
-        EventSwndDestroy(SObject *pSender):TplEventArgs<EventSwndDestroy>(pSender){}
-        enum{EventID=EVT_DESTROY};
-    };
+    //class SOUI_EXP EventTimer : public TplEventArgs<EventTimer>
+    //{
+    //    SOUI_CLASS_NAME(EventTimer,L"on_timer")
+    //public:
+    //    EventTimer(SObject *pSender,UINT _uID):TplEventArgs<EventTimer>(pSender),uID(_uID){}
+    //    enum{EventID=EVT_TIMER};
 
-    class SOUI_EXP EventSwndSize : public TplEventArgs<EventSwndSize>
-    {
-        SOUI_CLASS_NAME(EventSwndSize,L"on_size")
-    public:
-        EventSwndSize(SObject *pSender,CSize _szWnd):TplEventArgs<EventSwndSize>(pSender),szWnd(_szWnd){}
-        enum{EventID=EVT_SIZE};
-        CSize szWnd;
-    };
+    //    UINT uID;
+    //};
 
-    class SOUI_EXP EventSwndStateChanged : public TplEventArgs<EventSwndStateChanged>
-    {
-        SOUI_CLASS_NAME(EventSwndStateChanged,L"on_state_changed")
-    public:
-        EventSwndStateChanged(SObject *pSender):TplEventArgs<EventSwndStateChanged>(pSender){}
-        enum{EventID=EVT_STATECHANGED};
-        
-        bool CheckState(DWORD dwState)
-        {
-            return (dwOldState & dwState)!= (dwNewState & dwState);
-        }
-        
-        DWORD dwOldState;
-        DWORD dwNewState;
-    };
+		SEVENT_BEGIN_EX(EventSwndCreate, EVT_CREATE, on_create, SOUI_EXP)
+		SEVENT_END()
 
-    class SOUI_EXP EventSwndVisibleChanged : public TplEventArgs<EventSwndVisibleChanged>
-    {
-        SOUI_CLASS_NAME(EventSwndVisibleChanged,L"on_visible_changed")
-    public:
-        EventSwndVisibleChanged(SObject *pSender):TplEventArgs<EventSwndVisibleChanged>(pSender){}
-        enum{EventID=EVT_VISIBLECHANGED};
-    };
+    //class SOUI_EXP EventSwndCreate : public TplEventArgs<EventSwndCreate>
+    //{
+    //    SOUI_CLASS_NAME(EventSwndCreate,L"on_create")
+    //public:
+    //    EventSwndCreate(SObject *pSender):TplEventArgs<EventSwndCreate>(pSender){}
+    //    enum{EventID=EVT_CREATE};
+    //};
 
-	class SOUI_EXP EventKeyDown : public TplEventArgs<EventKeyDown>
-	{
-		SOUI_CLASS_NAME(EventKeyDown, L"on_key_down")
-	public:
-		EventKeyDown(SObject *pSender) :TplEventArgs<EventKeyDown>(pSender) { bCancel = false; }
-		enum { EventID = EVT_KEYDOWN };
-		UINT nChar;
-		UINT nFlags;
-		bool bCancel;
-	};
+		SEVENT_BEGIN_EX(EventSwndDestroy, EVT_DESTROY, on_destroy, SOUI_EXP)
+		SEVENT_END()
 
-    class SOUI_EXP EventSwndMouseLeave : public TplEventArgs<EventSwndMouseLeave>
-    {
-        SOUI_CLASS_NAME(EventSwndMouseLeave,L"on_mouse_leave")
-    public:
-        EventSwndMouseLeave(SObject *pSender):TplEventArgs<EventSwndMouseLeave>(pSender){}
-        enum{EventID=EVT_MOUSE_LEAVE};
-    };
+    //class SOUI_EXP EventSwndDestroy : public TplEventArgs<EventSwndDestroy>
+    //{
+    //    SOUI_CLASS_NAME(EventSwndDestroy,L"on_destroy")
+    //public:
+    //    EventSwndDestroy(SObject *pSender):TplEventArgs<EventSwndDestroy>(pSender){}
+    //    enum{EventID=EVT_DESTROY};
+    //};
 
-    class SOUI_EXP EventSwndMouseHover : public TplEventArgs<EventSwndMouseHover>
-    {
-        SOUI_CLASS_NAME(EventSwndMouseHover,L"on_mouse_hover")
-    public:
-        EventSwndMouseHover(SObject *pSender):TplEventArgs<EventSwndMouseHover>(pSender){}
-        enum{EventID=EVT_MOUSE_HOVER};
-    };
 
-	class SOUI_EXP EventSwndUpdateTooltip : public TplEventArgs<EventSwndUpdateTooltip>
-	{
-		SOUI_CLASS_NAME(EventSwndUpdateTooltip, L"on_update_tooltip")
-	public:
-		EventSwndUpdateTooltip(SObject *pSender) :TplEventArgs<EventSwndUpdateTooltip>(pSender), bUpdated(FALSE){}
-		enum { EventID = EVT_UPDATE_TOOLTIP };
+		SEVENT_BEGIN_EX(EventSwndSize, EVT_SIZE, on_size, SOUI_EXP)
+		    CSize szWnd;
+		SEVENT_END()
+
+    //class SOUI_EXP EventSwndSize : public TplEventArgs<EventSwndSize>
+    //{
+    //    SOUI_CLASS_NAME(EventSwndSize,L"on_size")
+    //public:
+    //    EventSwndSize(SObject *pSender,CSize _szWnd):TplEventArgs<EventSwndSize>(pSender),szWnd(_szWnd){}
+    //    enum{EventID=EVT_SIZE};
+    //    CSize szWnd;
+    //};
+
+		SEVENT_BEGIN_EX(EventSwndStateChanged, EVT_STATECHANGED, on_state_changed, SOUI_EXP)
+			bool CheckState(DWORD dwState)
+			{
+				return (dwOldState & dwState) != (dwNewState & dwState);
+			}
+
+			DWORD dwOldState;
+			DWORD dwNewState;
+		SEVENT_END()
+
+    //class SOUI_EXP EventSwndStateChanged : public TplEventArgs<EventSwndStateChanged>
+    //{
+    //    SOUI_CLASS_NAME(EventSwndStateChanged,L"on_state_changed")
+    //public:
+    //    EventSwndStateChanged(SObject *pSender):TplEventArgs<EventSwndStateChanged>(pSender){}
+    //    enum{EventID=EVT_STATECHANGED};
+    //    
+    //    bool CheckState(DWORD dwState)
+    //    {
+    //        return (dwOldState & dwState)!= (dwNewState & dwState);
+    //    }
+    //    
+    //    DWORD dwOldState;
+    //    DWORD dwNewState;
+    //};
+
+	SEVENT_BEGIN_EX(EventSwndVisibleChanged, EVT_VISIBLECHANGED, on_visible_changed, SOUI_EXP)
+	SEVENT_END()
+
+    //class SOUI_EXP EventSwndVisibleChanged : public TplEventArgs<EventSwndVisibleChanged>
+    //{
+    //    SOUI_CLASS_NAME(EventSwndVisibleChanged,L"on_visible_changed")
+    //public:
+    //    EventSwndVisibleChanged(SObject *pSender):TplEventArgs<EventSwndVisibleChanged>(pSender){}
+    //    enum{EventID=EVT_VISIBLECHANGED};
+    //};
+
+		SEVENT_BEGIN_EX(EventKeyDown, EVT_KEYDOWN, on_key_down, SOUI_EXP)
+			UINT nChar;
+			UINT nFlags;
+			bool bCancel;
+		SEVENT_END()
+
+	//class SOUI_EXP EventKeyDown : public TplEventArgs<EventKeyDown>
+	//{
+	//	SOUI_CLASS_NAME(EventKeyDown, L"on_key_down")
+	//public:
+	//	EventKeyDown(SObject *pSender) :TplEventArgs<EventKeyDown>(pSender) { bCancel = false; }
+	//	enum { EventID = EVT_KEYDOWN };
+	//	UINT nChar;
+	//	UINT nFlags;
+	//	bool bCancel;
+	//};
+
+	SEVENT_BEGIN_EX(EventSwndMouseLeave, EVT_MOUSE_LEAVE, on_mouse_leave, SOUI_EXP)
+	SEVENT_END()
+
+    //class SOUI_EXP EventSwndMouseLeave : public TplEventArgs<EventSwndMouseLeave>
+    //{
+    //    SOUI_CLASS_NAME(EventSwndMouseLeave,L"on_mouse_leave")
+    //public:
+    //    EventSwndMouseLeave(SObject *pSender):TplEventArgs<EventSwndMouseLeave>(pSender){}
+    //    enum{EventID=EVT_MOUSE_LEAVE};
+    //};
+
+			SEVENT_BEGIN_EX(EventSwndMouseHover, EVT_MOUSE_HOVER, on_mouse_hover, SOUI_EXP)
+			SEVENT_END()
+
+    //class SOUI_EXP EventSwndMouseHover : public TplEventArgs<EventSwndMouseHover>
+    //{
+    //    SOUI_CLASS_NAME(EventSwndMouseHover,L"on_mouse_hover")
+    //public:
+    //    EventSwndMouseHover(SObject *pSender):TplEventArgs<EventSwndMouseHover>(pSender){}
+    //    enum{EventID=EVT_MOUSE_HOVER};
+    //};
+
+	SEVENT_BEGIN_EX(EventSwndUpdateTooltip, EVT_UPDATE_TOOLTIP, on_update_tooltip, SOUI_EXP)
 		SStringT strToolTip;
 		BOOL bUpdated;
-	};
+	SEVENT_END()
 
-    class SOUI_EXP EventItemPanelRclick : public TplEventArgs<EventItemPanelRclick>
-    {
-        SOUI_CLASS_NAME(EventItemPanelRclick,L"on_itemparem_rclick")
-    public:
-        EventItemPanelRclick(SObject *pSender,WPARAM wp,LPARAM lp):wParam(wp),lParam(lp),TplEventArgs<EventItemPanelRclick>(pSender){}
-        enum{EventID=EVT_ITEMPANEL_RCLICK};
-        WPARAM wParam;
-        LPARAM lParam;
-    };
+	//class SOUI_EXP EventSwndUpdateTooltip : public TplEventArgs<EventSwndUpdateTooltip>
+	//{
+	//	SOUI_CLASS_NAME(EventSwndUpdateTooltip, L"on_update_tooltip")
+	//public:
+	//	EventSwndUpdateTooltip(SObject *pSender) :TplEventArgs<EventSwndUpdateTooltip>(pSender), bUpdated(FALSE){}
+	//	enum { EventID = EVT_UPDATE_TOOLTIP };
+	//	SStringT strToolTip;
+	//	BOOL bUpdated;
+	//};
 
-    class SOUI_EXP EventItemPanelDbclick : public TplEventArgs<EventItemPanelDbclick>
-    {
-        SOUI_CLASS_NAME(EventItemPanelDbclick,L"on_itempanel_dbclick")
-    public:
-        EventItemPanelDbclick(SObject *pSender,WPARAM wp,LPARAM lp):wParam(wp),lParam(lp),TplEventArgs<EventItemPanelDbclick>(pSender){}
-        enum{EventID=EVT_ITEMPANEL_DBCLICK};
-        WPARAM wParam;
-        LPARAM lParam;
-    };
+	SEVENT_BEGIN_EX(EventItemPanelRclick, EVT_ITEMPANEL_RCLICK, on_itemparem_rclick, SOUI_EXP)
+		WPARAM wParam;
+		LPARAM lParam;
+	SEVENT_END()
 
-    class SOUI_EXP EventItemPanelClick : public TplEventArgs<EventItemPanelClick>
-    {
-        SOUI_CLASS_NAME(EventItemPanelClick,L"on_itempanel_click")
-    public:
-        EventItemPanelClick(SObject *pSender,WPARAM wp,LPARAM lp):wParam(wp),lParam(lp),TplEventArgs<EventItemPanelClick>(pSender){}
-        enum{EventID=EVT_ITEMPANEL_CLICK};
-        WPARAM wParam;
-        LPARAM lParam;
-    };
+    //class SOUI_EXP EventItemPanelRclick : public TplEventArgs<EventItemPanelRclick>
+    //{
+    //    SOUI_CLASS_NAME(EventItemPanelRclick,L"on_itemparem_rclick")
+    //public:
+    //    EventItemPanelRclick(SObject *pSender,WPARAM wp,LPARAM lp):wParam(wp),lParam(lp),TplEventArgs<EventItemPanelRclick>(pSender){}
+    //    enum{EventID=EVT_ITEMPANEL_RCLICK};
+    //    WPARAM wParam;
+    //    LPARAM lParam;
+    //};
 
-    class SOUI_EXP EventItemPanelHover : public TplEventArgs<EventItemPanelHover>
-    {
-        SOUI_CLASS_NAME(EventItemPanelHover,L"on_itempanel_hover")
-    public:
-        EventItemPanelHover(SObject *pSender,WPARAM wp,LPARAM lp):wParam(wp),lParam(lp),TplEventArgs<EventItemPanelHover>(pSender){}
-        enum{EventID=EVT_ITEMPANEL_HOVER};
-        WPARAM wParam;
-        LPARAM lParam;
-    };
+	SEVENT_BEGIN_EX(EventItemPanelDbclick, EVT_ITEMPANEL_DBCLICK, on_itempanel_dbclick, SOUI_EXP)
+		WPARAM wParam;
+		LPARAM lParam;
+	SEVENT_END()
+
+    //class SOUI_EXP EventItemPanelDbclick : public TplEventArgs<EventItemPanelDbclick>
+    //{
+    //    SOUI_CLASS_NAME(EventItemPanelDbclick,L"on_itempanel_dbclick")
+    //public:
+    //    EventItemPanelDbclick(SObject *pSender,WPARAM wp,LPARAM lp):wParam(wp),lParam(lp),TplEventArgs<EventItemPanelDbclick>(pSender){}
+    //    enum{EventID=EVT_ITEMPANEL_DBCLICK};
+    //    WPARAM wParam;
+    //    LPARAM lParam;
+    //};
+
+	SEVENT_BEGIN_EX(EventItemPanelClick, EVT_ITEMPANEL_CLICK, on_itempanel_click, SOUI_EXP)
+		WPARAM wParam;
+		LPARAM lParam;
+	SEVENT_END()
+    //class SOUI_EXP EventItemPanelClick : public TplEventArgs<EventItemPanelClick>
+    //{
+    //    SOUI_CLASS_NAME(EventItemPanelClick,L"on_itempanel_click")
+    //public:
+    //    EventItemPanelClick(SObject *pSender,WPARAM wp,LPARAM lp):wParam(wp),lParam(lp),TplEventArgs<EventItemPanelClick>(pSender){}
+    //    enum{EventID=EVT_ITEMPANEL_CLICK};
+    //    WPARAM wParam;
+    //    LPARAM lParam;
+    //};
+
+	SEVENT_BEGIN_EX(EventItemPanelHover, EVT_ITEMPANEL_HOVER, on_itempanel_hover, SOUI_EXP)
+		WPARAM wParam;
+		LPARAM lParam;
+	SEVENT_END()
+
+    //class SOUI_EXP EventItemPanelHover : public TplEventArgs<EventItemPanelHover>
+    //{
+    //    SOUI_CLASS_NAME(EventItemPanelHover,L"on_itempanel_hover")
+    //public:
+    //    EventItemPanelHover(SObject *pSender,WPARAM wp,LPARAM lp):wParam(wp),lParam(lp),TplEventArgs<EventItemPanelHover>(pSender){}
+    //    enum{EventID=EVT_ITEMPANEL_HOVER};
+    //    WPARAM wParam;
+    //    LPARAM lParam;
+    //};
     
     //注：在EventItemPanelLeave中从IItemPanel中通过GetItemIndex获取表项索引时需要检查索引有效性。
-    class SOUI_EXP EventItemPanelLeave : public TplEventArgs<EventItemPanelLeave>
-    {
-        SOUI_CLASS_NAME(EventItemPanelLeave,L"on_itempanel_leave")
-    public:
-        EventItemPanelLeave(SObject *pSender):TplEventArgs<EventItemPanelLeave>(pSender){}
-        enum{EventID=EVT_ITEMPANEL_LEAVE};
-    };
+	SEVENT_BEGIN_EX(EventItemPanelLeave, EVT_ITEMPANEL_LEAVE, on_itempanel_leave, SOUI_EXP)
+	SEVENT_END()
+    //class SOUI_EXP EventItemPanelLeave : public TplEventArgs<EventItemPanelLeave>
+    //{
+    //    SOUI_CLASS_NAME(EventItemPanelLeave,L"on_itempanel_leave")
+    //public:
+    //    EventItemPanelLeave(SObject *pSender):TplEventArgs<EventItemPanelLeave>(pSender){}
+    //    enum{EventID=EVT_ITEMPANEL_LEAVE};
+    //};
     
-	class SOUI_EXP EventLButtonDown : public TplEventArgs<EventLButtonDown>
-	{
-		SOUI_CLASS_NAME(EventLButtonDown, L"on_mouse_lbutton_down")
-	public:
-		EventLButtonDown(SObject *pSender) :TplEventArgs<EventLButtonDown>(pSender) {}
-		enum { EventID = EVT_LBUTTONDOWN };
+	SEVENT_BEGIN_EX(EventLButtonDown, EVT_LBUTTONDOWN, on_mouse_lbutton_down, SOUI_EXP)
 		POINT           pt;
-	};
+	SEVENT_END()
+	//class SOUI_EXP EventLButtonDown : public TplEventArgs<EventLButtonDown>
+	//{
+	//	SOUI_CLASS_NAME(EventLButtonDown, L"on_mouse_lbutton_down")
+	//public:
+	//	EventLButtonDown(SObject *pSender) :TplEventArgs<EventLButtonDown>(pSender) {}
+	//	enum { EventID = EVT_LBUTTONDOWN };
+	//	POINT           pt;
+	//};
 
-	class SOUI_EXP EventLButtonUp : public TplEventArgs<EventLButtonUp>
-	{
-		SOUI_CLASS_NAME(EventLButtonUp, L"on_mouse_lbutton_up")
-	public:
-		EventLButtonUp(SObject *pSender) :TplEventArgs<EventLButtonUp>(pSender) {}
-		enum { EventID = EVT_LBUTTONUP };
+	SEVENT_BEGIN_EX(EventLButtonUp, EVT_LBUTTONUP, on_mouse_lbutton_up, SOUI_EXP)
 		POINT           pt;
-	};
+	SEVENT_END()
+	//class SOUI_EXP EventLButtonUp : public TplEventArgs<EventLButtonUp>
+	//{
+	//	SOUI_CLASS_NAME(EventLButtonUp, L"on_mouse_lbutton_up")
+	//public:
+	//	EventLButtonUp(SObject *pSender) :TplEventArgs<EventLButtonUp>(pSender) {}
+	//	enum { EventID = EVT_LBUTTONUP };
+	//	POINT           pt;
+	//};
 
-    class SOUI_EXP EventCmd : public TplEventArgs<EventCmd>
-    {
-        SOUI_CLASS_NAME(EventCmd,L"on_command")
-    public:
-        EventCmd(SObject *pSender):TplEventArgs<EventCmd>(pSender){}
-        enum{EventID=EVT_CMD};
-    };
 
-    class SOUI_EXP EventCtxMenu : public TplEventArgs<EventCtxMenu>
-    {
-        SOUI_CLASS_NAME(EventCtxMenu,L"on_conext_menu")
-    public:
-        EventCtxMenu(SObject *pSender):TplEventArgs<EventCtxMenu>(pSender),bCancel(FALSE){}
-        enum{EventID=EVT_CTXMENU};
-        POINT           pt;
-        BOOL            bCancel;
-    };
+	SEVENT_BEGIN_EX(EventCmd, EVT_CMD, on_command, SOUI_EXP)
+	SEVENT_END()
 
-    class SOUI_EXP EventSetFocus : public TplEventArgs<EventSetFocus>
-    {
-        SOUI_CLASS_NAME(EventSetFocus,L"on_set_focus")
-    public:
-        EventSetFocus(SObject *pSender):TplEventArgs<EventSetFocus>(pSender){}
-        enum{EventID=EVT_SETFOCUS};
-    };
+    //class SOUI_EXP EventCmd : public TplEventArgs<EventCmd>
+    //{
+    //    SOUI_CLASS_NAME(EventCmd,L"on_command")
+    //public:
+    //    EventCmd(SObject *pSender):TplEventArgs<EventCmd>(pSender){}
+    //    enum{EventID=EVT_CMD};
+    //};
 
-    class SOUI_EXP EventKillFocus : public TplEventArgs<EventKillFocus>
-    {
-        SOUI_CLASS_NAME(EventKillFocus,L"on_kill_focus")
-    public:
-        EventKillFocus(SObject *pSender):TplEventArgs<EventKillFocus>(pSender){}
-        enum{EventID=EVT_KILLFOCUS};
-    };
-    
-    class SOUI_EXP EventScrollViewOriginChanged : public TplEventArgs<EventScrollViewOriginChanged>
-    {
-        SOUI_CLASS_NAME(EventScrollViewOriginChanged,L"on_scrollview_origin_changed")
-    public:
-        EventScrollViewOriginChanged(SObject *pSender):TplEventArgs<EventScrollViewOriginChanged>(pSender){}
-        enum{EventID=EVT_SCROLLVIEW_ORIGINCHANGED};
+		SEVENT_BEGIN_EX(EventCtxMenu, EVT_CTXMENU, on_conext_menu, SOUI_EXP)
+		    POINT           pt;
+		    BOOL            bCancel;
+		SEVENT_END()
+    //class SOUI_EXP EventCtxMenu : public TplEventArgs<EventCtxMenu>
+    //{
+    //    SOUI_CLASS_NAME(EventCtxMenu,L"on_conext_menu")
+    //public:
+    //    EventCtxMenu(SObject *pSender):TplEventArgs<EventCtxMenu>(pSender),bCancel(FALSE){}
+    //    enum{EventID=EVT_CTXMENU};
+    //    POINT           pt;
+    //    BOOL            bCancel;
+    //};
 
-        CPoint ptOldOrigin;
-        CPoint ptNewOrigin;
-    };
+	SEVENT_BEGIN_EX(EventSetFocus, EVT_SETFOCUS, on_set_focus, SOUI_EXP)
+	SEVENT_END()
+	//class SOUI_EXP EventSetFocus : public TplEventArgs<EventSetFocus>
+ //   {
+ //       SOUI_CLASS_NAME(EventSetFocus,L"on_set_focus")
+ //   public:
+ //       EventSetFocus(SObject *pSender):TplEventArgs<EventSetFocus>(pSender){}
+ //       enum{EventID=EVT_SETFOCUS};
+ //   };
 
-    class SOUI_EXP EventScrollViewSizeChanged : public TplEventArgs<EventScrollViewSizeChanged>
-    {
-        SOUI_CLASS_NAME(EventScrollViewSizeChanged,L"on_scrollview_size_changed")
-    public:
-        EventScrollViewSizeChanged(SObject *pSender):TplEventArgs<EventScrollViewSizeChanged>(pSender){}
-        enum{EventID=EVT_SCROLLVIEW_SIZECHANGED};
+			SEVENT_BEGIN_EX(EventKillFocus, EVT_KILLFOCUS, on_kill_focus, SOUI_EXP)
+			SEVENT_END()
+	//class SOUI_EXP EventKillFocus : public TplEventArgs<EventKillFocus>
+ //   {
+ //       SOUI_CLASS_NAME(EventKillFocus,L"on_kill_focus")
+ //   public:
+ //       EventKillFocus(SObject *pSender):TplEventArgs<EventKillFocus>(pSender){}
+ //       enum{EventID=EVT_KILLFOCUS};
+ //   };
+		SEVENT_BEGIN_EX(EventScrollViewOriginChanged, EVT_SCROLLVIEW_ORIGINCHANGED, on_scrollview_origin_changed, SOUI_EXP)
+			CPoint ptOldOrigin;
+			CPoint ptNewOrigin;
+		SEVENT_END()
 
-        CSize szOldViewSize;
-        CSize szNewViewSize;
-    };
+    //class SOUI_EXP EventScrollViewOriginChanged : public TplEventArgs<EventScrollViewOriginChanged>
+    //{
+    //    SOUI_CLASS_NAME(EventScrollViewOriginChanged,L"on_scrollview_origin_changed")
+    //public:
+    //    EventScrollViewOriginChanged(SObject *pSender):TplEventArgs<EventScrollViewOriginChanged>(pSender){}
+    //    enum{EventID=EVT_SCROLLVIEW_ORIGINCHANGED};
 
-    class SOUI_EXP EventScroll : public TplEventArgs<EventScroll>
-    {
-        SOUI_CLASS_NAME(EventScroll,L"on_scroll")
-    public:
-        EventScroll(SObject *pSender):TplEventArgs<EventScroll>(pSender){}
-        enum{EventID=EVT_SCROLL};
-        UINT        uSbCode;
-        int         nPos;
-        BOOL        bVertical;
-    };
+    //    CPoint ptOldOrigin;
+    //    CPoint ptNewOrigin;
+    //};
 
-    class SOUI_EXP EventOfEvent : public TplEventArgs<EventOfEvent>
-    {
-        SOUI_CLASS_NAME(EventOfEvent,L"on_event_of_event")
-    public:
-        EventOfEvent(SObject *pSender,EventArgs *_pOrgEvt)
-            :TplEventArgs<EventOfEvent>(pSender)
-            ,pOrgEvt(_pOrgEvt)
-        {}
-        enum{EventID=EVT_OFEVENT};
-        EventArgs * pOrgEvt;
-    };
+	SEVENT_BEGIN_EX(EventScrollViewSizeChanged, EVT_SCROLLVIEW_SIZECHANGED, on_scrollview_size_changed, SOUI_EXP)
+		CSize szOldViewSize;
+		CSize szNewViewSize;
+	SEVENT_END()
+
+    //class SOUI_EXP EventScrollViewSizeChanged : public TplEventArgs<EventScrollViewSizeChanged>
+    //{
+    //    SOUI_CLASS_NAME(EventScrollViewSizeChanged,L"on_scrollview_size_changed")
+    //public:
+    //    EventScrollViewSizeChanged(SObject *pSender):TplEventArgs<EventScrollViewSizeChanged>(pSender){}
+    //    enum{EventID=EVT_SCROLLVIEW_SIZECHANGED};
+
+    //    CSize szOldViewSize;
+    //    CSize szNewViewSize;
+    //};
+
+	SEVENT_BEGIN_EX(EventScroll, EVT_SCROLL, on_scroll, SOUI_EXP)
+		UINT        uSbCode;
+		int         nPos;
+		BOOL        bVertical;
+	SEVENT_END()
+    //class SOUI_EXP EventScroll : public TplEventArgs<EventScroll>
+    //{
+    //    SOUI_CLASS_NAME(EventScroll,L"on_scroll")
+    //public:
+    //    EventScroll(SObject *pSender):TplEventArgs<EventScroll>(pSender){}
+    //    enum{EventID=EVT_SCROLL};
+    //    UINT        uSbCode;
+    //    int         nPos;
+    //    BOOL        bVertical;
+    //};
+
+
+	SEVENT_BEGIN_EX(EventOfEvent, EVT_OFEVENT, on_event_of_event, SOUI_EXP)
+		EventArgs * pOrgEvt;
+	SEVENT_END()
+
+    //class SOUI_EXP EventOfEvent : public TplEventArgs<EventOfEvent>
+    //{
+    //    SOUI_CLASS_NAME(EventOfEvent,L"on_event_of_event")
+    //public:
+    //    EventOfEvent(SObject *pSender,EventArgs *_pOrgEvt)
+    //        :TplEventArgs<EventOfEvent>(pSender)
+    //        ,pOrgEvt(_pOrgEvt)
+    //    {}
+    //    enum{EventID=EVT_OFEVENT};
+    //    EventArgs * pOrgEvt;
+    //};
 
     class SItemPanel;
-    class SOUI_EXP EventOfPanel : public TplEventArgs<EventOfPanel>
-    {
-        SOUI_CLASS_NAME(EventOfPanel,L"on_event_of_panel")
-    public:
-        EventOfPanel(SObject * pSender, SItemPanel *_pPanel,EventArgs *_pOrgEvt)
-        :TplEventArgs<EventOfPanel>(pSender)
-        ,pPanel(_pPanel)
-        ,pOrgEvt(_pOrgEvt)
-        {
-        
-        }
-        enum{EventID=EVT_OFPANEL};
+	SEVENT_BEGIN_EX(EventOfPanel, EVT_OFPANEL, on_event_of_panel, SOUI_EXP)
+		SItemPanel *pPanel;
+		EventArgs * pOrgEvt;
+	SEVENT_END()
 
-        SItemPanel *pPanel;
-        EventArgs * pOrgEvt;
-    };
+    //class SOUI_EXP EventOfPanel : public TplEventArgs<EventOfPanel>
+    //{
+    //    SOUI_CLASS_NAME(EventOfPanel,L"on_event_of_panel")
+    //public:
+    //    EventOfPanel(SObject * pSender, SItemPanel *_pPanel,EventArgs *_pOrgEvt)
+    //    :TplEventArgs<EventOfPanel>(pSender)
+    //    ,pPanel(_pPanel)
+    //    ,pOrgEvt(_pOrgEvt)
+    //    {
+    //    
+    //    }
+    //    enum{EventID=EVT_OFPANEL};
+
+    //    SItemPanel *pPanel;
+    //    EventArgs * pOrgEvt;
+    //};
     
-    
-    class SOUI_EXP EventTabSelChanging : public TplEventArgs<EventTabSelChanging>
-    {
-        SOUI_CLASS_NAME(EventTabSelChanging,L"on_tab_sel_changing")
-    public:
-        EventTabSelChanging(SObject *pSender):TplEventArgs<EventTabSelChanging>(pSender),bCancel(FALSE){}
-        enum{EventID=EVT_TAB_SELCHANGING};
-        UINT        uOldSel;
-        UINT        uNewSel;
-        BOOL        bCancel;
-    };
+	SEVENT_BEGIN_EX(EventTabSelChanging, EVT_TAB_SELCHANGING, on_tab_sel_changing, SOUI_EXP)
+		UINT        uOldSel;
+		UINT        uNewSel;
+		BOOL        bCancel;
+	SEVENT_END()
 
-    class SOUI_EXP EventTabSelChanged : public TplEventArgs<EventTabSelChanged>
-    {
-        SOUI_CLASS_NAME(EventTabSelChanged,L"on_tab_sel_changed")
-    public:
-        EventTabSelChanged(SObject *pSender):TplEventArgs<EventTabSelChanged>(pSender){}
-        enum{EventID=EVT_TAB_SELCHANGED};
-        UINT        uOldSel;
-        UINT        uNewSel;
-    };
+    //class SOUI_EXP EventTabSelChanging : public TplEventArgs<EventTabSelChanging>
+    //{
+    //    SOUI_CLASS_NAME(EventTabSelChanging,L"on_tab_sel_changing")
+    //public:
+    //    EventTabSelChanging(SObject *pSender):TplEventArgs<EventTabSelChanging>(pSender),bCancel(FALSE){}
+    //    enum{EventID=EVT_TAB_SELCHANGING};
+    //    UINT        uOldSel;
+    //    UINT        uNewSel;
+    //    BOOL        bCancel;
+    //};
 
-    class SOUI_EXP EventTabItemHover : public TplEventArgs<EventTabItemHover>
-    {
-        SOUI_CLASS_NAME(EventTabItemHover,L"on_tab_item_hover")
-    public:
-        EventTabItemHover(SObject *pSender):TplEventArgs<EventTabItemHover>(pSender){}
-        enum{EventID=EVT_TAB_ITEMHOVER};
-        int iHover;
-    };
+	SEVENT_BEGIN_EX(EventTabSelChanged, EVT_TAB_SELCHANGED, on_tab_sel_changed, SOUI_EXP)
+		UINT        uOldSel;
+		UINT        uNewSel;
+	SEVENT_END()
 
-    class SOUI_EXP EventTabItemLeave : public TplEventArgs<EventTabItemLeave>
-    {
-        SOUI_CLASS_NAME(EventTabItemLeave,L"on_tab_item_leave")
-    public:
-        EventTabItemLeave(SObject *pSender):TplEventArgs<EventTabItemLeave>(pSender){}
-        enum{EventID=EVT_TAB_ITEMLEAVE};
-        int iLeave;
-    };
+    //class SOUI_EXP EventTabSelChanged : public TplEventArgs<EventTabSelChanged>
+    //{
+    //    SOUI_CLASS_NAME(EventTabSelChanged,L"on_tab_sel_changed")
+    //public:
+    //    EventTabSelChanged(SObject *pSender):TplEventArgs<EventTabSelChanged>(pSender){}
+    //    enum{EventID=EVT_TAB_SELCHANGED};
+    //    UINT        uOldSel;
+    //    UINT        uNewSel;
+    //};
 
+	SEVENT_BEGIN_EX(EventTabItemHover, EVT_TAB_ITEMHOVER, on_tab_item_hover, SOUI_EXP)
+		int iHover;
+	SEVENT_END()
 
-    class SOUI_EXP EventLBSelChanging : public TplEventArgs<EventLBSelChanging>
-    {
-        SOUI_CLASS_NAME(EventLBSelChanging,L"on_listbox_sel_changing")
-    public:
-        EventLBSelChanging(SObject *pSender):TplEventArgs<EventLBSelChanging>(pSender),bCancel(FALSE){
-        
-        }
-        enum{EventID=EVT_LB_SELCHANGING};
+    //class SOUI_EXP EventTabItemHover : public TplEventArgs<EventTabItemHover>
+    //{
+    //    SOUI_CLASS_NAME(EventTabItemHover,L"on_tab_item_hover")
+    //public:
+    //    EventTabItemHover(SObject *pSender):TplEventArgs<EventTabItemHover>(pSender){}
+    //    enum{EventID=EVT_TAB_ITEMHOVER};
+    //    int iHover;
+    //};
 
-        int nNewSel;
-        int nOldSel;
-        BOOL bCancel;
-    };
+	SEVENT_BEGIN_EX(EventTabItemLeave, EVT_TAB_ITEMLEAVE, on_tab_item_leave, SOUI_EXP)
+		int iLeave;
+	SEVENT_END()
 
-    class SOUI_EXP EventLBSelChanged : public TplEventArgs<EventLBSelChanged>
-    {
-        SOUI_CLASS_NAME(EventLBSelChanged,L"on_listbox_sel_changed")
-    public:
-        EventLBSelChanged(SObject *pSender):TplEventArgs<EventLBSelChanged>(pSender){}
-        enum{EventID=EVT_LB_SELCHANGED};
-        int nNewSel;
-        int nOldSel;
-    };
+    //class SOUI_EXP EventTabItemLeave : public TplEventArgs<EventTabItemLeave>
+    //{
+    //    SOUI_CLASS_NAME(EventTabItemLeave,L"on_tab_item_leave")
+    //public:
+    //    EventTabItemLeave(SObject *pSender):TplEventArgs<EventTabItemLeave>(pSender){}
+    //    enum{EventID=EVT_TAB_ITEMLEAVE};
+    //    int iLeave;
+    //};
 
-	class SOUI_EXP EventLBDbClick : public TplEventArgs<EventLBDbClick>
-	{
-		SOUI_CLASS_NAME(EventLBDbClick, L"on_listbox_item_dbclick")
-	public:
-		EventLBDbClick(SObject *pSender) :TplEventArgs<EventLBDbClick>(pSender) {}
-		enum { EventID = EVT_LB_DBCLICK };
+	SEVENT_BEGIN_EX(EventLBSelChanging, EVT_LB_SELCHANGING, on_listbox_sel_changing, SOUI_EXP)
+		int nNewSel;
+		int nOldSel;
+		BOOL bCancel;
+	SEVENT_END()
+
+    //class SOUI_EXP EventLBSelChanging : public TplEventArgs<EventLBSelChanging>
+    //{
+    //    SOUI_CLASS_NAME(EventLBSelChanging,L"on_listbox_sel_changing")
+    //public:
+    //    EventLBSelChanging(SObject *pSender):TplEventArgs<EventLBSelChanging>(pSender),bCancel(FALSE){
+    //    
+    //    }
+    //    enum{EventID=EVT_LB_SELCHANGING};
+
+    //    int nNewSel;
+    //    int nOldSel;
+    //    BOOL bCancel;
+    //};
+
+	SEVENT_BEGIN_EX(EventLBSelChanged, EVT_LB_SELCHANGED, on_listbox_sel_changed, SOUI_EXP)
+		int nNewSel;
+		int nOldSel;
+	SEVENT_END()
+
+    //class SOUI_EXP EventLBSelChanged : public TplEventArgs<EventLBSelChanged>
+    //{
+    //    SOUI_CLASS_NAME(EventLBSelChanged,L"on_listbox_sel_changed")
+    //public:
+    //    EventLBSelChanged(SObject *pSender):TplEventArgs<EventLBSelChanged>(pSender){}
+    //    enum{EventID=EVT_LB_SELCHANGED};
+    //    int nNewSel;
+    //    int nOldSel;
+    //};
+
+	SEVENT_BEGIN_EX(EventLBDbClick, EVT_LB_DBCLICK, on_listbox_item_dbclick, SOUI_EXP)
 		int nCurSel;
-	};
+	SEVENT_END()
 
-    class SOUI_EXP EventLVSelChanged : public TplEventArgs<EventLVSelChanged>
-    {
-        SOUI_CLASS_NAME(EventLVSelChanged,L"on_listview_select_changed")
-    public:
-        EventLVSelChanged(SObject *pSender)
-            :TplEventArgs<EventLVSelChanged>(pSender)
-        {
-        }
-        enum{EventID=EVT_LV_SELCHANGED};
+	//class SOUI_EXP EventLBDbClick : public TplEventArgs<EventLBDbClick>
+	//{
+	//	SOUI_CLASS_NAME(EventLBDbClick, L"on_listbox_item_dbclick")
+	//public:
+	//	EventLBDbClick(SObject *pSender) :TplEventArgs<EventLBDbClick>(pSender) {}
+	//	enum { EventID = EVT_LB_DBCLICK };
+	//	int nCurSel;
+	//};
 
-        int iOldSel;    //原选中项
-        int iNewSel;    //新选中项
-    };
-    
-    class SOUI_EXP EventLVSelChanging : public TplEventArgs<EventLVSelChanging>
-    {
-        SOUI_CLASS_NAME(EventLVSelChanging,L"on_listview_select_changing")
-    public:
-        EventLVSelChanging(SObject *pSender)
-            :TplEventArgs<EventLVSelChanging>(pSender),bCancel(FALSE){
-        }
-        enum{EventID=EVT_LV_SELCHANGING};
+	SEVENT_BEGIN_EX(EventLVSelChanged, EVT_LV_SELCHANGED, on_listview_select_changed, SOUI_EXP)
+		int iOldSel;    //原选中项
+		int iNewSel;    //新选中项
+	SEVENT_END()
+    //class SOUI_EXP EventLVSelChanged : public TplEventArgs<EventLVSelChanged>
+    //{
+    //    SOUI_CLASS_NAME(EventLVSelChanged,L"on_listview_select_changed")
+    //public:
+    //    EventLVSelChanged(SObject *pSender)
+    //        :TplEventArgs<EventLVSelChanged>(pSender)
+    //    {
+    //    }
+    //    enum{EventID=EVT_LV_SELCHANGED};
 
-        int iOldSel;    //原选中项
-        int iNewSel;    //新选中项
+    //    int iOldSel;    //原选中项
+    //    int iNewSel;    //新选中项
+    //};
 
-        BOOL bCancel;
-    };
-    
-	class SOUI_EXP EventTVSelChanged : public TplEventArgs<EventTVSelChanged>
-	{
-		SOUI_CLASS_NAME(EventTVSelChanged,L"on_treeview_select_changed")
-	public:
-		EventTVSelChanged(SObject *pSender)
-			:TplEventArgs<EventTVSelChanged>(pSender){
-		}
-		enum{EventID=EVT_TV_SELCHANGED};
+	SEVENT_BEGIN_EX(EventLVSelChanging, EVT_LV_SELCHANGING, on_listview_select_changing, SOUI_EXP)
+		int iOldSel;    //原选中项
+		int iNewSel;    //新选中项
+		BOOL bCancel;
+	SEVENT_END()
 
+    //class SOUI_EXP EventLVSelChanging : public TplEventArgs<EventLVSelChanging>
+    //{
+    //    SOUI_CLASS_NAME(EventLVSelChanging,L"on_listview_select_changing")
+    //public:
+    //    EventLVSelChanging(SObject *pSender)
+    //        :TplEventArgs<EventLVSelChanging>(pSender),bCancel(FALSE){
+    //    }
+    //    enum{EventID=EVT_LV_SELCHANGING};
+
+    //    int iOldSel;    //原选中项
+    //    int iNewSel;    //新选中项
+
+    //    BOOL bCancel;
+    //};
+ 
+	SEVENT_BEGIN_EX(EventTVSelChanged, EVT_TV_SELCHANGED, on_treeview_select_changed, SOUI_EXP)
 		ULONG_PTR hOldSel;    //原选中项
 		ULONG_PTR hNewSel;    //新选中项
-	};
+	SEVENT_END()
 
-    class SOUI_EXP EventTVSelChanging : public TplEventArgs<EventTVSelChanging>
-    {
-        SOUI_CLASS_NAME(EventTVSelChanging,L"on_treeview_select_changing")
-    public:
-        EventTVSelChanging(SObject *pSender)
-            :TplEventArgs<EventTVSelChanging>(pSender),bCancel(FALSE){
-        }
-        enum{EventID=EVT_TV_SELCHANGING};
-        ULONG_PTR hOldSel;    //原选中项
-        ULONG_PTR hNewSel;    //新选中项
+	//class SOUI_EXP EventTVSelChanged : public TplEventArgs<EventTVSelChanged>
+	//{
+	//	SOUI_CLASS_NAME(EventTVSelChanged,L"on_treeview_select_changed")
+	//public:
+	//	EventTVSelChanged(SObject *pSender)
+	//		:TplEventArgs<EventTVSelChanged>(pSender){
+	//	}
+	//	enum{EventID=EVT_TV_SELCHANGED};
 
-        BOOL bCancel;
-    };
+	//	ULONG_PTR hOldSel;    //原选中项
+	//	ULONG_PTR hNewSel;    //新选中项
+	//};
+
+	SEVENT_BEGIN_EX(EventTVSelChanging, EVT_TV_SELCHANGING, on_treeview_select_changing, SOUI_EXP)
+		ULONG_PTR hOldSel;    //原选中项
+		ULONG_PTR hNewSel;    //新选中项
+		BOOL bCancel;
+	SEVENT_END()
+
+    //class SOUI_EXP EventTVSelChanging : public TplEventArgs<EventTVSelChanging>
+    //{
+    //    SOUI_CLASS_NAME(EventTVSelChanging,L"on_treeview_select_changing")
+    //public:
+    //    EventTVSelChanging(SObject *pSender)
+    //        :TplEventArgs<EventTVSelChanging>(pSender),bCancel(FALSE){
+    //    }
+    //    enum{EventID=EVT_TV_SELCHANGING};
+    //    ULONG_PTR hOldSel;    //原选中项
+    //    ULONG_PTR hNewSel;    //新选中项
+
+    //    BOOL bCancel;
+    //};
 
 
-    class SOUI_EXP EventRENotify : public TplEventArgs<EventRENotify>
-    {
-        SOUI_CLASS_NAME(EventRENotify,L"on_richedit_notify")
-    public:
-        EventRENotify(SObject *pSender):TplEventArgs<EventRENotify>(pSender){}
-        enum{EventID=EVT_RE_NOTIFY};
+	SEVENT_BEGIN_EX(EventRENotify, EVT_RE_NOTIFY, on_richedit_notify, SOUI_EXP)
         DWORD iNotify;
         LPVOID pv;
         HRESULT hr;
-    };
+	SEVENT_END()
+    //class SOUI_EXP EventRENotify : public TplEventArgs<EventRENotify>
+    //{
+    //    SOUI_CLASS_NAME(EventRENotify,L"on_richedit_notify")
+    //public:
+    //    EventRENotify(SObject *pSender):TplEventArgs<EventRENotify>(pSender){}
+    //    enum{EventID=EVT_RE_NOTIFY};
+    //    DWORD iNotify;
+    //    LPVOID pv;
+    //    HRESULT hr;
+    //};
 
-    class SOUI_EXP EventREMenu : public TplEventArgs<EventREMenu>
-    {
-        SOUI_CLASS_NAME(EventREMenu,L"on_richedit_menu")
-    public:
-        EventREMenu(SObject *pSender):TplEventArgs<EventREMenu>(pSender){}
-        enum{EventID=EVT_RE_MENU};
-        UINT uCmd;
-    };
+	SEVENT_BEGIN_EX(EventREMenu, EVT_RE_MENU, on_richedit_menu, SOUI_EXP)
+		UINT uCmd;
+	SEVENT_END()
+    //class SOUI_EXP EventREMenu : public TplEventArgs<EventREMenu>
+    //{
+    //    SOUI_CLASS_NAME(EventREMenu,L"on_richedit_menu")
+    //public:
+    //    EventREMenu(SObject *pSender):TplEventArgs<EventREMenu>(pSender){}
+    //    enum{EventID=EVT_RE_MENU};
+    //    UINT uCmd;
+    //};
     
-    class SOUI_EXP EventSliderPos : public TplEventArgs<EventSliderPos>
-    {
-        SOUI_CLASS_NAME(EventSliderPos,L"on_slider_pos")
-    public:
-        EventSliderPos(SObject *pSender):TplEventArgs<EventSliderPos>(pSender){}
-        enum{EventID=EVT_SLIDER_POS};
-        int     nPos;
-    };
+	SEVENT_BEGIN_EX(EventSliderPos, EVT_SLIDER_POS, on_slider_pos, SOUI_EXP)
+		int     nPos;
+	SEVENT_END()
+    //class SOUI_EXP EventSliderPos : public TplEventArgs<EventSliderPos>
+    //{
+    //    SOUI_CLASS_NAME(EventSliderPos,L"on_slider_pos")
+    //public:
+    //    EventSliderPos(SObject *pSender):TplEventArgs<EventSliderPos>(pSender){}
+    //    enum{EventID=EVT_SLIDER_POS};
+    //    int     nPos;
+    //};
 
     //点击表头
-    class SOUI_EXP EventHeaderClick : public TplEventArgs<EventHeaderClick>
-    {
-        SOUI_CLASS_NAME(EventHeaderClick,L"on_header_click")
-    public:
-        EventHeaderClick(SObject *pSender):TplEventArgs<EventHeaderClick>(pSender){}
-        enum{EventID=EVT_HEADER_CLICK};
-        int   iItem;
-    };
+	SEVENT_BEGIN_EX(EventHeaderClick, EVT_HEADER_CLICK, on_header_click, SOUI_EXP)
+		int   iItem;
+	SEVENT_END()
+    //class SOUI_EXP EventHeaderClick : public TplEventArgs<EventHeaderClick>
+    //{
+    //    SOUI_CLASS_NAME(EventHeaderClick,L"on_header_click")
+    //public:
+    //    EventHeaderClick(SObject *pSender):TplEventArgs<EventHeaderClick>(pSender){}
+    //    enum{EventID=EVT_HEADER_CLICK};
+    //    int   iItem;
+    //};
 
     //表头宽度改变中
-    class SOUI_EXP EventHeaderItemChanging : public TplEventArgs<EventHeaderItemChanging>
-    {
-        SOUI_CLASS_NAME(EventHeaderItemChanging,L"on_header_item_changing")
-    public:
-        EventHeaderItemChanging(SObject *pSender):TplEventArgs<EventHeaderItemChanging>(pSender){}
-        enum{EventID=EVT_HEADER_ITEMCHANGING};
+	SEVENT_BEGIN_EX(EventHeaderItemChanging, EVT_HEADER_ITEMCHANGING, on_header_item_changing, SOUI_EXP)
         int   iItem;
         int   nWidth;
-    };
+	SEVENT_END()
+    //class SOUI_EXP EventHeaderItemChanging : public TplEventArgs<EventHeaderItemChanging>
+    //{
+    //    SOUI_CLASS_NAME(EventHeaderItemChanging,L"on_header_item_changing")
+    //public:
+    //    EventHeaderItemChanging(SObject *pSender):TplEventArgs<EventHeaderItemChanging>(pSender){}
+    //    enum{EventID=EVT_HEADER_ITEMCHANGING};
+    //    int   iItem;
+    //    int   nWidth;
+    //};
 
     //表头宽度改变
-    class SOUI_EXP EventHeaderItemChanged : public TplEventArgs<EventHeaderItemChanged>
-    {
-        SOUI_CLASS_NAME(EventHeaderItemChanged,L"on_header_item_changed")
-    public:
-        EventHeaderItemChanged(SObject *pSender):TplEventArgs<EventHeaderItemChanged>(pSender){}
-        enum{EventID=EVT_HEADER_ITEMCHANGED};
+	SEVENT_BEGIN_EX(EventHeaderItemChanged, EVT_HEADER_ITEMCHANGED, on_header_item_changed, SOUI_EXP)
         int   iItem;
         int   nWidth;
-    };
+	SEVENT_END()
+    //class SOUI_EXP EventHeaderItemChanged : public TplEventArgs<EventHeaderItemChanged>
+    //{
+    //    SOUI_CLASS_NAME(EventHeaderItemChanged,L"on_header_item_changed")
+    //public:
+    //    EventHeaderItemChanged(SObject *pSender):TplEventArgs<EventHeaderItemChanged>(pSender){}
+    //    enum{EventID=EVT_HEADER_ITEMCHANGED};
+    //    int   iItem;
+    //    int   nWidth;
+    //};
 
     //拖动表项调整位置
-    class SOUI_EXP EventHeaderItemSwap : public TplEventArgs<EventHeaderItemSwap>
-    {
-        SOUI_CLASS_NAME(EventHeaderItemSwap,L"on_header_item_swap")
-    public:
-        EventHeaderItemSwap(SObject *pSender):TplEventArgs<EventHeaderItemSwap>(pSender){}
-        enum{EventID=EVT_HEADER_ITEMSWAP};
-        int   iOldIndex;
-        int      iNewIndex;
-    };
+	SEVENT_BEGIN_EX(EventHeaderItemSwap, EVT_HEADER_ITEMSWAP, on_header_item_swap, SOUI_EXP)
+		int   iOldIndex;
+		int   iNewIndex;
+	SEVENT_END()
+    //class SOUI_EXP EventHeaderItemSwap : public TplEventArgs<EventHeaderItemSwap>
+    //{
+    //    SOUI_CLASS_NAME(EventHeaderItemSwap,L"on_header_item_swap")
+    //public:
+    //    EventHeaderItemSwap(SObject *pSender):TplEventArgs<EventHeaderItemSwap>(pSender){}
+    //    enum{EventID=EVT_HEADER_ITEMSWAP};
+    //    int   iOldIndex;
+    //    int      iNewIndex;
+    //};
 
-    class SOUI_EXP EventCBSelChange : public TplEventArgs<EventCBSelChange>
-    {
-        SOUI_CLASS_NAME(EventCBSelChange,L"on_combobox_sel_change")
-    public:
-        EventCBSelChange(SObject *pSender,int _nCurSel):TplEventArgs<EventCBSelChange>(pSender),nCurSel(_nCurSel){}
-        enum{EventID=EVT_CB_SELCHANGE};
-        int nCurSel;
-    };
+	SEVENT_BEGIN_EX(EventCBSelChange, EVT_CB_SELCHANGE, on_combobox_sel_change, SOUI_EXP)
+		int nCurSel;
+	SEVENT_END()
+    //class SOUI_EXP EventCBSelChange : public TplEventArgs<EventCBSelChange>
+    //{
+    //    SOUI_CLASS_NAME(EventCBSelChange,L"on_combobox_sel_change")
+    //public:
+    //    EventCBSelChange(SObject *pSender,int _nCurSel):TplEventArgs<EventCBSelChange>(pSender),nCurSel(_nCurSel){}
+    //    enum{EventID=EVT_CB_SELCHANGE};
+    //    int nCurSel;
+    //};
 
 	class SDropDownWnd;
-	class SOUI_EXP EventCBDropdown :public TplEventArgs<EventCBDropdown> 
-	{
-		SOUI_CLASS_NAME(EventCBDropdown, L"on_combobox_dropdown")
-	public:
-		EventCBDropdown(SObject *pSender) :TplEventArgs<EventCBDropdown>(pSender) {
-
-		}
-		enum {EventID = EVT_CB_DROPDOWN};
-
+	SEVENT_BEGIN_EX(EventCBDropdown, EVT_CB_DROPDOWN, on_combobox_dropdown, SOUI_EXP)
 		SDropDownWnd *pDropDown;
-	};
+	SEVENT_END()
+	//class SOUI_EXP EventCBDropdown :public TplEventArgs<EventCBDropdown> 
+	//{
+	//	SOUI_CLASS_NAME(EventCBDropdown, L"on_combobox_dropdown")
+	//public:
+	//	EventCBDropdown(SObject *pSender) :TplEventArgs<EventCBDropdown>(pSender) {
 
+	//	}
+	//	enum {EventID = EVT_CB_DROPDOWN};
 
-    class SOUI_EXP EventLCSelChanging : public TplEventArgs<EventLCSelChanging>
-    {
-        SOUI_CLASS_NAME(EventLCSelChanging,L"on_listctrl_sel_changing")
-    public:
-        EventLCSelChanging(SObject *pSender):TplEventArgs<EventLCSelChanging>(pSender),bCancel(FALSE){}
-        enum{EventID=EVT_LC_SELCHANGING};
+	//	SDropDownWnd *pDropDown;
+	//};
+
+	SEVENT_BEGIN_EX(EventLCSelChanging, EVT_LC_SELCHANGING, on_listctrl_sel_changing, SOUI_EXP)
         int nNewSel;
         int nOldSel;
         BOOL bCancel;
-    };
+	SEVENT_END()
 
-    class SOUI_EXP EventLCSelChanged : public TplEventArgs<EventLCSelChanged>
-    {
-        SOUI_CLASS_NAME(EventLCSelChanged,L"on_listctrl_sel_changed")
-    public:
-        EventLCSelChanged(SObject *pSender):TplEventArgs<EventLCSelChanged>(pSender){}
-        enum{EventID=EVT_LC_SELCHANGED};
+    //class SOUI_EXP EventLCSelChanging : public TplEventArgs<EventLCSelChanging>
+    //{
+    //    SOUI_CLASS_NAME(EventLCSelChanging,L"on_listctrl_sel_changing")
+    //public:
+    //    EventLCSelChanging(SObject *pSender):TplEventArgs<EventLCSelChanging>(pSender),bCancel(FALSE){}
+    //    enum{EventID=EVT_LC_SELCHANGING};
+    //    int nNewSel;
+    //    int nOldSel;
+    //    BOOL bCancel;
+    //};
+
+	SEVENT_BEGIN_EX(EventLCSelChanged, EVT_LC_SELCHANGED, on_listctrl_sel_changed, SOUI_EXP)
         int nNewSel;
         int nOldSel;
-    };
+	SEVENT_END()
 
-	class SOUI_EXP EventLCDbClick : public TplEventArgs<EventLCDbClick>
-	{
-		SOUI_CLASS_NAME(EventLCDbClick, L"on_listctrl_item_dbclick")
-	public:
-		EventLCDbClick(SObject *pSender) :TplEventArgs<EventLCDbClick>(pSender) {}
-		enum { EventID = EVT_LC_DBCLICK };
+    //class SOUI_EXP EventLCSelChanged : public TplEventArgs<EventLCSelChanged>
+    //{
+    //    SOUI_CLASS_NAME(EventLCSelChanged,L"on_listctrl_sel_changed")
+    //public:
+    //    EventLCSelChanged(SObject *pSender):TplEventArgs<EventLCSelChanged>(pSender){}
+    //    enum{EventID=EVT_LC_SELCHANGED};
+    //    int nNewSel;
+    //    int nOldSel;
+    //};
+
+	SEVENT_BEGIN_EX(EventLCDbClick, EVT_LC_DBCLICK, on_listctrl_item_dbclick, SOUI_EXP)
 		int nCurSel;
-	};
+	SEVENT_END()
 
-	class SOUI_EXP EventLCItemDeleted : public TplEventArgs<EventLCItemDeleted>
-	{
-        SOUI_CLASS_NAME(EventLCItemDeleted,L"on_listctrl_del_item")
-	public:
-		EventLCItemDeleted(SObject *pSender) :TplEventArgs<EventLCItemDeleted>(pSender){}
-		enum{ EventID = EVT_LC_ITEMDELETED };
+	//class SOUI_EXP EventLCDbClick : public TplEventArgs<EventLCDbClick>
+	//{
+	//	SOUI_CLASS_NAME(EventLCDbClick, L"on_listctrl_item_dbclick")
+	//public:
+	//	EventLCDbClick(SObject *pSender) :TplEventArgs<EventLCDbClick>(pSender) {}
+	//	enum { EventID = EVT_LC_DBCLICK };
+	//	int nCurSel;
+	//};
+
+	SEVENT_BEGIN_EX(EventLCItemDeleted, EVT_LC_ITEMDELETED, on_listctrl_del_item, SOUI_EXP)
 		int		nItem;
 		LPARAM   dwData;
-	};
+	SEVENT_END()
+	//class SOUI_EXP EventLCItemDeleted : public TplEventArgs<EventLCItemDeleted>
+	//{
+ //       SOUI_CLASS_NAME(EventLCItemDeleted,L"on_listctrl_del_item")
+	//public:
+	//	EventLCItemDeleted(SObject *pSender) :TplEventArgs<EventLCItemDeleted>(pSender){}
+	//	enum{ EventID = EVT_LC_ITEMDELETED };
+	//	int		nItem;
+	//	LPARAM   dwData;
+	//};
 
-    class SOUI_EXP EventCalendarSelDay : public TplEventArgs<EventCalendarSelDay>
-    {
-        SOUI_CLASS_NAME(EventCalendarSelDay,L"on_calendar_sel_day")
-    public:
-        EventCalendarSelDay(SObject *pSender):TplEventArgs<EventCalendarSelDay>(pSender){}
-        enum{EventID=EVT_CALENDAR_SELDAY};
-        WORD   wOldDay;
-        WORD   wNewDay;
-    };
+	SEVENT_BEGIN_EX(EventCalendarSelDay, EVT_CALENDAR_SELDAY, on_calendar_sel_day, SOUI_EXP)
+		WORD   wOldDay;
+		WORD   wNewDay;
+	SEVENT_END()
+    //class SOUI_EXP EventCalendarSelDay : public TplEventArgs<EventCalendarSelDay>
+    //{
+    //    SOUI_CLASS_NAME(EventCalendarSelDay,L"on_calendar_sel_day")
+    //public:
+    //    EventCalendarSelDay(SObject *pSender):TplEventArgs<EventCalendarSelDay>(pSender){}
+    //    enum{EventID=EVT_CALENDAR_SELDAY};
+    //    WORD   wOldDay;
+    //    WORD   wNewDay;
+    //};
     
     
-    class SOUI_EXP EventCalendarSetDate : public TplEventArgs<EventCalendarSetDate>
-    {
-        SOUI_CLASS_NAME(EventCalendarSetDate,L"on_calendar_set_date")
-    public:
-        EventCalendarSetDate(SObject *pSender):TplEventArgs<EventCalendarSetDate>(pSender){}
-        enum{EventID=EVT_CALENDAR_SETDATE};
-    };
+	SEVENT_BEGIN_EX(EventCalendarSetDate, EVT_CALENDAR_SETDATE, on_calendar_set_date, SOUI_EXP)
+	SEVENT_END()
+    //class SOUI_EXP EventCalendarSetDate : public TplEventArgs<EventCalendarSetDate>
+    //{
+    //    SOUI_CLASS_NAME(EventCalendarSetDate,L"on_calendar_set_date")
+    //public:
+    //    EventCalendarSetDate(SObject *pSender):TplEventArgs<EventCalendarSetDate>(pSender){}
+    //    enum{EventID=EVT_CALENDAR_SETDATE};
+    //};
 
-	class SOUI_EXP EventCalendarExChanged : public TplEventArgs<EventCalendarExChanged>
-	{
-		SOUI_CLASS_NAME(EventCalendarExChanged, L"on_calendarex_changed")
-	public:
-		EventCalendarExChanged(SObject *pSender) :TplEventArgs<EventCalendarExChanged>(pSender) {}
-		enum { EventID = EVT_CALENDAREX_CHANGED };
+	SEVENT_BEGIN_EX(EventCalendarExChanged, EVT_CALENDAREX_CHANGED, on_calendarex_changed, SOUI_EXP)
 		WORD iNewDay;
 		WORD iNewMonth;
 		WORD iNewYear;
 		int nBtnType;			// 按钮 类型
-	};
+	SEVENT_END()
+	//class SOUI_EXP EventCalendarExChanged : public TplEventArgs<EventCalendarExChanged>
+	//{
+	//	SOUI_CLASS_NAME(EventCalendarExChanged, L"on_calendarex_changed")
+	//public:
+	//	EventCalendarExChanged(SObject *pSender) :TplEventArgs<EventCalendarExChanged>(pSender) {}
+	//	enum { EventID = EVT_CALENDAREX_CHANGED };
+	//	WORD iNewDay;
+	//	WORD iNewMonth;
+	//	WORD iNewYear;
+	//	int nBtnType;			// 按钮 类型
+	//};
 
-	class SOUI_EXP EventDateTimeChanged : public TplEventArgs<EventDateTimeChanged>
-	{
-		SOUI_CLASS_NAME(EventDateTimeChanged, L"on_datetime_changed")
-	public:
-		EventDateTimeChanged(SObject *pSender) :TplEventArgs<EventDateTimeChanged>(pSender) {}
-		enum { EventID = EVT_DATETIME_CHANGED };
+	SEVENT_BEGIN_EX(EventDateTimeChanged, EVT_DATETIME_CHANGED, on_datetime_changed, SOUI_EXP)
 		SYSTEMTIME newTime;
-	};
+	SEVENT_END()
+	//class SOUI_EXP EventDateTimeChanged : public TplEventArgs<EventDateTimeChanged>
+	//{
+	//	SOUI_CLASS_NAME(EventDateTimeChanged, L"on_datetime_changed")
+	//public:
+	//	EventDateTimeChanged(SObject *pSender) :TplEventArgs<EventDateTimeChanged>(pSender) {}
+	//	enum { EventID = EVT_DATETIME_CHANGED };
+	//	SYSTEMTIME newTime;
+	//};
 
-    class SOUI_EXP EventTCSelChanging : public TplEventArgs<EventTCSelChanging>
-    {
-        SOUI_CLASS_NAME(EventTCSelChanging,L"on_treectrl_sel_changing")
-    public:
-        EventTCSelChanging(SObject *pSender):TplEventArgs<EventTCSelChanging>(pSender),bCancel(FALSE){}
-        enum{EventID=EVT_TC_SELCHANGING};
+	SEVENT_BEGIN_EX(EventTCSelChanging, EVT_TC_SELCHANGING, on_treectrl_sel_changing, SOUI_EXP)
         HSTREEITEM hOldSel;
         HSTREEITEM hNewSel;
         BOOL bCancel;
-    };
+	SEVENT_END()
+    //class SOUI_EXP EventTCSelChanging : public TplEventArgs<EventTCSelChanging>
+    //{
+    //    SOUI_CLASS_NAME(EventTCSelChanging,L"on_treectrl_sel_changing")
+    //public:
+    //    EventTCSelChanging(SObject *pSender):TplEventArgs<EventTCSelChanging>(pSender),bCancel(FALSE){}
+    //    enum{EventID=EVT_TC_SELCHANGING};
+    //    HSTREEITEM hOldSel;
+    //    HSTREEITEM hNewSel;
+    //    BOOL bCancel;
+    //};
 
-    class SOUI_EXP EventTCSelChanged : public TplEventArgs<EventTCSelChanged>
-    {
-        SOUI_CLASS_NAME(EventTCSelChanged,L"on_treectrl_sel_changed")
-    public:
-        EventTCSelChanged(SObject *pSender):TplEventArgs<EventTCSelChanged>(pSender){}
-        enum{EventID=EVT_TC_SELCHANGED};
+	SEVENT_BEGIN_EX(EventTCSelChanged, EVT_TC_SELCHANGED, on_treectrl_sel_changed, SOUI_EXP)
         HSTREEITEM hOldSel;
         HSTREEITEM hNewSel;
-    };
+	SEVENT_END()
+    //class SOUI_EXP EventTCSelChanged : public TplEventArgs<EventTCSelChanged>
+    //{
+    //    SOUI_CLASS_NAME(EventTCSelChanged,L"on_treectrl_sel_changed")
+    //public:
+    //    EventTCSelChanged(SObject *pSender):TplEventArgs<EventTCSelChanged>(pSender){}
+    //    enum{EventID=EVT_TC_SELCHANGED};
+    //    HSTREEITEM hOldSel;
+    //    HSTREEITEM hNewSel;
+    //};
 
-    class SOUI_EXP EventTCCheckState : public TplEventArgs<EventTCCheckState>
-    {
-        SOUI_CLASS_NAME(EventTCCheckState,L"on_treectrl_item_check")
-    public:
-        EventTCCheckState(SObject *pSender):TplEventArgs<EventTCCheckState>(pSender){}
-        enum{EventID=EVT_TC_CHECKSTATE};
+	SEVENT_BEGIN_EX(EventTCCheckState, EVT_TC_CHECKSTATE, on_treectrl_item_check, SOUI_EXP)
         HSTREEITEM  hItem;
         UINT        uCheckState;
-    };
+	SEVENT_END()
+    //class SOUI_EXP EventTCCheckState : public TplEventArgs<EventTCCheckState>
+    //{
+    //    SOUI_CLASS_NAME(EventTCCheckState,L"on_treectrl_item_check")
+    //public:
+    //    EventTCCheckState(SObject *pSender):TplEventArgs<EventTCCheckState>(pSender){}
+    //    enum{EventID=EVT_TC_CHECKSTATE};
+    //    HSTREEITEM  hItem;
+    //    UINT        uCheckState;
+    //};
 
-    class SOUI_EXP EventTCExpand : public TplEventArgs<EventTCExpand>
-    {
-        SOUI_CLASS_NAME(EventTCExpand,L"on_treectrl_item_expand")
-    public:
-        EventTCExpand(SObject *pSender):TplEventArgs<EventTCExpand>(pSender){}
-        enum{EventID=EVT_TC_EXPAND};
+	SEVENT_BEGIN_EX(EventTCExpand, EVT_TC_EXPAND, on_treectrl_item_expand, SOUI_EXP)
         HSTREEITEM  hItem;
         BOOL bCollapsed;
-    };
+	SEVENT_END()
+    //class SOUI_EXP EventTCExpand : public TplEventArgs<EventTCExpand>
+    //{
+    //    SOUI_CLASS_NAME(EventTCExpand,L"on_treectrl_item_expand")
+    //public:
+    //    EventTCExpand(SObject *pSender):TplEventArgs<EventTCExpand>(pSender){}
+    //    enum{EventID=EVT_TC_EXPAND};
+    //    HSTREEITEM  hItem;
+    //    BOOL bCollapsed;
+    //};
 
     //双击treectrl的叶子节点 add by zhaosheng
-    class SOUI_EXP EventTCDbClick : public TplEventArgs<EventTCDbClick>
-    {
-        SOUI_CLASS_NAME(EventTCDbClick,L"on_treectrl_item_dbclick")
-    public:
-        EventTCDbClick(SObject *pSender)
-        :TplEventArgs<EventTCDbClick>(pSender)
-        ,bCancel(FALSE)
-        {
-        }
-        enum{EventID=EVT_TC_DBCLICK};
+	SEVENT_BEGIN_EX(EventTCDbClick, EVT_TC_DBCLICK, on_treectrl_item_dbclick, SOUI_EXP)
         HSTREEITEM hItem;  //双击选中的节点
         BOOL bCancel;
-    };
+	SEVENT_END()
+    //class SOUI_EXP EventTCDbClick : public TplEventArgs<EventTCDbClick>
+    //{
+    //    SOUI_CLASS_NAME(EventTCDbClick,L"on_treectrl_item_dbclick")
+    //public:
+    //    EventTCDbClick(SObject *pSender)
+    //    :TplEventArgs<EventTCDbClick>(pSender)
+    //    ,bCancel(FALSE)
+    //    {
+    //    }
+    //    enum{EventID=EVT_TC_DBCLICK};
+    //    HSTREEITEM hItem;  //双击选中的节点
+    //    BOOL bCancel;
+    //};
 
-    class SOUI_EXP EventSpinValue2String : public TplEventArgs<EventSpinValue2String>
-    {
-        SOUI_CLASS_NAME(EventSpinValue2String,L"on_spin_value2string")
-    public:
-        EventSpinValue2String(SObject *pSender)
-            :TplEventArgs<EventSpinValue2String>(pSender)
-        {
-        }
-        enum{EventID=EVT_SPIN_VALUE2STRING};
-        
+	SEVENT_BEGIN_EX(EventSpinValue2String, EVT_SPIN_VALUE2STRING, on_spin_value2string, SOUI_EXP)
 		bool	 bInit;
         int      nValue;
         SStringT strValue;
-    };
+	SEVENT_END()
+  //  class SOUI_EXP EventSpinValue2String : public TplEventArgs<EventSpinValue2String>
+  //  {
+  //      SOUI_CLASS_NAME(EventSpinValue2String,L"on_spin_value2string")
+  //  public:
+  //      EventSpinValue2String(SObject *pSender)
+  //          :TplEventArgs<EventSpinValue2String>(pSender)
+  //      {
+  //      }
+  //      enum{EventID=EVT_SPIN_VALUE2STRING};
+  //      
+  //	  bool	 bInit;
+  //      int      nValue;
+  //      SStringT strValue;
+  //  };
 
-    class SOUI_EXP EventSplitPaneMoved : public TplEventArgs<EventSplitPaneMoved>
-    {
-        SOUI_CLASS_NAME(EventSplitPaneMoved,L"on_split_pane_moved")
-    public:
-        EventSplitPaneMoved(SObject *pSender)
-            :TplEventArgs<EventSplitPaneMoved>(pSender)
-        {
-        }
-        enum{EventID=EVT_SPLIT_PANE_MOVED};
-        
-        CRect rcPane;
-    };
+	SEVENT_BEGIN_EX(EventSplitPaneMoved, EVT_SPLIT_PANE_MOVED, on_split_pane_moved, SOUI_EXP)
+		CRect rcPane;
+	SEVENT_END()
+    //class SOUI_EXP EventSplitPaneMoved : public TplEventArgs<EventSplitPaneMoved>
+    //{
+    //    SOUI_CLASS_NAME(EventSplitPaneMoved,L"on_split_pane_moved")
+    //public:
+    //    EventSplitPaneMoved(SObject *pSender)
+    //        :TplEventArgs<EventSplitPaneMoved>(pSender)
+    //    {
+    //    }
+    //    enum{EventID=EVT_SPLIT_PANE_MOVED};
+    //    
+    //    CRect rcPane;
+    //};
     
-	class SOUI_EXP EventAnimateStart: public TplEventArgs<EventAnimateStart>
-	{
-		SOUI_CLASS_NAME(EventAnimateStart,L"on_animate_start")
-	public:
-		EventAnimateStart(SObject *pSender)
-			:TplEventArgs<EventAnimateStart>(pSender)
-		{
-		}
-		enum{EventID=EVT_ANI_START};
-	};
+	SEVENT_BEGIN_EX(EventAnimateStart, EVT_ANI_START, on_animate_start, SOUI_EXP)
+	SEVENT_END()
+	//class SOUI_EXP EventAnimateStart: public TplEventArgs<EventAnimateStart>
+	//{
+	//	SOUI_CLASS_NAME(EventAnimateStart,L"on_animate_start")
+	//public:
+	//	EventAnimateStart(SObject *pSender)
+	//		:TplEventArgs<EventAnimateStart>(pSender)
+	//	{
+	//	}
+	//	enum{EventID=EVT_ANI_START};
+	//};
 
-	class SOUI_EXP EventAnimateStop: public TplEventArgs<EventAnimateStop>
-	{
-		SOUI_CLASS_NAME(EventAnimateStop,L"on_animate_stop")
-	public:
-		EventAnimateStop(SObject *pSender)
-			:TplEventArgs<EventAnimateStop>(pSender)
-		{
-		}
-		enum{EventID=EVT_ANI_STOP};
-	};
+	SEVENT_BEGIN_EX(EventAnimateStop, EVT_ANI_STOP, EVT_ANI_STOP, SOUI_EXP)
+	SEVENT_END()
+
+	//class SOUI_EXP EventAnimateStop: public TplEventArgs<EventAnimateStop>
+	//{
+	//	SOUI_CLASS_NAME(EventAnimateStop,L"EVT_ANI_STOP")
+	//public:
+	//	EventAnimateStop(SObject *pSender)
+	//		:TplEventArgs<EventAnimateStop>(pSender)
+	//	{
+	//	}
+	//	enum{EventID=EVT_ANI_STOP};
+	//};
 
 	class SMenuEx;
-	class SOUI_EXP EventSelectMenu : public TplEventArgs<EventSelectMenu>
-	{
-		SOUI_CLASS_NAME(EventSelectMenu, L"on_select_menu")
-	public:
-		EventSelectMenu(SObject *pSender) :TplEventArgs<EventSelectMenu>(pSender)
-		{
-		}
-		enum { EventID = EVT_SELECTMENU };
-
+	SEVENT_BEGIN_EX(EventSelectMenu, EVT_SELECTMENU, on_select_menu, SOUI_EXP)
 		UINT m_id;
 		SMenuEx *m_pMenu;
-	};
+	SEVENT_END()
+	//class SOUI_EXP EventSelectMenu : public TplEventArgs<EventSelectMenu>
+	//{
+	//	SOUI_CLASS_NAME(EventSelectMenu, L"on_select_menu")
+	//public:
+	//	EventSelectMenu(SObject *pSender) :TplEventArgs<EventSelectMenu>(pSender)
+	//	{
+	//	}
+	//	enum { EventID = EVT_SELECTMENU };
 
-	class EventSetHotKey :public TplEventArgs<EventSetHotKey> {
-		SOUI_CLASS_NAME(EventSetHotKey, L"on_hot_key_set_event")
-	public:
-		EventSetHotKey(SObject *pSender) :TplEventArgs<EventSetHotKey>(pSender) {
+	//	UINT m_id;
+	//	SMenuEx *m_pMenu;
+	//};
 
-		}
-		enum {
-			EventID = EVT_HOT_KEY_SET,
-		};
+	SEVENT_BEGIN_EX(EventSetHotKey, EVT_HOT_KEY_SET, on_hot_key_set_event, SOUI_EXP)
 		WORD vKey;
 		WORD wModifiers;
-	};
+	SEVENT_END()
+	//class EventSetHotKey :public TplEventArgs<EventSetHotKey> {
+	//	SOUI_CLASS_NAME(EventSetHotKey, L"on_hot_key_set_event")
+	//public:
+	//	EventSetHotKey(SObject *pSender) :TplEventArgs<EventSetHotKey>(pSender) {
+
+	//	}
+	//	enum {
+	//		EventID = EVT_HOT_KEY_SET,
+	//	};
+	//	WORD vKey;
+	//	WORD wModifiers;
+	//};
 } // End of  CEGUI namespace section

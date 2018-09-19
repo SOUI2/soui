@@ -418,7 +418,8 @@ namespace SOUI
 
     void SComboBase::OnSelChanged()
     {
-        EventCBSelChange evt(this,GetCurSel());
+        EventCBSelChange evt(this);
+		evt.nCurSel = GetCurSel();
         FireEvent(evt);
     }
 

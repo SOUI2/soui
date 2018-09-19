@@ -408,6 +408,7 @@ void SListBox::DrawItem(IRenderTarget * pRT, CRect & rc, int iItem)
 void SListBox::NotifySelChange( int nOldSel,int nNewSel)
 {
     EventLBSelChanging evt1(this);
+	evt1.bCancel = FALSE;
     evt1.nOldSel=nOldSel;
     evt1.nNewSel=nNewSel;
 

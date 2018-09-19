@@ -144,11 +144,13 @@ namespace SOUI
 
 	BOOL SWindow::OnUpdateToolTip(CPoint pt, SwndToolTipInfo &tipInfo)
 	{
-		EventSwndUpdateTooltip evt(this);
-		FireEvent(evt);
 		tipInfo.swnd = m_swnd;
 		tipInfo.dwCookie = 0;
 		tipInfo.rcTarget = m_rcWindow;
+
+		EventSwndUpdateTooltip evt(this);
+		evt.bUpdated = FALSE;
+		FireEvent(evt);
 
 		if (evt.bUpdated)
 		{
@@ -2222,6 +2224,7 @@ namespace SOUI
 	BOOL SWindow::FireCtxMenu( CPoint pt)
 	{
 		EventCtxMenu evt(this);
+		evt.bCancel = FALSE;
 		evt.pt=pt;
 		FireEvent(evt);
 		return evt.bCancel;
@@ -2339,7 +2342,8 @@ namespace SOUI
 			m_layeredRT->SetViewportOrg(-m_rcWindow.TopLeft());
 		}
 
-		EventSwndSize evt(this,size);
+		EventSwndSize evt(this);
+		evt.szWnd = size;
 		FireEvent(evt);
 	}
 

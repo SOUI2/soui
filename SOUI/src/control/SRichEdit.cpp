@@ -1216,6 +1216,7 @@ void SRichEdit::OnMouseMove( UINT nFlags, CPoint point )
 void SRichEdit::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags )
 {
 	EventKeyDown evt(this);
+	evt.bCancel = FALSE;
 	evt.nChar = nChar;
 	evt.nFlags = nFlags;
 	FireEvent(evt);
