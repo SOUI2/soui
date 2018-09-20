@@ -279,9 +279,9 @@ namespace SOUI
             LPBYTE p = pLine + rc.left * 4;
             for(int x=0;x<nWid;x++)
             {
-                r += *p++;
-                g += *p++;
                 b += *p++;
+                g += *p++;
+                r += *p++;
                 p++;//skip alpha
             }
             pLine += di.nWid*4;
