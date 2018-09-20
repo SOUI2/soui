@@ -63,7 +63,7 @@
 #   ENABLE_SOUI_CORE_LIB   OFF 
 #   ENABLE_SOUI_COM_LIB    OFF
 # 
-# lijinggang@021.com
+# 1394020320@qq.com
 #
 
 
@@ -89,6 +89,8 @@ option(ENABLE_SOUI_CORE_LIB "Enable compile 'core' as static lib" OFF)
 option(ENABLE_SOUI_COM_LIB "Enable compile 'components' as static lib" OFF)
 
 option(OUTPATH_WITHOUT_TYPE "Put All generation in same Path" ON)
+
+option(DOWNLOAD_COMPILE_DEMOS "下载并编译Soui-demo中的demo" OFF)
 #
 #
 #
@@ -172,6 +174,7 @@ add_subdirectory(components)
 #
 #
 add_subdirectory(demo)
+include(__cmake/soui-demo.cmake)
 
 message(STATUS "COM_LIBS: ${COM_LIBS}")
 message(STATUS "CORE_LIBS: ${CORE_LIBS}")
