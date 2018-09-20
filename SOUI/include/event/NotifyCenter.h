@@ -23,14 +23,22 @@ namespace SOUI
 	public:
 		TAutoEventMapReg()
 		{
-			SNotifyCenter::getSingleton().RegisterEventMap(Subscriber(&_thisClass::OnEvent,this));
+			registerNotifyCenter();
 		}
 
 		~TAutoEventMapReg()
 		{
-			SNotifyCenter::getSingleton().UnregisterEventMap(Subscriber(&_thisClass::OnEvent,this));
+			unregisterNotifyCenter();
 		}
 
+		void registerNotifyCenter()
+		{
+			SNotifyCenter::getSingleton().RegisterEventMap(Subscriber(&_thisClass::OnEvent, this));
+		}
+		void unregisterNotifyCenter()
+		{
+			SNotifyCenter::getSingleton().UnregisterEventMap(Subscriber(&_thisClass::OnEvent, this));
+		}
 	protected:
 		bool OnEvent(EventArgs *e){
 			T * pThis = static_cast<T*>(this);
