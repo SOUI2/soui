@@ -119,4 +119,13 @@ namespace SOUI
 			pRT->DrawBitmap9Patch(rcDraw, m_pImg, &rcSour, &m_rcMargin, GetExpandMode(), byAlpha);
 		}		
 	}	
+
+	COLORREF SDemoSkin::GetThemeColor() const
+	{
+		if(m_bIsColor)
+			return m_bkColor;
+		else
+			return SDIBHelper::CalcAvarageColor(m_pImg);
+	}
+
 }

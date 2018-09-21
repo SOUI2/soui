@@ -37,6 +37,9 @@ namespace SOUI
 		///
 		bool SetImage(SStringW imgfile);
 		bool SetColor(COLORREF bkColor);
+
+		COLORREF GetThemeColor() const;
+
 		void SetHander(ISetOrLoadSkinHandler*skinhander);
 		virtual SIZE GetSkinSize();
 		virtual BOOL IgnoreState();

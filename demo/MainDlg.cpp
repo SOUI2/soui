@@ -255,6 +255,10 @@ ISmileySource * CreateSource2()
 HRESULT CMainDlg::OnSkinChangeMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bHandled)
 {
 	FindChildByID(9527)->Invalidate();
+	SDemoSkin *skin = (SDemoSkin *) GETSKIN(L"demoskinbk",GetScale());
+	COLORREF crTheme = skin->GetThemeColor();
+	DoColorize(crTheme|0xff000000);
+
 	return S_OK;
 }
 
