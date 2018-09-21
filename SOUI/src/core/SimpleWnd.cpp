@@ -51,7 +51,7 @@ ATOM CSimpleWnd::RegisterSimpleWnd( HINSTANCE hInst,LPCTSTR pszSimpleWndName )
 {
     WNDCLASSEX wcex = {sizeof(WNDCLASSEX),0};
     wcex.cbSize           = sizeof(WNDCLASSEX);
-    wcex.style            = CS_HREDRAW | CS_VREDRAW |CS_DBLCLKS ;
+    wcex.style            = CS_DBLCLKS ;
     wcex.lpfnWndProc      = StartWindowProc; // 第一个处理函数
     wcex.hInstance        = hInst;
     wcex.hCursor          = ::LoadCursor(NULL, IDC_ARROW);
