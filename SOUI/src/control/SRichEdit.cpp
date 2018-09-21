@@ -1144,8 +1144,8 @@ void SRichEdit::OnLButtonDown( UINT nFlags, CPoint point )
 
 void SRichEdit::OnLButtonUp(UINT nFlags, CPoint point)
 {
+	m_pTxtHost->GetTextService()->TxSendMessage(GetCurMsg()->uMsg,GetCurMsg()->wParam,GetCurMsg()->lParam,NULL);
 	ReleaseCapture();
-	if(!m_fAutoSel) m_pTxtHost->GetTextService()->TxSendMessage(GetCurMsg()->uMsg,GetCurMsg()->wParam,GetCurMsg()->lParam,NULL);
 }
 
 LRESULT SRichEdit::OnButtonClick(UINT uMsg,WPARAM wParam,LPARAM lParam)
