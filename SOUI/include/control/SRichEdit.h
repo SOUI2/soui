@@ -976,6 +976,7 @@ namespace SOUI
         * Describe  此函数是消息响应函数
         */
         void OnLButtonDown(UINT nFlags, CPoint point);
+		void OnLButtonUp(UINT nFlags, CPoint point);
         
         /**
         * SRichEdit::OnRButtonDown
@@ -1131,6 +1132,7 @@ namespace SOUI
             MSG_WM_TIMER_EX(OnTimer)
             MSG_WM_TIMER2(OnTimer2)
             MSG_WM_LBUTTONDOWN(OnLButtonDown)
+			MSG_WM_LBUTTONUP(OnLButtonUp)
             MSG_WM_RBUTTONDOWN(OnRButtonDown)
             MSG_WM_MOUSEMOVE(OnMouseMove)
             MSG_WM_KEYDOWN(OnKeyDown)
@@ -1138,8 +1140,6 @@ namespace SOUI
             MSG_WM_SETFONT_EX(OnSetFont)
             MSG_WM_SHOWWINDOW(OnShowWindow)
             MESSAGE_HANDLER_EX(WM_LBUTTONDBLCLK,OnButtonClick)
-            MESSAGE_HANDLER_EX(WM_LBUTTONUP,OnButtonClick)
-
             MESSAGE_HANDLER_EX(WM_SETTEXT,OnSetText)
             MESSAGE_HANDLER_EX(EM_SETPARAFORMAT,OnSetParaFormat)
             MESSAGE_HANDLER_EX(EM_SETCHARFORMAT,OnSetCharFormat)
