@@ -256,9 +256,12 @@ HRESULT CMainDlg::OnSkinChangeMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 {
 	FindChildByID(9527)->Invalidate();
 	SDemoSkin *skin = (SDemoSkin *) GETSKIN(L"demoskinbk",GetScale());
+
+	DWORD tm1=GetTickCount();
 	COLORREF crTheme = skin->GetThemeColor();
 	DoColorize(crTheme|0xff000000);
 
+	SLOG_INFO("DoColorize spend "<<GetTickCount()-tm1<<" ms");
 	return S_OK;
 }
 

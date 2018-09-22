@@ -105,7 +105,9 @@ void SSkinImgList::OnColorize(COLORREF cr)
         m_pImg->UnlockPixelBits(pDst);
     }else
     {
-        if(S_OK != m_pImg->Clone(&m_imgBackup)) return;
+		if (!m_pImg) 
+			return;
+		if(S_OK != m_pImg->Clone(&m_imgBackup)) return;
     }
     
 	if(cr!=0)
