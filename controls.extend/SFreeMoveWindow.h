@@ -17,6 +17,7 @@ namespace SOUI
 		void OnNcMouseMove(UINT nFlags, CPoint pt);
 		void OnNcPaint(IRenderTarget * pRT);
 		DWORD HitTest(CPoint pt);
+		void SetCursorWrapper(DWORD dwHit);
 
         SOUI_MSG_MAP_BEGIN()
 			MSG_WM_NCLBUTTONDOWN(OnNcLButtonDown)
