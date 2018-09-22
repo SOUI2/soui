@@ -70,6 +70,31 @@ namespace SOUI
 		return dwHit;
 	}
 
+	void SFreeMoveWindow::SetCursorWrapper(DWORD dwHit)
+	{
+		switch (dwHit)
+		{
+		case HT_CAPTION:
+			::SetCursor(GETRESPROVIDER->LoadCursor(_T("sizeall")));
+			break;
+		case HT_LEFT:
+		case HT_RIGHT:
+			::SetCursor(GETRESPROVIDER->LoadCursor(_T("sizewe")));
+			break;
+		case HT_TOP:
+		case HT_BOTTOM:
+			::SetCursor(GETRESPROVIDER->LoadCursor(_T("sizens")));
+			break;
+		case HT_LEFT | HT_TOP:
+		case HT_RIGHT | HT_BOTTOM:
+			::SetCursor(GETRESPROVIDER->LoadCursor(_T("sizenwse")));
+			break;
+		case HT_LEFT | HT_BOTTOM:
+		case HT_RIGHT | HT_TOP:
+			::SetCursor(GETRESPROVIDER->LoadCursor(_T("sizenesw")));
+			break;
+		}
+	}
 	void SFreeMoveWindow::OnNcLButtonDown(UINT nFlags, CPoint pt)
 	{
 		if (m_bResizable)
@@ -78,6 +103,7 @@ namespace SOUI
 			m_bDraging = TRUE;
 			m_ptClick = pt;
 			m_rcClickWndPos = GetWindowRect();
+			SetCursorWrapper(m_dwHit);
 		}
 		else
 		{
@@ -103,30 +129,7 @@ namespace SOUI
 		if (!m_bDraging)
 		{
 			m_dwHit = HitTest(pt);
-
-			m_dwHit = HitTest(pt);
-			switch (m_dwHit)
-			{
-			case HT_CAPTION:
-				::SetCursor(GETRESPROVIDER->LoadCursor(_T("sizeall")));
-				break;
-			case HT_LEFT:
-			case HT_RIGHT:
-				::SetCursor(GETRESPROVIDER->LoadCursor(_T("sizewe")));
-				break;
-			case HT_TOP:
-			case HT_BOTTOM:
-				::SetCursor(GETRESPROVIDER->LoadCursor(_T("sizens")));
-				break;
-			case HT_LEFT | HT_TOP:
-			case HT_RIGHT | HT_BOTTOM:
-				::SetCursor(GETRESPROVIDER->LoadCursor(_T("sizenwse")));
-				break;
-			case HT_LEFT | HT_BOTTOM:
-			case HT_RIGHT | HT_TOP:
-				::SetCursor(GETRESPROVIDER->LoadCursor(_T("sizenesw")));
-				break;
-			}
+			SetCursorWrapper(m_dwHit);
 		}
 		else
 		{
