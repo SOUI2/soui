@@ -25,7 +25,7 @@ namespace SOUI
         SOUI_ATTRS_END()
         
     protected:
-        LRESULT OnAttrSrc(const SStringW & strValue,BOOL bLoading);
+        HRESULT OnAttrSrc(const SStringW & strValue,BOOL bLoading);
 
         virtual void _Draw(IRenderTarget *pRT, LPCRECT rcDraw, DWORD dwState,BYTE byAlpha);
 

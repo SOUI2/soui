@@ -8,7 +8,7 @@
 namespace SOUI
 {
 
-    LRESULT SSkinAPNG::OnAttrSrc( const SStringW &strValue,BOOL bLoading )
+    HRESULT SSkinAPNG::OnAttrSrc( const SStringW &strValue,BOOL bLoading )
     {
         SStringTList strLst;
         size_t nSegs=ParseResID(S_CW2T(strValue),strLst);

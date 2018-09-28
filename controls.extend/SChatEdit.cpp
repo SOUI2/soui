@@ -218,7 +218,7 @@ namespace SOUI{
         int nRet = SRichEdit::OnCreate(NULL);
         if(nRet == 0)
         {
-            DWORD dwEvtMask = SSendMessage(EM_GETEVENTMASK);
+            DWORD dwEvtMask = (DWORD)SSendMessage(EM_GETEVENTMASK);
             SSendMessage(EM_SETEVENTMASK,0,dwEvtMask | ENM_LINK);
         }
         return nRet;
@@ -241,7 +241,7 @@ namespace SOUI{
 
         TEXTRANGE  txtRng;
         txtRng.chrg.cpMin =0;
-        txtRng.chrg.cpMax = SSendMessage(WM_GETTEXTLENGTH);
+        txtRng.chrg.cpMax = (LONG)SSendMessage(WM_GETTEXTLENGTH);
         txtRng.lpstrText = (LPTSTR)strTxt.GetBufferSetLength(txtRng.chrg.cpMax);
         
         SSendMessage(EM_GETTEXTRANGE,0,(LPARAM)&txtRng);

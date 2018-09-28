@@ -22,7 +22,7 @@ namespace SOUI
         }
     }
 
-    LRESULT SSkinImgFrame3::OnAttrSrc(const SStringW & strValue,BOOL bLoading)
+    HRESULT SSkinImgFrame3::OnAttrSrc(const SStringW & strValue,BOOL bLoading)
     {
         int iPos = strValue.Find(L'{');
         if(iPos==-1) return E_FAIL;

@@ -819,7 +819,7 @@ namespace SOUI
         * 
         * Describe  此函数是消息响应函数
         */
-        LRESULT OnCreate(LPVOID);
+        int OnCreate(LPVOID);
         /**
         * SRichEdit::OnDestroy
         * @brief    销毁窗口

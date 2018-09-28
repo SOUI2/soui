@@ -612,7 +612,7 @@ SRichEdit::SRichEdit()
 }
 
 
-LRESULT SRichEdit::OnCreate( LPVOID )
+int SRichEdit::OnCreate( LPVOID )
 {
     if(0 != __super::OnCreate(NULL)) return 1;
 

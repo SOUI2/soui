@@ -737,7 +737,7 @@ BOOL SetSRicheditOleCallback(SRichEdit *pRichedit,FunCreateSource pCreateSource 
 {
     ISmileyHost *pHost = new SUnknownImpl<CSmileyHost>(pRichedit,pCreateSource);
     CRichEditOleCallback *pCallback = new CRichEditOleCallback(pHost);
-    BOOL bRet=pRichedit->SSendMessage(EM_SETOLECALLBACK,0,(LPARAM)pCallback);
+    BOOL bRet=(BOOL)pRichedit->SSendMessage(EM_SETOLECALLBACK,0,(LPARAM)pCallback);
     pCallback->Release();
     pHost->Release();
     return bRet;

@@ -91,7 +91,7 @@ HRESULT __stdcall CDataObject::QueryInterface(REFIID iid, void **ppvObject)
 HGLOBAL DupMem(HGLOBAL hMem)
 {
     // lock the source memory object
-    DWORD   len    = GlobalSize(hMem);
+    DWORD   len    = (DWORD)GlobalSize(hMem);
     PVOID   source = GlobalLock(hMem);
      
     // create a fixed "global" block - i.e. just

@@ -12,7 +12,7 @@ using namespace Gdiplus;
 namespace SOUI
 {
 
-    LRESULT SSkinGif::OnAttrSrc( const SStringW &strValue,BOOL bLoading )
+    HRESULT SSkinGif::OnAttrSrc( const SStringW &strValue,BOOL bLoading )
     {
         SStringTList strLst;
         size_t nSegs=ParseResID(S_CW2T(strValue),strLst);

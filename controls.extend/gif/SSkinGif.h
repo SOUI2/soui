@@ -65,7 +65,7 @@ namespace SOUI
             ATTR_CUSTOM(L"src",OnAttrSrc)   //XML文件中指定的图片资源名,(type:name)
         SOUI_ATTRS_END()
     protected:
-        LRESULT OnAttrSrc(const SStringW &strValue,BOOL bLoading);
+        HRESULT OnAttrSrc(const SStringW &strValue,BOOL bLoading);
         int LoadFromGdipImage(Gdiplus::Bitmap * pImg);
     };
 }//end of name space SOUI
