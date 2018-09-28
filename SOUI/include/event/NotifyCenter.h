@@ -109,7 +109,7 @@ namespace SOUI
 
 		SNotifyReceiver	 *  m_pReceiver;
 
-#if _MSC_VER >= 1600	//VS2010
+#if _MSC_VER >= 1700	//VS2012
 	public:
 		void RunOnUISync(std::function<void(void)> fn);
 		void RunOnUIAsync(std::function<void(void)> fn);
