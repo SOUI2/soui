@@ -997,6 +997,8 @@ namespace SOUI
         * Describe  此函数是消息响应函数
         */
         void OnMouseMove(UINT nFlags, CPoint point);
+
+		BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
         
         /**
         * SRichEdit::OnKeyDown
@@ -1135,6 +1137,7 @@ namespace SOUI
 			MSG_WM_LBUTTONUP(OnLButtonUp)
             MSG_WM_RBUTTONDOWN(OnRButtonDown)
             MSG_WM_MOUSEMOVE(OnMouseMove)
+			MSG_WM_MOUSEWHEEL(OnMouseWheel)
             MSG_WM_KEYDOWN(OnKeyDown)
             MSG_WM_CHAR(OnChar)
             MSG_WM_SETFONT_EX(OnSetFont)

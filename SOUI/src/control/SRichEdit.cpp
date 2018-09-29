@@ -1681,6 +1681,17 @@ void SRichEdit::OnEnable(BOOL bEnable, UINT nStatus)
 		SetDefaultTextColor(cr);
 }
 
+BOOL SRichEdit::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
+{
+	if(!(m_dwStyle&ES_MULTILINE))
+	{
+		return SWindow::OnMouseWheel(nFlags, zDelta, pt);
+	}else
+	{
+		return SPanel::OnMouseWheel(nFlags,zDelta,pt);
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////
 
 SEdit::SEdit() :m_crCue(RGBA(0xcc,0xcc,0xcc,0xff)),m_strCue(this)
