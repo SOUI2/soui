@@ -6,7 +6,7 @@
   <button name="_skin.sys.btn.normal" colorBorder="#7D9EBC" colorUp="#FEFEFE" colorDown="#C6E2FD" colorUpHover="#FEFEFE" colorDownHover="#DBEDFE" colorUpPush="#C6E2FD" colorDownPush="#FEFEFE"/>
   <scrollbar name="_skin.sys.scrollbar" src="PNG:SYS_SCROLLBAR" margin="3" hasgripper="0"/>
   <imgframe name="_skin.sys.border" src="PNG:SYS_BORDER" states="2" margin-x="2" margin-y="2"/>
-  <imglist name="_skin.sys.dropbtn" src="PNG:SYS_DROPBTN" states="3"/>
+  <imgcenter name="_skin.sys.dropbtn" src="PNG:SYS_DROPBTN" states="3"/>
   <imglist name="_skin.sys.tree.toggle" src="PNG:SYS_TREE_TOGGLE" states="6"/>
   <imglist name="_skin.sys.tree.checkbox" src="PNG:SYS_TREE_CHECKBOX" states="9"/>
   <imglist name="_skin.sys.tab.page" src="PNG:SYS_TAB_PAGE" states="3"/>
@@ -31,8 +31,8 @@
   <imgframe name="_skin.sys.menu.skin" src="PNG:SYS_MENU_SKIN" states="2" left="25" top="2" bottom="2"/>
   <imglist name="_skin.sys.icons" src="PNG:SYS_ICONS" states="12"/>
   <imgframe name="_skin.sys.wnd.bkgnd"  src="PNG:SYS_WND_BKGND" left="5" right="5" top="40" bottom="40"/>
-  <imglist name="_skin.sys.btn.prev" src="PNG:SYS_BTN_PREV" states="3" />
-  <imglist name="_skin.sys.btn.next" src="PNG:SYS_BTN_NEXT" states="3" />
-  <imglist name="_skin.sys.spin.up" src="PNG:SYS_SPIN_UP" states="3" vertical="1" />
-  <imglist name="_skin.sys.spin.down" src="PNG:SYS_SPIN_DOWN" states="3" vertical="1" />
+  <imgcenter name="_skin.sys.btn.prev" src="PNG:SYS_BTN_PREV" states="3" />
+  <imgcenter name="_skin.sys.btn.next" src="PNG:SYS_BTN_NEXT" states="3" />
+  <imgcenter name="_skin.sys.spin.up" src="PNG:SYS_SPIN_UP" states="3" vertical="1" />
+  <imgcenter name="_skin.sys.spin.down" src="PNG:SYS_SPIN_DOWN" states="3" vertical="1" />
 </skin>

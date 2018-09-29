@@ -162,10 +162,7 @@
       <text pos="10,[5" multiLines="1">the image show how to handle message in SImageWnd,\n you can do it by simply setting msgTransparent to 0</text>
       <window pos="10,[5,@100,@30" class="cls_edit" trackMouseEvent="1">
         <edit pos="0,0,-16,-0" name="edit_spin" margin-x="0" margin-y="0"/>
-        <spinButton pos="[0,0,-0,-0" max="20" min="10" value="11" buddy="edit_spin">
-          <button name="btn_up"/>
-          <button name="btn_down"/>
-        </spinButton>
+        <spinButton pos="[0,0,-0,-0" max="20" min="10" value="11" buddy="edit_spin"/>
       </window>
       <button pos="[0,{0,@100,@30" name="btn_lrc">LRC</button>
       <button pos="[10,{0,@100,@30" name="btn_clock">clock</button>

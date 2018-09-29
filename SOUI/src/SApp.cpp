@@ -467,6 +467,7 @@ void SObjectDefaultRegister::RegisterWindows(SObjectFactoryMgr *objFactory)
 void SObjectDefaultRegister::RegisterSkins(SObjectFactoryMgr *objFactory)
 {
 	objFactory->TplRegisterFactory<SSkinImgList>();
+	objFactory->TplRegisterFactory<SSkinImgCenter>();
 	objFactory->TplRegisterFactory<SSkinImgFrame>();
 	objFactory->TplRegisterFactory<SSkinImgFrame2>();
 	objFactory->TplRegisterFactory<SSkinButton>();

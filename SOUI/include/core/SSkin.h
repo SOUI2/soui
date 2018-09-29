@@ -100,6 +100,16 @@ protected:
     SOUI_ATTRS_END()
 };
 
+class SOUI_EXP SSkinImgCenter : public SSkinImgList
+{
+	SOUI_CLASS_NAME(SSkinImgCenter, L"imgCenter")
+public:
+	SSkinImgCenter() {}
+
+protected:
+	virtual void _Draw(IRenderTarget *pRT, LPCRECT rcDraw, DWORD dwState, BYTE byAlpha);
+};
+
 //////////////////////////////////////////////////////////////////////////
 class SOUI_EXP SSkinImgFrame : public SSkinImgList
 {

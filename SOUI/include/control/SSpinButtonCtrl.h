@@ -17,24 +17,40 @@ namespace SOUI
 		SWindow * GetBuddy();
     protected:
         virtual CSize GetDesiredSize(LPCRECT pRcContainer);
-        virtual void UpdateChildrenPosition();
-        virtual BOOL CreateChildren(pugi::xml_node xmlNode);
+		virtual BOOL NeedRedrawWhenStateChange() { return TRUE; }
     protected:
         void OnValueChanged(bool bInit=false);
     
-        bool OnUpDownClick(EventArgs *pEvt);
+		void OnLButtonDown(UINT nFlags, CPoint point);
+		void OnLButtonUp(UINT nFlags, CPoint point);
+		void OnPaint(IRenderTarget *pRT);
+		void OnTimer(char cTimerId);
+		int OnCreate(void *);
+		void OnClick();
+		SOUI_MSG_MAP_BEGIN()
+			MSG_WM_CREATE(OnCreate)
+			MSG_WM_LBUTTONDOWN(OnLButtonDown)
+			MSG_WM_LBUTTONDBLCLK(OnLButtonDown)
+			MSG_WM_LBUTTONUP(OnLButtonUp)
+			MSG_WM_PAINT_EX(OnPaint)
+			MSG_WM_TIMER_EX(OnTimer)
+		SOUI_MSG_MAP_END()
+
     protected:
         HRESULT OnAttrValue(const SStringW& strValue, BOOL bLoading);
         
-        SOUI_ATTRS_BEGIN()
-            ATTR_INT(L"max",m_nMax,FALSE)
-            ATTR_INT(L"min",m_nMin,FALSE)
-            ATTR_CUSTOM(L"value",OnAttrValue)
-            ATTR_UINT(L"step",m_uStep,FALSE)
-            ATTR_INT(L"circle",m_bCircle,FALSE)
-            ATTR_STRINGW(L"buddy",m_strBuddy,FALSE)
+		SOUI_ATTRS_BEGIN()
+			ATTR_INT(L"max", m_nMax, FALSE)
+			ATTR_INT(L"min", m_nMin, FALSE)
+			ATTR_CUSTOM(L"value", OnAttrValue)
+			ATTR_UINT(L"step", m_uStep, FALSE)
+			ATTR_INT(L"circle", m_bCircle, FALSE)
+			ATTR_STRINGW(L"buddy", m_strBuddy, FALSE)
+			ATTR_SKIN(L"upskin", m_pUpSkin, TRUE)
+			ATTR_SKIN(L"downSkin",m_pDownSkin,TRUE)
         SOUI_ATTRS_END()
         
+	protected:
         int m_nMax;
         int m_nMin;
         int m_nValue;
@@ -42,7 +58,14 @@ namespace SOUI
         BOOL m_bCircle;
         SStringW m_strBuddy;
         
-        SWindow * m_btnUp;
-        SWindow * m_btnDown;
+		CAutoRefPtr<ISkinObj> m_pUpSkin;
+		CAutoRefPtr<ISkinObj> m_pDownSkin;
+
+		enum ClickButton{
+			CLICK_NULL=-1,
+			CLICK_UP,
+			CLICK_DOWN,
+		};
+		ClickButton			  m_iClickBtn;
     };
 }

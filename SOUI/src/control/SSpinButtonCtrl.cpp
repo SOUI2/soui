@@ -7,8 +7,9 @@ static const wchar_t * KBTN_DOWN = L"btn_down";
 namespace SOUI
 {
     SSpinButtonCtrl::SSpinButtonCtrl(void)
-    :m_btnUp(NULL)
-    ,m_btnDown(NULL)
+    :m_pDownSkin(GETBUILTINSKIN(SKIN_SYS_SPIN_DOWN))
+    , m_pUpSkin(GETBUILTINSKIN(SKIN_SYS_SPIN_UP))
+	, m_iClickBtn(CLICK_NULL)
     ,m_nMin(0)
     ,m_nMax(100)
     ,m_nValue(0)
@@ -49,25 +50,7 @@ namespace SOUI
 		return GetParent()->FindChildByName(m_strBuddy);
 	}
 
-    BOOL SSpinButtonCtrl::CreateChildren(pugi::xml_node xmlNode)
-    {
-        if(!__super::CreateChildren(xmlNode))
-            return FALSE;
-        m_btnUp = FindChildByName(KBTN_UP);
-        m_btnDown = FindChildByName(KBTN_DOWN);
-        
-        SASSERT(m_btnUp &&m_btnDown);
-        
-        if(!m_btnDown || !m_btnUp)
-            return FALSE;
-        m_btnUp->SetAttribute(L"focusable",L"0");
-        m_btnDown->SetAttribute(L"focusable",L"0");
-        m_btnUp->GetEventSet()->subscribeEvent(EventCmd::EventID,Subscriber(&SSpinButtonCtrl::OnUpDownClick,this));
-        m_btnDown->GetEventSet()->subscribeEvent(EventCmd::EventID,Subscriber(&SSpinButtonCtrl::OnUpDownClick,this));
-        
-        OnValueChanged(true);
-        return TRUE;        
-    }
+
 
     CSize SSpinButtonCtrl::GetDesiredSize(LPCRECT pRcContainer)
     {
@@ -77,7 +60,7 @@ namespace SOUI
             szRet.cx = GetLayoutParam()->GetSpecifiedSize(Horz).toPixelSize(GetScale());
         }else
         {
-            szRet.cx = 16;
+            szRet.cx = m_pDownSkin->GetSkinSize().cx;
         }
         if(GetLayoutParam()->IsSpecifiedSize(Vert))
         {
@@ -90,43 +73,6 @@ namespace SOUI
         return szRet;
     }
 
-    void SSpinButtonCtrl::UpdateChildrenPosition()
-    {
-        CRect rcClient = GetClientRect();
-        if(rcClient.IsRectEmpty()) return;
-        rcClient.bottom = rcClient.top +rcClient.Height()/2;
-        m_btnUp->Move(rcClient);
-        rcClient.OffsetRect(0,rcClient.Height());
-        m_btnDown->Move(rcClient);
-    }
-
-    bool SSpinButtonCtrl::OnUpDownClick(EventArgs *pEvt)
-    {
-        SASSERT(m_uStep < (UINT)abs(m_nMax-m_nMin));
-        SASSERT(m_nValue>=m_nMin && m_nValue<=m_nMax);
-        
-        SWindow * sender = sobj_cast<SWindow>(pEvt->sender);
-        SASSERT(sender);
-        if(sender == m_btnUp)
-        {
-            m_nValue += m_uStep;
-            if(m_nValue>m_nMax)
-            {
-                if(m_bCircle) m_nValue = m_nMin;
-                else m_nValue = m_nMax;
-            }
-        }else //if(sender == m_btnDown)
-        {
-            m_nValue -= m_uStep;
-            if(m_nValue<m_nMin)
-            {
-                if(m_bCircle) m_nValue = m_nMax;
-                else m_nValue = m_nMin;
-            }
-        }
-        OnValueChanged();
-        return true;
-    }
 
     HRESULT SSpinButtonCtrl::OnAttrValue(const SStringW& strValue, BOOL bLoading)
     {
@@ -151,5 +97,89 @@ namespace SOUI
             pBuddy->SetWindowText(evt.strValue);
         }
     }
+
+
+	void SSpinButtonCtrl::OnLButtonDown(UINT nFlags, CPoint point)
+	{
+		SWindow::OnLButtonDown(nFlags, point);
+		CRect rcClient = GetClientRect();
+		if (point.y > (rcClient.top + rcClient.Height() / 2))
+			m_iClickBtn = CLICK_DOWN;
+		else
+			m_iClickBtn = CLICK_UP;
+		OnClick();
+		Invalidate();
+		SetTimer(1, 200);
+	}
+
+	void SSpinButtonCtrl::OnLButtonUp(UINT nFlags, CPoint point)
+	{
+		SWindow::OnLButtonUp(nFlags, point);
+		KillTimer(1);
+		m_iClickBtn = CLICK_NULL;
+		Invalidate();
+	}
+
+	void SSpinButtonCtrl::OnPaint(IRenderTarget *pRT)
+	{
+		SWindow::OnPaint(pRT);
+		CRect rcClient = GetClientRect();
+		CRect rcUp = rcClient, rcDown = rcClient;
+		rcUp.bottom = rcDown.top = rcClient.top + rcClient.Height() / 2;
+		DWORD iState = IIF_STATE4(m_dwState, 0, 1, 2, 3);
+		if (m_iClickBtn == CLICK_UP)
+		{
+			m_pUpSkin->Draw(pRT, rcUp, iState);
+			m_pDownSkin->Draw(pRT, rcDown, iState == 3 ? 3 : 0);
+		}
+		else if(m_iClickBtn == CLICK_DOWN)
+		{
+			m_pUpSkin->Draw(pRT, rcUp, iState == 3 ? 3 : 0);
+			m_pDownSkin->Draw(pRT, rcDown, iState);
+		}
+		else
+		{
+			iState = iState == 3 ? 3 : 0;
+			m_pUpSkin->Draw(pRT, rcUp, iState);
+			m_pDownSkin->Draw(pRT, rcDown, iState);
+		}
+	}
+	void SSpinButtonCtrl::OnTimer(char cTimerId)
+	{
+		OnClick();
+	}
+
+	int SSpinButtonCtrl::OnCreate(void *)
+	{
+		int nRet =__super::OnCreate(NULL);
+		if (nRet != 0) return nRet;
+		OnValueChanged(true);
+		return 0;
+	}
+
+	void SSpinButtonCtrl::OnClick()
+	{
+		SASSERT(m_iClickBtn != CLICK_NULL);
+
+		if (m_iClickBtn == CLICK_DOWN)
+		{
+			m_nValue -= m_uStep;
+			if (m_nValue<m_nMin)
+			{
+				if (m_bCircle) m_nValue = m_nMax;
+				else m_nValue = m_nMin;
+			}
+		}
+		else
+		{
+			m_nValue += m_uStep;
+			if (m_nValue>m_nMax)
+			{
+				if (m_bCircle) m_nValue = m_nMin;
+				else m_nValue = m_nMax;
+			}
+		}
+		OnValueChanged();
+	}
 
 }

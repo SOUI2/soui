@@ -149,6 +149,27 @@ void SSkinImgList::_Scale(ISkinObj * skinObj, int nScale)
 }
 
 //////////////////////////////////////////////////////////////////////////
+//  SSkinImgCenter
+void SSkinImgCenter::_Draw(IRenderTarget *pRT, LPCRECT rcDraw, DWORD dwState, BYTE byAlpha)
+{
+	SIZE szSkin = GetSkinSize();
+	CRect rcTarget = *rcDraw;
+	CPoint pt;
+	pt.x = rcTarget.left + (rcTarget.Width() - szSkin.cx) / 2;
+	pt.y = rcTarget.top + (rcTarget.Height() - szSkin.cy) / 2;
+
+	rcTarget = CRect(pt, szSkin);
+
+	RECT rcSrc = { 0, 0, szSkin.cx, szSkin.cy };
+	if (m_bVertical)
+		OffsetRect(&rcSrc, 0, dwState*szSkin.cy);
+	else
+		OffsetRect(&rcSrc, dwState*szSkin.cx, 0);
+
+	pRT->DrawBitmapEx(rcTarget, m_pImg, &rcSrc, GetExpandMode(), byAlpha);
+}
+
+//////////////////////////////////////////////////////////////////////////
 //  SSkinImgFrame
 SSkinImgFrame::SSkinImgFrame()
     : m_rcMargin(0,0,0,0)
