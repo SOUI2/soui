@@ -9,7 +9,7 @@ namespace SOUI
     SSpinButtonCtrl::SSpinButtonCtrl(void)
     :m_pDownSkin(GETBUILTINSKIN(SKIN_SYS_SPIN_DOWN))
     , m_pUpSkin(GETBUILTINSKIN(SKIN_SYS_SPIN_UP))
-	, m_iClickBtn(CLICK_NULL)
+	, m_iActionBtn(ACTION_NULL)
     ,m_nMin(0)
     ,m_nMax(100)
     ,m_nValue(0)
@@ -102,11 +102,6 @@ namespace SOUI
 	void SSpinButtonCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 		SWindow::OnLButtonDown(nFlags, point);
-		CRect rcClient = GetClientRect();
-		if (point.y > (rcClient.top + rcClient.Height() / 2))
-			m_iClickBtn = CLICK_DOWN;
-		else
-			m_iClickBtn = CLICK_UP;
 		OnClick();
 		Invalidate();
 		SetTimer(1, 200);
@@ -116,8 +111,22 @@ namespace SOUI
 	{
 		SWindow::OnLButtonUp(nFlags, point);
 		KillTimer(1);
-		m_iClickBtn = CLICK_NULL;
 		Invalidate();
+	}
+
+	void SSpinButtonCtrl::OnMouseMove(UINT nFlags, CPoint point)
+	{
+		CRect rcClient = GetClientRect();
+		if(rcClient.PtInRect(point))
+		{
+			if (point.y > (rcClient.top + rcClient.Height() / 2))
+				m_iActionBtn = ACTION_DOWN;
+			else
+				m_iActionBtn = ACTION_UP;
+		}else
+		{
+			m_iActionBtn = ACTION_NULL;
+		}
 	}
 
 	void SSpinButtonCtrl::OnPaint(IRenderTarget *pRT)
@@ -126,26 +135,32 @@ namespace SOUI
 		CRect rcClient = GetClientRect();
 		CRect rcUp = rcClient, rcDown = rcClient;
 		rcUp.bottom = rcDown.top = rcClient.top + rcClient.Height() / 2;
-		DWORD iState = IIF_STATE4(m_dwState, 0, 1, 2, 3);
-		if (m_iClickBtn == CLICK_UP)
+		DWORD iState = IIF_STATE4(GetState(), 0, 1, 2, 3);
+		SLOG_INFO("iState:"<<iState<<" click:"<<m_iActionBtn);
+		if (m_iActionBtn == ACTION_UP)
 		{
 			m_pUpSkin->Draw(pRT, rcUp, iState);
-			m_pDownSkin->Draw(pRT, rcDown, iState == 3 ? 3 : 0);
+			m_pDownSkin->Draw(pRT, rcDown, iState != 2 ? iState : 1);
 		}
-		else if(m_iClickBtn == CLICK_DOWN)
+		else if(m_iActionBtn == ACTION_DOWN)
 		{
-			m_pUpSkin->Draw(pRT, rcUp, iState == 3 ? 3 : 0);
+			m_pUpSkin->Draw(pRT, rcUp, iState != 2 ? iState : 1);
 			m_pDownSkin->Draw(pRT, rcDown, iState);
 		}
 		else
 		{
-			iState = iState == 3 ? 3 : 0;
+			iState = iState != 2 ? iState : 0;
 			m_pUpSkin->Draw(pRT, rcUp, iState);
 			m_pDownSkin->Draw(pRT, rcDown, iState);
 		}
 	}
 	void SSpinButtonCtrl::OnTimer(char cTimerId)
 	{
+		if(m_iActionBtn == ACTION_NULL)
+		{
+			return;
+		}
+
 		OnClick();
 	}
 
@@ -159,9 +174,9 @@ namespace SOUI
 
 	void SSpinButtonCtrl::OnClick()
 	{
-		SASSERT(m_iClickBtn != CLICK_NULL);
+		SASSERT(m_iActionBtn != ACTION_NULL);
 
-		if (m_iClickBtn == CLICK_DOWN)
+		if (m_iActionBtn == ACTION_DOWN)
 		{
 			m_nValue -= m_uStep;
 			if (m_nValue<m_nMin)

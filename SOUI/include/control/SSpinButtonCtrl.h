@@ -23,6 +23,7 @@ namespace SOUI
     
 		void OnLButtonDown(UINT nFlags, CPoint point);
 		void OnLButtonUp(UINT nFlags, CPoint point);
+		void OnMouseMove(UINT nFlags, CPoint point);
 		void OnPaint(IRenderTarget *pRT);
 		void OnTimer(char cTimerId);
 		int OnCreate(void *);
@@ -31,6 +32,7 @@ namespace SOUI
 			MSG_WM_CREATE(OnCreate)
 			MSG_WM_LBUTTONDOWN(OnLButtonDown)
 			MSG_WM_LBUTTONDBLCLK(OnLButtonDown)
+			MSG_WM_MOUSEMOVE(OnMouseMove)
 			MSG_WM_LBUTTONUP(OnLButtonUp)
 			MSG_WM_PAINT_EX(OnPaint)
 			MSG_WM_TIMER_EX(OnTimer)
@@ -61,11 +63,11 @@ namespace SOUI
 		CAutoRefPtr<ISkinObj> m_pUpSkin;
 		CAutoRefPtr<ISkinObj> m_pDownSkin;
 
-		enum ClickButton{
-			CLICK_NULL=-1,
-			CLICK_UP,
-			CLICK_DOWN,
+		enum ActionButton{
+			ACTION_NULL=-1,
+			ACTION_UP,
+			ACTION_DOWN,
 		};
-		ClickButton			  m_iClickBtn;
+		ActionButton			  m_iActionBtn;
     };
 }
