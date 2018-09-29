@@ -631,7 +631,7 @@ BOOL SPanel::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
             break;
         }
     }
-
+	ScrollUpdate();
     if(i<nLines)
     {// 返回FALSE代表无法再再进行滚动,可以透传给父窗口
         delta = (nLines-i)*WHEEL_DELTA*(delta>0?1:-1);
