@@ -29,10 +29,8 @@ namespace SOUI
 
 	void SCalendarEx::Init()
 	{
-		//m_pSkinPrev = GETBUILTINSKIN(SKIN_SYS_BTN_NORMAL);
-		//m_pSkinNext = GETBUILTINSKIN(SKIN_SYS_BTN_NORMAL);
-		m_pSkinPrev = GETSKIN(L"_skin.sys.btn.prev", GetScale());
-		m_pSkinNext = GETSKIN(L"_skin.sys.btn.next", GetScale());
+		m_pSkinPrev = GETBUILTINSKIN(SKIN_SYS_BTN_PREV);
+		m_pSkinNext = GETBUILTINSKIN(SKIN_SYS_BTN_NEXT);
 
 		m_bFocusable = TRUE;
 		GetLocalTime(&m_Today);

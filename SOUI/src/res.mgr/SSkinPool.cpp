@@ -206,7 +206,11 @@ const wchar_t * BUILDIN_SKIN_NAMES[]=
     L"_skin.sys.menu.border",
     L"_skin.sys.menu.skin",
     L"_skin.sys.icons",
-    L"_skin.sys.wnd.bkgnd"
+    L"_skin.sys.wnd.bkgnd",
+	L"_skin.sys.btn.prev",
+	L"_skin.sys.btn.next",
+	L"_skin.sys.spin.down",
+	L"_skin.sys.spin.up",
 };
 
 

@@ -171,9 +171,6 @@
       <button pos="[10,{0,@100,@30" name="btn_clock">clock</button>
 
       <button pos="[10,{0,@-1,@30" name="btn_tip">提示窗口演示</button>
-	  <edit pos="10,[0,@120,@24" name="edit_spin2" >
-		<spin pos="-0,0" size="16,22" offset="-1,0" buddy="edit_spin2" min="1" max="100" />
-	  </edit>
       <hr pos="10,[20,-10,@1" lineStyle="dashdotdot" mode="horizontal" colorLine="#ff0000"/>
       <hr pos="10,{0,-10,-10" lineStyle="dash" mode="tilt" colorLine="#00ff00"/>
       <hr pos="10,{0,@2,-10" lineStyle="solid" mode="vertical" colorLine="#0000ff" size="2"/>

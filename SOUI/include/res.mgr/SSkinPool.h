@@ -59,6 +59,11 @@ namespace SOUI
         SKIN_SYS_ICONS,                 //L"_skin.sys.icons",
         SKIN_SYS_WND_BKGND,             //L"_skin.sys.wnd.bkgnd",
         
+		SKIN_SYS_BTN_PREV,
+		SKIN_SYS_BTN_NEXT,
+		SKIN_SYS_SPIN_DOWN,
+		SKIN_SYS_SPIN_UP,
+
         SKIN_SYS_COUNT,
     };
 

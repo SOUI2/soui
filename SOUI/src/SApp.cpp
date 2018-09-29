@@ -454,7 +454,6 @@ void SObjectDefaultRegister::RegisterWindows(SObjectFactoryMgr *objFactory)
 	objFactory->TplRegisterFactory<SComboBox>();
 	objFactory->TplRegisterFactory<SCalendar>();
 	objFactory->TplRegisterFactory<SSpinButtonCtrl>();
-	objFactory->TplRegisterFactory<SSpinButton>();
 	objFactory->TplRegisterFactory<SListView>();
 	objFactory->TplRegisterFactory<SComboView>();
 	objFactory->TplRegisterFactory<SMCListView>();

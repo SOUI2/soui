@@ -66,7 +66,6 @@ HEADERS += include/SApp.h \
            include/control/SListView.h \
            include/control/SMcListView.h \
            include/control/SSpinButtonCtrl.h \
-           include/control/SSpinButton.h \
            include/control/STileView.h \
            include/control/STreeView.h \
            include/control/SMenuBar.h \
@@ -189,7 +188,6 @@ SOURCES += src/SApp.cpp \
            src/control/SListView.cpp \
            src/control/SMcListView.cpp \
            src/control/SSpinButtonCtrl.cpp \
-           src/control/SSpinButton.cpp \
            src/control/STileView.cpp \
            src/control/STreeView.cpp \
            src/control/SMenuBar.cpp \
