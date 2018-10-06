@@ -35,7 +35,6 @@ namespace SOUI
 		SLayoutSize  m_nIconBarWidth;
 		SLayoutSize  m_nTextOffset;
 		SLayoutSize  m_iconX, m_iconY;
-		//SLayoutSize  m_rcMargin[4];
 		SLayoutSize  m_nMinWidth;
 		SLayoutSize  m_nSubMenuOffset;
 
@@ -360,8 +359,7 @@ namespace SOUI
 		if (xmlChild)
 		{//有子菜单
 			m_pSubMenu = new SMenuEx(this);
-
-			m_pSubMenu->LoadMenu(xmlNode);
+			m_pSubMenu->LoadMenu(xmlNode,m_pOwnerMenu->GetParentWnd());
 		}
 		return TRUE;
 	}
@@ -562,6 +560,7 @@ namespace SOUI
 		, m_pHoverItem(NULL)
 		, m_pCheckItem(NULL)
 		, m_bMenuInitialized(FALSE)
+		, m_hParent(NULL)
 	{
 
 	}
@@ -572,7 +571,7 @@ namespace SOUI
 			DestroyWindow();
 	}
 
-	BOOL SMenuEx::LoadMenu(LPCTSTR pszMenu)
+	BOOL SMenuEx::LoadMenu(LPCTSTR pszMenu,HWND hParent)
 	{
 		SStringTList strMenu;
 		if (1 == SplitString<SStringT, TCHAR>(pszMenu, _T(':'), strMenu))
@@ -581,17 +580,17 @@ namespace SOUI
 		pugi::xml_document xmlMenu;
 		BOOL bLoad = LOADXML(xmlMenu, strMenu[1], strMenu[0]);
 		if (!bLoad) return FALSE;
-		return LoadMenu(xmlMenu.first_child());
+		return LoadMenu(xmlMenu.first_child(),hParent);
 	}
 
-	BOOL SMenuEx::LoadMenu(pugi::xml_node xmlNode)
+	BOOL SMenuEx::LoadMenu(pugi::xml_node xmlNode,HWND hParent)
 	{
 		if (IsWindow()) return FALSE;
 		if (xmlNode.name() != SStringW(SMenuExRoot::GetClassName())
 			&& xmlNode.name() != SStringW(SMenuExItem::GetClassName()))
 			return FALSE;
 
-		HWND hWnd = Create(NULL, WS_POPUP, WS_EX_TOOLWINDOW | WS_EX_TOPMOST, 0, 0, 0, 0);
+		HWND hWnd = Create(hParent, WS_POPUP, WS_EX_TOOLWINDOW | WS_EX_TOPMOST, 0, 0, 0, 0);
 		pugi::xml_document souiXml;
 		pugi::xml_node root = souiXml.append_child(L"SOUI");
 		root.append_attribute(L"translucent").set_value(1);
@@ -599,6 +598,7 @@ namespace SOUI
 		{
 			root.append_attribute(L"trCtx").set_value(xmlNode.attribute(L"trCtx").value());
 		}
+		m_hParent = hParent;
 		_InitFromXml(root, 0, 0);
 
 		if (!hWnd) return FALSE;
@@ -636,12 +636,6 @@ namespace SOUI
 
 		HWND hActive = hOwner;
 		if (!hOwner || !::IsWindowEnabled(hOwner)) hActive = ::GetActiveWindow();
-		/*
-		if (::IsWindow(hActive))
-		{
-			SetParent(hActive);
-		}
-		*/
 
 		HWND hRoot = hActive;
 		while (::GetParent(hRoot))

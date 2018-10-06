@@ -68,8 +68,8 @@ namespace SOUI
         SMenuEx(void);
         virtual ~SMenuEx(void);
 
-        BOOL LoadMenu(LPCTSTR pszMenu);
-        BOOL LoadMenu(pugi::xml_node xmlNode);
+        BOOL LoadMenu(LPCTSTR pszMenu,HWND hParent=NULL);
+        BOOL LoadMenu(pugi::xml_node xmlNode,HWND hParent=NULL);
 		UINT TrackPopupMenu(UINT flag,int x,int y,HWND hOwner,int nScale = 100);
 		static void ExitPopupMenu(int nCmdId=0);
 
@@ -81,6 +81,7 @@ namespace SOUI
 
 		void SetContextHelpId(DWORD dwId);
 
+		HWND GetParentWnd() {return m_hParent;}
 		/**
 		* InsertMenu
 		* @brief    插入菜单项
@@ -134,6 +135,8 @@ namespace SOUI
         SMenuExItem * m_pCheckItem;
 
 		BOOL	m_bMenuInitialized;
+		HWND		m_hParent;
+
     };
 
 }
