@@ -246,6 +246,7 @@
       <sliderbar name="slider_test4" thumbInRail="1" vertical="1" pos="[10,10" alpha="200" height="200" value="20" min="0" max="100"/>
       <scrollbar name="sb_test1" pos="[10,10,@200,@16" min="0" max="100" value="10" page="10" vertical="0"/>
       <scrollbar name="sb_test2" pos="[50,10,@16,@200" min="0" max="100" value="10" page="10" vertical="1"/>
+      <progressRing name="prog_ring" pos="100,[10,@200,@200" colorBkgnd="#cccccc" arcRate="0.5" min="0" max="100" value="32" showPercent="1"/>
     </page>
     <page title="calendar" layout="vbox">
       <window size="-2,-1" layout="hbox" padding="5,5,5,5">

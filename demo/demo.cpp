@@ -192,6 +192,8 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
 		theApp->RegisterWindowClass<SInterpolatorView>();
 		theApp->RegisterWindowClass<SPathView>();
 		theApp->RegisterWindowClass<SQrCtrl>();
+		theApp->RegisterWindowClass<SProgressRing>();
+
         if(SUCCEEDED(CUiAnimation::Init()))
         {
             theApp->RegisterWindowClass<SUiAnimationWnd>();//注册动画控件

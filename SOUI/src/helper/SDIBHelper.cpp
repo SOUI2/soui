@@ -115,13 +115,13 @@ namespace SOUI
         c.rgbRed = GetRValue(cr);	/* get R, G, and B out of DWORD */
         c.rgbGreen = GetGValue(cr);
         c.rgbBlue = GetBValue(cr);
-        c.rgbReserved=0;
+        c.rgbReserved=GetAValue(cr);
         return c;
     }
     ////////////////////////////////////////////////////////////////////////////////
     static COLORREF RGBQUADtoRGB (RGBQUAD c)
     {
-        return RGB(c.rgbRed,c.rgbGreen,c.rgbBlue);
+        return RGBA(c.rgbRed,c.rgbGreen,c.rgbBlue,c.rgbReserved);
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -250,6 +250,7 @@ namespace SOUI
 
         FillColorizeParam(param,hsl.rgbRed,hsl.rgbGreen,fBlend);
         
+
 		RGBQUAD argbTarget = RGBtoRGBQUAD(crTarget);
         ColorizeMode((BYTE*)&argbTarget,param);
 		crTarget = RGBQUADtoRGB(argbTarget);

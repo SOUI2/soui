@@ -30,6 +30,7 @@
 #include "../controls.extend/SChatEdit.h"
 #include "../controls.extend/SFreeMoveWindow.h"
 #include "../controls.extend/tipwnd.h"
+#include "../controls.extend/SProgressRing.h"
 
 #include "SInterpolatorView.h"
 #include "SPathView.h"

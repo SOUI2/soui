@@ -66,6 +66,7 @@ HEADERS += MainDlg.h \
           ../controls.extend/SFreeMoveWindow.h \
           ../controls.extend/smiley/SSmileyCtrl.h \
           ../controls.extend/tipwnd.h \
+          ../controls.extend/sprogressring.h \
           ../controls.extend/SMcListViewEx/STabCtrlHeaderBinder.h \
           httpsvr/filereader-i.h \
           httpsvr/genericserver.h \
@@ -122,6 +123,7 @@ SOURCES += demo.cpp \
           ../controls.extend/SRatingBar.cpp \
           ../controls.extend/SFreeMoveWindow.cpp \
           ../controls.extend/tipwnd.cpp \
+          ../controls.extend/sprogressring.cpp \
           httpsvr/genericserver.cpp \
           httpsvr/httpserver.cpp \
           magnet/magnetframe.cpp \

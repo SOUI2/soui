@@ -3,8 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="demo"
-	ProjectGUID="{50DB50E8-B8E7-380B-9E32-D034EFD29D80}"
-	RootNamespace="demo"
+	ProjectGUID="{11DC0DEC-161B-3B92-BF38-7E08DE8B4A41}"
 	Keyword="Qt4VSv1.0"
 	TargetFrameworkVersion="0"
 	>
@@ -46,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="1"
-				AdditionalIncludeDirectories=".;..\utilities\include;..\soui\include;&quot;..\third-part\wke\include&quot;;&quot;..\third-part\mhook\mhook-lib&quot;;..\components;..\config;&quot;..\tools\mkspecs\win32-msvc2008&quot;"
+				AdditionalIncludeDirectories=".,.,..\utilities\include,..\soui\include,..\third-part\wke\include,..\third-part\mhook\mhook-lib,..\components,..\config,..\tools\mkspecs\win32-msvc2008"
 				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
 				GeneratePreprocessedFile="0"
 				ExceptionHandling="1"
@@ -143,7 +142,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="4"
-				AdditionalIncludeDirectories=".;..\utilities\include;..\soui\include;&quot;..\third-part\wke\include&quot;;&quot;..\third-part\mhook\mhook-lib&quot;;..\components;..\config;&quot;..\tools\mkspecs\win32-msvc2008&quot;"
+				AdditionalIncludeDirectories=".,.,..\utilities\include,..\soui\include,..\third-part\wke\include,..\third-part\mhook\mhook-lib,..\components,..\config,..\tools\mkspecs\win32-msvc2008"
 				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
 				GeneratePreprocessedFile="0"
 				ExceptionHandling="1"
@@ -249,7 +248,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\qrcode\QR_Encode.cpp"
+				RelativePath="qrcode\QR_Encode.cpp"
 				>
 			</File>
 			<File
@@ -313,7 +312,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SInterpolatorView.cpp"
+				RelativePath="SInterpolatorView.cpp"
 				>
 			</File>
 			<File
@@ -337,7 +336,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SPathView.cpp"
+				RelativePath="SPathView.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\controls.extend\SProgressRing.cpp"
 				>
 			</File>
 			<File
@@ -365,7 +368,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\qrcode\SQrCtrl.cpp"
+				RelativePath="qrcode\SQrCtrl.cpp"
 				>
 			</File>
 			<File
@@ -381,11 +384,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\trayicon\SShellNofityHwnd2.cpp"
+				RelativePath="trayicon\SShellNofityHwnd2.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\trayicon\SShellNotifyIcon.cpp"
+				RelativePath="trayicon\SShellNotifyIcon.cpp"
 				>
 			</File>
 			<File
@@ -471,7 +474,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\qrcode\QR_Encode.h"
+				RelativePath="qrcode\QR_Encode.h"
 				>
 			</File>
 			<File
@@ -543,7 +546,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SInterpolatorView.h"
+				RelativePath="SInterpolatorView.h"
 				>
 			</File>
 			<File
@@ -567,7 +570,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SPathView.h"
+				RelativePath="SPathView.h"
+				>
+			</File>
+			<File
+				RelativePath="..\controls.extend\SProgressRing.h"
 				>
 			</File>
 			<File
@@ -575,7 +582,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\qrcode\SQrCtrl.h"
+				RelativePath="qrcode\SQrCtrl.h"
 				>
 			</File>
 			<File
@@ -591,11 +598,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\trayicon\SShellNofityHwnd2.h"
+				RelativePath="trayicon\SShellNofityHwnd2.h"
 				>
 			</File>
 			<File
-				RelativePath=".\trayicon\SShellNotifyIcon.h"
+				RelativePath="trayicon\SShellNotifyIcon.h"
 				>
 			</File>
 			<File
