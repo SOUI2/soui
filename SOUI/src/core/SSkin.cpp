@@ -661,7 +661,7 @@ void SSkinShape::_Draw(IRenderTarget *pRT, LPCRECT rcDraw, DWORD dwState,BYTE by
 			break;
 		case ring:
 			if(m_ringParam){
-				int nRadius = m_ringParam->m_innerRadio.toPixelSize(GetScale())+nPenWidth/2;
+				int nRadius = m_ringParam->m_innerRadius.toPixelSize(GetScale())+nPenWidth/2;
 				POINT ptCenter = { (rcDest.left + rcDest.right) / 2,(rcDest.top + rcDest.bottom) / 2 };
 				RECT rcRing = { ptCenter.x - nRadius,ptCenter.y - nRadius,ptCenter.x + nRadius,ptCenter.y + nRadius };
 				pRT->DrawArc(&rcRing, m_ringParam->m_startAngle, m_ringParam->m_sweepAngle, false);
