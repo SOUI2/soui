@@ -560,8 +560,12 @@ namespace SOUI
 
     HRESULT SRenderTarget_GDI::DrawRectangle(LPCRECT pRect)
     {
+		if(!m_curPen) return E_INVALIDARG;
+
+		RECT rcBuf = *pRect;
+		::InflateRect(&rcBuf,m_curPen->GetWidth()/2,m_curPen->GetWidth()/2);
         ALPHAINFO ai;
-        CGdiAlpha::AlphaBackup(m_hdc,pRect,ai);
+        CGdiAlpha::AlphaBackup(m_hdc,&rcBuf,ai);
         HGDIOBJ oldBr=::SelectObject(m_hdc,GetStockObject(NULL_BRUSH));
         ::Rectangle(m_hdc,pRect->left,pRect->top,pRect->right,pRect->bottom);
         CGdiAlpha::AlphaRestore(ai);
