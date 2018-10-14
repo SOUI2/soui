@@ -21,7 +21,7 @@
     </window>
     <window size="0,-2" layout="vbox" gravity="center" weight="1" >
       <text>支付宝赞助</text>
-      <qrctrl size="300,300" text="HTTPS://QR.ALIPAY.COM/FKX07171QGERGGU4MNY8C8">
+      <qrctrl size="300,300" text="https://qr.alipay.com/tsx05622blbc2yo3dubkrb0">
         <icon pos="|0,|0,@48,@48" offset="-0.5,-0.5" src="ICON_LOGO:48"/>
       </qrctrl>
     </window>
