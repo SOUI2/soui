@@ -454,13 +454,11 @@ class SOUI_EXP SSkinShape : public SSkinObjBase
 		SOUI_ATTRS_BEGIN()
 			ATTR_FLOAT(L"startAngle", m_startAngle, TRUE)
 			ATTR_FLOAT(L"sweepAngle", m_sweepAngle, TRUE)
-			ATTR_LAYOUTSIZE(L"innerRadius", m_innerRadius, TRUE)
 		SOUI_ATTRS_END()
 
 
 		float m_startAngle;
 		float m_sweepAngle;
-		SLayoutSize m_innerRadius;
 	};
 
 public:

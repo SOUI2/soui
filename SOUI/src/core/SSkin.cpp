@@ -588,7 +588,7 @@ void SSkinShape::_Draw(IRenderTarget *pRT, LPCRECT rcDraw, DWORD dwState,BYTE by
 	}
 
 	RECT rcDest = *rcDraw;
-	::InflateRect(&rcDest,-1,-1);
+	//::InflateRect(&rcDest,-1,-1);
 	if(m_crSolid != CR_INVALID)
 	{
 		CAutoRefPtr<IBrush> brush,oldBrush;
@@ -648,21 +648,23 @@ void SSkinShape::_Draw(IRenderTarget *pRT, LPCRECT rcDraw, DWORD dwState,BYTE by
 		int nPenWidth = m_stroke->m_width.toPixelSize(GetScale());
 		pRT->CreatePen(m_stroke->m_style,m_stroke->m_color,nPenWidth,&pPen);
 		pRT->SelectObject(pPen,(IRenderObj**)&oldPen);
+		RECT rcStroke = rcDest;
+		::InflateRect(&rcStroke, -nPenWidth / 2, -nPenWidth / 2);
 		switch(m_shape)
 		{
 		case rectangle:
 			if(m_cornerSize)
-				pRT->DrawRoundRect(&rcDest,ptConner);
+				pRT->DrawRoundRect(&rcStroke,ptConner);
 			else
-				pRT->DrawRectangle(&rcDest);
+				pRT->DrawRectangle(&rcStroke);
 			break;
 		case oval:
-			pRT->DrawEllipse(&rcDest);
+			pRT->DrawEllipse(&rcStroke);
 			break;
 		case ring:
 			if(m_ringParam){
-				int nRadius = m_ringParam->m_innerRadius.toPixelSize(GetScale())+nPenWidth/2;
-				POINT ptCenter = { (rcDest.left + rcDest.right) / 2,(rcDest.top + rcDest.bottom) / 2 };
+				POINT ptCenter = { (rcStroke.left + rcStroke.right) / 2,(rcStroke.top + rcStroke.bottom) / 2 };
+				int   nRadius = smin(rcStroke.right - rcStroke.left, rcStroke.bottom - rcStroke.top) / 2;
 				RECT rcRing = { ptCenter.x - nRadius,ptCenter.y - nRadius,ptCenter.x + nRadius,ptCenter.y + nRadius };
 				pRT->DrawArc(&rcRing, m_ringParam->m_startAngle, m_ringParam->m_sweepAngle, false);
 			}
