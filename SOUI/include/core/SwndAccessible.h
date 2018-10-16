@@ -30,7 +30,7 @@ namespace SOUI
 		virtual HRESULT put_accValue(VARIANT varChild, BSTR szValue){ return E_NOTIMPL; }
 	};
 
-	class SAccessible : public IAccessible , public SUnknown
+	class SOUI_EXP SAccessible : public IAccessible , public SUnknown
 	{
 	protected:
 		SWindow * m_pWnd;
