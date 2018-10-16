@@ -3014,9 +3014,9 @@ namespace SOUI
 
 		pvarState->vt   = VT_I4; 
 		pvarState->lVal = 0;
-		if(pChild->IsVisible(FALSE))
+		if(!pChild->IsVisible(TRUE))
 			pvarState->lVal = STATE_SYSTEM_INVISIBLE;
-		else if(pChild->IsDisabled(FALSE))
+		else if(pChild->IsDisabled(TRUE))
 			pvarState->lVal = STATE_SYSTEM_UNAVAILABLE;
 		else{
 			if(dwState & WndState_PushDown)
