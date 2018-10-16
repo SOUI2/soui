@@ -82,6 +82,7 @@ HEADERS += include/SApp.h \
            include/core/SMsgLoop.h \
            include/core/SPanel.h \
            include/core/SSingleton.h \
+           include/core/SSingleton2.h \
            include/core/SSingletonMap.h \
            include/core/SSkinObjBase.h \
            include/core/SSkin.h \
@@ -126,6 +127,7 @@ HEADERS += include/SApp.h \
            include/helper/slog.h \
            include/helper/slog-def.h \
            include/helper/sdibhelper.h \
+           include/helper/unknown.h \
            include/interface/imgdecoder-i.h \
            include/interface/render-i.h \
            include/interface/SResProvider-i.h \

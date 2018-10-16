@@ -42,15 +42,15 @@ IUNKNOWN_BEGIN2(__uuidof(iface),iface)
 IUNKNOWN_ADD_IID2(__uuidof(iface),iface)
 
 
-class CUnknown
+class SUnknown
 {
 public:
-	CUnknown():m_cRef(1)
+	SUnknown():m_cRef(1)
 	{
 
 	}
 
-	virtual ~CUnknown(){}
+	virtual ~SUnknown(){}
 
 	virtual void OnFinalRelease(){}
 

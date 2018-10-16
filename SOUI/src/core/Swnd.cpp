@@ -75,7 +75,9 @@ namespace SOUI
 		, m_crColorize(0)
 		, m_strText(this)
 		, m_strToolTipText(this)
+#ifdef SOUI_ENABLE_ACC
 		, m_accessible(this)
+#endif
 #ifdef _DEBUG
 		, m_nMainThreadId( ::GetCurrentThreadId() ) // 初始化对象的线程不一定是主线程
 #endif
@@ -1880,11 +1882,6 @@ namespace SOUI
 		return GetContainer()->OnReleaseSwndCapture();
 	}
 
-	SAccessible * SWindow::GetAccessible()
-	{
-		return &m_accessible;
-	}
-
 	void SWindow::SetFocus()
 	{
 		if(!IsVisible(TRUE) || IsDisabled(TRUE)) return;
@@ -1942,7 +1939,7 @@ namespace SOUI
 		if (iChild == CHILDID_SELF)
 			return this;
 		SWindow *pChild = GetWindow(GSW_FIRSTCHILD);
-		for (int i = 0; i < iChild && pChild; i++)
+		for (int i = 0; i < iChild-1 && pChild; i++)
 		{
 			pChild = pChild->GetWindow(GSW_NEXTSIBLING);
 			if (!pChild) return NULL;
@@ -2760,6 +2757,327 @@ namespace SOUI
 			if(pNewSkin) pSkin = pNewSkin;
 		}
 	}
+
+#ifdef SOUI_ENABLE_ACC
+	SAccessible * SWindow::GetAccessible()
+	{
+		return &m_accessible;
+	}
+
+
+	HRESULT SWindow::get_accParent(IDispatch **ppdispParent)
+	{
+		if(!GetParent())
+		{
+			return E_INVALIDARG;
+		}
+		return GetParent()->GetAccessible()->QueryInterface(IID_IDispatch,(void**)ppdispParent);
+	}
+
+	HRESULT SWindow::get_accChild(VARIANT varChild, IDispatch **ppdispChild)
+	{
+		if(varChild.vt != VT_I4 || !ppdispChild) return E_INVALIDARG;
+		SWindow *pChild = GetChild(varChild.lVal);
+		SLOG_INFO("getChild:"<<varChild.lVal<<" pChild:"<<pChild);
+		if(!pChild) return E_INVALIDARG;
+		return pChild->GetAccessible()->QueryInterface(IID_IDispatch,(void**)ppdispChild);
+	}
+
+	HRESULT SWindow::get_accChildCount(long *pcountChildren)
+	{
+		SLOG_INFO("getChildCount:"<<GetChildrenCount());
+		*pcountChildren = GetChildrenCount();
+		return S_OK;
+	}
+
+	HRESULT SWindow::get_accValue(VARIANT varChild, BSTR *pszValue)
+	{
+		if(varChild.vt != VT_I4 || !pszValue)
+			return E_INVALIDARG;
+		SWindow *pChild = GetChild(varChild.lVal);
+		if(!pChild) return E_INVALIDARG;
+		*pszValue = ::SysAllocString(S_CT2W(pChild->GetWindowText()));
+		return S_OK;
+	}
+
+	HRESULT SWindow::put_accValue(VARIANT varChild, BSTR szValue)
+	{
+		if(varChild.vt != VT_I4 ) return E_INVALIDARG;
+		SWindow *pChild = GetChild(varChild.lVal);
+		if(!pChild) return E_INVALIDARG;
+		pChild->SetWindowText(S_CW2T(szValue));
+		return S_OK;
+	}
+
+	HRESULT SWindow::get_accName(VARIANT varChild, BSTR *pszName)
+	{
+		if(varChild.vt != VT_I4 ) return E_INVALIDARG;
+		SWindow *pChild = GetChild(varChild.lVal);
+		if(!pChild) return E_INVALIDARG;
+
+		if(!m_strName.IsEmpty())
+			*pszName = ::SysAllocString(m_strName);
+		else
+			*pszName = ::SysAllocString(SStringW().Format(L"%s_%d",pChild->GetObjectClass(),pChild->GetID()));
+		return S_OK;
+	}
+
+	HRESULT SWindow::put_accName(VARIANT varChild, BSTR szName)
+	{
+		if(varChild.vt != VT_I4 ) return E_INVALIDARG;
+		SWindow *pChild = GetChild(varChild.lVal);
+		if(!pChild) return E_INVALIDARG;
+		m_strName = szName;
+		return S_OK;
+	}
+
+	HRESULT SWindow::accDoDefaultAction(VARIANT varChild)
+	{
+		if(varChild.vt != VT_I4 ) return E_INVALIDARG;
+		SWindow *pChild = GetChild(varChild.lVal);
+		if(!pChild) return E_INVALIDARG;
+		pChild->FireCommand();
+		return S_OK;
+	}
+
+	HRESULT SWindow::get_accDefaultAction(VARIANT varChild, BSTR *pszDefaultAction)
+	{
+		if(varChild.vt != VT_I4 ) return E_INVALIDARG;
+		SWindow *pChild = GetChild(varChild.lVal);
+		if(!pChild) return E_INVALIDARG;
+		*pszDefaultAction = ::SysAllocString(GetClassName());
+		return S_OK;
+	}
+
+	HRESULT SWindow::accHitTest(long xLeft, long yTop, VARIANT *pvarChild)
+	{
+		if(!pvarChild) return E_INVALIDARG;
+		CPoint pt(xLeft,yTop);
+		ScreenToClient(GetContainer()->GetHostHwnd(),&pt);
+
+		if(!m_rcWindow.PtInRect(pt)) return E_INVALIDARG;
+
+		int iChild = 0;
+		SWindow *pChild = GetWindow(GSW_FIRSTCHILD);
+		while(pChild)
+		{
+			iChild ++;
+			if(pChild->m_rcWindow.PtInRect(pt))
+				break;
+			pChild = pChild->GetWindow(GSW_NEXTSIBLING);
+		}
+		if(!pChild) iChild = CHILDID_SELF;
+
+
+		pvarChild->vt = VT_I4;
+		pvarChild->lVal = iChild;
+
+		return S_OK;
+	}
+
+	HRESULT SWindow::accNavigate(long navDir, VARIANT varStart, VARIANT *pvarEndUpAt)
+	{
+		SLOG_INFO("accNavigate, navDir:"<<navDir<<" start:"<<varStart.lVal);
+
+		HRESULT hr = E_INVALIDARG;
+		pvarEndUpAt->vt = VT_EMPTY;
+		switch(navDir)
+		{
+		case NAVDIR_FIRSTCHILD:
+			if(varStart.vt!=VT_I4 || varStart.lVal != CHILDID_SELF)
+				break;
+			if(GetChildrenCount()==0) break;
+			pvarEndUpAt ->vt = VT_I4;
+			pvarEndUpAt->lVal = 1;
+			break;
+		case NAVDIR_LASTCHILD:
+			if(varStart.vt!=VT_I4 || varStart.lVal != CHILDID_SELF)
+				break;
+			if(GetChildrenCount()==0) break;
+			pvarEndUpAt ->vt = VT_I4;
+			pvarEndUpAt->lVal = GetChildrenCount();
+			break;
+		case NAVDIR_DOWN:
+		case NAVDIR_RIGHT:
+		case NAVDIR_NEXT:
+			{
+				if(varStart.vt != VT_I4) break;
+				if(varStart.lVal == CHILDID_SELF || varStart.lVal>(LONG)GetChildrenCount() ) break;
+				pvarEndUpAt->vt = VT_I4;
+				pvarEndUpAt->lVal = varStart.lVal+1;
+				hr = S_OK;
+			}
+			break;
+		case NAVDIR_UP:
+		case NAVDIR_LEFT:
+		case NAVDIR_PREVIOUS:
+			{
+				if(varStart.vt != VT_I4) break;
+				if(varStart.lVal == CHILDID_SELF || varStart.lVal>(LONG)GetChildrenCount() ) break;
+				pvarEndUpAt->vt = VT_I4;
+				pvarEndUpAt->lVal = varStart.lVal-1;
+				hr = S_OK;
+			}
+			break;
+
+		}
+		SLOG_INFO("accNavigate, navDir:"<<navDir<<" start:"<<varStart.lVal<<" EndUpAt:"<<pvarEndUpAt->lVal);
+		return hr;
+	}
+
+	HRESULT SWindow::accLocation(long *pxLeft, long *pyTop, long *pcxWidth, long *pcyHeight, VARIANT varChild)
+	{
+		if(!(varChild.vt==VT_I4 && pxLeft &&pyTop && pcxWidth && pcyHeight)) return E_INVALIDARG;
+		SWindow *pChild = GetChild(varChild.lVal);
+		if(!pChild) return E_INVALIDARG;
+
+		CRect rc = pChild->GetWindowRect();
+		CPoint pt = rc.TopLeft();
+		ClientToScreen(GetContainer()->GetHostHwnd(),&pt);
+		*pxLeft = pt.x;
+		*pyTop = pt.y;
+		*pcxWidth = rc.Width();
+		*pcyHeight = rc.Height();
+		return S_OK;
+	}
+
+	HRESULT SWindow::accSelect(long flagsSelect, VARIANT varChild)
+	{
+		if(varChild.vt != VT_I4) return E_INVALIDARG;
+		SWindow *pChild = GetChild(varChild.lVal);
+		if(!pChild) return E_INVALIDARG;
+
+		if (((flagsSelect & SELFLAG_TAKEFOCUS) > 0) && (::GetFocus() == GetContainer()->GetHostHwnd()))
+		{
+			pChild->SetFocus();
+			return S_OK;
+		}
+		return S_FALSE;
+	}
+
+	HRESULT SWindow::get_accSelection(VARIANT *pvarChildren)
+	{
+		return E_NOTIMPL;
+	}
+
+
+	HRESULT SWindow::get_accFocus(VARIANT *pvarChild)
+	{
+		HWND hFocused = ::GetFocus();
+		if(hFocused == GetContainer()->GetHostHwnd())
+		{
+			SWND hFocus = GetContainer()->GetFocus();
+			SWindow *pFocus = SWindowMgr::GetWindow(hFocus);
+			if(pFocus)
+			{
+				if(pFocus==this)
+				{
+					pvarChild->vt = VT_I4;
+					pvarChild->lVal = CHILDID_SELF;
+				}
+				else if(pFocus->GetParent() == this)
+				{
+					int iChild = 0;
+					SWindow *pChild = pFocus;
+					while(pChild)
+					{
+						iChild++;
+						pChild = pChild->GetWindow(GSW_PREVSIBLING);
+					}
+					pvarChild->vt = VT_I4;
+					pvarChild->lVal = iChild;
+				}else
+				{
+					pvarChild->vt = VT_DISPATCH;
+					pFocus->GetAccessible()->QueryInterface(IID_IDispatch,(void**)&pvarChild->pdispVal);
+				}
+				return S_OK;
+			}else
+			{
+				return S_FALSE;
+			}
+		}else
+		{
+			pvarChild->vt = VT_DISPATCH;                
+			return AccessibleObjectFromWindow(hFocused, OBJID_WINDOW, 
+				IID_IAccessible, (void**)&pvarChild->pdispVal);                
+		}
+	}
+
+	HRESULT SWindow::get_accState(VARIANT varChild, VARIANT *pvarState)
+	{
+		if(varChild.vt != VT_I4) return E_INVALIDARG;
+		SWindow *pChild = GetChild(varChild.lVal);
+		if(!pChild) return E_INVALIDARG;
+
+		DWORD dwState = pChild->GetState();
+
+		pvarState->vt   = VT_I4; 
+		pvarState->lVal = 0;
+		if(pChild->IsVisible(FALSE))
+			pvarState->lVal = STATE_SYSTEM_INVISIBLE;
+		else if(pChild->IsDisabled(FALSE))
+			pvarState->lVal = STATE_SYSTEM_UNAVAILABLE;
+		else{
+			if(dwState & WndState_PushDown)
+				pvarState->lVal = STATE_SYSTEM_PRESSED;
+			if(dwState & WndState_Check)
+				pvarState->lVal |= STATE_SYSTEM_CHECKED;
+
+			if(GetContainer()->GetFocus() == pChild->m_swnd)
+				pvarState->lVal |= STATE_SYSTEM_FOCUSED;
+			if(pChild->m_bFocusable)
+				pvarState->lVal |= STATE_SYSTEM_FOCUSABLE;
+		}
+
+		return S_OK;
+	}
+
+
+	LONG SWindow::accRole() const
+	{
+		return ROLE_SYSTEM_WINDOW;
+	}
+
+
+	HRESULT SWindow::get_accRole(VARIANT varChild, VARIANT *pvarRole)
+	{
+		if(varChild.vt != VT_I4) return E_INVALIDARG;
+		SWindow *pChild = GetChild(varChild.lVal);
+		if(!pChild) return E_INVALIDARG;
+		pvarRole->vt    = VT_I4;
+		pvarRole->lVal  = pChild->accRole();
+		return S_OK;
+	}
+
+	HRESULT SWindow::get_accDescription(VARIANT varChild, BSTR *pszDescription)
+	{
+#ifdef _DEBUG
+		if(varChild.vt != VT_I4) return E_INVALIDARG;
+		SWindow *pChild = GetChild(varChild.lVal);
+		if(!pChild) return E_INVALIDARG;
+		*pszDescription = ::SysAllocString(m_strXml);
+		return S_OK;
+#else
+		return E_NOTIMPL;
+#endif
+	}
+
+	HRESULT SWindow::get_accKeyboardShortcut(VARIANT varChild, BSTR *pszKeyboardShortcut)
+	{
+		return E_NOTIMPL;
+	}
+
+	HRESULT SWindow::get_accHelpTopic(BSTR *pszHelpFile, VARIANT varChild, long *pidTopic)
+	{
+		return E_NOTIMPL;
+	}
+
+	HRESULT SWindow::get_accHelp(VARIANT varChild, BSTR *pszHelp)
+	{
+		return E_NOTIMPL;
+	}
+#endif //SOUI_ENABLE_ACC
 
 
 }//namespace SOUI

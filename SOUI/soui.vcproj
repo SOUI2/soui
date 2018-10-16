@@ -3,8 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="soui"
-	ProjectGUID="{34B93B0C-4469-3DFF-935F-234DAE93435C}"
-	RootNamespace="soui"
+	ProjectGUID="{3142EB88-0071-3141-8E39-42365457AF03}"
 	Keyword="Qt4VSv1.0"
 	TargetFrameworkVersion="0"
 	>
@@ -20,7 +19,7 @@
 			Name="Release|Win32"
 			OutputDirectory="..\bin\"
 			IntermediateDirectory="..\obj\release\soui\"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
@@ -48,7 +47,7 @@
 				AdditionalOptions="/MP"
 				Optimization="1"
 				AdditionalIncludeDirectories=".,..\config,.,include,..\utilities\include,..\tools\mkspecs\win32-msvc2008"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,SOUI_EXPORTS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
 				GeneratePreprocessedFile="0"
 				ExceptionHandling="1"
 				RuntimeLibrary="0"
@@ -70,32 +69,19 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,SOUI_EXPORTS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				ResourceOutputFileName="$(OutDir)\$(InputName).res"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
-				AdditionalDependencies="utilities.lib"
-				OutputFile="$(OutDir)\soui.dll"
-				LinkIncremental="1"
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\soui.lib"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\bin"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile=""
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
-				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -107,9 +93,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -117,7 +100,7 @@
 			Name="Debug|Win32"
 			OutputDirectory="..\bin\"
 			IntermediateDirectory="..\obj\debug\soui\"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
@@ -145,7 +128,7 @@
 				AdditionalOptions="/MP"
 				Optimization="4"
 				AdditionalIncludeDirectories=".,..\config,.,include,..\utilities\include,..\tools\mkspecs\win32-msvc2008"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,SOUI_EXPORTS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
 				GeneratePreprocessedFile="0"
 				ExceptionHandling="1"
 				RuntimeLibrary="1"
@@ -167,29 +150,19 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,SOUI_EXPORTS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,_DEBUG"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,_DEBUG"
+				ResourceOutputFileName="$(OutDir)\$(InputName).res"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
-				AdditionalDependencies="utilitiesd.lib"
-				OutputFile="$(OutDir)\souid.dll"
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\souid.lib"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\bin"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile=""
-				SubSystem="2"
-				LinkTimeCodeGeneration="0"
-				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -199,9 +172,6 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -293,7 +263,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\control\SDateTimePicker.cpp"
+				RelativePath="src\control\SDateTimePicker.cpp"
 				>
 			</File>
 			<File
@@ -341,7 +311,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\animator\SInterpolatorImpl.cpp"
+				RelativePath="src\animator\SInterpolatorImpl.cpp"
 				>
 			</File>
 			<File
@@ -510,6 +480,10 @@
 			</File>
 			<File
 				RelativePath="src\core\Swnd.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\core\SwndAccessible.cpp"
 				>
 			</File>
 			<File
@@ -687,7 +661,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\control\SDateTimePicker.h"
+				RelativePath="include\control\SDateTimePicker.h"
 				>
 			</File>
 			<File
@@ -743,11 +717,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\interface\sinterpolator-i.h"
+				RelativePath="include\interface\SInterpolator-i.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\animator\SInterpolatorImpl.h"
+				RelativePath="include\animator\SInterpolatorImpl.h"
 				>
 			</File>
 			<File
@@ -883,10 +857,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\interface\SPathEffect-i.h"
-				>
-			</File>
-			<File
 				RelativePath="include\helper\SplitString.h"
 				>
 			</File>
@@ -928,6 +898,10 @@
 			</File>
 			<File
 				RelativePath="include\core\SSingleton.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\core\SSingleton2.h"
 				>
 			</File>
 			<File
@@ -1027,6 +1001,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\core\SwndAccessible.h"
+				>
+			</File>
+			<File
 				RelativePath="include\core\SwndContainer-i.h"
 				>
 			</File>
@@ -1085,10 +1063,6 @@
 				</FileConfiguration>
 			</File>
 		</Filter>
-		<File
-			RelativePath="soui.rc"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

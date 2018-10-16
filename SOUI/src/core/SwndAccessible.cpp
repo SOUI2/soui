@@ -13,7 +13,7 @@ namespace SOUI
 	{
 	}
 
-
+#ifdef SOUI_ENABLE_ACC
 	STDMETHODIMP SAccessible::get_accParent(IDispatch ** ppdispParent)
 	{
 		return m_pWnd->get_accParent(ppdispParent);
@@ -140,6 +140,134 @@ namespace SOUI
 		return E_NOTIMPL;
 	}
 
+#else
 
+	STDMETHODIMP SAccessible::get_accParent(IDispatch ** ppdispParent)
+	{
+		return E_NOTIMPL;
 	}
+
+	STDMETHODIMP SAccessible::get_accChildCount(long * pcountChildren)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::get_accChild(VARIANT varChild, IDispatch ** ppdispChild)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::get_accName(VARIANT varChild, BSTR * pszName)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::get_accValue(VARIANT varChild, BSTR * pszValue)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::get_accDescription(VARIANT varChild, BSTR * pszDescription)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::get_accRole(VARIANT varChild, VARIANT * pvarRole)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::get_accState(VARIANT varChild, VARIANT * pvarState)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::get_accHelp(VARIANT varChild, BSTR * pszHelp)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::get_accHelpTopic(BSTR * pszHelpFile, VARIANT varChild, long * pidTopic)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::get_accKeyboardShortcut(VARIANT varChild, BSTR * pszKeyboardShortcut)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::get_accFocus(VARIANT * pvarChild)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::get_accSelection(VARIANT * pvarChildren)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::get_accDefaultAction(VARIANT varChild, BSTR * pszDefaultAction)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::accSelect(long flagsSelect, VARIANT varChild)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::accLocation(long * pxLeft, long * pyTop, long * pcxWidth, long * pcyHeight, VARIANT varChild)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::accNavigate(long navDir, VARIANT varStart, VARIANT * pvarEndUpAt)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::accHitTest(long xLeft, long yTop, VARIANT * pvarChild)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::accDoDefaultAction(VARIANT varChild)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::put_accName(VARIANT varChild, BSTR szName)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::put_accValue(VARIANT varChild, BSTR szValue)
+	{
+		return E_NOTIMPL;
+	}
+
+	// Implement IDispatch
+	STDMETHODIMP SAccessible::GetTypeInfoCount(unsigned int * pctinfo)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::GetTypeInfo(unsigned int iTInfo, LCID lcid, ITypeInfo ** ppTInfo)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::GetIDsOfNames(REFIID riid, OLECHAR ** rgszNames, unsigned int cNames, LCID lcid, DISPID * rgDispId)
+	{
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP SAccessible::Invoke(DISPID dispIdMember, REFIID riid, LCID lcid, WORD wFlags, DISPPARAMS * pDispParams, VARIANT * pVarResult, EXCEPINFO * pExcepInfo, unsigned int * puArgErr)
+	{
+		return E_NOTIMPL;
+	}
+
+#endif//SOUI_ENABLE_ACC
+}
 
