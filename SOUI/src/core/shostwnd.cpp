@@ -1531,6 +1531,12 @@ void SHostWnd::OnWindowPosChanging(LPWINDOWPOS lpWndPos)
 
 }
 
+LRESULT SHostWnd::OnGetObject(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	IAccessible* pProxy = GetAccessible();
+	return LresultFromObject(IID_IAccessible, wParam, static_cast<IAccessible*>(pProxy));
+}
+
 void SHostWnd::_RestoreClickState()
 {
     switch(m_msgMouse.message)

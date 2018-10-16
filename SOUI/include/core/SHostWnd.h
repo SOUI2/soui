@@ -262,6 +262,8 @@ protected:
 
 	void OnWindowPosChanging(LPWINDOWPOS lpWndPos);
         
+	LRESULT OnGetObject(UINT uMsg, WPARAM wParam, LPARAM lParam);
+
 #ifndef DISABLE_SWNDSPY
 protected:
     LRESULT OnSpyMsgSetSpy(UINT uMsg,WPARAM wParam,LPARAM lParam);
@@ -364,6 +366,7 @@ public://事件处理接口
         MESSAGE_HANDLER_EX(UM_SCRIPTTIMER,OnScriptTimer)
         MESSAGE_HANDLER_EX(UM_MENUEVENT,OnMenuExEvent)
 		MSG_WM_WINDOWPOSCHANGING(OnWindowPosChanging)
+		MESSAGE_HANDLER_EX(WM_GETOBJECT,OnGetObject)
     #ifndef DISABLE_SWNDSPY
         MESSAGE_HANDLER_EX(SPYMSG_SETSPY, OnSpyMsgSetSpy)
         MESSAGE_HANDLER_EX(SPYMSG_SWNDENUM, OnSpyMsgSwndEnum)

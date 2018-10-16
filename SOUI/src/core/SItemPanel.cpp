@@ -25,7 +25,6 @@ SItemPanel::SItemPanel(SWindow *pFrameHost,pugi::xml_node xmlNode,IItemContainer
 {
     SASSERT(m_pFrmHost);
     SASSERT(m_pItemContainer);
-    SetContainer(this);
     if(xmlNode) 
     {
         InitFromXml(xmlNode);

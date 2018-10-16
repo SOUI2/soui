@@ -90,6 +90,7 @@ HEADERS += include/SApp.h \
            include/core/SwndContainer-i.h \
            include/core/SwndContainerImpl.h \
            include/core/SwndStyle.h \
+           include/core/SwndAccessible.h \
            include/core/scaret.h \
            include/core/SObjectFactory.h \
            include/event/eventcrack.h \
@@ -206,6 +207,7 @@ SOURCES += src/SApp.cpp \
            src/core/Swnd.cpp \
            src/core/SwndContainerImpl.cpp \
            src/core/SwndStyle.cpp \
+           src/core/SwndAccessible.cpp \
            src/core/scaret.cpp \
            src/core/SObjectFactory.cpp \
            src/layout/SLinearLayout.cpp \

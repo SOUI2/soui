@@ -26,6 +26,7 @@
 #include "SwndStyle.h"
 #include "SSkin.h"
 #include <OCIdl.h>
+#include "SwndAccessible.h"
 
 #define SC_WANTARROWS     0x0001      /* Control wants arrow keys         */
 #define SC_WANTTAB        0x0002      /* Control wants tab keys           */
@@ -175,6 +176,7 @@ namespace SOUI
     class SOUI_EXP SWindow :  public SObject
 		, public SMsgHandleState
 		, public ITrCtxProvider
+		, public IAccProxy
         , public TObjRefImpl2<IObjRef,SWindow>
     {
         SOUI_CLASS_NAME_EX(SWindow, L"window",Window)
@@ -242,6 +244,8 @@ namespace SOUI
         */
         SWND GetSwnd() const;
         SWindow *GetWindow(int uCode) const;    
+
+		SWindow * GetChild(int iChild);
 
         /**
         * GetWindowText
@@ -753,7 +757,7 @@ namespace SOUI
         SWND SetCapture();
         BOOL ReleaseCapture();
 
-		
+		SAccessible * GetAccessible();
     public:// Virtual functions
 
 		virtual int GetScale() const;
@@ -1386,6 +1390,8 @@ namespace SOUI
         
         CAutoRefPtr<IRegion>    m_invalidRegion;/**< 非背景混合窗口的脏区域 */
 		CAutoRefPtr<IAttrStorage> m_attrStorage;/**< 属性保存对象 */
+		
+		SAccessible				m_accessible;
 #ifdef _DEBUG
         DWORD               m_nMainThreadId;    /**< 窗口宿线程ID */
 #endif

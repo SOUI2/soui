@@ -75,6 +75,7 @@ namespace SOUI
 		, m_crColorize(0)
 		, m_strText(this)
 		, m_strToolTipText(this)
+		, m_accessible(this)
 #ifdef _DEBUG
 		, m_nMainThreadId( ::GetCurrentThreadId() ) // 初始化对象的线程不一定是主线程
 #endif
@@ -1879,6 +1880,11 @@ namespace SOUI
 		return GetContainer()->OnReleaseSwndCapture();
 	}
 
+	SAccessible * SWindow::GetAccessible()
+	{
+		return &m_accessible;
+	}
+
 	void SWindow::SetFocus()
 	{
 		if(!IsVisible(TRUE) || IsDisabled(TRUE)) return;
@@ -1929,6 +1935,20 @@ namespace SOUI
 			break;
 		}
 		return pRet;
+	}
+
+	SWindow * SWindow::GetChild(int iChild)
+	{
+		if (iChild == CHILDID_SELF)
+			return this;
+		SWindow *pChild = GetWindow(GSW_FIRSTCHILD);
+		for (int i = 0; i < iChild && pChild; i++)
+		{
+			pChild = pChild->GetWindow(GSW_NEXTSIBLING);
+			if (!pChild) return NULL;
+		}
+
+		return pChild;
 	}
 
 
