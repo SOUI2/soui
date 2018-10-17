@@ -18,7 +18,11 @@ namespace SOUI
 	{
 		if (!m_pWnd->GetParent())
 		{
-			return E_INVALIDARG;
+			HWND hParent = ::GetParent(m_pWnd->GetContainer()->GetHostHwnd());
+			if(hParent)
+				return AccessibleObjectFromWindow(hParent, OBJID_WINDOW,IID_IAccessible, (void**)ppdispParent);
+			else
+				return E_INVALIDARG;
 		}
 		SComPtr<IAccessible> pAcc = m_pWnd->GetParent()->GetAccessible();
 		if(!pAcc) return E_NOINTERFACE;
@@ -68,11 +72,10 @@ namespace SOUI
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
 
-		SStringW strName = pChild->GetName();
-		if (!strName.IsEmpty())
-			*pszName = ::SysAllocString(strName);
-		else
-			*pszName = ::SysAllocString(SStringW().Format(L"%s_%d", pChild->GetObjectClass(), pChild->GetID()));
+		SStringW strText = S_CT2W(pChild->GetWindowText());
+		if (strText.IsEmpty())
+			return E_INVALIDARG;
+		*pszName = ::SysAllocString(strText);
 		return S_OK;
 	}
 
@@ -81,7 +84,7 @@ namespace SOUI
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
-		pChild->SetName(szName);
+		pChild->SetWindowText(S_CW2T(szName));
 		return S_OK;
 	}
 
