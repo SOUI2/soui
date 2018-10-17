@@ -1,4 +1,5 @@
 ﻿#include <core-def.h>
+#define SOUI_ENABLE_ACC
 
 #ifdef DLL_CORE
 # ifdef SOUI_EXPORTS

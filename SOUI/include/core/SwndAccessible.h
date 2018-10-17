@@ -5,29 +5,29 @@
 
 namespace SOUI
 {
-	class IAccProxy {
-	public:
-		virtual HRESULT get_accParent(IDispatch **ppdispParent) { return E_NOTIMPL; }
-		virtual HRESULT get_accChildCount(long *pcountChildren){ return E_NOTIMPL; }
-		virtual HRESULT get_accChild(VARIANT varChild, IDispatch **ppdispChild){ return E_NOTIMPL; }
-		virtual HRESULT get_accName(VARIANT varChild, BSTR *pszName){ return E_NOTIMPL; }
-		virtual HRESULT get_accValue(VARIANT varChild, BSTR *pszValue){ return E_NOTIMPL; }
-		virtual HRESULT get_accDescription(VARIANT varChild, BSTR *pszDescription){ return E_NOTIMPL; }
-		virtual HRESULT get_accRole(VARIANT varChild, VARIANT *pvarRole){ return E_NOTIMPL; }
-		virtual HRESULT get_accState(VARIANT varChild, VARIANT *pvarState){ return E_NOTIMPL; }
-		virtual HRESULT get_accHelp(VARIANT varChild, BSTR *pszHelp){ return E_NOTIMPL; }
-		virtual HRESULT get_accHelpTopic(BSTR *pszHelpFile, VARIANT varChild, long *pidTopic){ return E_NOTIMPL; }
-		virtual HRESULT get_accKeyboardShortcut(VARIANT varChild, BSTR *pszKeyboardShortcut){ return E_NOTIMPL; }
-		virtual HRESULT get_accFocus(VARIANT *pvarChild){ return E_NOTIMPL; }
-		virtual HRESULT get_accSelection(VARIANT *pvarChildren){ return E_NOTIMPL; }
-		virtual HRESULT get_accDefaultAction(VARIANT varChild, BSTR *pszDefaultAction){ return E_NOTIMPL; }
-		virtual HRESULT accSelect(long flagsSelect, VARIANT varChild){ return E_NOTIMPL; }
-		virtual HRESULT accLocation(long *pxLeft, long *pyTop, long *pcxWidth, long *pcyHeight, VARIANT varChild){ return E_NOTIMPL; }
-		virtual HRESULT accNavigate(long navDir, VARIANT varStart, VARIANT *pvarEndUpAt){ return E_NOTIMPL; }
-		virtual HRESULT accHitTest(long xLeft, long yTop, VARIANT *pvarChild){ return E_NOTIMPL; }
-		virtual HRESULT accDoDefaultAction(VARIANT varChild){ return E_NOTIMPL; }
-		virtual HRESULT put_accName(VARIANT varChild, BSTR szName){ return E_NOTIMPL; }
-		virtual HRESULT put_accValue(VARIANT varChild, BSTR szValue){ return E_NOTIMPL; }
+#ifdef SOUI_ENABLE_ACC
+	struct IAccProxy {
+		virtual HRESULT get_accParent(IDispatch **ppdispParent) PURE;
+		virtual HRESULT get_accChildCount(long *pcountChildren)PURE;
+		virtual HRESULT get_accChild(VARIANT varChild, IDispatch **ppdispChild)PURE;
+		virtual HRESULT get_accName(VARIANT varChild, BSTR *pszName)PURE;
+		virtual HRESULT get_accValue(VARIANT varChild, BSTR *pszValue)PURE;
+		virtual HRESULT get_accDescription(VARIANT varChild, BSTR *pszDescription)PURE;
+		virtual HRESULT get_accRole(VARIANT varChild, VARIANT *pvarRole)PURE;
+		virtual HRESULT get_accState(VARIANT varChild, VARIANT *pvarState)PURE;
+		virtual HRESULT get_accHelp(VARIANT varChild, BSTR *pszHelp)PURE;
+		virtual HRESULT get_accHelpTopic(BSTR *pszHelpFile, VARIANT varChild, long *pidTopic)PURE;
+		virtual HRESULT get_accKeyboardShortcut(VARIANT varChild, BSTR *pszKeyboardShortcut)PURE;
+		virtual HRESULT get_accFocus(VARIANT *pvarChild)PURE;
+		virtual HRESULT get_accSelection(VARIANT *pvarChildren)PURE;
+		virtual HRESULT get_accDefaultAction(VARIANT varChild, BSTR *pszDefaultAction)PURE;
+		virtual HRESULT accSelect(long flagsSelect, VARIANT varChild)PURE;
+		virtual HRESULT accLocation(long *pxLeft, long *pyTop, long *pcxWidth, long *pcyHeight, VARIANT varChild)PURE;
+		virtual HRESULT accNavigate(long navDir, VARIANT varStart, VARIANT *pvarEndUpAt)PURE;
+		virtual HRESULT accHitTest(long xLeft, long yTop, VARIANT *pvarChild)PURE;
+		virtual HRESULT accDoDefaultAction(VARIANT varChild)PURE;
+		virtual HRESULT put_accName(VARIANT varChild, BSTR szName)PURE;
+		virtual HRESULT put_accValue(VARIANT varChild, BSTR szValue)PURE;
 	};
 
 	class SOUI_EXP SAccessible : public IAccessible , public SUnknown
@@ -74,5 +74,5 @@ namespace SOUI
 		IUNKNOWN_END()
 	};
 
-
+#endif//SOUI_ENABLE_ACC
 }
