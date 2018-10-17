@@ -105,23 +105,25 @@ namespace SOUI
 		CPoint pt(xLeft, yTop);
 		ScreenToClient(m_pWnd->GetContainer()->GetHostHwnd(), &pt);
 
-		if (!m_pWnd->GetWindowRect().PtInRect(pt)) return E_INVALIDARG;
-
-		int iChild = 0;
-		SWindow *pChild = m_pWnd->GetWindow(GSW_FIRSTCHILD);
+		SWindow *pChild = m_pWnd->GetWindow(GSW_LASTCHILD);
 		while (pChild)
 		{
-			iChild++;
-			if (pChild->GetWindowRect().PtInRect(pt))
+			if (pChild->IsVisible(TRUE) && pChild->IsContainPoint(pt,FALSE))
 				break;
-			pChild = pChild->GetWindow(GSW_NEXTSIBLING);
+			pChild = pChild->GetWindow(GSW_PREVSIBLING);
 		}
-		if (!pChild) iChild = CHILDID_SELF;
-
-
-		pvarChild->vt = VT_I4;
-		pvarChild->lVal = iChild;
-
+		if (!pChild)
+		{
+			pvarChild->vt = VT_I4;
+			pvarChild->lVal = CHILDID_SELF;
+			SLOGFMTF("this:%08x,vt:%d,lVal:0",this, VT_I4);
+		}
+		else
+		{
+			pvarChild->vt = VT_DISPATCH;
+			pChild->GetAccessible()->QueryInterface(IID_IDispatch, (void**)&pvarChild->pdispVal);
+			SLOGFMTF("this:%08x,vt:%d,disp:0x%08x", this, VT_DISPATCH,pvarChild->pdispVal);
+		}
 		return S_OK;
 	}
 
