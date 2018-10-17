@@ -176,9 +176,6 @@ namespace SOUI
     class SOUI_EXP SWindow :  public SObject
 		, public SMsgHandleState
 		, public ITrCtxProvider
-#ifdef SOUI_ENABLE_ACC
-		, public IAccProxy
-#endif
         , public TObjRefImpl2<IObjRef,SWindow>
     {
         SOUI_CLASS_NAME_EX(SWindow, L"window",Window)
@@ -192,34 +189,9 @@ namespace SOUI
 
         virtual ~SWindow();
 
-#ifdef SOUI_ENABLE_ACC
 	public:
-		SAccessible * GetAccessible();
-
-		virtual LONG accRole() const ;
-		virtual BOOL accValidateNavStart(VARIANT * pvar) const;
-		virtual HRESULT get_accParent(IDispatch **ppdispParent);
-		virtual HRESULT get_accChildCount(long *pcountChildren);
-		virtual HRESULT get_accChild(VARIANT varChild, IDispatch **ppdispChild);
-		virtual HRESULT get_accName(VARIANT varChild, BSTR *pszName);
-		virtual HRESULT get_accValue(VARIANT varChild, BSTR *pszValue);
-		virtual HRESULT get_accDescription(VARIANT varChild, BSTR *pszDescription);
-		virtual HRESULT get_accRole(VARIANT varChild, VARIANT *pvarRole);
-		virtual HRESULT get_accState(VARIANT varChild, VARIANT *pvarState);
-		virtual HRESULT get_accHelp(VARIANT varChild, BSTR *pszHelp);
-		virtual HRESULT get_accHelpTopic(BSTR *pszHelpFile, VARIANT varChild, long *pidTopic);
-		virtual HRESULT get_accKeyboardShortcut(VARIANT varChild, BSTR *pszKeyboardShortcut);
-		virtual HRESULT get_accFocus(VARIANT *pvarChild);
-		virtual HRESULT get_accSelection(VARIANT *pvarChildren);
-		virtual HRESULT get_accDefaultAction(VARIANT varChild, BSTR *pszDefaultAction);
-		virtual HRESULT accSelect(long flagsSelect, VARIANT varChild);
-		virtual HRESULT accLocation(long *pxLeft, long *pyTop, long *pcxWidth, long *pcyHeight, VARIANT varChild);
-		virtual HRESULT accNavigate(long navDir, VARIANT varStart, VARIANT *pvarEndUpAt);
-		virtual HRESULT accHitTest(long xLeft, long yTop, VARIANT *pvarChild);
-		virtual HRESULT accDoDefaultAction(VARIANT varChild);
-		virtual HRESULT put_accName(VARIANT varChild, BSTR szName);
-		virtual HRESULT put_accValue(VARIANT varChild, BSTR szValue);
-#endif
+		virtual LONG accRole() const;
+		virtual SAccessible * GetAccessible();
 	public:
 
 		ILayout * GetLayout(){
@@ -1421,7 +1393,7 @@ namespace SOUI
 		CAutoRefPtr<IAttrStorage> m_attrStorage;/**< 属性保存对象 */
 		
 #ifdef SOUI_ENABLE_ACC
-		SAccessible				m_accessible;
+		CAutoRefPtr<SAccessible>  m_pAcc;
 #endif
 #ifdef _DEBUG
         DWORD               m_nMainThreadId;    /**< 窗口宿线程ID */
