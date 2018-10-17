@@ -20,7 +20,9 @@ namespace SOUI
 		{
 			return E_INVALIDARG;
 		}
-		return m_pWnd->GetParent()->GetAccessible()->QueryInterface(IID_IDispatch, (void**)ppdispParent);
+		SComPtr<IAccessible> pAcc = m_pWnd->GetParent()->GetAccessible();
+		if(!pAcc) return E_NOINTERFACE;
+		return pAcc->QueryInterface(IID_IDispatch, (void**)ppdispParent);
 	}
 
 	HRESULT SAccessible::get_accChild(VARIANT varChild, IDispatch **ppdispChild)
@@ -29,7 +31,9 @@ namespace SOUI
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		SLOG_INFO("getChild:" << varChild.lVal << " pChild:" << pChild);
 		if (!pChild) return E_INVALIDARG;
-		return pChild->GetAccessible()->QueryInterface(IID_IDispatch, (void**)ppdispChild);
+		SComPtr<IAccessible> pAcc = pChild->GetAccessible();
+		if(!pAcc) return E_NOINTERFACE;
+		return pAcc->QueryInterface(IID_IDispatch, (void**)ppdispChild);
 	}
 
 	HRESULT SAccessible::get_accChildCount(long *pcountChildren)
@@ -164,6 +168,8 @@ namespace SOUI
 				return(FALSE);
 			break;
 
+		case VT_DISPATCH:
+			return TRUE;
 		default:
 			return(FALSE);
 		}
@@ -173,7 +179,7 @@ namespace SOUI
 
 	HRESULT SAccessible::accNavigate(long navDir, VARIANT varStart, VARIANT *pvarEndUpAt)
 	{
-		SLOG_INFO("accNavigate, navDir:" << navDir << " start:" << varStart.lVal);
+		SLOG_INFO("accNavigate, navDir:" << navDir <<" start.vt:"<< varStart.vt<< " start.lVal:" << varStart.lVal);
 
 		HRESULT hr = E_INVALIDARG;
 		pvarEndUpAt->vt = VT_EMPTY;
@@ -182,27 +188,48 @@ namespace SOUI
 		switch (navDir)
 		{
 		case NAVDIR_FIRSTCHILD:
-			if (varStart.vt != VT_I4 || varStart.lVal != CHILDID_SELF)
-				break;
-			if (m_pWnd->GetChildrenCount() == 0) break;
-			pvarEndUpAt->vt = VT_I4;
-			pvarEndUpAt->lVal = 1;
+			if(m_pWnd->GetChildrenCount() == 0) break;
+			if((varStart.vt == VT_DISPATCH && varStart.pdispVal == NULL) 
+				|| (varStart.vt == VT_I4 && varStart.lVal == CHILDID_SELF))
+			{
+				pvarEndUpAt->vt = VT_I4;
+				pvarEndUpAt->lVal = 1;
+			}
+			hr = S_OK;
 			break;
 		case NAVDIR_LASTCHILD:
-			if (varStart.vt != VT_I4 || varStart.lVal != CHILDID_SELF)
-				break;
-			if (m_pWnd->GetChildrenCount() == 0) break;
-			pvarEndUpAt->vt = VT_I4;
-			pvarEndUpAt->lVal = m_pWnd->GetChildrenCount();
+			if(m_pWnd->GetChildrenCount() == 0) break;
+			if((varStart.vt == VT_DISPATCH && varStart.pdispVal == NULL) 
+				|| (varStart.vt == VT_I4 && varStart.lVal == CHILDID_SELF))
+			{
+				pvarEndUpAt->vt = VT_I4;
+				pvarEndUpAt->lVal = m_pWnd->GetChildrenCount();
+			}
+			hr = S_OK;
 			break;
 		case NAVDIR_DOWN:
 		case NAVDIR_RIGHT:
 		case NAVDIR_NEXT:
+			if(varStart.vt == VT_DISPATCH)
 			{
-				if (varStart.vt != VT_I4 || m_pWnd->GetChildrenCount() == 0) break;
+				SAccessible *pAcc = varStart.pdispVal?(SAccessible*)varStart.pdispVal:this;
+				SWindow * pNext =  pAcc->m_pWnd->GetWindow(GSW_NEXTSIBLING);
+				if(pNext)
+				{
+					SComPtr<IAccessible> pAcc = pNext->GetAccessible();
+					if(pAcc)
+					{
+						pvarEndUpAt->vt = VT_DISPATCH;
+						pAcc->QueryInterface(IID_IDispatch,(void **)pvarEndUpAt->pdispVal);
+					}
+				}
+				hr = S_OK;
+			}else if(varStart.vt == VT_I4)
+			{
+				if (m_pWnd->GetChildrenCount() == 0) break;
 				pvarEndUpAt->vt = VT_I4;
 				pvarEndUpAt->lVal = varStart.lVal + 1;
-				if (pvarEndUpAt->lVal > m_pWnd->GetChildrenCount())
+				if (pvarEndUpAt->lVal > (int)m_pWnd->GetChildrenCount())
 					pvarEndUpAt->lVal = 1;
 				hr = S_OK;
 			}
@@ -210,8 +237,22 @@ namespace SOUI
 		case NAVDIR_UP:
 		case NAVDIR_LEFT:
 		case NAVDIR_PREVIOUS:
+			if(varStart.vt == VT_DISPATCH)
 			{
-				if (varStart.vt != VT_I4 || m_pWnd->GetChildrenCount() == 0) break;
+				SAccessible *pAcc = varStart.pdispVal?(SAccessible*)varStart.pdispVal:this;
+				SWindow * pNext =  pAcc->m_pWnd->GetWindow(GSW_PREVSIBLING);
+				if(pNext)
+				{
+					SComPtr<IAccessible> pAcc = pNext->GetAccessible();
+					if(pAcc)
+					{
+						pvarEndUpAt->vt = VT_DISPATCH;
+						pAcc->QueryInterface(IID_IDispatch,(void **)pvarEndUpAt->pdispVal);
+					}
+				}
+				hr = S_OK;
+			}else if(varStart.vt == VT_I4){
+				if (m_pWnd->GetChildrenCount() == 0) break;
 				pvarEndUpAt->vt = VT_I4;
 				pvarEndUpAt->lVal = varStart.lVal - 1;
 				if (pvarEndUpAt->lVal < 1)
