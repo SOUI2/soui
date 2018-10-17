@@ -1533,9 +1533,18 @@ void SHostWnd::OnWindowPosChanging(LPWINDOWPOS lpWndPos)
 
 LRESULT SHostWnd::OnGetObject(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	IAccessible* pAcc = GetAccessible();
-	if(pAcc)
+	IAccessible * pAcc = NULL;
+	DWORD dwObjectId = lParam;
+	if (dwObjectId == OBJID_CLIENT) {
+		pAcc = GetAccessible();
+	} else{
+		SWindow *pWnd = SWindowMgr::GetWindow(dwObjectId);
+		if(pWnd) pAcc = pWnd->GetAccessible();//user swnd to identify a swindow.
+	}
+
+	if (pAcc != NULL) {
 		return LresultFromObject(IID_IAccessible, wParam, pAcc);
+	}
 	else
 	{
 		SetMsgHandled(FALSE);
