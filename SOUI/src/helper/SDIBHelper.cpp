@@ -23,11 +23,22 @@ namespace SOUI
 			return false;
 		}
         
+		SMap<DWORD, DWORD> cache;
         int nPixels = pDib->nWid * pDib->nHei;
         LPBYTE pBit = pDib->pBits;
         for(int i=0;i<nPixels;i++, pBit+=4)
         {
-            mode(pBit, param);
+			DWORD crFrom = *(DWORD*)pBit;
+			SMap<DWORD, DWORD>::CPair *p = cache.Lookup(crFrom);
+			if (p)
+			{
+				memcpy(pBit, &p->m_value, 4);
+			}
+			else
+			{
+				mode(pBit, param);
+				cache[crFrom] = *(DWORD*)pBit;
+			}
         }
 
 		return true;
