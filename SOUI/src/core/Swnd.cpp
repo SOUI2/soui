@@ -2761,7 +2761,7 @@ namespace SOUI
 		return ROLE_SYSTEM_WINDOW;
 	}
 
-	SAccessible * SWindow::GetAccessible()
+	IAccessible * SWindow::GetAccessible()
 	{
 #ifdef SOUI_ENABLE_ACC
 		if (!m_pAcc) m_pAcc.Attach(new SAccessible(this));

@@ -191,7 +191,7 @@ namespace SOUI
 
 	public:
 		virtual LONG accRole() const;
-		virtual SAccessible * GetAccessible();
+		virtual IAccessible * GetAccessible();
 	public:
 
 		ILayout * GetLayout(){

@@ -53,6 +53,5 @@ namespace SOUI
 			IUNKNOWN_ADD_IID(IDispatch)
 		IUNKNOWN_END()
 	};
-
 #endif//SOUI_ENABLE_ACC
 }

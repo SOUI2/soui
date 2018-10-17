@@ -1533,13 +1533,14 @@ void SHostWnd::OnWindowPosChanging(LPWINDOWPOS lpWndPos)
 
 LRESULT SHostWnd::OnGetObject(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-#ifdef SOUI_ENABLE_ACC
-	IAccessible* pProxy = GetAccessible();
-	return LresultFromObject(IID_IAccessible, wParam, static_cast<IAccessible*>(pProxy));
-#else
-	SetMsgHandled(FALSE);
-	return 0;
-#endif //SOUI_ENABLE_ACC
+	IAccessible* pAcc = GetAccessible();
+	if(pAcc)
+		return LresultFromObject(IID_IAccessible, wParam, pAcc);
+	else
+	{
+		SetMsgHandled(FALSE);
+		return 0;
+	}
 }
 
 void SHostWnd::_RestoreClickState()
