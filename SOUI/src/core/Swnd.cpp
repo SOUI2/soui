@@ -397,7 +397,7 @@ namespace SOUI
 		return TRUE;
 	}
 
-	UINT SWindow::GetChildrenCount()
+	UINT SWindow::GetChildrenCount() const
 	{
 		return m_nChildrenCount;
 	}
@@ -2875,12 +2875,58 @@ namespace SOUI
 		return S_OK;
 	}
 
+	// --------------------------------------------------------------------------
+	//
+	//  ValidateChild()
+	//
+	//  The window children are the OBJID_s of the elements that compose the
+	//  frame.  These are NEGATIVE values.  Hence we override the validation.
+	//
+	// --------------------------------------------------------------------------
+	BOOL SWindow::accValidateNavStart(VARIANT* pvar) const
+	{
+		//
+		// This validates a VARIANT parameter and translates missing/empty
+		// params.
+		//
+
+	TryAgain:
+		// Missing parameter, a la VBA
+		switch (pvar->vt)
+		{
+		case VT_VARIANT | VT_BYREF:
+			VariantCopy(pvar, pvar->pvarVal);
+			goto TryAgain;
+
+		case VT_ERROR:
+			if (pvar->scode != DISP_E_PARAMNOTFOUND)
+				return(FALSE);
+			// FALL THRU
+
+		case VT_EMPTY:
+			pvar->vt = VT_I4;
+			pvar->lVal = 0;
+			break;
+		case VT_I4:
+			if ((pvar->lVal < 0) || (pvar->lVal > (LONG)GetChildrenCount()))
+				return(FALSE);
+			break;
+
+		default:
+			return(FALSE);
+		}
+
+		return(TRUE);
+	}
+
 	HRESULT SWindow::accNavigate(long navDir, VARIANT varStart, VARIANT *pvarEndUpAt)
 	{
 		SLOG_INFO("accNavigate, navDir:"<<navDir<<" start:"<<varStart.lVal);
 
 		HRESULT hr = E_INVALIDARG;
 		pvarEndUpAt->vt = VT_EMPTY;
+		if (!accValidateNavStart(&varStart))
+			return hr;
 		switch(navDir)
 		{
 		case NAVDIR_FIRSTCHILD:
@@ -2901,10 +2947,11 @@ namespace SOUI
 		case NAVDIR_RIGHT:
 		case NAVDIR_NEXT:
 			{
-				if(varStart.vt != VT_I4) break;
-				if(varStart.lVal == CHILDID_SELF || varStart.lVal>(LONG)GetChildrenCount() ) break;
+				if(varStart.vt != VT_I4 || GetChildrenCount()==0) break;
 				pvarEndUpAt->vt = VT_I4;
 				pvarEndUpAt->lVal = varStart.lVal+1;
+				if (pvarEndUpAt->lVal > GetChildrenCount())
+					pvarEndUpAt->lVal = 1;
 				hr = S_OK;
 			}
 			break;
@@ -2912,10 +2959,11 @@ namespace SOUI
 		case NAVDIR_LEFT:
 		case NAVDIR_PREVIOUS:
 			{
-				if(varStart.vt != VT_I4) break;
-				if(varStart.lVal == CHILDID_SELF || varStart.lVal>(LONG)GetChildrenCount() ) break;
+				if(varStart.vt != VT_I4 || GetChildrenCount() == 0) break;
 				pvarEndUpAt->vt = VT_I4;
 				pvarEndUpAt->lVal = varStart.lVal-1;
+				if (pvarEndUpAt->lVal < 1)
+					pvarEndUpAt->lVal = GetChildrenCount();
 				hr = S_OK;
 			}
 			break;

@@ -197,6 +197,7 @@ namespace SOUI
 		SAccessible * GetAccessible();
 
 		virtual LONG accRole() const ;
+		virtual BOOL accValidateNavStart(VARIANT * pvar) const;
 		virtual HRESULT get_accParent(IDispatch **ppdispParent);
 		virtual HRESULT get_accChildCount(long *pcountChildren);
 		virtual HRESULT get_accChild(VARIANT varChild, IDispatch **ppdispChild);
@@ -584,7 +585,7 @@ namespace SOUI
          *
          * Describe  
          */
-        UINT GetChildrenCount();
+        UINT GetChildrenCount() const;
 
         /**
          * InsertChild
