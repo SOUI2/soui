@@ -194,15 +194,7 @@ namespace SOUI
 		
 		IMPLACCPROXY2(SAccProxyWindow)
 		IAccessible * GetAccessible();
-		SAccProxyWindow * GetAccProxy() {
-#ifdef SOUI_ENABLE_ACC
-			if (!m_pAccProxy)
-			{
-				m_pAccProxy.Attach(CreateAccProxy());
-			}
-#endif
-			return m_pAccProxy;
-		}
+		SAccProxyWindow * GetAccProxy();
 		void accNotifyEvent(DWORD dwEvt);
 	public:
 

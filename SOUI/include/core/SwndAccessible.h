@@ -13,7 +13,7 @@ namespace SOUI
 			SObjectInfo objInfo(acc_class, AccProxy); \
 			SAccProxyWindow * pAccProxy = (SAccProxyWindow *)SApplication::getSingletonPtr()->CreateObject(objInfo); \
 			SASSERT(pAccProxy); \
-			pAccProxy->SetTargetWindow(this);\
+			pAccProxy->Init(this);\
 			return pAccProxy;\
 		}
 		
@@ -29,25 +29,25 @@ namespace SOUI
 		SAccProxyWindow() :m_pWnd(NULL) {}
 		virtual ~SAccProxyWindow(){}
 
-		void SetTargetWindow(SWindow *pWnd) { m_pWnd = pWnd; }
+		void Init(SWindow *pWnd) { m_pWnd = pWnd; }
 	public:
-		STDMETHODIMP get_accName(BSTR *pszName);
-		STDMETHODIMP get_accValue(BSTR *pszValue);
-		STDMETHODIMP get_accDescription(BSTR *pszDescription);
-		STDMETHODIMP get_accRole(VARIANT *pvarRole);
-		STDMETHODIMP get_accState(VARIANT *pvarState);
-		STDMETHODIMP get_accHelp(BSTR *pszHelp);
-		STDMETHODIMP get_accHelpTopic(BSTR *pszHelpFile, long *pidTopic);
-		STDMETHODIMP get_accKeyboardShortcut(BSTR *pszKeyboardShortcut);
-		STDMETHODIMP get_accDefaultAction(BSTR *pszDefaultAction);
-		STDMETHODIMP accSelect(long flagsSelect);
-		STDMETHODIMP accDoDefaultAction();
-		STDMETHODIMP put_accName(BSTR szName);
-		STDMETHODIMP put_accValue(BSTR szValue);
+		virtual STDMETHODIMP get_accName(BSTR *pszName);
+		virtual STDMETHODIMP get_accValue(BSTR *pszValue);
+		virtual STDMETHODIMP get_accDescription(BSTR *pszDescription);
+		virtual STDMETHODIMP get_accRole(VARIANT *pvarRole);
+		virtual STDMETHODIMP get_accState(VARIANT *pvarState);
+		virtual STDMETHODIMP get_accHelp(BSTR *pszHelp);
+		virtual STDMETHODIMP get_accHelpTopic(BSTR *pszHelpFile, long *pidTopic);
+		virtual STDMETHODIMP get_accKeyboardShortcut(BSTR *pszKeyboardShortcut);
+		virtual STDMETHODIMP get_accDefaultAction(BSTR *pszDefaultAction);
+		virtual STDMETHODIMP accSelect(long flagsSelect);
+		virtual STDMETHODIMP accDoDefaultAction();
+		virtual STDMETHODIMP put_accName(BSTR szName);
+		virtual STDMETHODIMP put_accValue(BSTR szValue);
 	protected:
 		SWindow * m_pWnd;
 	};
-//#define SWNDACCIMPL()
+
 	class SOUI_EXP SAccessible : public IAccessible , public SUnknown
 	{
 	protected:

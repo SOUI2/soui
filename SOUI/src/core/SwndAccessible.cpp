@@ -33,7 +33,6 @@ namespace SOUI
 	{
 		if (varChild.vt != VT_I4 || !ppdispChild) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
-		SLOG_INFO("getChild:" << varChild.lVal << " pChild:" << pChild);
 		if (!pChild) return E_INVALIDARG;
 		SComPtr<IAccessible> pAcc = pChild->GetAccessible();
 		if(!pAcc) return E_NOINTERFACE;
@@ -42,7 +41,6 @@ namespace SOUI
 
 	HRESULT SAccessible::get_accChildCount(long *pcountChildren)
 	{
-		SLOG_INFO("getChildCount:" << m_pWnd->GetChildrenCount());
 		*pcountChildren = m_pWnd->GetChildrenCount();
 		return S_OK;
 	}
@@ -53,8 +51,7 @@ namespace SOUI
 			return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
-		*pszValue = ::SysAllocString(S_CT2W(pChild->GetWindowText()));
-		return S_OK;
+		return pChild->GetAccProxy()->get_accValue(pszValue);
 	}
 
 	HRESULT SAccessible::put_accValue(VARIANT varChild, BSTR szValue)
@@ -62,8 +59,7 @@ namespace SOUI
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
-		pChild->SetWindowText(S_CW2T(szValue));
-		return S_OK;
+		return pChild->GetAccProxy()->put_accValue(szValue);
 	}
 
 	HRESULT SAccessible::get_accName(VARIANT varChild, BSTR *pszName)
@@ -71,12 +67,7 @@ namespace SOUI
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
-
-		SStringW strText = S_CT2W(pChild->GetWindowText());
-		if (strText.IsEmpty())
-			return E_INVALIDARG;
-		*pszName = ::SysAllocString(strText);
-		return S_OK;
+		return pChild->GetAccProxy()->get_accName(pszName);
 	}
 
 	HRESULT SAccessible::put_accName(VARIANT varChild, BSTR szName)
@@ -84,8 +75,7 @@ namespace SOUI
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
-		pChild->SetWindowText(S_CW2T(szName));
-		return S_OK;
+		return pChild->GetAccProxy()->put_accName(szName);
 	}
 
 	HRESULT SAccessible::accDoDefaultAction(VARIANT varChild)
@@ -93,8 +83,7 @@ namespace SOUI
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
-		pChild->FireCommand();
-		return S_OK;
+		return pChild->GetAccProxy()->accDoDefaultAction();
 	}
 
 	HRESULT SAccessible::get_accDefaultAction(VARIANT varChild, BSTR *pszDefaultAction)
@@ -102,8 +91,7 @@ namespace SOUI
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
-		*pszDefaultAction = ::SysAllocString(pChild->GetClassName());
-		return S_OK;
+		return pChild->GetAccProxy()->get_accDefaultAction(pszDefaultAction);
 	}
 
 	HRESULT SAccessible::accHitTest(long xLeft, long yTop, VARIANT *pvarChild)
@@ -180,8 +168,6 @@ namespace SOUI
 
 	HRESULT SAccessible::accNavigate(long navDir, VARIANT varStart, VARIANT *pvarEndUpAt)
 	{
-		SLOG_INFO("accNavigate, navDir:" << navDir <<" start.vt:"<< varStart.vt<< " start.lVal:" << varStart.lVal);
-
 		HRESULT hr = E_INVALIDARG;
 		pvarEndUpAt->vt = VT_EMPTY;
 		if (!accValidateNavStart(&varStart))
@@ -263,7 +249,6 @@ namespace SOUI
 			break;
 
 		}
-		SLOG_INFO("accNavigate, navDir:" << navDir << " start:" << varStart.lVal << " EndUpAt:" << pvarEndUpAt->lVal);
 		return hr;
 	}
 
@@ -289,12 +274,7 @@ namespace SOUI
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
 
-		if (((flagsSelect & SELFLAG_TAKEFOCUS) > 0) && (::GetFocus() == m_pWnd->GetContainer()->GetHostHwnd()))
-		{
-			pChild->SetFocus();
-			return S_OK;
-		}
-		return S_FALSE;
+		return pChild->GetAccProxy()->accSelect(flagsSelect);
 	}
 
 	HRESULT SAccessible::get_accSelection(VARIANT *pvarChildren)
@@ -355,42 +335,34 @@ namespace SOUI
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
 
-		DWORD dwState = pChild->GetState();
-
-		pvarState->vt = VT_I4;
-		pvarState->lVal = 0;
-		if (!pChild->IsVisible(TRUE))
-			pvarState->lVal = STATE_SYSTEM_INVISIBLE;
-		else if (pChild->IsDisabled(TRUE))
-			pvarState->lVal = STATE_SYSTEM_UNAVAILABLE;
-		else {
-			if (dwState & WndState_PushDown)
-				pvarState->lVal = STATE_SYSTEM_PRESSED;
-			if (dwState & WndState_Check)
-				pvarState->lVal |= STATE_SYSTEM_CHECKED;
-
-			if (m_pWnd->GetContainer()->GetFocus() == pChild->GetSwnd())
-				pvarState->lVal |= STATE_SYSTEM_FOCUSED;
-			if (pChild->IsFocusable())
-				pvarState->lVal |= STATE_SYSTEM_FOCUSABLE;
-		}
-
-		return S_OK;
+		return pChild->GetAccProxy()->get_accState(pvarState);
 	}
 
 	STDMETHODIMP SAccessible::get_accHelp(VARIANT varChild, BSTR * pszHelp)
 	{
-		return E_NOTIMPL;
+		if (varChild.vt != VT_I4) return E_INVALIDARG;
+		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
+		if (!pChild) return E_INVALIDARG;
+
+		return pChild->GetAccProxy()->get_accHelp(pszHelp);
 	}
 
 	STDMETHODIMP SAccessible::get_accHelpTopic(BSTR * pszHelpFile, VARIANT varChild, long * pidTopic)
 	{
-		return E_NOTIMPL;
+		if (varChild.vt != VT_I4) return E_INVALIDARG;
+		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
+		if (!pChild) return E_INVALIDARG;
+
+		return pChild->GetAccProxy()->get_accHelpTopic(pszHelpFile,pidTopic);
 	}
 
 	STDMETHODIMP SAccessible::get_accKeyboardShortcut(VARIANT varChild, BSTR * pszKeyboardShortcut)
 	{
-		return E_NOTIMPL;
+		if (varChild.vt != VT_I4) return E_INVALIDARG;
+		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
+		if (!pChild) return E_INVALIDARG;
+
+		return pChild->GetAccProxy()->get_accKeyboardShortcut(pszKeyboardShortcut);
 	}
 
 
@@ -405,15 +377,10 @@ namespace SOUI
 
 	HRESULT SAccessible::get_accDescription(VARIANT varChild, BSTR *pszDescription)
 	{
-#ifdef _DEBUG
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
-		*pszDescription = ::SysAllocString(m_pWnd->m_strXml);
-		return S_OK;
-#else
-		return E_NOTIMPL;
-#endif
+		return pChild->GetAccProxy()->get_accDescription(pszDescription);
 	}
 
 	// Implement IDispatch
@@ -439,28 +406,61 @@ namespace SOUI
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	STDMETHODIMP SAccProxyWindow::get_accName(BSTR *pszName) {
+		SStringW strText = S_CT2W(m_pWnd->GetWindowText());
+		if (strText.IsEmpty())
+			return E_INVALIDARG;
+		*pszName = ::SysAllocString(strText);
 		return S_OK;
 	}
 
 	STDMETHODIMP SAccProxyWindow::get_accValue(BSTR * pszValue)
 	{
-		return E_NOTIMPL;
+		*pszValue = ::SysAllocString(S_CT2W(m_pWnd->GetWindowText()));
+		return S_OK;
 	}
+
 	STDMETHODIMP SAccProxyWindow::get_accDescription(BSTR * pszDescription)
 	{
+#ifdef _DEBUG
+		*pszDescription = ::SysAllocString(m_pWnd->m_strXml);
+		return S_OK;
+#else
 		return E_NOTIMPL;
+#endif
 	}
+
 	STDMETHODIMP SAccProxyWindow::get_accRole(VARIANT * pvarRole)
 	{
 		pvarRole->vt = VT_I4;
-		pvarRole->lVal = 0;
+		pvarRole->lVal = ROLE_SYSTEM_WINDOW;
 		return S_OK;
 	}
 
 	STDMETHODIMP SAccProxyWindow::get_accState(VARIANT * pvarState)
 	{
-		return E_NOTIMPL;
+		DWORD dwState = m_pWnd->GetState();
+
+		pvarState->vt = VT_I4;
+		pvarState->lVal = 0;
+		if (!m_pWnd->IsVisible(TRUE))
+			pvarState->lVal = STATE_SYSTEM_INVISIBLE;
+		else if (m_pWnd->IsDisabled(TRUE))
+			pvarState->lVal = STATE_SYSTEM_UNAVAILABLE;
+		else {
+			if (dwState & WndState_PushDown)
+				pvarState->lVal = STATE_SYSTEM_PRESSED;
+			if (dwState & WndState_Check)
+				pvarState->lVal |= STATE_SYSTEM_CHECKED;
+
+			if (m_pWnd->GetContainer()->GetFocus() == m_pWnd->GetSwnd())
+				pvarState->lVal |= STATE_SYSTEM_FOCUSED;
+			if (m_pWnd->IsFocusable())
+				pvarState->lVal |= STATE_SYSTEM_FOCUSABLE;
+		}
+
+		return S_OK;
 	}
+
 	STDMETHODIMP SAccProxyWindow::get_accHelp(BSTR * pszHelp)
 	{
 		return E_NOTIMPL;
@@ -475,23 +475,38 @@ namespace SOUI
 	}
 	STDMETHODIMP SAccProxyWindow::get_accDefaultAction(BSTR * pszDefaultAction)
 	{
-		return E_NOTIMPL;
+		*pszDefaultAction = ::SysAllocString(L"cmd");
+		return S_OK;
 	}
+
 	STDMETHODIMP SAccProxyWindow::accSelect(long flagsSelect)
 	{
-		return E_NOTIMPL;
+		if (((flagsSelect & SELFLAG_TAKEFOCUS) > 0) && (::GetFocus() == m_pWnd->GetContainer()->GetHostHwnd()))
+		{
+			m_pWnd->SetFocus();
+			return S_OK;
+		}
+		else
+		{
+			return S_FALSE;
+		}
 	}
+
 	STDMETHODIMP SAccProxyWindow::accDoDefaultAction()
 	{
-		return E_NOTIMPL;
+		m_pWnd->FireCommand();
+		return S_OK;
 	}
 	STDMETHODIMP SAccProxyWindow::put_accName(BSTR szName)
 	{
-		return E_NOTIMPL;
+		m_pWnd->SetWindowText(S_CW2T(szName));
+		return S_OK;
 	}
+
 	STDMETHODIMP SAccProxyWindow::put_accValue(BSTR szValue)
 	{
-		return E_NOTIMPL;
+		m_pWnd->SetWindowText(S_CW2T(szValue));
+		return S_OK;
 	}
 	
 #endif
