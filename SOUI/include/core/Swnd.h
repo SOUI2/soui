@@ -15,6 +15,7 @@
 #include "SWindowMgr.h"
 #include "SwndContainer-i.h"
 #include "interface/slayout-i.h"
+#include <interface/saccproxy-i.h>
 #include "helper/STimerEx.h"
 #include "helper/SwndMsgCracker.h"
 #include "layout/SLayoutSize.h"
@@ -184,7 +185,6 @@ namespace SOUI
         friend class SHostWnd;
         friend class SwndContainerImpl;
         friend class FocusSearch;
-		friend class SAccessible;
     public:
         SWindow();
 

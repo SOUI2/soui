@@ -26,6 +26,8 @@
 #include "animator/SInterpolatorImpl.h"
 #include "core/SwndAccessible.h"
 
+#include "msaa/SAccProxyWindow.h"
+#include "msaa/SAccProxyProgress.h"
 
 namespace SOUI
 {
@@ -178,6 +180,11 @@ void SApplication::_DestroySingletons()
 
 IAccProxy * SApplication::CreateAccProxy(SWindow* pWnd) const
 {
+	if(pWnd->IsClass(SProgress::GetClassName()) ||
+		pWnd->IsClass(SSliderBar::GetClassName()))
+	{
+		return new SAccProxyProgress(pWnd);
+	}
 	return new SAccProxyWindow(pWnd);
 }
 

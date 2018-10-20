@@ -657,7 +657,7 @@ SProgress::SProgress()
     , m_pSkinPos(NULL)
     , m_bVertical(FALSE)
 {
-
+	m_bFocusable=TRUE;
 }
 
 

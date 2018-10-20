@@ -5,61 +5,8 @@
 
 namespace SOUI
 {
-#define IMPLACCPROXY2(cls) \
-	IMPLACCPROXY((cls::GetClassName()))
-
-#define IMPLACCPROXY(acc_class) \
-		SAccProxyWindow * CreateAccProxy() {\
-			SObjectInfo objInfo(acc_class, AccProxy); \
-			SAccProxyWindow * pAccProxy = (SAccProxyWindow *)SApplication::getSingletonPtr()->CreateObject(objInfo); \
-			SASSERT(pAccProxy); \
-			pAccProxy->Init(this);\
-			return pAccProxy;\
-		}
-		
-
 
 #ifdef SOUI_ENABLE_ACC
-	
-	struct IAccProxy : IObjRef
-	{
-		virtual STDMETHODIMP get_accName(BSTR *pszName) = 0;
-		virtual STDMETHODIMP get_accValue(BSTR *pszValue) = 0;
-		virtual STDMETHODIMP get_accDescription(BSTR *pszDescription) = 0;
-		virtual STDMETHODIMP get_accRole(VARIANT *pvarRole) = 0;
-		virtual STDMETHODIMP get_accState(VARIANT *pvarState) = 0;
-		virtual STDMETHODIMP get_accHelp(BSTR *pszHelp) = 0;
-		virtual STDMETHODIMP get_accHelpTopic(BSTR *pszHelpFile, long *pidTopic) = 0;
-		virtual STDMETHODIMP get_accKeyboardShortcut(BSTR *pszKeyboardShortcut) = 0;
-		virtual STDMETHODIMP get_accDefaultAction(BSTR *pszDefaultAction) = 0;
-		virtual STDMETHODIMP accSelect(long flagsSelect) = 0;
-		virtual STDMETHODIMP accDoDefaultAction() = 0;
-		virtual STDMETHODIMP put_accName(BSTR szName) = 0;
-		virtual STDMETHODIMP put_accValue(BSTR szValue) = 0;
-	};
-
-	class SOUI_EXP SAccProxyWindow : public TObjRefImpl<IAccProxy>
-	{
-	public:
-		SAccProxyWindow(SWindow * pWnd) :m_pWnd(pWnd) {}
-		virtual ~SAccProxyWindow(){}
-	public:
-		virtual STDMETHODIMP get_accName(BSTR *pszName);
-		virtual STDMETHODIMP get_accValue(BSTR *pszValue);
-		virtual STDMETHODIMP get_accDescription(BSTR *pszDescription);
-		virtual STDMETHODIMP get_accRole(VARIANT *pvarRole);
-		virtual STDMETHODIMP get_accState(VARIANT *pvarState);
-		virtual STDMETHODIMP get_accHelp(BSTR *pszHelp);
-		virtual STDMETHODIMP get_accHelpTopic(BSTR *pszHelpFile, long *pidTopic);
-		virtual STDMETHODIMP get_accKeyboardShortcut(BSTR *pszKeyboardShortcut);
-		virtual STDMETHODIMP get_accDefaultAction(BSTR *pszDefaultAction);
-		virtual STDMETHODIMP accSelect(long flagsSelect);
-		virtual STDMETHODIMP accDoDefaultAction();
-		virtual STDMETHODIMP put_accName(BSTR szName);
-		virtual STDMETHODIMP put_accValue(BSTR szValue);
-	protected:
-		SWindow * m_pWnd;
-	};
 
 	class SOUI_EXP SAccessible : public IAccessible , public SUnknown
 	{
