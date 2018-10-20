@@ -169,6 +169,7 @@ namespace SOUI
 	void SWindow::SetWindowText(LPCTSTR lpszText)
 	{
 		m_strText.SetText(lpszText);
+		accNotifyEvent(EVENT_OBJECT_NAMECHANGE);
 		if(IsVisible(TRUE)) Invalidate();
 		if (GetLayoutParam()->IsWrapContent(Horz) || GetLayoutParam()->IsWrapContent(Vert))
 		{
@@ -1169,6 +1170,7 @@ namespace SOUI
 		EventSwndCreate evt(this);
 		FireEvent(evt);
 
+		accNotifyEvent(EVENT_OBJECT_CREATE);
 		return 0;
 	}
 
@@ -1176,6 +1178,7 @@ namespace SOUI
 	{
 		EventSwndDestroy evt(this);
 		FireEvent(evt);
+		accNotifyEvent(EVENT_OBJECT_CREATE);
 
 		//destroy children windows
 		SWindow *pChild=m_pFirstChild;
@@ -1675,6 +1678,7 @@ namespace SOUI
 		EventSetFocus evt(this);
 		FireEvent(evt);
 		InvalidateRect(m_rcWindow);
+		accNotifyEvent(EVENT_OBJECT_FOCUS);
 	}
 
 	void SWindow::OnKillFocus(SWND wndFocus)
@@ -2543,6 +2547,7 @@ namespace SOUI
 		evt.dwOldState = dwOldState;
 		evt.dwNewState = dwNewState;
 		FireEvent(evt);
+		accNotifyEvent(EVENT_OBJECT_STATECHANGE);
 	}
 
 	IScriptModule * SWindow::GetScriptModule()
@@ -2769,6 +2774,11 @@ namespace SOUI
 #else
 		return NULL;
 #endif
+	}
+
+	void SWindow::accNotifyEvent(DWORD dwEvt)
+	{
+		NotifyWinEvent(dwEvt, GetContainer()->GetHostHwnd(), GetSwnd(), CHILDID_SELF);
 	}
 
 }//namespace SOUI

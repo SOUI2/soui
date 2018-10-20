@@ -192,6 +192,7 @@ namespace SOUI
 	public:
 		virtual LONG accRole() const;
 		virtual IAccessible * GetAccessible();
+		virtual void accNotifyEvent(DWORD dwEvt);
 	public:
 
 		ILayout * GetLayout(){
