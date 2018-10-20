@@ -51,6 +51,7 @@
 
 namespace SOUI
 {
+struct IAccProxy;
 
 interface IMsgLoopFactory : public IObjRef
 {
@@ -292,6 +293,7 @@ public:
 	virtual ISkinObj * CreateSkinByName(LPCWSTR pszSkinClass) const;
 	virtual IInterpolator * CreateInterpolatorByName(LPCWSTR pszName) const;
 
+	virtual IAccProxy * CreateAccProxy(SWindow* pWnd) const;
 	void * GetInnerSingleton(int nType);
 protected:
 	virtual void RegisterSystemObjects(){}

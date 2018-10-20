@@ -24,6 +24,7 @@
 #include "layout/SLinearLayout.h"
 #include "layout/SGridLayout.h"
 #include "animator/SInterpolatorImpl.h"
+#include "core/SwndAccessible.h"
 
 
 namespace SOUI
@@ -174,6 +175,11 @@ void SApplication::_DestroySingletons()
 	DELETE_SINGLETON(SUiDef);
 }
 
+
+IAccProxy * SApplication::CreateAccProxy(SWindow* pWnd) const
+{
+	return new SAccProxyWindow(pWnd);
+}
 
 void * SApplication::GetInnerSingleton(int nType)
 {

@@ -192,9 +192,8 @@ namespace SOUI
 
 	public:
 		
-		IMPLACCPROXY2(SAccProxyWindow)
 		IAccessible * GetAccessible();
-		SAccProxyWindow * GetAccProxy();
+		IAccProxy * GetAccProxy();
 		void accNotifyEvent(DWORD dwEvt);
 	public:
 
@@ -1398,7 +1397,7 @@ namespace SOUI
 		
 #ifdef SOUI_ENABLE_ACC
 		CAutoRefPtr<IAccessible>  m_pAcc;
-		CAutoRefPtr<SAccProxyWindow> m_pAccProxy;
+		CAutoRefPtr<IAccProxy> m_pAccProxy;
 #endif
 #ifdef _DEBUG
         DWORD               m_nMainThreadId;    /**< 窗口宿线程ID */

@@ -371,7 +371,7 @@ namespace SOUI
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
-		SAccProxyWindow *pAccProxy = pChild->GetAccProxy();
+		IAccProxy *pAccProxy = pChild->GetAccProxy();
 		return pAccProxy->get_accRole(pvarRole);
 	}
 

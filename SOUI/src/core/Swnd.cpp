@@ -2770,11 +2770,11 @@ namespace SOUI
 #endif
 	}
 
-	SAccProxyWindow * SWindow::GetAccProxy() {
+	IAccProxy * SWindow::GetAccProxy() {
 #ifdef SOUI_ENABLE_ACC
 		if (!m_pAccProxy)
 		{
-			m_pAccProxy.Attach(CreateAccProxy());
+			m_pAccProxy.Attach(SApplication::getSingleton().CreateAccProxy(this));
 		}
 #endif
 		return m_pAccProxy;
