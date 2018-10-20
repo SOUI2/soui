@@ -107,12 +107,7 @@ namespace SOUI
 	{
 		if(m_pAcc)
 		{
-			if(m_pAcc->GetOwner()!=NULL)
-			{
-				DebugBreak();
-//				__asm int 3
-			}
-			//m_pAcc->SetOwner(NULL);
+			SASSERT(m_pAcc->GetOwner()==NULL);
 		}
 		SWindowMgr::DestroyWindow(m_swnd);
 	}
@@ -1178,9 +1173,6 @@ namespace SOUI
 
 		EventSwndCreate evt(this);
 		FireEvent(evt);
-
-		GetAccessible();
-
 		accNotifyEvent(EVENT_OBJECT_CREATE);
 		return 0;
 	}
@@ -1899,7 +1891,7 @@ namespace SOUI
 
 	void SWindow::SetFocus()
 	{
-		if(!IsVisible(TRUE) || IsDisabled(TRUE) || !IsFocusable()) return;
+		if(!IsVisible(TRUE) || IsDisabled(TRUE) && IsFocusable()) return;
 		GetContainer()->OnSetSwndFocus(m_swnd);
 	}
 

@@ -505,7 +505,7 @@ namespace SOUI
     {
         SASSERT(m_pInplaceActiveWnd == NULL);
         InsertChild(pWnd);
-        pWnd->InitFromXml(xmlInit);//this line will triger WM_CREATE proc. 
+        pWnd->InitFromXml(xmlInit);//this line will trigger WM_CREATE proc. 
 
         CRect rcItem = GetItemRect(pItem);
         CRect rcValue= rcItem;
