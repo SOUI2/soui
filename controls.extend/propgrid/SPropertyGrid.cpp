@@ -505,7 +505,7 @@ namespace SOUI
     {
         SASSERT(m_pInplaceActiveWnd == NULL);
         InsertChild(pWnd);
-        pWnd->InitFromXml(xmlInit);
+        pWnd->InitFromXml(xmlInit);//this line will triger WM_CREATE proc. 
 
         CRect rcItem = GetItemRect(pItem);
         CRect rcValue= rcItem;
@@ -520,6 +520,7 @@ namespace SOUI
     void SPropertyGrid::OnInplaceActiveWndDestroy( IPropertyItem *pItem,SWindow *pWnd )
     {
         SASSERT(m_pInplaceActiveWnd == pWnd);
+		pWnd->SSendMessage(WM_DESTROY);
         RemoveChild(pWnd);
         m_pInplaceActiveWnd = NULL;
     }

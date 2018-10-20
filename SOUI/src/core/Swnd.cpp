@@ -105,6 +105,15 @@ namespace SOUI
 
 	SWindow::~SWindow()
 	{
+		if(m_pAcc)
+		{
+			if(m_pAcc->GetOwner()!=NULL)
+			{
+				DebugBreak();
+//				__asm int 3
+			}
+			//m_pAcc->SetOwner(NULL);
+		}
 		SWindowMgr::DestroyWindow(m_swnd);
 	}
 
@@ -1170,6 +1179,8 @@ namespace SOUI
 		EventSwndCreate evt(this);
 		FireEvent(evt);
 
+		GetAccessible();
+
 		accNotifyEvent(EVENT_OBJECT_CREATE);
 		return 0;
 	}
@@ -1179,6 +1190,8 @@ namespace SOUI
 		EventSwndDestroy evt(this);
 		FireEvent(evt);
 		accNotifyEvent(EVENT_OBJECT_CREATE);
+
+		if(m_pAcc) m_pAcc->SetOwner(NULL);
 
 		//destroy children windows
 		SWindow *pChild=m_pFirstChild;
@@ -1686,6 +1699,7 @@ namespace SOUI
 		EventKillFocus evt(this);
 		FireEvent(evt);
 		InvalidateRect(m_rcWindow);
+		accNotifyEvent(EVENT_OBJECT_FOCUS);
 	}
 
 	LRESULT SWindow::OnSetScale(UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -1885,7 +1899,7 @@ namespace SOUI
 
 	void SWindow::SetFocus()
 	{
-		if(!IsVisible(TRUE) || IsDisabled(TRUE)) return;
+		if(!IsVisible(TRUE) || IsDisabled(TRUE) || !IsFocusable()) return;
 		GetContainer()->OnSetSwndFocus(m_swnd);
 	}
 

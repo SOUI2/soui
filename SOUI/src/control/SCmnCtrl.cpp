@@ -587,6 +587,7 @@ void SAnimateImgWnd::Stop()
 void SAnimateImgWnd::OnDestroy()
 {
     Stop();
+	__super::OnDestroy();
 }
 
 CSize SAnimateImgWnd::GetDesiredSize(LPCRECT pRcContainer)

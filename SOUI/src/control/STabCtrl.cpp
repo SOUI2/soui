@@ -486,6 +486,7 @@ void STabCtrl::OnDestroy()
         DestroyChild(m_lstPages[i]);
     }
     m_lstPages.RemoveAll();
+	__super::OnDestroy();
 }
 
 

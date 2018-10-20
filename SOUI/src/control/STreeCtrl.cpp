@@ -1061,6 +1061,7 @@ void STreeCtrl::ItemMouseLeave(HSTREEITEM hItem)
 void STreeCtrl::OnDestroy()
 {
     DeleteAllItems();
+	__super::OnDestroy();
 }
 
 void STreeCtrl::OnPaint(IRenderTarget *pRT)

@@ -16,6 +16,7 @@ namespace SOUI
 
 	HRESULT SAccessible::get_accParent(IDispatch **ppdispParent)
 	{
+		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
 		if (!m_pWnd->GetParent())
 		{
 			HWND hParent = ::GetParent(m_pWnd->GetContainer()->GetHostHwnd());
@@ -31,6 +32,7 @@ namespace SOUI
 
 	HRESULT SAccessible::get_accChild(VARIANT varChild, IDispatch **ppdispChild)
 	{
+		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
 		if (varChild.vt != VT_I4 || !ppdispChild) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
@@ -41,12 +43,14 @@ namespace SOUI
 
 	HRESULT SAccessible::get_accChildCount(long *pcountChildren)
 	{
+		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
 		*pcountChildren = m_pWnd->GetChildrenCount();
 		return S_OK;
 	}
 
 	HRESULT SAccessible::get_accValue(VARIANT varChild, BSTR *pszValue)
 	{
+		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
 		if (varChild.vt != VT_I4 || !pszValue)
 			return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
@@ -56,6 +60,7 @@ namespace SOUI
 
 	HRESULT SAccessible::put_accValue(VARIANT varChild, BSTR szValue)
 	{
+		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
@@ -64,6 +69,8 @@ namespace SOUI
 
 	HRESULT SAccessible::get_accName(VARIANT varChild, BSTR *pszName)
 	{
+		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
+		SASSERT(SWindowMgr::GetWindow(m_pWnd->GetSwnd())==m_pWnd);
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
@@ -72,6 +79,7 @@ namespace SOUI
 
 	HRESULT SAccessible::put_accName(VARIANT varChild, BSTR szName)
 	{
+		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
@@ -80,6 +88,7 @@ namespace SOUI
 
 	HRESULT SAccessible::accDoDefaultAction(VARIANT varChild)
 	{
+		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
@@ -88,6 +97,7 @@ namespace SOUI
 
 	HRESULT SAccessible::get_accDefaultAction(VARIANT varChild, BSTR *pszDefaultAction)
 	{
+		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
@@ -96,6 +106,7 @@ namespace SOUI
 
 	HRESULT SAccessible::accHitTest(long xLeft, long yTop, VARIANT *pvarChild)
 	{
+		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
 		if (!pvarChild) return E_INVALIDARG;
 		CPoint pt(xLeft, yTop);
 		ScreenToClient(m_pWnd->GetContainer()->GetHostHwnd(), &pt);
@@ -168,6 +179,7 @@ namespace SOUI
 
 	HRESULT SAccessible::accNavigate(long navDir, VARIANT varStart, VARIANT *pvarEndUpAt)
 	{
+		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
 		HRESULT hr = E_INVALIDARG;
 		pvarEndUpAt->vt = VT_EMPTY;
 		if (!accValidateNavStart(&varStart))
@@ -254,6 +266,7 @@ namespace SOUI
 
 	HRESULT SAccessible::accLocation(long *pxLeft, long *pyTop, long *pcxWidth, long *pcyHeight, VARIANT varChild)
 	{
+		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
 		if (!(varChild.vt == VT_I4 && pxLeft &&pyTop && pcxWidth && pcyHeight)) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
@@ -270,6 +283,7 @@ namespace SOUI
 
 	HRESULT SAccessible::accSelect(long flagsSelect, VARIANT varChild)
 	{
+		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
@@ -285,6 +299,7 @@ namespace SOUI
 
 	HRESULT SAccessible::get_accFocus(VARIANT *pvarChild)
 	{
+		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
 		HWND hFocused = ::GetFocus();
 		if (hFocused == m_pWnd->GetContainer()->GetHostHwnd())
 		{
@@ -331,6 +346,7 @@ namespace SOUI
 
 	HRESULT SAccessible::get_accState(VARIANT varChild, VARIANT *pvarState)
 	{
+		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
@@ -340,6 +356,7 @@ namespace SOUI
 
 	STDMETHODIMP SAccessible::get_accHelp(VARIANT varChild, BSTR * pszHelp)
 	{
+		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
@@ -358,6 +375,7 @@ namespace SOUI
 
 	STDMETHODIMP SAccessible::get_accKeyboardShortcut(VARIANT varChild, BSTR * pszKeyboardShortcut)
 	{
+		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
@@ -368,6 +386,7 @@ namespace SOUI
 
 	HRESULT SAccessible::get_accRole(VARIANT varChild, VARIANT *pvarRole)
 	{
+		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
@@ -377,6 +396,7 @@ namespace SOUI
 
 	HRESULT SAccessible::get_accDescription(VARIANT varChild, BSTR *pszDescription)
 	{
+		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;

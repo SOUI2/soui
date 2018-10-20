@@ -132,6 +132,7 @@ namespace SOUI
     void SIECtrl::OnDestroy()
     {
         GetContainer()->GetMsgLoop()->RemoveMessageFilter(this);
+		__super::OnDestroy();
     }
 
     BOOL SIECtrl::PreTranslateMessage( MSG* pMsg )

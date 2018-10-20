@@ -66,9 +66,10 @@ namespace SOUI
         {
             if(m_pEdit)
             {
-                m_pOwner->OnInplaceActiveWndDestroy(this,m_pEdit);
-                m_pEdit->Release();
-                m_pEdit = NULL;
+				SWindow *pTmp = m_pEdit;
+				m_pEdit = NULL;
+                m_pOwner->OnInplaceActiveWndDestroy(this,pTmp);
+                pTmp->Release();
             }
         }
     }

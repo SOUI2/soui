@@ -60,6 +60,7 @@ void SRealWnd::OnDestroy()
         IRealWndHandler *pRealWndHandler=GETREALWNDHANDLER;
         if(pRealWndHandler) pRealWndHandler->OnRealWndDestroy(this);
     }
+	__super::OnDestroy();
 }
 
 BOOL SRealWnd::InitFromXml(pugi::xml_node xmlNode)

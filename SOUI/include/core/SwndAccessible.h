@@ -69,6 +69,8 @@ namespace SOUI
 		SAccessible(SWindow * pWnd);
 		~SAccessible();
 
+		void SetOwner(SWindow *pWnd){m_pWnd = pWnd;}
+		SWindow * GetOwner(){return m_pWnd;}
 	protected:
 		BOOL accValidateNavStart(VARIANT * pvar) const;
 	public:

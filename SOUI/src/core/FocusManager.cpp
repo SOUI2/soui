@@ -288,21 +288,22 @@ namespace SOUI
         AutoReset<bool> auto_changing_focus(&is_changing_focus_, true);
         // Update the reason for the focus change (since this is checked by
         // some listeners), then notify all listeners.
-        focus_change_reason_ = reason;
         SWindow *pOldFocus=SWindowMgr::GetWindow(focused_view_);
         SWindow *pNewFocus=SWindowMgr::GetWindow(swnd);
+
+		focus_change_reason_ = reason;
         if(pOldFocus)
         {
             pOldFocus->SSendMessage(WM_KILLFOCUS,(WPARAM)swnd);
         }
-        if(pNewFocus && !pNewFocus->IsDisabled(TRUE))
+        if(pNewFocus && !pNewFocus->IsDisabled(TRUE) && pNewFocus->IsFocusable())
         {
             pNewFocus->SSendMessage(WM_SETFOCUS,(WPARAM)focused_view_,(LPARAM)reason);
             focused_view_ = swnd;
         }else
-        {
-            focused_view_ = 0;
-        }
+		{
+			focused_view_ = 0;
+		}
     }
 
     void CFocusManager::ValidateFocusedView()
