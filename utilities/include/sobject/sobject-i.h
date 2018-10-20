@@ -77,6 +77,7 @@ namespace SOUI
 		Skin,
 		Layout,
 		Interpolator,
+		AccProxy,
 	};
 
 	/**

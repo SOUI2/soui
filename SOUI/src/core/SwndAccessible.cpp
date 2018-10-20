@@ -399,9 +399,8 @@ namespace SOUI
 		if (varChild.vt != VT_I4) return E_INVALIDARG;
 		SWindow *pChild = m_pWnd->GetChild(varChild.lVal);
 		if (!pChild) return E_INVALIDARG;
-		pvarRole->vt = VT_I4;
-		pvarRole->lVal = pChild->accRole();
-		return S_OK;
+		SAccProxyWindow *pAccProxy = pChild->GetAccProxy();
+		return pAccProxy->get_accRole(pvarRole);
 	}
 
 	HRESULT SAccessible::get_accDescription(VARIANT varChild, BSTR *pszDescription)
@@ -438,7 +437,64 @@ namespace SOUI
 		return E_NOTIMPL;
 	}
 
+	/////////////////////////////////////////////////////////////////////////////////////////
+	STDMETHODIMP SAccProxyWindow::get_accName(BSTR *pszName) {
+		return S_OK;
+	}
 
-#endif//SOUI_ENABLE_ACC
+	STDMETHODIMP SAccProxyWindow::get_accValue(BSTR * pszValue)
+	{
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP SAccProxyWindow::get_accDescription(BSTR * pszDescription)
+	{
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP SAccProxyWindow::get_accRole(VARIANT * pvarRole)
+	{
+		pvarRole->vt = VT_I4;
+		pvarRole->lVal = 0;
+		return S_OK;
+	}
+
+	STDMETHODIMP SAccProxyWindow::get_accState(VARIANT * pvarState)
+	{
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP SAccProxyWindow::get_accHelp(BSTR * pszHelp)
+	{
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP SAccProxyWindow::get_accHelpTopic(BSTR * pszHelpFile, long * pidTopic)
+	{
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP SAccProxyWindow::get_accKeyboardShortcut(BSTR * pszKeyboardShortcut)
+	{
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP SAccProxyWindow::get_accDefaultAction(BSTR * pszDefaultAction)
+	{
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP SAccProxyWindow::accSelect(long flagsSelect)
+	{
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP SAccProxyWindow::accDoDefaultAction()
+	{
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP SAccProxyWindow::put_accName(BSTR szName)
+	{
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP SAccProxyWindow::put_accValue(BSTR szValue)
+	{
+		return E_NOTIMPL;
+	}
+	
+#endif
+	//SOUI_ENABLE_ACC
 }
 

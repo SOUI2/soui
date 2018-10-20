@@ -184,15 +184,26 @@ namespace SOUI
         friend class SHostWnd;
         friend class SwndContainerImpl;
         friend class FocusSearch;
+		friend class SAccessible;
     public:
         SWindow();
 
         virtual ~SWindow();
 
 	public:
-		virtual LONG accRole() const;
-		virtual IAccessible * GetAccessible();
-		virtual void accNotifyEvent(DWORD dwEvt);
+		
+		IMPLACCPROXY2(SAccProxyWindow)
+		IAccessible * GetAccessible();
+		SAccProxyWindow * GetAccProxy() {
+#ifdef SOUI_ENABLE_ACC
+			if (!m_pAccProxy)
+			{
+				m_pAccProxy.Attach(CreateAccProxy());
+			}
+#endif
+			return m_pAccProxy;
+		}
+		void accNotifyEvent(DWORD dwEvt);
 	public:
 
 		ILayout * GetLayout(){
@@ -1394,7 +1405,8 @@ namespace SOUI
 		CAutoRefPtr<IAttrStorage> m_attrStorage;/**< 属性保存对象 */
 		
 #ifdef SOUI_ENABLE_ACC
-		CAutoRefPtr<SAccessible>  m_pAcc;
+		CAutoRefPtr<IAccessible>  m_pAcc;
+		CAutoRefPtr<SAccProxyWindow> m_pAccProxy;
 #endif
 #ifdef _DEBUG
         DWORD               m_nMainThreadId;    /**< 窗口宿线程ID */

@@ -5,8 +5,49 @@
 
 namespace SOUI
 {
-#ifdef SOUI_ENABLE_ACC
+#define IMPLACCPROXY2(cls) \
+	IMPLACCPROXY((cls::GetClassName()))
 
+#define IMPLACCPROXY(acc_class) \
+		SAccProxyWindow * CreateAccProxy() {\
+			SObjectInfo objInfo(acc_class, AccProxy); \
+			SAccProxyWindow * pAccProxy = (SAccProxyWindow *)SApplication::getSingletonPtr()->CreateObject(objInfo); \
+			SASSERT(pAccProxy); \
+			pAccProxy->SetTargetWindow(this);\
+			return pAccProxy;\
+		}
+		
+
+
+#ifdef SOUI_ENABLE_ACC
+	
+
+	class SOUI_EXP SAccProxyWindow : public SObject , public TObjRefImpl<IObjRef>
+	{
+		SOUI_CLASS_NAME_EX(SAccProxyWindow,L"acc_window", AccProxy)
+	public:
+		SAccProxyWindow() :m_pWnd(NULL) {}
+		virtual ~SAccProxyWindow(){}
+
+		void SetTargetWindow(SWindow *pWnd) { m_pWnd = pWnd; }
+	public:
+		STDMETHODIMP get_accName(BSTR *pszName);
+		STDMETHODIMP get_accValue(BSTR *pszValue);
+		STDMETHODIMP get_accDescription(BSTR *pszDescription);
+		STDMETHODIMP get_accRole(VARIANT *pvarRole);
+		STDMETHODIMP get_accState(VARIANT *pvarState);
+		STDMETHODIMP get_accHelp(BSTR *pszHelp);
+		STDMETHODIMP get_accHelpTopic(BSTR *pszHelpFile, long *pidTopic);
+		STDMETHODIMP get_accKeyboardShortcut(BSTR *pszKeyboardShortcut);
+		STDMETHODIMP get_accDefaultAction(BSTR *pszDefaultAction);
+		STDMETHODIMP accSelect(long flagsSelect);
+		STDMETHODIMP accDoDefaultAction();
+		STDMETHODIMP put_accName(BSTR szName);
+		STDMETHODIMP put_accValue(BSTR szValue);
+	protected:
+		SWindow * m_pWnd;
+	};
+//#define SWNDACCIMPL()
 	class SOUI_EXP SAccessible : public IAccessible , public SUnknown
 	{
 	protected:

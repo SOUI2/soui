@@ -2760,12 +2760,6 @@ namespace SOUI
 		}
 	}
 
-
-	LONG SWindow::accRole() const
-	{
-		return ROLE_SYSTEM_WINDOW;
-	}
-
 	IAccessible * SWindow::GetAccessible()
 	{
 #ifdef SOUI_ENABLE_ACC
@@ -2774,6 +2768,16 @@ namespace SOUI
 #else
 		return NULL;
 #endif
+	}
+
+	SAccProxyWindow * SWindow::GetAccProxy() {
+#ifdef SOUI_ENABLE_ACC
+		if (!m_pAccProxy)
+		{
+			m_pAccProxy.Attach(CreateAccProxy());
+		}
+#endif
+		return m_pAccProxy;
 	}
 
 	void SWindow::accNotifyEvent(DWORD dwEvt)
