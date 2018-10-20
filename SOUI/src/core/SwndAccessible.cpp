@@ -123,13 +123,11 @@ namespace SOUI
 		{
 			pvarChild->vt = VT_I4;
 			pvarChild->lVal = CHILDID_SELF;
-			SLOGFMTF("this:%08x,vt:%d,lVal:0",this, VT_I4);
 		}
 		else
 		{
 			pvarChild->vt = VT_DISPATCH;
 			pChild->GetAccessible()->QueryInterface(IID_IDispatch, (void**)&pvarChild->pdispVal);
-			SLOGFMTF("this:%08x,vt:%d,disp:0x%08x", this, VT_DISPATCH,pvarChild->pdispVal);
 		}
 		return S_OK;
 	}
