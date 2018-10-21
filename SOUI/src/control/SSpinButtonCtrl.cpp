@@ -136,7 +136,6 @@ namespace SOUI
 		CRect rcUp = rcClient, rcDown = rcClient;
 		rcUp.bottom = rcDown.top = rcClient.top + rcClient.Height() / 2;
 		DWORD iState = IIF_STATE4(GetState(), 0, 1, 2, 3);
-		SLOG_INFO("iState:"<<iState<<" click:"<<m_iActionBtn);
 		if (m_iActionBtn == ACTION_UP)
 		{
 			m_pUpSkin->Draw(pRT, rcUp, iState);
