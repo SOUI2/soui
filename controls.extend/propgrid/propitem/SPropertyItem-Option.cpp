@@ -74,10 +74,9 @@ namespace SOUI
         {
             if(m_pCombobox)
             {
-				SWindow *pTmp = m_pCombobox;
-				m_pCombobox = NULL;
-                m_pOwner->OnInplaceActiveWndDestroy(this,pTmp);
-                pTmp->Release();
+                m_pOwner->OnInplaceActiveWndDestroy(this,m_pCombobox);
+                m_pCombobox->Release();
+                m_pCombobox = NULL;
             }
         }
     }

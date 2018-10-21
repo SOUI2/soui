@@ -292,6 +292,7 @@ namespace SOUI
         SWindow *pNewFocus=SWindowMgr::GetWindow(swnd);
 
 		focus_change_reason_ = reason;
+		focused_view_ = 0;
         if(pOldFocus)
         {
             pOldFocus->SSendMessage(WM_KILLFOCUS,(WPARAM)swnd);
@@ -300,10 +301,7 @@ namespace SOUI
         {
             pNewFocus->SSendMessage(WM_SETFOCUS,(WPARAM)focused_view_,(LPARAM)reason);
             focused_view_ = swnd;
-        }else
-		{
-			focused_view_ = 0;
-		}
+        }
     }
 
     void CFocusManager::ValidateFocusedView()
