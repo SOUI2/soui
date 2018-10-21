@@ -1185,7 +1185,7 @@ namespace SOUI
 	{
 		EventSwndDestroy evt(this);
 		FireEvent(evt);
-		accNotifyEvent(EVENT_OBJECT_CREATE);
+		accNotifyEvent(EVENT_OBJECT_DESTROY);
 
 		if(m_pAcc)
 		{
@@ -1474,9 +1474,15 @@ namespace SOUI
 		}
 
 		if (bShow)
+		{
 			ModifyState(0, WndState_Invisible);
+			accNotifyEvent(EVENT_OBJECT_SHOW);
+		}
 		else
+		{
 			ModifyState(WndState_Invisible, 0);
+			accNotifyEvent(EVENT_OBJECT_HIDE);
+		}
 
 		SWindow *pChild=m_pFirstChild;
 		while(pChild)
@@ -1702,7 +1708,6 @@ namespace SOUI
 		EventKillFocus evt(this);
 		FireEvent(evt);
 		InvalidateRect(m_rcWindow);
-		accNotifyEvent(EVENT_OBJECT_FOCUS);
 	}
 
 	LRESULT SWindow::OnSetScale(UINT uMsg, WPARAM wParam, LPARAM lParam)
