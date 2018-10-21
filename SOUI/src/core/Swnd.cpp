@@ -3,7 +3,7 @@
 #include "helper/color.h"
 #include "helper/SplitString.h"
 #include "layout/SouiLayout.h"
-
+#include "interface/sacchelper-i.h"
 namespace SOUI
 {
 
@@ -107,7 +107,11 @@ namespace SOUI
 	{
 		if(m_pAcc)
 		{
-			SASSERT(m_pAcc->GetOwner()==NULL);
+			SComPtr<IAccHelper> accHelper;
+			if(m_pAcc->QueryInterface(__uuidof(IAccHelper),(void**)&accHelper) == S_OK)
+			{
+				SASSERT(accHelper->GetOwner()==NULL);
+			}
 		}
 		SWindowMgr::DestroyWindow(m_swnd);
 	}
@@ -1183,7 +1187,14 @@ namespace SOUI
 		FireEvent(evt);
 		accNotifyEvent(EVENT_OBJECT_CREATE);
 
-		if(m_pAcc) m_pAcc->SetOwner(NULL);
+		if(m_pAcc)
+		{
+			SComPtr<IAccHelper> accHelper;
+			if(m_pAcc->QueryInterface(__uuidof(IAccHelper),(void**)&accHelper) == S_OK)
+			{
+				accHelper->SetOwner(NULL);
+			}
+		}
 
 		//destroy children windows
 		SWindow *pChild=m_pFirstChild;
@@ -2769,7 +2780,7 @@ namespace SOUI
 	IAccessible * SWindow::GetAccessible()
 	{
 #ifdef SOUI_ENABLE_ACC
-		if (!m_pAcc) m_pAcc.Attach(new SAccessible(this));
+		if (!m_pAcc) m_pAcc.Attach(SApplication::getSingleton().CreateAccessible(this));
 		return m_pAcc;
 #else
 		return NULL;

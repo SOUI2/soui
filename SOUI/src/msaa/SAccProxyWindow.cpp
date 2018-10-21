@@ -3,6 +3,7 @@
 
 namespace SOUI
 {
+#ifdef SOUI_ENABLE_ACC
 	/////////////////////////////////////////////////////////////////////////////////////////
 	STDMETHODIMP SAccProxyWindow::get_accName(BSTR *pszName) {
 		SStringW strText = S_CT2W(m_pWnd->GetWindowText());
@@ -108,4 +109,5 @@ namespace SOUI
 		return S_OK;
 	}
 
+#endif
 }

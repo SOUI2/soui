@@ -2,13 +2,16 @@
 #include <oleacc.h>
 #include <helper/unknown.h>
 #include "Swnd.h"
+#include "interface/sacchelper-i.h"
 
 namespace SOUI
 {
 
 #ifdef SOUI_ENABLE_ACC
 
-	class SOUI_EXP SAccessible : public IAccessible , public SUnknown
+	class SOUI_EXP SAccessible : public IAccessible 
+		, public IAccHelper
+		, public SUnknown
 	{
 	protected:
 		SWindow * m_pWnd;
@@ -16,11 +19,12 @@ namespace SOUI
 		SAccessible(SWindow * pWnd);
 		~SAccessible();
 
-		void SetOwner(SWindow *pWnd){m_pWnd = pWnd;}
-		SWindow * GetOwner(){return m_pWnd;}
 	protected:
 		BOOL accValidateNavStart(VARIANT * pvar) const;
 	public:
+		// Implement IAccHelper
+		void SetOwner(SWindow *pWnd){m_pWnd = pWnd;}
+		SWindow * GetOwner() const {return m_pWnd;}
 		// Implement IAccessible
 		STDMETHODIMP get_accParent(IDispatch **ppdispParent);
 		STDMETHODIMP get_accChildCount(long *pcountChildren);
@@ -53,6 +57,7 @@ namespace SOUI
 
 	public:
 		IUNKNOWN_BEGIN(IAccessible)
+			IUNKNOWN_ADD_IID(IAccHelper)
 			IUNKNOWN_ADD_IID(IDispatch)
 		IUNKNOWN_END()
 	};

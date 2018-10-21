@@ -1396,7 +1396,7 @@ namespace SOUI
 		CAutoRefPtr<IAttrStorage> m_attrStorage;/**< 属性保存对象 */
 		
 #ifdef SOUI_ENABLE_ACC
-		CAutoRefPtr<SAccessible>  m_pAcc;
+		CAutoRefPtr<IAccessible>  m_pAcc;
 		CAutoRefPtr<IAccProxy> m_pAccProxy;
 #endif
 #ifdef _DEBUG

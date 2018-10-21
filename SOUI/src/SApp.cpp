@@ -27,7 +27,7 @@
 #include "core/SwndAccessible.h"
 
 #include "msaa/SAccProxyWindow.h"
-#include "msaa/SAccProxyProgress.h"
+#include "msaa/SAccProxyCmnCtrl.h"
 
 namespace SOUI
 {
@@ -180,13 +180,45 @@ void SApplication::_DestroySingletons()
 
 IAccProxy * SApplication::CreateAccProxy(SWindow* pWnd) const
 {
-	if(pWnd->IsClass(SProgress::GetClassName()) ||
-		pWnd->IsClass(SSliderBar::GetClassName()))
+#ifdef SOUI_ENABLE_ACC
+	if(pWnd->IsClass(SProgress::GetClassName()))
 	{
 		return new SAccProxyProgress(pWnd);
+	}else if(pWnd->IsClass(SSliderBar::GetClassName()))
+	{
+		return new SAccProxySlideBar(pWnd);
+	}else if(pWnd->IsClass(SButton::GetClassName()) || pWnd->IsClass(SImageButton::GetClassName()))
+	{
+		return new SAccProxyButton(pWnd);
+	}else if(pWnd->IsClass(SComboBox::GetClassName()))
+	{
+		return new SAccProxyCombobox(pWnd);
+	}else if(pWnd->IsClass(SRichEdit::GetClassName()))
+	{
+		return new SAccProxyEdit(pWnd);
+	}else if(pWnd->IsClass(SCheckBox::GetClassName()))
+	{
+		return new SAccProxyCheckButton(pWnd);
+	}else if(pWnd->IsClass(SRadioBox::GetClassName()))
+	{
+		return new SAccProxyRadioButton(pWnd);
 	}
+
 	return new SAccProxyWindow(pWnd);
+#else
+	return NULL;
+#endif//SOUI_ENABLE_ACC
 }
+
+IAccessible * SApplication::CreateAccessible(SWindow *pWnd) const
+{
+#ifdef SOUI_ENABLE_ACC
+	return new SAccessible(pWnd);
+#else
+	return NULL;
+#endif//SOUI_ENABLE_ACC
+}
+
 
 void * SApplication::GetInnerSingleton(int nType)
 {

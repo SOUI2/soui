@@ -28,6 +28,7 @@
 
 #include "core/smsgloop.h"
 #include "core/SObjectFactory.h"
+#include <OleAcc.h>
 
 #define GETRESPROVIDER      SOUI::SApplication::getSingletonPtr()
 #define GETRENDERFACTORY    SOUI::SApplication::getSingleton().GetRenderFactory()
@@ -294,6 +295,8 @@ public:
 	virtual IInterpolator * CreateInterpolatorByName(LPCWSTR pszName) const;
 
 	virtual IAccProxy * CreateAccProxy(SWindow* pWnd) const;
+	virtual IAccessible * CreateAccessible(SWindow *pWnd) const;
+
 	void * GetInnerSingleton(int nType);
 protected:
 	virtual void RegisterSystemObjects(){}

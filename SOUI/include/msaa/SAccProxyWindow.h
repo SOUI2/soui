@@ -3,6 +3,7 @@
 
 namespace SOUI
 {
+#ifdef SOUI_ENABLE_ACC
 	class SOUI_EXP SAccProxyWindow : public TObjRefImpl<IAccProxy>
 	{
 	public:
@@ -26,4 +27,5 @@ namespace SOUI
 		SWindow * m_pWnd;
 	};
 
+#endif
 }

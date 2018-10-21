@@ -143,6 +143,8 @@ HEADERS += include/SApp.h \
            include/interface/SAttrStorage-i.h \
            include/interface/SInterpolator-i.h \
            include/interface/SAccProxy-i.h \
+           include/interface/SAccHelper-i.h \
+           include/interface/SPathEffect-i.h \
            include/layout/SLinearLayoutParamStruct.h \
            include/layout/SLinearLayout.h \
            include/layout/SouiLayoutParamStruct.h \
@@ -165,8 +167,8 @@ HEADERS += include/SApp.h \
            include/activex/flash10t.tlh \
            include/activex/flash10t.tli \
            include/animator/SInterpolatorImpl.h \
-           include/mass/SAccProxyWindow.h \
-           include/mass/SAccProxyProgress.h
+           include/msaa/SAccProxyWindow.h \
+           include/msaa/SAccProxyCmnCtrl.h
            
 SOURCES += src/SApp.cpp \
            src/activex/SAxContainer.cpp \
@@ -246,6 +248,6 @@ SOURCES += src/SApp.cpp \
            src/res.mgr/SDpiAwareFont.cpp \
            src/updatelayeredwindow/SUpdateLayeredWindow.cpp \
            src/animator/SInterpolatorImpl.cpp \
-           src/mass/SAccProxyWindow.h \
-           src/mass/SAccProxyProgress.h
+           src/msaa/SAccProxyWindow.cpp \
+           src/msaa/SAccProxyCmnCtrl.cpp
 
