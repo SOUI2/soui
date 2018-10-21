@@ -105,6 +105,7 @@ namespace SOUI
 
 	SWindow::~SWindow()
 	{
+#ifdef SOUI_ENABLE_ACC
 		if(m_pAcc)
 		{
 			SComPtr<IAccHelper> accHelper;
@@ -113,6 +114,7 @@ namespace SOUI
 				SASSERT(accHelper->GetOwner()==NULL);
 			}
 		}
+#endif
 		SWindowMgr::DestroyWindow(m_swnd);
 	}
 
@@ -1187,6 +1189,7 @@ namespace SOUI
 		FireEvent(evt);
 		accNotifyEvent(EVENT_OBJECT_DESTROY);
 
+#ifdef SOUI_ENABLE_ACC
 		if(m_pAcc)
 		{
 			SComPtr<IAccHelper> accHelper;
@@ -1195,7 +1198,7 @@ namespace SOUI
 				accHelper->SetOwner(NULL);
 			}
 		}
-
+#endif
 		//destroy children windows
 		SWindow *pChild=m_pFirstChild;
 		while (pChild)
@@ -2798,8 +2801,10 @@ namespace SOUI
 		{
 			m_pAccProxy.Attach(SApplication::getSingleton().CreateAccProxy(this));
 		}
-#endif
 		return m_pAccProxy;
+#else
+		return NULL;
+#endif
 	}
 
 	void SWindow::accNotifyEvent(DWORD dwEvt)
