@@ -7,6 +7,8 @@ namespace SOUI
 #ifdef SOUI_ENABLE_ACC
 	SAccessible::SAccessible(SWindow * pWnd):m_pWnd(pWnd)
 	{
+		HWND hHost = m_pWnd->GetContainer()->GetHostHwnd();
+		CreateStdAccessibleObject(hHost, OBJID_CLIENT, IID_PPV_ARGS(&m_pHostAcc));
 	}
 
 
@@ -19,11 +21,7 @@ namespace SOUI
 		if(!m_pWnd) return CO_E_OBJNOTCONNECTED;
 		if (!m_pWnd->GetParent())
 		{
-			HWND hParent = ::GetParent(m_pWnd->GetContainer()->GetHostHwnd());
-			if(hParent)
-				return AccessibleObjectFromWindow(hParent, OBJID_WINDOW,IID_IAccessible, (void**)ppdispParent);
-			else
-				return E_INVALIDARG;
+			return m_pHostAcc->get_accParent(ppdispParent);
 		}
 		SComPtr<IAccessible> pAcc = m_pWnd->GetParent()->GetAccessible();
 		if(!pAcc) return E_NOINTERFACE;

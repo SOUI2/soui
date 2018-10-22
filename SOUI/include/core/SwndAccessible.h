@@ -15,6 +15,7 @@ namespace SOUI
 	{
 	protected:
 		SWindow * m_pWnd;
+		SComPtr<IAccessible> m_pHostAcc;
 	public:
 		SAccessible(SWindow * pWnd);
 		~SAccessible();
