@@ -27,7 +27,6 @@
 #include "SwndStyle.h"
 #include "SSkin.h"
 #include <OCIdl.h>
-#include "SwndAccessible.h"
 
 #define SC_WANTARROWS     0x0001      /* Control wants arrow keys         */
 #define SC_WANTTAB        0x0002      /* Control wants tab keys           */
