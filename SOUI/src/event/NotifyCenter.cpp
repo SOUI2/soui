@@ -45,7 +45,7 @@ LRESULT SNotifyReceiver::OnNotifyEvent(UINT uMsg,WPARAM wParam,LPARAM lParam)
 			e->Release();
 		}
 		break;
-#if _MSC_VER >= 1600	//VS2010
+#if _MSC_VER >= 1700	//VS2012
 	case 1:
 		{
 			std::function<void(void)>* f = (std::function<void(void)>*)lParam;
@@ -59,7 +59,7 @@ LRESULT SNotifyReceiver::OnNotifyEvent(UINT uMsg,WPARAM wParam,LPARAM lParam)
 			delete f;
 		}
 		break;
-#endif//_MSC_VER >= 1600	//VS2010
+#endif//_MSC_VER >= 1700	//VS2012
 	}
 	return 0;
 }
