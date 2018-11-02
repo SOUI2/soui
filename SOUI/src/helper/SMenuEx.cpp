@@ -869,7 +869,6 @@ namespace SOUI
 					if (!pMenu)
 					{
 						hCurMenu = NULL;
-						continue;			// 不处理 菜单窗体 之外 的 窗口 消息
 					}
 
 				}
