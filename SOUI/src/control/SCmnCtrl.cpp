@@ -250,6 +250,7 @@ SButton::SButton()
 :m_accel(0)
 ,m_bAnimate(FALSE)
 ,m_byAlphaAni(0xFF)
+, m_nAniStep(25)
 {
     m_pBgSkin=GETBUILTINSKIN(SKIN_SYS_BTN_NORMAL);
     m_bFocusable=TRUE;
@@ -414,7 +415,7 @@ void SButton::StopCurAnimate()
 
 void SButton::OnNextFrame()
 {
-    m_byAlphaAni+=25;
+    m_byAlphaAni += m_nAniStep;
     if(m_byAlphaAni==0xFF) StopCurAnimate();
     Invalidate();
 }
