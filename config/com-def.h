@@ -1,2 +1,2 @@
-//使用DLL方式编译SOUI组件
-#define DLL_SOUI_COM
+//使用LIB方式编译SOUI组件
+#define LIB_SOUI_COM
