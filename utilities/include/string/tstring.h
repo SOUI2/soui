@@ -623,6 +623,32 @@ namespace SOUI
                 (*this) = TStringT<tchar, tchar_traits>(p1, (int)(p2 - p1 + 1));
         }
 
+		bool StartsWith(const TStringT& prefix, bool IgnoreCase = false) const
+		{
+			if (GetLength() >= prefix.GetLength())
+			{
+				TStringT _src = Left(prefix.GetLength());
+				if (IgnoreCase)
+					return 0 == _src.CompareNoCase(prefix);
+				else
+					return 0 == _src.Compare(prefix);
+			}
+			return false;
+		}
+
+		bool EndsWith(const TStringT& suffix, bool IgnoreCase = false) const
+		{
+			if (GetLength() >= suffix.GetLength())
+			{
+				TStringT _src = Right(suffix.GetLength());
+				if (IgnoreCase)
+					return 0 == _src.CompareNoCase(suffix);
+				else
+					return 0 == _src.Compare(suffix);
+			}
+			return false;
+		}
+
         // insert character at zero-based index; concatenates if index is past end of string
         int Insert(int nIndex, tchar ch)
         {

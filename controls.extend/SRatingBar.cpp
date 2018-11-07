@@ -29,7 +29,8 @@ namespace SOUI
 
     CSize SRatingBar::GetDesiredSize(LPCRECT pRcContainer)
     {
-        SASSERT(m_pStar);
+		if (!m_pStar)
+			return CSize(16,16);
         CSize szStar = m_pStar->GetSkinSize();
         szStar.cx *= m_nStars;
         return szStar;
@@ -37,6 +38,9 @@ namespace SOUI
 
     void SRatingBar::DrawStars(IRenderTarget *pRT,CRect rc,BOOL bForeground)
     {
+		if (!m_pStar)
+			return;
+
         CSize szStar = rc.Size();
         szStar.cx/=m_nStars;
         CRect rcStar(rc.TopLeft(),szStar);

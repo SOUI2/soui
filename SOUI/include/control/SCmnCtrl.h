@@ -246,7 +246,7 @@ protected:
 
     DWORD  m_accel;
     BOOL   m_bAnimate;    /**< 动画标志 */
-    BYTE   m_byAlphaAni;  /**< 动画状态 */
+    WORD   m_byAlphaAni;  /**< 动画状态 */
 	BYTE   m_nAniStep;	  /**< alpha for an animate step */
 public:
     SOUI_ATTRS_BEGIN()
