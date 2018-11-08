@@ -79,6 +79,19 @@ namespace SOUI
         {
             m_hPen = ::CreatePen(m_style,m_nWidth,m_cr&0x00ffffff);
         }
+
+		SPen_GDI(IRenderFactory * pRenderFac,int iStyle,UINT lbStyle,COLORREF cr=0,int cWidth=1)
+			:TGdiRenderObjImpl<IPen>(pRenderFac)
+			,m_nWidth(cWidth),m_style(iStyle),m_cr(cr)
+			,m_hPen(NULL)
+		{
+			LOGBRUSH lb;
+			lb.lbStyle = lbStyle;
+			lb.lbColor = m_cr&0x00ffffff;
+			lb.lbHatch = 0;
+			m_hPen = ::ExtCreatePen(m_style,m_nWidth,&lb, 0, NULL);
+		}
+
         ~SPen_GDI()
         {
             DeleteObject(m_hPen);
