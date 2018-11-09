@@ -230,11 +230,13 @@ namespace SOUI
 		SUNUSED(nHeight);
 		if(m_nCols==-1 && m_nRows == -1)
 			return CSize();
-		int nChilds = pParent->GetChildrenCount();
+
 		int nCols = m_nCols;
 		int nRows = m_nRows;
-		if(nRows == -1) nRows = (nChilds+nCols-1)/nCols;
-		else if(nCols == -1) nCols = (nChilds+nRows-1)/nRows;
+
+		int nCells = CalcCells(pParent);
+		if(nRows == -1) nRows = (nCells+nCols-1)/nCols;
+		else if(nCols == -1) nCols = (nCells+nRows-1)/nRows;
 
 		int cells = nCols*nRows;
 		CSize * pCellsSize = new CSize[cells];
@@ -350,9 +352,9 @@ namespace SOUI
 		int nCols = m_nCols;
 		int nRows = m_nRows;
 
-		int nChilds = pParent->GetChildrenCount();
-		if(nRows == -1) nRows = (nChilds+nCols-1)/nCols;
-		else if(nCols == -1) nCols = (nChilds+nRows-1)/nRows;
+		int nCells = CalcCells(pParent);
+		if(nRows == -1) nRows = (nCells+nCols-1)/nCols;
+		else if(nCols == -1) nCols = (nCells+nRows-1)/nRows;
 
 		CRect rcParent = pParent->GetChildrenLayoutRect();
 		int xInter = m_xInterval.toPixelSize(pParent->GetScale());
@@ -589,6 +591,22 @@ namespace SOUI
 
 		delete []pCellsChild;
 		delete []pCellsSpan;
+	}
+
+	int SGridLayout::CalcCells(SWindow *pParent) const
+	{
+		int nCells = 0;
+		SWindow *pCell = pParent->GetNextLayoutChild(NULL);
+		while(pCell)
+		{
+			SGridLayoutParam *pParam = pCell->GetLayoutParamT<SGridLayoutParam>();
+			SASSERT(pParam);
+			int nColSpan = pParam->nColSpan;
+			int nRowSpan = pParam->nRowSpan;
+			nCells += nColSpan * nRowSpan;
+			pCell = pParent->GetNextLayoutChild(pCell);
+		}
+		return nCells;
 	}
 
 }
