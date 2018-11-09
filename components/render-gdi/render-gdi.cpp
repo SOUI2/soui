@@ -418,12 +418,7 @@ namespace SOUI
 
     HRESULT SRenderTarget_GDI::CreatePen( int iStyle,COLORREF cr,int cWidth,IPen ** ppPen )
     {
-		if(iStyle&PS_ENDCAP_FLAT)
-		{
-			*ppPen = new SPen_GDI(m_pRenderFactory,iStyle,BS_SOLID,cr,cWidth);
-		}
-		else
-			*ppPen = new SPen_GDI(m_pRenderFactory,iStyle,cr,cWidth);
+		*ppPen = new SPen_GDI(m_pRenderFactory,iStyle,cr,cWidth);
         return S_OK;
     }
 
