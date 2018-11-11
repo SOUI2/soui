@@ -198,6 +198,10 @@ public:
      */
     int HitTest(CPoint &pt);
 
+	void SwapItem(int srcIdx, int desIdx);
+
+	BOOL SortItems(PFNLVCOMPAREEX pfnCompare, void * pContext);
+
 protected:
     /**
      * SListCtrlEx::OnItemSetCapture
@@ -228,6 +232,7 @@ protected:
     virtual BOOL IsItemRedrawDelay(){return m_bItemRedrawDelay;}
 
     virtual void OnItemRequestRelayout(SItemPanel *pItem);
+	
 protected:
 
     /**
@@ -468,15 +473,15 @@ protected:
 	BOOL m_bCheckBox;
 	BOOL m_bMultiSelection;
 	CPoint m_ptOrigin;  /**< */
-	 int GetTopIndex() const;
-	 virtual BOOL OnScroll(BOOL bVertical,UINT uCode,int nPos);
-	 void UpdateHeaderCtrl();
-	 CRect GetListRect();
-	 int             m_nHeaderHeight;  /**< 列表头高度 */
-	 SHeaderCtrl*  m_pHeader;  /**< 列表头控件 */
-	 int InsertColumn(int nIndex, LPCTSTR pszText, int nWidth, LPARAM lParam=0);
+	int GetTopIndex() const;
+	virtual BOOL OnScroll(BOOL bVertical,UINT uCode,int nPos);
+	void UpdateHeaderCtrl();
+	CRect GetListRect();
+	int             m_nHeaderHeight;  /**< 列表头高度 */
+	SHeaderCtrl*  m_pHeader;  /**< 列表头控件 */
+	int InsertColumn(int nIndex, LPCTSTR pszText, int nWidth, LPARAM lParam=0);
 	virtual void    UpdateChildrenPosition();
-	 virtual void UpdateScrollBar();
+	virtual void UpdateScrollBar();
 	int GetCountPerPage(BOOL bPartial);
 	bool OnHeaderClick(EventArgs *pEvt);
 	bool OnHeaderSizeChanging(EventArgs *pEvt);

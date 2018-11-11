@@ -48,8 +48,7 @@ namespace SOUI
 	SListCtrlEx::~SListCtrlEx()
 	{
 	}
-
-
+	
 	void SListCtrlEx::DeleteAllItems(BOOL bUpdate/*=TRUE*/)
 	{
 		for(int i=0; i<GetItemCount(); i++)
@@ -178,15 +177,13 @@ namespace SOUI
 	{
 		return m_iSelItem;
 	}
-
-
+	
 	SWindow * SListCtrlEx::GetItemPanel(int iItem)
 	{
 		if(iItem<0 || iItem>= GetItemCount()) return NULL;
 		return m_arrItems[iItem];
 	}
-
-
+	
 	LPARAM SListCtrlEx::GetItemData(int iItem)
 	{
 		SASSERT(iItem>=0 || iItem< GetItemCount());
@@ -198,7 +195,6 @@ namespace SOUI
 		SASSERT(iItem>=0 || iItem< GetItemCount());
 		m_arrItems[iItem]->SetItemData(lParam);
 	}
-
 
 	BOOL SListCtrlEx::SetItemCount(int nItems,LPCTSTR pszXmlTemplate)
 	{
@@ -286,8 +282,7 @@ namespace SOUI
 
 		return nRet;
 	}
-
-
+	
 	void SListCtrlEx::OnPaint(IRenderTarget * pRT)
 	{
 		SPainter painter;
@@ -311,8 +306,7 @@ namespace SOUI
 		pRT->PopClip();
 		AfterPaint(pRT, painter);
 	}
-
-
+	
 	void SListCtrlEx::OnSize( UINT nType, CSize size )
 	{
 		__super::OnSize(nType,size);
@@ -445,8 +439,7 @@ namespace SOUI
 
 		return TRUE;
 	}
-
-
+	
 	void SListCtrlEx::NotifySelChange( int nOldSel,int nNewSel, BOOL checkBox)
 	{
 		EventLBSelChanging evt1(this);
@@ -671,8 +664,7 @@ lblEnd:
 			m_pCapturedFrame=NULL;
 		}
 	}
-
-
+	
 	CRect SListCtrlEx::GetItemRect( int iItem )
 	{
 		CRect rcClient = GetListRect();
@@ -1076,4 +1068,34 @@ lblEnd:
         pItem->Move(rcWnd);
     }
 
+	void SListCtrlEx::SwapItem(int srcIdx,int desIdx)
+	{
+		if ((srcIdx >= 0) && srcIdx < m_arrItems.GetCount())
+		{
+			if ((desIdx >= 0) && desIdx < m_arrItems.GetCount())
+			{
+				SItemPanel* pSrcWnd= m_arrItems[srcIdx];
+				pSrcWnd->AddRef();
+				m_arrItems[srcIdx] = m_arrItems[desIdx];
+				m_arrItems[srcIdx]->SetItemIndex(desIdx);
+				m_arrItems[desIdx] = pSrcWnd;
+				m_arrItems[desIdx]->SetItemIndex(srcIdx);
+				pSrcWnd->Release();
+			}
+		}
+	}	
+
+	BOOL SListCtrlEx::SortItems(
+		PFNLVCOMPAREEX pfnCompare,
+		void * pContext
+	)
+	{
+		void *data = m_arrItems.GetData();
+		qsort_s(m_arrItems.GetData(), m_arrItems.GetCount(), sizeof(SOUI::SItemPanel*), pfnCompare, pContext);
+		m_iSelItem = -1;
+		m_iHoverItem = -1;
+		UpdatePanelsIndex();
+		InvalidateRect(GetListRect());
+		return TRUE;
+	}
 }//namespace SOUI
