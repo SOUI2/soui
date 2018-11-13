@@ -2277,7 +2277,7 @@ namespace SOUI
 
 	HRESULT SWindow::OnAttrVisible( const SStringW& strValue, BOOL bLoading )
 	{
-		BOOL bVisible = strValue != L"0";
+		BOOL bVisible = (strValue != L"0")&&(strValue.CompareNoCase(L"false"));
 		if(!bLoading)   SetVisible(bVisible,TRUE);
 		else m_bVisible=bVisible;
 		return S_FALSE;
@@ -2285,7 +2285,7 @@ namespace SOUI
 
 	HRESULT SWindow::OnAttrEnable( const SStringW& strValue, BOOL bLoading )
 	{
-		BOOL bEnable = strValue != L"0";
+		BOOL bEnable = (strValue != L"0")&&(strValue.CompareNoCase(L"false"));
 		if(bLoading)
 		{
 			if (bEnable)
@@ -2302,7 +2302,7 @@ namespace SOUI
 
 	HRESULT SWindow::OnAttrDisplay( const SStringW& strValue, BOOL bLoading )
 	{
-		m_bDisplay = strValue != L"0";
+		m_bDisplay = (strValue != L"0")&&(strValue.CompareNoCase(L"false"));
 		if(bLoading)
 			return S_FALSE;
 
@@ -2347,7 +2347,7 @@ namespace SOUI
 
 	HRESULT SWindow::OnAttrTrackMouseEvent( const SStringW& strValue, BOOL bLoading )
 	{
-		m_style.m_bTrackMouseEvent = strValue==L"0"?0:1;
+		m_style.m_bTrackMouseEvent = (strValue != L"0")||(strValue.CompareNoCase(L"false"))?0:1;
 		if(!bLoading)
 		{
 			if(m_style.m_bTrackMouseEvent)
@@ -2406,7 +2406,7 @@ namespace SOUI
 
 	HRESULT SWindow::OnAttrCache( const SStringW& strValue, BOOL bLoading )
 	{
-		m_bCacheDraw = strValue != L"0";
+		m_bCacheDraw = (strValue != L"0")&&(strValue.CompareNoCase(L"false"));
 
 		if(!bLoading)
 		{
@@ -2443,7 +2443,7 @@ namespace SOUI
 
 	HRESULT SWindow::OnAttrLayeredWindow( const SStringW& strValue, BOOL bLoading )
 	{
-		m_bLayeredWindow = strValue!=L"0";
+		m_bLayeredWindow = (strValue != L"0")&&(strValue.CompareNoCase(L"false"));
 		if(!bLoading)
 		{
 			UpdateLayeredWindowMode();

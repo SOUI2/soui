@@ -1299,12 +1299,12 @@ namespace SOUI
             ATTR_CUSTOM(L"layeredWindow",OnAttrLayeredWindow)
             ATTR_CUSTOM(L"trackMouseEvent",OnAttrTrackMouseEvent)
 			ATTR_CUSTOM(L"tip",OnAttrTip)
-            ATTR_INT(L"msgTransparent", m_bMsgTransparent, FALSE)
+            ATTR_BOOL(L"msgTransparent", m_bMsgTransparent, FALSE)
             ATTR_LAYOUTSIZE(L"maxWidth",m_nMaxWidth,FALSE)
-            ATTR_INT(L"clipClient",m_bClipClient,FALSE)
-            ATTR_INT(L"focusable",m_bFocusable,FALSE)
-            ATTR_INT(L"drawFocusRect",m_bDrawFocusRect,TRUE)
-            ATTR_INT(L"float",m_bFloat,FALSE)
+            ATTR_BOOL(L"clipClient",m_bClipClient,FALSE)
+            ATTR_BOOL(L"focusable",m_bFocusable,FALSE)
+            ATTR_BOOL(L"drawFocusRect",m_bDrawFocusRect,TRUE)
+            ATTR_BOOL(L"float",m_bFloat,FALSE)
 			ATTR_CHAIN(m_style,HRET_FLAG_STYLE)					    //交给SwndStyle处理
 			ATTR_CHAIN_PTR(m_pLayout,HRET_FLAG_LAYOUT)				//交给Layout处理
 			ATTR_CHAIN_PTR(m_pLayoutParam,HRET_FLAG_LAYOUT_PARAM)	//交给LayoutParam处理
