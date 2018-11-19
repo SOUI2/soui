@@ -747,6 +747,20 @@ void CMainDlg::OnMclvCtxMenu(EventArgs *pEvt)
 
 }
 
+void CMainDlg::OnMclvEventOfPanel(EventArgs * pEvt)
+{
+	EventOfPanel *e2 = sobj_cast<EventOfPanel>(pEvt);
+	SASSERT(e2);
+	if (e2->pOrgEvt->GetID() == EventItemPanelDbclick::EventID)
+	{
+		EventItemPanelDbclick *e3 = sobj_cast<EventItemPanelDbclick>(e2->pOrgEvt);
+		SItemPanel *pSender = sobj_cast<SItemPanel>(e3->sender);
+		SASSERT(pSender);
+		int iItem = pSender->GetItemIndex();
+		SMessageBox(m_hWnd, SStringT().Format(_T("double click item:%d"), iItem+1), _T("haha"), MB_OK | MB_ICONSTOP);
+	}
+}
+
 //处理模拟菜单中控件的事件
 void CMainDlg::OnMenuSliderPos(EventArgs *pEvt)
 {
