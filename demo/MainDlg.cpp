@@ -103,16 +103,19 @@ void SaveSkinInf2File(SkinType skinType, SkinSaveInf &skinSaveInf)
 	SStringT strSkinConfigPath = SApplication::getSingleton().GetAppDir() + _T("\\themes\\skin_config.xml");
 	switch (skinType)
 	{
-		//纯色只有SkinSaveInf的color有效
-	case color:
+	case color://纯色只有SkinSaveInf的color有效
 		childSkinType.append_attribute(L"color") = (int)skinSaveInf.color;
-		break;		
-		//此处为系统皮肤，只需要给文件路径和margin
-	case sys:
-		childSkinType.append_attribute(L"skin_path") = skinSaveInf.filepath;
-		SStringW margin;
-		margin.Format(L"%d,%d,%d,%d", skinSaveInf.margin.left, skinSaveInf.margin.top, skinSaveInf.margin.right, skinSaveInf.margin.bottom);
-		childSkinType.append_attribute(L"skin_margin") = margin;
+		break;				
+	case sys://此处为系统皮肤，只需要给文件路径和margin
+		{
+			childSkinType.append_attribute(L"skin_path") = skinSaveInf.filepath;
+			SStringW margin;
+			margin.Format(L"%d,%d,%d,%d", skinSaveInf.margin.left, skinSaveInf.margin.top, skinSaveInf.margin.right, skinSaveInf.margin.bottom);
+			childSkinType.append_attribute(L"skin_margin") = margin;
+		}
+		break;
+	case builtin:
+	default:
 		break;
 	}
 	docSave.save_file(strSkinConfigPath);
@@ -260,7 +263,10 @@ HRESULT CMainDlg::OnSkinChangeMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 
 	DWORD tm1=GetTickCount();
 	COLORREF crTheme = skin->GetThemeColor();
-	DoColorize(crTheme|0xff000000);
+	if (crTheme != CR_INVALID)
+		DoColorize(crTheme | 0xff000000);
+	else
+		DoColorize(0);
 
 	SLOG_INFO("DoColorize spend "<<GetTickCount()-tm1<<" ms");
 	return S_OK;

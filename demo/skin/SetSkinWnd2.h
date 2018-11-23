@@ -32,10 +32,13 @@ public:
 	~CSetSkinWnd();
 	void OnSetSkin(EventArgs *e);
 	void OnActivate(UINT nState, BOOL bMinimized, HWND wndOther);
+	void OnBuiltinSkin();
+
 	EVENT_MAP_BEGIN()
 		EVENT_NAME_COMMAND(L"btn_close", OnClose)
 		EVENT_ID_RANGE_HANDLER(10, 27, EVT_CMD, OnSetSkin)
 		EVENT_ID_RANGE_HANDLER(30,48,EVT_CMD, OnColor)		
+		EVENT_ID_COMMAND(51,OnBuiltinSkin)
 	EVENT_MAP_END()
 		BEGIN_MSG_MAP_EX(CSetSkinWnd)
 		MSG_WM_INITDIALOG(OnInitDialog)
