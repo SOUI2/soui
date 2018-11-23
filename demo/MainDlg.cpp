@@ -42,6 +42,7 @@ int CMainDlg::OnCreate( LPCREATESTRUCT lpCreateStruct )
     MARGINS mar = {5,5,30,5};
     DwmExtendFrameIntoClientArea ( m_hWnd, &mar );//打开这里可以启用Aero效果
 #endif
+	ModifyStyle(WS_BORDER, 0);	//去掉overlap风格窗口的默认圆角。
 	SetMsgHandled(FALSE);
 	return 0;
 }
