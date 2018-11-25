@@ -44,7 +44,7 @@
     end
     ]]>
   </script>
-  <root colorBkgnd="#eeeeee" cache="1" on_init="on_init" on_exit="on_exit">
+  <root skin="_skin.sys.wnd.bkgnd" cache="1" on_init="on_init" on_exit="on_exit">
     <window pos="1,1,-1,-1" id="9527" skin="demoskinbk" cache="1" colorBkgnd="#169ada"/>
     <caption pos="0,0,-0,30" class="cls_txt_red" font="adding:8" focusable="1" drawfocusrect="0">
       <icon pos="10,8" src="ICON_LOGO:16"/>

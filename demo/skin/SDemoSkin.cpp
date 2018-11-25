@@ -44,6 +44,13 @@ namespace SOUI
 		return true;
 	}
 
+	void SDemoSkin::ClearSkin()
+	{
+		m_FilePath.Empty();
+		m_bIsColor = false;
+		m_pImg = NULL;
+	}
+
 	SIZE SDemoSkin::GetSkinSize()
 	{		
 		SIZE ret = { 0, 0 };
@@ -67,11 +74,15 @@ namespace SOUI
 			saveInf.color = m_bkColor;
 			return m_ISetOrLoadSkinHandler->SaveSkin(SkinType::color, saveInf);
 		}
-		else
+		else if(!m_FilePath.IsEmpty())
 		{
 			saveInf.margin = m_rcMargin;
 			saveInf.filepath = m_FilePath;
 			return m_ISetOrLoadSkinHandler->SaveSkin(SkinType::sys, saveInf);
+		}
+		else
+		{
+			return m_ISetOrLoadSkinHandler->SaveSkin(SkinType::builtin, saveInf);
 		}
 		return false;
 	}
@@ -82,11 +93,9 @@ namespace SOUI
 		{
 		case color:
 			return	SetColor(skinLoadInf.color);
-			break;		
 		case sys:
 			m_rcMargin = skinLoadInf.margin;
 			return SetImage(skinLoadInf.filepath);
-			break;
 		default:
 			break;
 		}
@@ -109,9 +118,8 @@ namespace SOUI
 		{			
 			COLORREF bkColor = m_bkColor | (byAlpha << 24);
 			pRT->FillSolidRect(rcDraw, bkColor);
-			return;
 		}
-		if (m_pImg)
+		else if (m_pImg)
 		{
 			SIZE sz = GetSkinSize();
 			CPoint pt(0, 0);
@@ -122,10 +130,12 @@ namespace SOUI
 
 	COLORREF SDemoSkin::GetThemeColor() const
 	{
-		if(m_bIsColor)
+		if (m_bIsColor)
 			return m_bkColor;
-		else
+		else if (m_pImg)
 			return SDIBHelper::CalcAvarageColor(m_pImg);
+		else
+			return CR_INVALID;
 	}
 
 }

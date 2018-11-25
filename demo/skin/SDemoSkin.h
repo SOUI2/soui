@@ -5,7 +5,8 @@ namespace SOUI
 	enum SkinType
 	{
 		color,
-		sys
+		sys,
+		builtin,
 	};
 
 	struct SkinSaveInf
@@ -37,6 +38,8 @@ namespace SOUI
 		///
 		bool SetImage(SStringW imgfile);
 		bool SetColor(COLORREF bkColor);
+
+		void ClearSkin();
 
 		COLORREF GetThemeColor() const;
 

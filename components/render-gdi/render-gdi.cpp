@@ -612,7 +612,9 @@ namespace SOUI
         DCBuffer dcBuf(m_hdc,pRect,GetAValue(cr),FALSE);
         HBRUSH br=::CreateSolidBrush(cr&0x00ffffff);
 		HGDIOBJ oldObj=::SelectObject(dcBuf,br);
-        ::RoundRect(dcBuf,pRect->left,pRect->top,pRect->right,pRect->bottom,pt.x,pt.y);
+		HGDIOBJ oldPen = ::SelectObject(dcBuf, GetStockObject(NULL_PEN));
+		::RoundRect(dcBuf,pRect->left,pRect->top,pRect->right,pRect->bottom,pt.x*2,pt.y*2);
+		::SelectObject(dcBuf, oldPen);
 		::SelectObject(dcBuf,oldObj);
         ::DeleteObject(br);
         return S_OK;    
