@@ -563,11 +563,19 @@ namespace SOUI
 		if(!m_curPen) return E_INVALIDARG;
 
 		RECT rcBuf = *pRect;
-		::InflateRect(&rcBuf,m_curPen->GetWidth()/2,m_curPen->GetWidth()/2);
+		if (m_curPen->GetWidth() == 1)
+		{
+			rcBuf.right--;
+			rcBuf.bottom--;
+		}
+		else
+		{
+			::InflateRect(&rcBuf, -m_curPen->GetWidth() / 2, -m_curPen->GetWidth() / 2);
+		}
         ALPHAINFO ai;
-        CGdiAlpha::AlphaBackup(m_hdc,&rcBuf,ai);
+        CGdiAlpha::AlphaBackup(m_hdc, pRect,ai);
         HGDIOBJ oldBr=::SelectObject(m_hdc,GetStockObject(NULL_BRUSH));
-        ::Rectangle(m_hdc,pRect->left,pRect->top,pRect->right,pRect->bottom);
+        ::Rectangle(m_hdc, rcBuf.left, rcBuf.top, rcBuf.right, rcBuf.bottom);
         CGdiAlpha::AlphaRestore(ai);
         ::SelectObject(m_hdc,oldBr);
         return S_OK;
