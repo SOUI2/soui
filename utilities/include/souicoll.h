@@ -2604,7 +2604,7 @@ void SMap< K, V, KTraits, VTraits >::Rehash( UINT nBins )
     ppBins = (CNode**)soui_mem_wrapper::SouiMalloc(nBins*sizeof(CNode*));
     if (ppBins == NULL)
     {
-        SThrow( E_OUTOFMEMORY );
+        return;
     }
 
     SENSURE( UINT_MAX / sizeof( CNode* ) >= nBins );

@@ -79,7 +79,7 @@ option(WCHAR_AS_DEFAULT "Use wchar_t as internal type" ON)
 
 #
 #
-option(XP_TOOLSET "" , ON)
+option(XP_TOOLSET "" ON)
 
 #
 #

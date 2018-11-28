@@ -54,6 +54,7 @@ namespace SOUI
 			pNewMenuExRoot->m_iconY = m_iconY;
 			pNewMenuExRoot->m_nMinWidth = m_nMinWidth;
 			pNewMenuExRoot->m_nSubMenuOffset = m_nSubMenuOffset;
+			pNewMenuExRoot->m_style = m_style;		// 设置了 些 margin 之类的 属性 也要 copy
 		}
 
 		HRESULT OnAttrIconPos(const SStringW & strValue, BOOL bLoading);

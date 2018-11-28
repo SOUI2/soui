@@ -74,19 +74,18 @@ if %selected%==1 (
 )else if %selected%==6 (
 	SET specs=win32-msvc2017
 	for /f "skip=2 delims=: tokens=1,*" %%i in ('reg query "HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7" /v "15.0" /reg:32') do ( 
-    set str=%%i
-   set var=%%j
-   set "var=!var:"=!"
-   if not "!var:~-1!"=="=" set value=!str:~-1!:!var!
- )
- SET value=!value!\VC\Auxiliary\Build\vcvarsall.bat
- rem ECHO Vs2017 path is:!value! 
-	SET vsvarbat="!value!"
-	call !vsvarbat! %target%
-	rem call "!value!" %target%
-	goto toolsetxp
-)
- else if %selected%==7 (
+	    set str=%%i
+	   set var=%%j
+	   set "var=!var:"=!"
+	   if not "!var:~-1!"=="=" set value=!str:~-1!:!var!
+	 )
+	 SET value=!value!\VC\Auxiliary\Build\vcvarsall.bat
+	 rem ECHO Vs2017 path is:!value! 
+		SET vsvarbat="!value!"
+		call !vsvarbat! %target%
+		rem call "!value!" %target%
+		goto toolsetxp
+)else if %selected%==7 (
 	SET specs=win32-msvc2005
 	SET vsvarbat="%VS80COMNTOOLS%..\..\VC\vcvarsall.bat"
 	call !vsvarbat! %target%

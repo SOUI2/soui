@@ -168,7 +168,8 @@ protected:
     void OnUrlReNotify(EventArgs *pEvt);
     
     void OnMclvCtxMenu(EventArgs *pEvt);
-    
+	void OnMclvEventOfPanel(EventArgs *pEvt);
+	
     //处理模拟菜单中控件的事件
     void OnMenuSliderPos(EventArgs *pEvt);
     
@@ -244,6 +245,7 @@ protected:
         EVENT_NAME_COMMAND(L"btn_filewnd",OnBtnFileWnd)
         EVENT_NAME_HANDLER(L"edit_url",EVT_RE_NOTIFY,OnUrlReNotify)
         EVENT_NAME_HANDLER(L"mclv_test",EVT_CTXMENU,OnMclvCtxMenu)
+		EVENT_NAME_HANDLER(L"mclv_test", EventOfPanel::EventID, OnMclvEventOfPanel)
         EVENT_NAME_HANDLER(L"edit_rotate",EVT_RE_NOTIFY,OnMatrixWindowReNotify)
         EVENT_NAME_HANDLER(L"edit_scale",EVT_RE_NOTIFY,OnMatrixWindowReNotify)
         EVENT_NAME_HANDLER(L"edit_skew",EVT_RE_NOTIFY,OnMatrixWindowReNotify)

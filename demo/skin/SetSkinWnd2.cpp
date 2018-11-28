@@ -15,17 +15,6 @@ HRESULT CSetSkinWnd::OnSkinChangeMessage(UINT uMsg, WPARAM wParam, LPARAM lParam
 	return S_OK;
 }
 
-void CSetSkinWnd::OnColor(EventArgs * e)
-{
-	SWindow *sender = (SWindow*) e->sender;
-	SDemoSkin *skin = (SDemoSkin *) GETSKIN(L"demoskinbk",GetScale());
-	if (skin)
-	{
-		skin->SetColor(sender->GetStyle().m_crBg);
-		NotifUpdataWindow();
-	}
-}
-
 long CSetSkinWnd::NotifUpdataWindow()
 {
 	WPARAM   wParam = MagicNumber;
@@ -116,4 +105,27 @@ void CSetSkinWnd::OnSetSkin(EventArgs * e)
 		skin->SetMargin(GetMargin(nIndex-9));
 		NotifUpdataWindow();
 	}
+}
+
+
+void CSetSkinWnd::OnColor(EventArgs * e)
+{
+	SWindow *sender = (SWindow*)e->sender;
+	SDemoSkin *skin = (SDemoSkin *)GETSKIN(L"demoskinbk", GetScale());
+	if (skin)
+	{
+		skin->SetColor(sender->GetStyle().m_crBg);
+		NotifUpdataWindow();
+	}
+}
+
+void CSetSkinWnd::OnBuiltinSkin()
+{
+	SDemoSkin *skin = (SDemoSkin *)GETSKIN(L"demoskinbk", GetScale());
+	if (skin)
+	{
+		skin->ClearSkin();
+		NotifUpdataWindow();
+	}
+
 }

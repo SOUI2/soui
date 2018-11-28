@@ -1353,14 +1353,14 @@ LRESULT SRichEdit::OnSetLimitText( UINT uMsg, WPARAM wParam, LPARAM lParam )
 
 LRESULT SRichEdit::OnSetCharFormat( UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
-    if(wParam & SCF_DEFAULT && !FValidCF((CHARFORMAT2W *) lParam))
+    if(wParam == SCF_DEFAULT && !FValidCF((CHARFORMAT2W *) lParam))
     {//设置默认字体只支持CHARFORMAT2W
         SLOGFMTW(_T("set default char format failed! only CHARFORMAT2W can be set for default char format"));
         return 0;
     }
     
     m_pTxtHost->GetTextService()->TxSendMessage(uMsg,wParam,lParam,NULL);
-    if(wParam & SCF_DEFAULT)
+    if(wParam == SCF_DEFAULT)
     {
         m_cfDef=*(CHARFORMAT2W *)lParam;
         m_pTxtHost->GetTextService()->OnTxPropertyBitsChange(TXTBIT_CHARFORMATCHANGE,TXTBIT_CHARFORMATCHANGE);

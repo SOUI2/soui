@@ -418,12 +418,7 @@ namespace SOUI
 
     HRESULT SRenderTarget_GDI::CreatePen( int iStyle,COLORREF cr,int cWidth,IPen ** ppPen )
     {
-		if(iStyle&PS_ENDCAP_FLAT)
-		{
-			*ppPen = new SPen_GDI(m_pRenderFactory,iStyle,BS_SOLID,cr,cWidth);
-		}
-		else
-			*ppPen = new SPen_GDI(m_pRenderFactory,iStyle,cr,cWidth);
+		*ppPen = new SPen_GDI(m_pRenderFactory,iStyle,cr,cWidth);
         return S_OK;
     }
 
@@ -568,11 +563,19 @@ namespace SOUI
 		if(!m_curPen) return E_INVALIDARG;
 
 		RECT rcBuf = *pRect;
-		::InflateRect(&rcBuf,m_curPen->GetWidth()/2,m_curPen->GetWidth()/2);
+		if (m_curPen->GetWidth() == 1)
+		{
+			rcBuf.right--;
+			rcBuf.bottom--;
+		}
+		else
+		{
+			::InflateRect(&rcBuf, -m_curPen->GetWidth() / 2, -m_curPen->GetWidth() / 2);
+		}
         ALPHAINFO ai;
-        CGdiAlpha::AlphaBackup(m_hdc,&rcBuf,ai);
+        CGdiAlpha::AlphaBackup(m_hdc, pRect,ai);
         HGDIOBJ oldBr=::SelectObject(m_hdc,GetStockObject(NULL_BRUSH));
-        ::Rectangle(m_hdc,pRect->left,pRect->top,pRect->right,pRect->bottom);
+        ::Rectangle(m_hdc, rcBuf.left, rcBuf.top, rcBuf.right, rcBuf.bottom);
         CGdiAlpha::AlphaRestore(ai);
         ::SelectObject(m_hdc,oldBr);
         return S_OK;
@@ -617,7 +620,9 @@ namespace SOUI
         DCBuffer dcBuf(m_hdc,pRect,GetAValue(cr),FALSE);
         HBRUSH br=::CreateSolidBrush(cr&0x00ffffff);
 		HGDIOBJ oldObj=::SelectObject(dcBuf,br);
-        ::RoundRect(dcBuf,pRect->left,pRect->top,pRect->right,pRect->bottom,pt.x,pt.y);
+		HGDIOBJ oldPen = ::SelectObject(dcBuf, GetStockObject(NULL_PEN));
+		::RoundRect(dcBuf,pRect->left,pRect->top,pRect->right,pRect->bottom,pt.x*2,pt.y*2);
+		::SelectObject(dcBuf, oldPen);
 		::SelectObject(dcBuf,oldObj);
         ::DeleteObject(br);
         return S_OK;    

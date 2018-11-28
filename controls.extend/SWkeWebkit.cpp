@@ -54,6 +54,7 @@ namespace SOUI
     
     SWkeWebkit::SWkeWebkit(void):m_pWebView(NULL)
     {
+		m_bFocusable = true;
     }
 
     SWkeWebkit::~SWkeWebkit(void)

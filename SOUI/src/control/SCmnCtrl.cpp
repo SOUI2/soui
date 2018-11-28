@@ -250,6 +250,7 @@ SButton::SButton()
 :m_accel(0)
 ,m_bAnimate(FALSE)
 ,m_byAlphaAni(0xFF)
+, m_nAniStep(25)
 {
     m_pBgSkin=GETBUILTINSKIN(SKIN_SYS_BTN_NORMAL);
     m_bFocusable=TRUE;
@@ -280,7 +281,7 @@ void SButton::OnPaint(IRenderTarget *pRT)
         else
         {
             //lose hover
-            m_pBgSkin->Draw(pRT, rcClient,0, m_pBgSkin->GetAlpha());
+            m_pBgSkin->Draw(pRT, rcClient, 0, m_pBgSkin->GetAlpha());
             m_pBgSkin->Draw(pRT, rcClient, 1, m_pBgSkin->GetAlpha()-byNewAlpha);
         }
     }
@@ -394,7 +395,7 @@ void SButton::OnStateChanged( DWORD dwOldState,DWORD dwNewState )
         ((dwOldState==WndState_Normal && dwNewState==WndState_Hover)
         ||(dwOldState==WndState_Hover && dwNewState==WndState_Normal)))
     {//启动动画
-        m_byAlphaAni=5;
+		m_byAlphaAni = 50;        
         GetContainer()->RegisterTimelineHandler(this);
     }
 }
@@ -414,8 +415,12 @@ void SButton::StopCurAnimate()
 
 void SButton::OnNextFrame()
 {
-    m_byAlphaAni+=25;
-    if(m_byAlphaAni==0xFF) StopCurAnimate();
+	m_byAlphaAni += m_nAniStep;
+	if (m_byAlphaAni >= 0xFF)
+	{
+		m_byAlphaAni = 0xFF;
+		StopCurAnimate();
+	}
     Invalidate();
 }
 

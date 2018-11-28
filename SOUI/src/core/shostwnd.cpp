@@ -1533,6 +1533,7 @@ void SHostWnd::OnWindowPosChanging(LPWINDOWPOS lpWndPos)
 
 LRESULT SHostWnd::OnGetObject(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+#ifdef SOUI_ENABLE_ACC
 	IAccessible * pAcc = NULL;
 	DWORD dwObjectId = lParam;
 	if (dwObjectId == OBJID_CLIENT) {
@@ -1546,6 +1547,7 @@ LRESULT SHostWnd::OnGetObject(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return LresultFromObject(IID_IAccessible, wParam, pAcc);
 	}
 	else
+#endif
 	{
 		SetMsgHandled(FALSE);
 		return 0;

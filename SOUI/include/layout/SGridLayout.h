@@ -91,6 +91,7 @@ namespace SOUI
 			ATTR_GRIDGRAVITY(L"gravity",m_GravityX=m_GravityY,TRUE)
 		SOUI_ATTRS_BREAK()
 	protected:
+		int CalcCells(SWindow *pParent) const;
 
 		int m_nCols;				/**<行数 */
 		int m_nRows;				/**<列数 */

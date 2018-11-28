@@ -42,6 +42,7 @@ int CMainDlg::OnCreate( LPCREATESTRUCT lpCreateStruct )
     MARGINS mar = {5,5,30,5};
     DwmExtendFrameIntoClientArea ( m_hWnd, &mar );//打开这里可以启用Aero效果
 #endif
+	ModifyStyle(WS_BORDER, 0);	//去掉overlap风格窗口的默认圆角。
 	SetMsgHandled(FALSE);
 	return 0;
 }
@@ -102,16 +103,19 @@ void SaveSkinInf2File(SkinType skinType, SkinSaveInf &skinSaveInf)
 	SStringT strSkinConfigPath = SApplication::getSingleton().GetAppDir() + _T("\\themes\\skin_config.xml");
 	switch (skinType)
 	{
-		//纯色只有SkinSaveInf的color有效
-	case color:
+	case color://纯色只有SkinSaveInf的color有效
 		childSkinType.append_attribute(L"color") = (int)skinSaveInf.color;
-		break;		
-		//此处为系统皮肤，只需要给文件路径和margin
-	case sys:
-		childSkinType.append_attribute(L"skin_path") = skinSaveInf.filepath;
-		SStringW margin;
-		margin.Format(L"%d,%d,%d,%d", skinSaveInf.margin.left, skinSaveInf.margin.top, skinSaveInf.margin.right, skinSaveInf.margin.bottom);
-		childSkinType.append_attribute(L"skin_margin") = margin;
+		break;				
+	case sys://此处为系统皮肤，只需要给文件路径和margin
+		{
+			childSkinType.append_attribute(L"skin_path") = skinSaveInf.filepath;
+			SStringW margin;
+			margin.Format(L"%d,%d,%d,%d", skinSaveInf.margin.left, skinSaveInf.margin.top, skinSaveInf.margin.right, skinSaveInf.margin.bottom);
+			childSkinType.append_attribute(L"skin_margin") = margin;
+		}
+		break;
+	case builtin:
+	default:
 		break;
 	}
 	docSave.save_file(strSkinConfigPath);
@@ -259,7 +263,10 @@ HRESULT CMainDlg::OnSkinChangeMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 
 	DWORD tm1=GetTickCount();
 	COLORREF crTheme = skin->GetThemeColor();
-	DoColorize(crTheme|0xff000000);
+	if (crTheme != CR_INVALID)
+		DoColorize(crTheme | 0xff000000);
+	else
+		DoColorize(0);
 
 	SLOG_INFO("DoColorize spend "<<GetTickCount()-tm1<<" ms");
 	return S_OK;
@@ -745,6 +752,20 @@ void CMainDlg::OnMclvCtxMenu(EventArgs *pEvt)
         
     menu.TrackPopupMenu(0,pt.x,pt.y,m_hWnd);
 
+}
+
+void CMainDlg::OnMclvEventOfPanel(EventArgs * pEvt)
+{
+	EventOfPanel *e2 = sobj_cast<EventOfPanel>(pEvt);
+	SASSERT(e2);
+	if (e2->pOrgEvt->GetID() == EventItemPanelDbclick::EventID)
+	{
+		EventItemPanelDbclick *e3 = sobj_cast<EventItemPanelDbclick>(e2->pOrgEvt);
+		SItemPanel *pSender = sobj_cast<SItemPanel>(e3->sender);
+		SASSERT(pSender);
+		int iItem = pSender->GetItemIndex();
+		SMessageBox(m_hWnd, SStringT().Format(_T("double click item:%d"), iItem+1), _T("haha"), MB_OK | MB_ICONSTOP);
+	}
 }
 
 //处理模拟菜单中控件的事件

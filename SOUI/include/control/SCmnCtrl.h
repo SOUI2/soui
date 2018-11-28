@@ -246,11 +246,13 @@ protected:
 
     DWORD  m_accel;
     BOOL   m_bAnimate;    /**< 动画标志 */
-    BYTE   m_byAlphaAni;  /**< 动画状态 */
+    WORD   m_byAlphaAni;  /**< 动画状态 */
+	BYTE   m_nAniStep;	  /**< alpha for an animate step */
 public:
     SOUI_ATTRS_BEGIN()
         ATTR_CUSTOM(L"accel",OnAttrAccel)
         ATTR_INT(L"animate", m_bAnimate, FALSE)
+		ATTR_INT(L"animateStep",m_nAniStep,FALSE)
     SOUI_ATTRS_END()
 
     SOUI_MSG_MAP_BEGIN()
