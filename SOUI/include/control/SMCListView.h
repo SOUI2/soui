@@ -86,7 +86,7 @@ namespace SOUI
     protected:
         void onDataSetChanged();
         void onDataSetInvalidated();
-        
+        void onItemDataChanged(int iItem);
     protected:
         bool OnItemClick(EventArgs *pEvt);
 

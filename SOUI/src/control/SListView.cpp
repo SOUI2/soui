@@ -16,6 +16,7 @@ namespace SOUI
         virtual void onChanged();
         virtual void onInvalidated();
 
+		virtual void OnItemChanged(int iItem);
     protected:
         SListView * m_pOwner;
     };
@@ -30,6 +31,11 @@ namespace SOUI
     {
         m_pOwner->onDataSetInvalidated();
     }
+
+	void SListViewDataSetObserver::OnItemChanged(int iItem)
+	{
+		m_pOwner->onItemDataChanged(iItem);
+	}
 
 
 
@@ -160,6 +166,15 @@ namespace SOUI
         m_bDataSetInvalidated = TRUE;
         Invalidate();
     }
+
+
+	void SListView::onItemDataChanged(int iItem)
+	{
+		if(iItem<m_iFirstVisible) return;
+		if(iItem>m_iFirstVisible + m_lstItems.GetCount()) return;
+        UpdateVisibleItems();
+	}
+
 
     void SListView::OnPaint(IRenderTarget *pRT)
     {

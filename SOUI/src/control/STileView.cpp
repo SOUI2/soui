@@ -13,7 +13,10 @@ public:
     }
     virtual void onChanged();
     virtual void onInvalidated();
-    
+
+	virtual void OnItemChanged(int iItem);
+
+
 protected:
     STileView *m_pOwner;
 };
@@ -27,6 +30,11 @@ void STileViewDataSetObserver::onChanged()
 void STileViewDataSetObserver::onInvalidated()
 {
     m_pOwner->onDataSetInvalidated();
+}
+
+void STileViewDataSetObserver::OnItemChanged(int iItem)
+{
+	m_pOwner->onItemDataChanged(iItem);
 }
 
 
@@ -165,6 +173,14 @@ void STileView::onDataSetInvalidated()
 {
     m_bDatasetInvalidated = TRUE;
     Invalidate();
+}
+
+
+void STileView::onItemDataChanged(int iItem)
+{
+	if(iItem<m_iFirstVisible) return;
+	if(iItem>m_iFirstVisible + m_lstItems.GetCount()) return;
+	UpdateVisibleItems();
 }
 
 void STileView::OnPaint(IRenderTarget *pRT)
