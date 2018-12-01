@@ -477,7 +477,7 @@ BOOL SImageWnd::SetSkin(ISkinObj *pSkin,int iFrame/*=0*/,BOOL bAutoFree/*=TRUE*/
     if(!pSkin) return FALSE;
     m_pSkin=pSkin;
     m_iFrame=iFrame;
-    
+	m_pImg = NULL;
     if(bAutoFree)
     {
         m_pSkin->AddRef();
