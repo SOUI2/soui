@@ -420,8 +420,11 @@ void SMCListView::onDataSetInvalidated()
 void SMCListView::onItemDataChanged(int iItem)
 {
 	if(iItem<m_iFirstVisible) return;
-	if(iItem>m_iFirstVisible + m_lstItems.GetCount()) return;
-	UpdateVisibleItems();
+	if(iItem>=m_iFirstVisible + (int)m_lstItems.GetCount()) return;
+	if(m_lvItemLocator->IsFixHeight())
+		UpdateVisibleItem(iItem);
+	else
+		UpdateVisibleItems();
 }
 
 void SMCListView::OnPaint(IRenderTarget *pRT)
@@ -636,6 +639,16 @@ void SMCListView::UpdateVisibleItems()
         UpdateVisibleItems();//根据新的滚动条状态重新记录显示列表项
     }
 }
+
+
+void SMCListView::UpdateVisibleItem(int iItem)
+{
+	SASSERT(m_lvItemLocator->IsFixHeight());
+	SItemPanel * pItem = GetItemPanel(iItem);
+	SASSERT(pItem);
+	m_adapter->getView(iItem,pItem,m_xmlTemplate.first_child());
+}
+
 
 void SMCListView::OnSize(UINT nType, CSize size)
 {

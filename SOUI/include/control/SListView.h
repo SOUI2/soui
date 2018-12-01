@@ -67,7 +67,8 @@ namespace SOUI
         SItemPanel * GetItemPanel(int iItem);
         
         void UpdateVisibleItems();
-        
+        void UpdateVisibleItem(int iItem);
+
         void OnPaint(IRenderTarget *pRT);
         void OnSize(UINT nType, CSize size);
         void OnDestroy();

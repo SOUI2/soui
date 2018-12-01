@@ -179,7 +179,7 @@ void STileView::onDataSetInvalidated()
 void STileView::onItemDataChanged(int iItem)
 {
 	if(iItem<m_iFirstVisible) return;
-	if(iItem>m_iFirstVisible + m_lstItems.GetCount()) return;
+	if(iItem>=m_iFirstVisible + (int)m_lstItems.GetCount()) return;
 	UpdateVisibleItems();
 }
 

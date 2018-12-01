@@ -69,6 +69,7 @@ namespace SOUI
         }
 
 		void UpdateVisibleItems();
+		void UpdateVisibleItem(int iItem);
 
         void SetItemLocator(IListViewItemLocator *pItemLocator);
         void EnsureVisible( int iItem );
