@@ -25,7 +25,7 @@
     </page>
     <page title="iectrl">
       <text pos="|0,|0" offset="-0.5,-0.5" colorText="#ff0000">IE CTRL需要窗口句柄，在半透明宿主上不能正常显示</text>
-      <iectrl size="full,full" url="http://www.baidu.com"/>
+      <iectrl pos="0,0,-0,-0" url="http://www.baidu.com"/>
     </page>
     <page title="calendar2">
       <calendar2 pos="0,0,-0,-0" name="mp_test">
