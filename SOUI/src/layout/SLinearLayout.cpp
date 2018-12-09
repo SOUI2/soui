@@ -279,17 +279,21 @@ namespace SOUI
         int size = m_orientation == Vert? rcParent.Height():rcParent.Width();
         if(fWeight > 0.0f && size > offset)
         {//assign size by weight
-            int nRemain = size - offset;
+            int nRemain = size - offset;						
+
 			for(int iChild = 0;iChild < nChilds;iChild ++)
             {
+				if (SLayoutSize::fequal(fWeight, 0.0f))
+					break;
 				SWindow *pChild = pChilds[iChild];
-
 				SLinearLayoutParam *pLinearLayoutParam = pChild->GetLayoutParamT<SLinearLayoutParam>();
-
                 if(pLinearLayoutParam->weight > 0.0f)
                 {
-                    LONG & szChild = m_orientation == Vert? pSize[iChild].cy:pSize[iChild].cx;
-                    szChild += (int)(nRemain*pLinearLayoutParam->weight/fWeight);
+					int extra = int(nRemain*pLinearLayoutParam->weight / fWeight + 0.5f);
+					 LONG & szChild = m_orientation == Vert? pSize[iChild].cy:pSize[iChild].cx;
+                    szChild += extra;
+					nRemain -= extra;
+					fWeight -= pLinearLayoutParam->weight;
                 }
             }
         }
