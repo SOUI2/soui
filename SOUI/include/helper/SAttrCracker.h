@@ -68,10 +68,12 @@ public:                                                             \
         }                                                           \
         else                                                        \
 
+#define STRINGASBOOL(strValue) (strValue).CompareNoCase(L"0") != 0 && (strValue).CompareNoCase(L"false") != 0
+
 #define ATTR_BOOL(attribname, varname, allredraw)         \
 	if (0 == strAttribName.CompareNoCase(attribname))                            \
 		{                                                           \
-		varname=strValue.CompareNoCase(L"0") != 0 && strValue.CompareNoCase(L"false") != 0; \
+		varname=STRINGASBOOL(strValue); \
 		hRet = allredraw ? S_OK : S_FALSE;                      \
 		}                                                           \
 		else                                                        \
