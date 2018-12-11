@@ -21,7 +21,7 @@
         <button name="btn_richedit_open" pos="[5,0,@120,@25">open from rtf</button>
         <button name="btn_richedit_save" pos="[5,0,@120,@25">save to rtf</button>
       </window>
-      <chatedit name="re_gifhost" pos="5,[5,-5,-5" bkgndBlend="1" class="cls_edit" enableDragdrop="1" multiLines="1" vscrollBar="1" sbSkin="skin_vscrollbar" wordWrap="1"  autoVscroll="1" hscrollBar="0" wantReturn="1" maxBuf="6400000" rtf="rtf:rtf_test"/>
+      <chatedit name="re_gifhost" pos="5,[5,-5,-5" bkgndBlend="1" class="cls_edit" enableDragdrop="1" multiLines="1" vscrollBar="1" sbSkin="skin_vscrollbar" wordWrap="1"  autoVscroll="1" hscrollBar="0" wantReturn="1" wantTab="1" maxBuf="6400000" rtf="rtf:rtf_test"/>
     </page>
     <page title="iectrl">
       <text pos="|0,|0" offset="-0.5,-0.5" colorText="#ff0000">IE CTRL需要窗口句柄，在半透明宿主上不能正常显示</text>

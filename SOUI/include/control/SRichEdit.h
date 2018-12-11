@@ -872,13 +872,7 @@ namespace SOUI
         *
         * Describe  获取窗口消息码
         */
-        virtual UINT OnGetDlgCode()
-        {
-            UINT uRet=SC_WANTCHARS|SC_WANTARROWS;
-            if(m_fWantTab) uRet |= DLGC_WANTTAB;
-            if(m_dwStyle&ES_WANTRETURN) uRet |= SC_WANTRETURN;
-            return uRet;
-        }
+		virtual UINT OnGetDlgCode();
         
         /**
         * GetDesiredSize
@@ -1165,6 +1159,7 @@ namespace SOUI
             ATTR_CUSTOM(L"rtf",OnAttrRTF)
             ATTR_CUSTOM(L"align",OnAttrAlign)
             ATTR_CUSTOM(L"notifyChange",OnAttrNotifyChange)
+			ATTR_BOOL(L"wantTab",m_fWantTab,FALSE)
             //更多属性见SRichEdit::DefAttributeProc代码
             //包括：hscrollBar，vscrollBar，autoHscroll，autoVscroll，multiLines，readOnly，wantReturn，password
             //      number,passwordChar,enableDragdrop,autoSel

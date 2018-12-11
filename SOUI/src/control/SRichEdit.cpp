@@ -760,6 +760,22 @@ void SRichEdit::OnTimer2( UINT_PTR idEvent )
     m_pTxtHost->GetTextService()->TxSendMessage(WM_TIMER,idEvent,0,NULL);
 }
 
+/**
+* SRichEdit::OnGetDlgCode
+* @brief    获取窗口消息码
+* @return   返回UINT
+*
+* Describe  获取窗口消息码
+*/
+
+UINT SRichEdit::OnGetDlgCode()
+{
+	UINT uRet = SC_WANTCHARS | SC_WANTARROWS;
+	if (m_fWantTab) uRet |= SC_WANTTAB;
+	if (m_dwStyle&ES_WANTRETURN) uRet |= SC_WANTRETURN;
+	return uRet;
+}
+
 
 CSize SRichEdit::GetDesiredSize( LPCRECT pRcContainer )
 {
