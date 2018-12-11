@@ -75,6 +75,23 @@ public:
      * Describe  获取位置
      */
     int GetPos();
+
+
+	/**
+	 * SScrollBar::GetMax
+	 * @brief    获取最大值
+	 *
+	 * Describe  获取最大值
+	 */
+	int GetMax();
+
+	/**
+	 * SScrollBar::GetMax
+	 * @brief    获取最小值
+	 *
+	 * Describe  获取最小值
+	 */
+	int GetMin();
     
 protected:    
     /**
