@@ -614,7 +614,8 @@ protected:
 
     SOUI_ATTRS_BEGIN()
         ATTR_COLOR(L"colorLine", m_crLine, FALSE)
-        ATTR_INT(L"size", m_nLineSize, FALSE)
+		ATTR_COLOR(L"lineColor", m_crLine, FALSE)
+		ATTR_INT(L"lineSize", m_nLineSize, FALSE)
         ATTR_ENUM_BEGIN(L"mode", HRMODE, FALSE)
             ATTR_ENUM_VALUE(L"vertical", HR_VERT)
             ATTR_ENUM_VALUE(L"horizontal", HR_HORZ)
