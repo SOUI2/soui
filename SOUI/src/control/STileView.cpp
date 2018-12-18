@@ -322,6 +322,8 @@ void STileView::UpdateVisibleItems()
             ii.pItem->GetEventSet()->setMutedState(true);
             ii.pItem->ModifyItemState(dwState,0);
             ii.pItem->GetEventSet()->setMutedState(false);
+	    if (dwState & WndState_Hover) 
+		m_pHoverItem = ii.pItem;
 
             m_adapter->getView(iNewLastVisible, ii.pItem, m_xmlTemplate.first_child());
 			ii.pItem->DoColorize(GetColorizeColor());
@@ -351,13 +353,13 @@ void STileView::UpdateVisibleItems()
         {
             continue;
         }
-        if(ii.pItem == m_pHoverItem)
+        if(ii.pItem->GetState() & WndState_Hover)
         {
             ii.pItem->DoFrameEvent(WM_MOUSELEAVE, 0, 0);
             m_pHoverItem = NULL;
         }
         ii.pItem->GetEventSet()->setMutedState(true);
-        if(ii.pItem->GetItemIndex() == m_iSelItem)
+        if(ii.pItem->GetState() & WndState_Check)
         {
             ii.pItem->ModifyItemState(0, WndState_Check);
             ii.pItem->GetFocusManager()->SetFocusedHwnd(0);
