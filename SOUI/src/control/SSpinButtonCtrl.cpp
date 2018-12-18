@@ -1,9 +1,6 @@
 ﻿#include "include\souistd.h"
 #include "control\SSpinButtonCtrl.h"
 
-static const wchar_t * KBTN_UP = L"btn_up";
-static const wchar_t * KBTN_DOWN = L"btn_down";
-
 namespace SOUI
 {
     SSpinButtonCtrl::SSpinButtonCtrl(void)
@@ -128,6 +125,16 @@ namespace SOUI
 			m_iActionBtn = ACTION_NULL;
 		}
 	}
+
+
+    void SSpinButtonCtrl::OnColorize(COLORREF cr)
+    {
+        __super::OnColorize(cr);
+
+        if ( m_pUpSkin ) m_pUpSkin->OnColorize(cr);
+        if ( m_pDownSkin ) m_pDownSkin->OnColorize(cr);
+    }
+
 
 	void SSpinButtonCtrl::OnPaint(IRenderTarget *pRT)
 	{
