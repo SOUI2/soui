@@ -47,6 +47,7 @@ namespace SOUI
 		{
 			(((TClass*)getObject())->*_func)();
 		}
+
 	private:
 		Func _func;
 	};
@@ -526,4 +527,28 @@ namespace SOUI
 		T5 _param5;
 	};
 
+
+	class STaskHelper {
+	public:
+		template<typename TClass,typename Fun>
+		static void post(IAsyncTaskMgr *pTaskMgr,TClass * pObj, Fun fun,bool waitUntilDone)
+		{
+			SFunctor0<TClass, Fun> runnable(pObj, fun);
+			pTaskMgr->postTask(&runnable, waitUntilDone);
+		}
+
+		template<typename TClass, typename Fun,typename P1>
+		static void post(IAsyncTaskMgr *pTaskMgr, TClass * pObj, Fun fun, P1 p1, bool waitUntilDone)
+		{
+			SFunctor1<TClass,Fun,P1> runnable(pObj, fun,p1);
+			pTaskMgr->postTask(&runnable, waitUntilDone);
+		}
+
+		template<typename TClass, typename Fun, typename P1, typename P2>
+		static void post(IAsyncTaskMgr *pTaskMgr, TClass * pObj, Fun fun, P1 p1, P2 p2 ,bool waitUntilDone)
+		{
+			SFunctor2<TClass, Fun, P1,P2> runnable(pObj, fun, p1,p2);
+			pTaskMgr->postTask(&runnable, waitUntilDone);
+		}
+	};
 }

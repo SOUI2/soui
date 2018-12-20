@@ -4,7 +4,6 @@
 #include <cassert>
 #include <deque>
 #include <limits>
-#include <helper/SFunctor.hpp>
 
 namespace SOUI
 {
@@ -12,7 +11,6 @@ namespace SOUI
 	SAsyncTaskMgr::SAsyncTaskMgr() :
 		_lock(),
 		_runningLock(),
-		_name("undefined"),
 		_thread(),
 		_itemsSem(),
 		_items(),
@@ -27,26 +25,14 @@ namespace SOUI
 		stop();
 	}
 
-	void SAsyncTaskMgr::setName(const char * pszName)
-	{
-		_name = pszName;
-	}
-
-	template<typename TClass,typename Fun>
-	IRunnable * NewFunctor(TClass *obj, Fun fun)
-	{
-		return new SFunctor0<TClass, Fun>(obj, fun);
-	}
-
-	void SAsyncTaskMgr::start(Priority priority)
+	void SAsyncTaskMgr::start(const char * pszName,Priority priority)
 	{
 		{
 			SAutoLock autoLock(_lock);
 			_items.clear();
+			_name = pszName;
 		}
-		IRunnable *run = NewFunctor(this, &SAsyncTaskMgr::runLoopProc);
-		_thread.start(run, _name, (Thread::ThreadPriority)priority);
-		delete run;
+		_start(this, &SAsyncTaskMgr::runLoopProc,  priority);
 	}
 
 	void SAsyncTaskMgr::stop()

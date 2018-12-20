@@ -22,16 +22,10 @@ namespace SOUI
 		};
 
 		/**
-		* setName set name
-		* @param pszName the asynctask name
-		*/
-		virtual void setName(const char * pszName) = 0;
-
-		/**
 		* Start a thread to run.
 		* @param priority the thread priority
 		*/
-		virtual void start(Priority priority) = 0;
+		virtual void start(const char * pszName,Priority priority) = 0;
 
 		/**
 		* Stop thread synchronized.

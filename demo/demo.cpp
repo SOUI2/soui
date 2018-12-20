@@ -60,9 +60,26 @@
 #include "trayicon/SShellNotifyIcon.h"
 #include "qrcode/SQrCtrl.h"
 
+#include <interface/SAsyncTaskMgr-i.h>
+#include <helper/SFunctor.hpp>
+#include <string>
+
 ROBJ_IN_CPP
 
+//演示异步任务。
+class CAsyncTaskObj
+{
+public:
+	void task1(int a)
+	{
+		SLOG_INFO("task1,a:" << a);
+	}
 
+	void task2(int a, const std::string & b)
+	{
+		SLOG_INFO("task2,a:" << a<<" b:"<<b.c_str());
+	}
+};
 
 int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*lpstrCmdLine*/, int /*nCmdShow*/)
 {
@@ -108,6 +125,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
     SComMgr *pComMgr = new SComMgr(_T("imgdecoder-png"));
     
 
+
     {
 
         int nType=MessageBox(GetActiveWindow(),_T("选择渲染类型：\n[yes]: Skia\n[no]:GDI\n[cancel]:Quit"),_T("select a render"),MB_ICONQUESTION|MB_YESNOCANCEL);
@@ -126,10 +144,23 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
         CAutoRefPtr<IScriptFactory> pScriptLua;              //lua脚本模块，由scriptmodule-lua.dll提供
         CAutoRefPtr<ILog4zManager>  pLogMgr;                //log4z对象
         
+		CAutoRefPtr<IAsyncTaskMgr>  pAsyncTaskMgr;
+
         BOOL bLoaded=FALSE;
         //从各组件中显式创建上述组件对象
         
-        
+		//演示异步任务。
+		bLoaded = pComMgr->CreateAsyncTaskMgr((IObjRef**)&pAsyncTaskMgr);
+		CAsyncTaskObj obj;
+		if (bLoaded)
+		{
+			pAsyncTaskMgr->start("test", IAsyncTaskMgr::Low);
+			STaskHelper::post(pAsyncTaskMgr, &obj, &CAsyncTaskObj::task1, 100,true);
+			STaskHelper::post(pAsyncTaskMgr, &obj, &CAsyncTaskObj::task2, 100,"abc", true);
+			pAsyncTaskMgr->stop();
+			pAsyncTaskMgr = NULL;
+		}
+
 		if (nType == IDYES)
 		{
 			bLoaded = pComMgr->CreateRender_Skia((IObjRef**)&pRenderFactory);			

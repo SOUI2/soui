@@ -6,6 +6,7 @@
 #include <helper/SSharedPtr.hpp>
 #include <list>
 #include <unknown/obj-ref-impl.hpp>
+#include <helper/SFunctor.hpp>
 
 namespace SOUI
 {
@@ -22,21 +23,25 @@ namespace SOUI
 		*/
 		virtual ~SAsyncTaskMgr();
 
-		void setName(const char * pszName);
-
 		/**
-		* Start RunLoop thread.
+		* Start task mgr thread.
 		*/
-		void start(Priority priority);
+		void start(const char * pszName, Priority priority);
 
+		template<typename TClass,typename Fun>
+		void _start(TClass *obj, Fun fun, Priority priority)
+		{
+			SFunctor0<TClass,Fun>  runnable(this, &SAsyncTaskMgr::runLoopProc);
+			_thread.start(&runnable, _name,  (Thread::ThreadPriority)priority);
+		}
 		/**
-		* Stop RunLoop thread synchronized.
+		* Stop task mgr synchronized.
 		*/
 		void stop();
 
 
 		/**
-		* Remove tasks for a sepcific object from runloop pening task list
+		* Remove tasks for a sepcific object from task mgr pening task list
 		* @param object the specific object wants pending functors to be removed
 		*/
 		void cancelTasksForObject(void *object);
@@ -50,8 +55,8 @@ namespace SOUI
 
 
 		/**
-		* get the total task number in the runloop queue.
-		* @return total task number in runloop queue
+		* get the total task number in the task mgr queue.
+		* @return total task number in task mgr queue
 		*/
 		int getTaskCount() const;
 
