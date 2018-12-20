@@ -15,6 +15,7 @@
 #define COM_ZIPRESPROVIDER _T("resprovider-zipd.dll")
 #define COM_LOG4Z   _T("log4zd.dll")
 #define COM_7ZIPRESPROVIDER _T("resprovider-7zipd.dll")
+#define COM_ASYNCTASKMGR _T("asynctaskmgrd.dll")
 #else
 #define COM_RENDER_GDI  _T("render-gdi.dll")
 #define COM_RENDER_SKIA _T("render-skia.dll")
@@ -23,6 +24,7 @@
 #define COM_ZIPRESPROVIDER _T("resprovider-zip.dll")
 #define COM_LOG4Z   _T("log4z.dll")
 #define COM_7ZIPRESPROVIDER _T("resprovider-7zip.dll")
+#define COM_ASYNCTASKMGR _T("asynctaskmgr.dll")
 #endif	// _DEBUG
 
 
@@ -47,6 +49,7 @@
     #pragma comment(lib,"7zd")
     #pragma comment(lib,"resprovider-7zipd")
     #pragma comment(lib,"log4zd")
+	#pragma comment(lib,"asynctaskmgrd")
 #else//_DEBUG
 
     #pragma comment(lib,"skia")
@@ -63,6 +66,7 @@
     #pragma comment(lib,"7z")
     #pragma comment(lib,"resprovider-7zip")
     #pragma comment(lib,"log4z")
+	#pragma comment(lib,"asynctaskmgr")
 #endif//_DEBUG
 
 namespace SOUI
@@ -112,6 +116,9 @@ namespace SOUI
     {
         BOOL SCreateInstance(IObjRef **);
     }
+	namespace AsyncTask {
+		BOOL SCreateInstance(IObjRef **);
+	}
 }//end of soui
 
 class SComMgr
@@ -175,6 +182,11 @@ public:
     {
         return SOUI::LOG4Z::SCreateInstance(ppObj);
     }
+
+	BOOL CreateAsyncTaskMgr(IObjRef **ppObj)
+	{
+		return SOUI::AsyncTask::SCreateInstance(ppObj);
+	}
 
     SOUI::SStringT    m_strImgDecoder;
 };
@@ -247,6 +259,11 @@ public:
     {
         return log4zLoader.CreateInstance(m_strDllPath+COM_LOG4Z,ppObj);
     }
+
+	BOOL CreateAsyncTaskMgr(IObjRef **ppObj)
+	{
+		return asyncTaskMgrLoader.CreateInstance(m_strDllPath + COM_ASYNCTASKMGR, ppObj);
+	}
 protected:
     //SComLoader实现从DLL的指定函数创建符号SOUI要求的类COM组件。
     SComLoader imgDecLoader;
@@ -256,7 +273,8 @@ protected:
     SComLoader zipResLoader;
     SComLoader log4zLoader;
     SComLoader zip7ResLoader;
-    
+	SComLoader asyncTaskMgrLoader;
+
     SOUI::SStringT m_strImgDecoder;
 	SOUI::SStringT m_strDllPath;
 };
