@@ -550,5 +550,55 @@ namespace SOUI
 			SFunctor2<TClass, Fun, P1,P2> runnable(pObj, fun, p1,p2);
 			pTaskMgr->postTask(&runnable, waitUntilDone);
 		}
+
+		template<typename TClass, typename Fun, typename P1, typename P2, typename P3>
+		static void post(IAsyncTaskMgr *pTaskMgr, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,bool waitUntilDone)
+		{
+			SFunctor3<TClass, Fun, P1,P2,P3> runnable(pObj, fun, p1,p2,p3);
+			pTaskMgr->postTask(&runnable, waitUntilDone);
+		}
+
+		template<typename TClass, typename Fun, typename P1, typename P2, typename P3, typename P4>
+		static void post(IAsyncTaskMgr *pTaskMgr, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,P4 p4,bool waitUntilDone)
+		{
+			SFunctor4<TClass, Fun, P1,P2,P3,P4> runnable(pObj, fun, p1,p2,p3,p4);
+			pTaskMgr->postTask(&runnable, waitUntilDone);
+		}
+
+		template<typename TClass, typename Fun, typename P1, typename P2, typename P3, typename P4, typename P5>
+		static void post(IAsyncTaskMgr *pTaskMgr, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,P4 p4, P5 p5,bool waitUntilDone)
+		{
+			SFunctor5<TClass, Fun, P1,P2,P3,P4,P5> runnable(pObj, fun, p1,p2,p3,p4,p5);
+			pTaskMgr->postTask(&runnable, waitUntilDone);
+		}
+
+		template<typename TClass, typename Fun, typename P1, typename P2, typename P3, typename P4, typename P5, typename P6>
+		static void post(IAsyncTaskMgr *pTaskMgr, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,P4 p4, P5 p5,P6 p6,bool waitUntilDone)
+		{
+			SFunctor6<TClass, Fun, P1,P2,P3,P4,P5,P6> runnable(pObj, fun, p1,p2,p3,p4,p5,p6);
+			pTaskMgr->postTask(&runnable, waitUntilDone);
+		}
+
+		template<typename TClass, typename Fun, typename P1, typename P2, typename P3, typename P4, typename P5, typename P6, typename P7>
+		static void post(IAsyncTaskMgr *pTaskMgr, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,P4 p4, P5 p5,P6 p6,P7 p7,bool waitUntilDone)
+		{
+			SFunctor7<TClass, Fun, P1,P2,P3,P4,P5,P6,P7> runnable(pObj, fun, p1,p2,p3,p4,p5,p6,p7);
+			pTaskMgr->postTask(&runnable, waitUntilDone);
+		}
+
+		template<typename TClass, typename Fun, typename P1, typename P2, typename P3, typename P4, typename P5, typename P6, typename P7, typename P8>
+		static void post(IAsyncTaskMgr *pTaskMgr, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,P4 p4, P5 p5,P6 p6,P7 p7,P8 p8,bool waitUntilDone)
+		{
+			SFunctor8<TClass, Fun, P1,P2,P3,P4,P5,P6,P7,P8> runnable(pObj, fun, p1,p2,p3,p4,p5,p6,p7,p8);
+			pTaskMgr->postTask(&runnable, waitUntilDone);
+		}
+
+		template<typename TClass, typename Fun, typename P1, typename P2, typename P3, typename P4, typename P5, typename P6, typename P7, typename P8, typename P9>
+		static void post(IAsyncTaskMgr *pTaskMgr, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,P4 p4, P5 p5,P6 p6,P7 p7,P8 p8,P9 p9,bool waitUntilDone)
+		{
+			SFunctor9<TClass, Fun, P1,P2,P3,P4,P5,P6,P7,P8,P9> runnable(pObj, fun, p1,p2,p3,p4,p5,p6,p7,p8,p9);
+			pTaskMgr->postTask(&runnable, waitUntilDone);
+		}
+
 	};
 }

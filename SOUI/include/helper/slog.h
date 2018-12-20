@@ -40,6 +40,7 @@ namespace SOUI
 			pLogMgr->pushLog(id_or_name, level, filter, logBuf, __FILE__, __LINE__, __FUNCTION__, pAddr);\
 		}else\
 		{\
+			ss<<" "__FUNCTION__<<" "<<__FILE__<<":"<<__LINE__<<"\n";\
 			OutputDebugStringA(logBuf);\
 		}\
     } while (0)
@@ -87,7 +88,9 @@ namespace SOUI
 			pLogMgr->pushLog(id_or_name, level,filter, logbuf, __FILE__, __LINE__, __FUNCTION__,_ReturnAddress()); \
 		}else\
 		{\
-			OutputDebugStringA(logbuf);\
+			char logbuf2[SOUI::LOG4Z_LOG_BUF_SIZE];\
+			_snprintf_s(logbuf2, SOUI::LOG4Z_LOG_BUF_SIZE, _TRUNCATE, "%s %s %s:%d\n",logbuf, __FUNCTION__, __FILE__, __LINE__ ); \
+			OutputDebugStringA(logbuf2);\
 		}\
     } while (0)
 
