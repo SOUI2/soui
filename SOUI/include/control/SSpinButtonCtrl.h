@@ -15,9 +15,12 @@ namespace SOUI
 		void SetStep(UINT nStep);
 
 		SWindow * GetBuddy();
+
     protected:
         virtual CSize GetDesiredSize(LPCRECT pRcContainer);
 		virtual BOOL NeedRedrawWhenStateChange() { return TRUE; }
+        virtual void OnColorize(COLORREF cr);
+
     protected:
         void OnValueChanged(bool bInit=false);
     
