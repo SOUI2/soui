@@ -105,7 +105,14 @@ namespace SOUI{
 		return _LoadSkin();
 	}
 
-	BOOL SResProviderZip::_Init( HINSTANCE hInst,LPCTSTR pszResName,LPCTSTR pszType  ,LPCSTR pszPsw)
+	BOOL SResProviderZip::_Init( LPBYTE pBytes, DWORD dwByteCounts, LPCSTR pszPsw ) 
+	{
+		if(!m_zipFile.Open(pBytes, dwByteCounts)) return FALSE;
+        m_zipFile.SetPassword(pszPsw);
+		return _LoadSkin();
+	}
+
+	BOOL SResProviderZip::_Init( HINSTANCE hInst,LPCTSTR pszResName,LPCTSTR pszType, LPCSTR pszPsw)
 	{
 		if(!m_zipFile.Open(hInst,pszResName,pszType)) return FALSE;
         m_zipFile.SetPassword(pszPsw);
@@ -117,16 +124,31 @@ namespace SOUI{
         ZIPRES_PARAM *zipParam=(ZIPRES_PARAM*)wParam;
         m_renderFactory = zipParam->pRenderFac;
 		m_childDir = zipParam->pszChildDir;
+		
 		if (!m_childDir.IsEmpty())
 		{
 			m_childDir.TrimRight(_T('\\'));
 			m_childDir.TrimRight(_T('/'));
 			m_childDir += _T("\\");
 		}
-        if(zipParam->type == ZIPRES_PARAM::ZIPFILE)
-            return _Init(zipParam->pszZipFile,zipParam->pszPsw);
-        else
-            return _Init(zipParam->peInfo.hInst,zipParam->peInfo.pszResName,zipParam->peInfo.pszResType,zipParam->pszPsw);
+
+		BOOL bResult = FALSE;
+		switch (zipParam->type) 
+		{
+		case ZIPRES_PARAM::ZIPFILE:
+			bResult = _Init(zipParam->pszZipFile, zipParam->pszPsw);
+		case ZIPRES_PARAM::PEDATA:
+			bResult =_Init(zipParam->peInfo.hInst,
+				         zipParam->peInfo.pszResName,
+				         zipParam->peInfo.pszResType,
+				         zipParam->pszPsw);
+		case ZIPRES_PARAM::MEMORYDATA:
+			bResult =_Init(zipParam->Memory.pByteBuffer,
+				         zipParam->Memory.dwByteCounts,
+				         zipParam->pszPsw);
+		}
+
+		return bResult;
     }
 
 	SStringT SResProviderZip::_GetFilePath( LPCTSTR pszResName,LPCTSTR pszType )

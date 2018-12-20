@@ -33,6 +33,7 @@ public:
 
 protected:
     BOOL _Init(LPCTSTR pszZipFile ,LPCSTR pszPsw);
+    BOOL _Init(LPBYTE pBytes, DWORD dwByteCounts, LPCSTR pszPsw);    
     BOOL _Init(HINSTANCE hInst,LPCTSTR pszResName,LPCTSTR pszType ,LPCSTR pszPsw);
 	BOOL _LoadSkin();
 	SStringT _GetFilePath(LPCTSTR pszResName,LPCTSTR pszType);

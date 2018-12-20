@@ -162,6 +162,7 @@ public:
 	~CZipArchive();
 
 	BOOL Open(LPCTSTR pszFileName);
+	BOOL Open(LPBYTE pBytes, DWORD dwByteCount);
 	BOOL Open(HMODULE hModule,LPCTSTR pszName,LPCTSTR pszType=_T("ZIP"));
 
 	void Close();
