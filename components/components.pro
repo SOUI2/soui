@@ -19,6 +19,7 @@ SUBDIRS += imgdecoder-gdip
 SUBDIRS += ScriptModule-LUA
 SUBDIRS += log4z
 SUBDIRS += resprovider-7zip
+SUBDIRS += AsyncTaskMgr
 
 imgdecoder-png.depends += zlib png
 render-skia.depends += skia
@@ -26,3 +27,4 @@ resprovider-zip.depends += zlib utilities
 translator.depends += utilities
 resprovider-7zip.depends += 7z utilities
 ScriptModule-LUA.depends += soui lua-52
+AsyncTaskMgr.depends += utilities

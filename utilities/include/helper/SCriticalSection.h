@@ -12,34 +12,24 @@
 */
 
 #pragma once
+#include "utilities-def.h"
+#include <Windows.h>
 
 namespace SOUI
 {
-    class SOUI_EXP SCriticalSection
+    class UTILITIES_API SCriticalSection
     {
     public:
-        SCriticalSection()
-        {
-            InitializeCriticalSection(&m_cs);
-        }
-        virtual ~SCriticalSection()
-        {
-            DeleteCriticalSection(&m_cs);
-        }
+		SCriticalSection();
+		virtual ~SCriticalSection();
 
-        void Enter()
-        {
-            EnterCriticalSection(&m_cs);
-        }
-        void Leave()
-        {
-            LeaveCriticalSection(&m_cs);
-        }
+		void Enter();
+		void Leave();
     protected:
         CRITICAL_SECTION    m_cs;
     };
 
-    class SOUI_EXP SAutoLock
+    class UTILITIES_API SAutoLock
     {
     public:
         SAutoLock(SCriticalSection & cs):m_cs(cs)

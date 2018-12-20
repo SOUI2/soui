@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9,00"
 	Name="utilities"
-	ProjectGUID="{1422B414-7C9C-3BFC-8659-0318FBB06CFA}"
+	ProjectGUID="{37DE703E-9349-3B3D-8462-BA4A1E1BBFCA}"
 	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform
@@ -21,7 +21,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".,.,include,..\config,..\tools\mkspecs\win32-msvc2008"
-				AdditionalOptions="/MP -w34100 -w34189 -w44996"
+				AdditionalOptions="/MP"
 				AssemblerListingLocation="..\obj\release\utilities\"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"
@@ -81,7 +81,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".,.,include,..\config,..\tools\mkspecs\win32-msvc2008"
-				AdditionalOptions="/MP -w34100 -w34189 -w44996"
+				AdditionalOptions="/MP"
 				AssemblerListingLocation="..\obj\debug\utilities\"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"
@@ -134,6 +134,8 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
+				RelativePath="src\helper\SCriticalSection.cpp" />
+			<File
 				RelativePath="src\gdialpha.cpp" />
 			<File
 				RelativePath="src\pugixml\pugixml.cpp" />
@@ -158,6 +160,14 @@
 				RelativePath="include\atl.mini\SComCli.h" />
 			<File
 				RelativePath="include\atl.mini\SComHelper.h" />
+			<File
+				RelativePath="include\helper\SCriticalSection.h" />
+			<File
+				RelativePath="include\helper\SEmptyable.hpp" />
+			<File
+				RelativePath="include\helper\SNoCopyable.hpp" />
+			<File
+				RelativePath="include\helper\SSharedPtr.hpp" />
 			<File
 				RelativePath="include\atl.mini\atldef.h" />
 			<File

@@ -347,6 +347,8 @@
 			<File
 				RelativePath="include\SApp.h" />
 			<File
+				RelativePath="include\interface\SAsyncTaskMgr-i.h" />
+			<File
 				RelativePath="include\helper\SAttrCracker.h" />
 			<File
 				RelativePath="include\interface\SAttrStorage-i.h" />
@@ -369,8 +371,6 @@
 			<File
 				RelativePath="include\control\SComboView.h" />
 			<File
-				RelativePath="include\helper\SCriticalSection.h" />
-			<File
 				RelativePath="include\control\SDateTimePicker.h" />
 			<File
 				RelativePath="include\core\SDefine.h" />
@@ -382,6 +382,8 @@
 				RelativePath="include\core\SDropTargetDispatcher.h" />
 			<File
 				RelativePath="include\res.mgr\SFontPool.h" />
+			<File
+				RelativePath="include\helper\SFunctor.hpp" />
 			<File
 				RelativePath="include\layout\SGridLayout.h" />
 			<File

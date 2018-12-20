@@ -116,7 +116,6 @@ HEADERS += include/SApp.h \
            include/helper/SToolTip.h \
            include/helper/swndspy.h \
            include/helper/SwndMsgCracker.h \
-           include/helper/SCriticalSection.h \
            include/helper/AppDir.h \
            include/helper/SAdapterBase.h \
            include/helper/SwndFinder.h \
@@ -128,6 +127,7 @@ HEADERS += include/SApp.h \
            include/helper/slog-def.h \
            include/helper/sdibhelper.h \
            include/helper/unknown.h \
+		   include/helper/SFunctor.hpp \
            include/interface/imgdecoder-i.h \
            include/interface/render-i.h \
            include/interface/SResProvider-i.h \
@@ -145,6 +145,7 @@ HEADERS += include/SApp.h \
            include/interface/SAccProxy-i.h \
            include/interface/SAccHelper-i.h \
            include/interface/SPathEffect-i.h \
+		   include/interface/SAsyncTaskMgr-i.h \
            include/layout/SLinearLayoutParamStruct.h \
            include/layout/SLinearLayout.h \
            include/layout/SouiLayoutParamStruct.h \
