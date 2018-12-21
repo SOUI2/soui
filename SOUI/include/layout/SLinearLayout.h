@@ -32,6 +32,8 @@ namespace SOUI
 
 		virtual void * GetRawData();
 
+		virtual ILayoutParam * Clone() const;
+	public:
         SOUI_ATTRS_BEGIN()
             ATTR_CUSTOM(L"width",OnAttrWidth)
             ATTR_CUSTOM(L"height",OnAttrHeight)

@@ -45,6 +45,9 @@ namespace SOUI
 
 		virtual void * GetRawData();
 
+		virtual ILayoutParam * Clone() const;
+
+	public:
 		SOUI_ATTRS_BEGIN()
 			ATTR_INT(L"rowSpan",nRowSpan,TRUE)
 			ATTR_INT(L"columnSpan",nColSpan,TRUE)

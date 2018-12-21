@@ -369,6 +369,13 @@ namespace SOUI{
 		return (SouiLayoutParamStruct*)this;
 	}
 
+	ILayoutParam * SouiLayoutParam::Clone() const
+	{
+		SouiLayoutParam *pRet = new SouiLayoutParam();
+		memcpy(pRet->GetRawData(), (SouiLayoutParamStruct*)this, sizeof(SouiLayoutParamStruct));
+		return pRet;
+	}
+
     //////////////////////////////////////////////////////////////////////////
 
 	SouiLayout::SouiLayout(void)

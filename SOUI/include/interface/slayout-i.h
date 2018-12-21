@@ -32,6 +32,7 @@ namespace SOUI{
 		virtual void SetWrapContent(ORIENTATION orientation) = 0;
 		virtual void SetSpecifiedSize(ORIENTATION orientation, const SLayoutSize& layoutSize) = 0;
 		virtual void * GetRawData() = 0;
+		virtual ILayoutParam * Clone() const = 0;
     };
 
     struct SOUI_EXP ILayout : IObject , IObjRef{

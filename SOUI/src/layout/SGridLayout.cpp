@@ -195,10 +195,15 @@ namespace SOUI
 
 	void * SGridLayoutParam::GetRawData()
 	{
-		return (SGridLayoutParam*)this;
+		return (SGridLayoutParamStruct*)this;
 	}
 
-
+	ILayoutParam * SGridLayoutParam::Clone() const
+	{
+		SGridLayoutParam *pRet = new SGridLayoutParam();
+		memcpy(pRet->GetRawData(), (SGridLayoutParamStruct*)this, sizeof(SGridLayoutParamStruct));
+		return pRet;
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	SGridLayout::SGridLayout(void):m_GravityX(gCenter),m_GravityY(gCenter),m_nCols(-1),m_nRows(-1)

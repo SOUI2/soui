@@ -196,6 +196,12 @@ namespace SOUI
 		return (SLinearLayoutParamStruct*)this;
 	}
 
+	ILayoutParam * SLinearLayoutParam::Clone() const
+	{
+		SLinearLayoutParam *pRet = new SLinearLayoutParam();
+		memcpy(pRet->GetRawData(), (SLinearLayoutParamStruct*)this, sizeof(SLinearLayoutParamStruct));
+		return pRet;
+	}
 
 	//////////////////////////////////////////////////////////////////////////
     SLinearLayout::SLinearLayout(void):m_gravity(G_Undefined)

@@ -211,14 +211,7 @@ namespace SOUI
 			return m_pLayoutParam;
 		}
 
-		bool SetLayoutParam(ILayoutParam * pLayoutParam)
-		{
-			SWindow *pParent = GetParent();
-			if(!pParent->GetLayout()->IsParamAcceptable(pLayoutParam))
-				return false;
-			m_pLayoutParam = pLayoutParam;
-			return true;
-		}
+		bool SetLayoutParam(ILayoutParam * pLayoutParam);
 
 		bool IsFloat() const{
 			return !!m_bFloat;
@@ -825,6 +818,8 @@ namespace SOUI
         
         virtual void UpdateLayout();
         
+		virtual void OnLayoutParamChanged(ILayoutParam * pLayoutParam) const {}
+
         virtual SStringW tr(const SStringW &strSrc);
 
         virtual SWND SwndFromPoint(CPoint ptHitTest, BOOL bOnlyText);

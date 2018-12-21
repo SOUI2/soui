@@ -32,6 +32,8 @@ namespace SOUI{
 		virtual void SetSpecifiedSize(ORIENTATION orientation, const SLayoutSize& layoutSize);
 
 		virtual void * GetRawData();
+
+		virtual ILayoutParam * Clone() const;
 	public:
 		bool IsOffsetRequired(ORIENTATION orientation) const;
         int  GetExtraSize(ORIENTATION orientation,int nScale) const;

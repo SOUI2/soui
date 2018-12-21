@@ -37,10 +37,6 @@ namespace SOUI
 		strTr = S_CW2T(TR(S_CT2W(strRaw),pTrCtxProvider->GetTrCtx()));
 	}
 
-
-
-
-
 	//////////////////////////////////////////////////////////////////////////
 	// SWindow Implement
 	//////////////////////////////////////////////////////////////////////////
@@ -84,6 +80,7 @@ namespace SOUI
 		m_pLayout.Attach(new SouiLayout());
 		m_pLayoutParam.Attach(new SouiLayoutParam());
 		m_pLayoutParam->SetMatchParent(Both);
+		OnLayoutParamChanged(m_pLayoutParam);
 
 		m_evtSet.addEvent(EVENTID(EventSwndCreate));
 		m_evtSet.addEvent(EVENTID(EventSwndDestroy));
@@ -2810,6 +2807,16 @@ namespace SOUI
 	void SWindow::accNotifyEvent(DWORD dwEvt)
 	{
 		NotifyWinEvent(dwEvt, GetContainer()->GetHostHwnd(), GetSwnd(), CHILDID_SELF);
+	}
+
+	bool SWindow::SetLayoutParam(ILayoutParam * pLayoutParam)
+	{
+		SWindow *pParent = GetParent();
+		if (!pParent->GetLayout()->IsParamAcceptable(pLayoutParam))
+			return false;
+		m_pLayoutParam = pLayoutParam;
+		OnLayoutParamChanged(pLayoutParam);
+		return true;
 	}
 
 }//namespace SOUI
