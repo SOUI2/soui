@@ -203,7 +203,7 @@ namespace SOUI
 		template<class T>
 		T * GetLayoutParamT() const
 		{
-			return sobj_cast<T>(m_pLayoutParam);
+			return sobj_cast<T>(GetLayoutParam());
 		}
 
 		virtual ILayoutParam * GetLayoutParam() const
