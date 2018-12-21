@@ -97,6 +97,9 @@ namespace SOUI
 		bool _hasRunningItem;
 		TaskItem _runningItem;
 		DWORD _nextTaskID;
+
+		// 通过 TObjRefImpl 继承
+		virtual bool getName(char * pszBuf, int nBufLen) override;
 	};
 
     namespace TASKLOOP

@@ -30,7 +30,7 @@ namespace SOUI
 		{
 			SAutoLock autoLock(_lock);
 			_items.clear();
-			_name = pszName;
+			if(pszName) _name = pszName;
 		}
 		_start(this, &STaskLoop::runLoopProc,  priority);
 	}
@@ -157,6 +157,15 @@ namespace SOUI
 		}
 
 		_items.clear();
+	}
+
+	bool STaskLoop::getName(char * pszBuf, int nBufLen)
+	{
+		SAutoLock autoLock(_lock);
+		if (_name.length() >= (size_t)nBufLen)
+			return false;
+		strcpy_s(pszBuf, nBufLen, _name.c_str());
+		return true;
 	}
 
 	void STaskLoop::cancelTasksForObject(void *object)

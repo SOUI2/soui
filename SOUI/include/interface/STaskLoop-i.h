@@ -21,6 +21,8 @@ namespace SOUI
 			Low = -1,
 		};
 
+		virtual bool getName(char *pszBuf, int nBufLen) = 0;
+
 		/**
 		* Start a thread to run.
 		* @param priority the thread priority
