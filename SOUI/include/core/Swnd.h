@@ -818,7 +818,7 @@ namespace SOUI
         
         virtual void UpdateLayout();
         
-		virtual void OnLayoutParamChanged(ILayoutParam * pLayoutParam) const {}
+		virtual void OnLayoutParamChanged(const ILayoutParam * pLayoutParam) {}
 
         virtual SStringW tr(const SStringW &strSrc);
 
