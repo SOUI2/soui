@@ -206,7 +206,7 @@ namespace SOUI
 			return sobj_cast<T>(m_pLayoutParam);
 		}
 
-		ILayoutParam * GetLayoutParam()
+		virtual ILayoutParam * GetLayoutParam() const
 		{
 			return m_pLayoutParam;
 		}
