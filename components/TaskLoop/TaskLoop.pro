@@ -3,12 +3,12 @@
 ######################################################################
 
 TEMPLATE = lib
-TARGET = AsyncTaskMgr
+TARGET = TaskLoop
 CONFIG(x64){
 TARGET = $$TARGET"64"
 }
 !LIB_ALL:!COM_LIB{
-	RC_FILE += AsyncTaskMgr.rc
+	RC_FILE += TaskLoop.rc
 	CONFIG += dll
 }
 else{
@@ -32,5 +32,5 @@ else{
 }
 
 # Input
-HEADERS += AsyncTaskMgr.h semaphore.h thread.h
-SOURCES += AsyncTaskMgr.cpp  semaphore.cpp thread.cpp
+HEADERS += TaskLoop.h semaphore.h thread.h
+SOURCES += TaskLoop.cpp  semaphore.cpp thread.cpp

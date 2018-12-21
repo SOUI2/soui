@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <interface/SAsyncTaskMgr-i.h>
+#include <interface/STaskLoop-i.h>
 #include <windows.h>
 #include "thread.h"
 #include <helper/SSharedPtr.hpp>
@@ -10,18 +10,18 @@
 
 namespace SOUI
 {
-	class SAsyncTaskMgr : public TObjRefImpl<IAsyncTaskMgr>
+	class STaskLoop : public TObjRefImpl<ITaskLoop>
 	{
 	public:
 		/**
 		* Constructor.
 		*/
-		SAsyncTaskMgr();
+		STaskLoop();
 
 		/**
 		* Destructor.
 		*/
-		virtual ~SAsyncTaskMgr();
+		virtual ~STaskLoop();
 
 		/**
 		* Start task mgr thread.
@@ -31,7 +31,7 @@ namespace SOUI
 		template<typename TClass,typename Fun>
 		void _start(TClass *obj, Fun fun, Priority priority)
 		{
-			SFunctor0<TClass,Fun>  runnable(this, &SAsyncTaskMgr::runLoopProc);
+			SFunctor0<TClass,Fun>  runnable(this, &STaskLoop::runLoopProc);
 			_thread.start(&runnable, _name,  (Thread::ThreadPriority)priority);
 		}
 		/**
@@ -99,9 +99,9 @@ namespace SOUI
 		DWORD _nextTaskID;
 	};
 
-    namespace AsyncTask
+    namespace TASKLOOP
     {
-        SOUI_COM_C BOOL SOUI_COM_API SCreateInstance(IObjRef **ppAsyncTask);
+        SOUI_COM_C BOOL SOUI_COM_API SCreateInstance(IObjRef **ppTaskLoop);
     }
 }
 

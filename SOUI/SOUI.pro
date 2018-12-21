@@ -145,7 +145,7 @@ HEADERS += include/SApp.h \
            include/interface/SAccProxy-i.h \
            include/interface/SAccHelper-i.h \
            include/interface/SPathEffect-i.h \
-		   include/interface/SAsyncTaskMgr-i.h \
+           include/interface/STaskLoop-i.h \
            include/layout/SLinearLayoutParamStruct.h \
            include/layout/SLinearLayout.h \
            include/layout/SouiLayoutParamStruct.h \

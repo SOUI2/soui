@@ -347,8 +347,6 @@
 			<File
 				RelativePath="include\SApp.h" />
 			<File
-				RelativePath="include\interface\SAsyncTaskMgr-i.h" />
-			<File
 				RelativePath="include\helper\SAttrCracker.h" />
 			<File
 				RelativePath="include\interface\SAttrStorage-i.h" />
@@ -478,6 +476,8 @@
 				RelativePath="include\res.mgr\SStylePool.h" />
 			<File
 				RelativePath="include\control\STabCtrl.h" />
+			<File
+				RelativePath="include\interface\STaskLoop-i.h" />
 			<File
 				RelativePath="include\control\STileView.h" />
 			<File

@@ -60,7 +60,7 @@
 #include "trayicon/SShellNotifyIcon.h"
 #include "qrcode/SQrCtrl.h"
 
-#include <interface/SAsyncTaskMgr-i.h>
+#include <interface/STaskLoop-i.h>
 #include <helper/SFunctor.hpp>
 #include <string>
 
@@ -144,23 +144,20 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
         CAutoRefPtr<IScriptFactory> pScriptLua;              //lua脚本模块，由scriptmodule-lua.dll提供
         CAutoRefPtr<ILog4zManager>  pLogMgr;                //log4z对象
         
-		CAutoRefPtr<IAsyncTaskMgr>  pAsyncTaskMgr;
-
-        BOOL bLoaded=FALSE;
-        //从各组件中显式创建上述组件对象
-        
 		//演示异步任务。
-		bLoaded = pComMgr->CreateAsyncTaskMgr((IObjRef**)&pAsyncTaskMgr);
-		CAsyncTaskObj obj;
-		if (bLoaded)
+		CAutoRefPtr<ITaskLoop>  pTaskLoop;
+		if (pComMgr->CreateTaskLoop((IObjRef**)&pTaskLoop))
 		{
-			pAsyncTaskMgr->start("test", IAsyncTaskMgr::Low);
-			STaskHelper::post(pAsyncTaskMgr, &obj, &CAsyncTaskObj::task1, 100,true);
-			STaskHelper::post(pAsyncTaskMgr, &obj, &CAsyncTaskObj::task2, 100,"abc", true);
-			pAsyncTaskMgr->stop();
-			pAsyncTaskMgr = NULL;
+			CAsyncTaskObj obj;
+			pTaskLoop->start("test", ITaskLoop::Low);
+			STaskHelper::post(pTaskLoop, &obj, &CAsyncTaskObj::task1, 100,true);
+			STaskHelper::post(pTaskLoop, &obj, &CAsyncTaskObj::task2, 100,"abc", true);
+			pTaskLoop->stop();
+			pTaskLoop = NULL;
 		}
 
+		BOOL bLoaded = FALSE;
+		//从各组件中显式创建上述组件对象
 		if (nType == IDYES)
 		{
 			bLoaded = pComMgr->CreateRender_Skia((IObjRef**)&pRenderFactory);			

@@ -1,7 +1,7 @@
 #include <windows.h>
 #include <cassert>
 #include "thread.h"
-#include <interface\SAsyncTaskMgr-i.h>
+#include <interface\STaskLoop-i.h>
 #include <process.h>
 
 namespace SOUI

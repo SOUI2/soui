@@ -1,4 +1,4 @@
-﻿#include "AsyncTaskMgr.h"
+﻿#include "TaskLoop.h"
 #include <unknown/obj-ref-impl.hpp>
 #include <algorithm>
 #include <cassert>
@@ -8,7 +8,7 @@
 namespace SOUI
 {
 
-	SAsyncTaskMgr::SAsyncTaskMgr() :
+	STaskLoop::STaskLoop() :
 		_lock(),
 		_runningLock(),
 		_thread(),
@@ -20,22 +20,22 @@ namespace SOUI
 	{
 	}
 
-	SAsyncTaskMgr::~SAsyncTaskMgr()
+	STaskLoop::~STaskLoop()
 	{
 		stop();
 	}
 
-	void SAsyncTaskMgr::start(const char * pszName,Priority priority)
+	void STaskLoop::start(const char * pszName,Priority priority)
 	{
 		{
 			SAutoLock autoLock(_lock);
 			_items.clear();
 			_name = pszName;
 		}
-		_start(this, &SAsyncTaskMgr::runLoopProc,  priority);
+		_start(this, &STaskLoop::runLoopProc,  priority);
 	}
 
-	void SAsyncTaskMgr::stop()
+	void STaskLoop::stop()
 	{
 		int taskNum = getTaskCount();
 
@@ -44,12 +44,12 @@ namespace SOUI
 		_thread.waitForStop();
 	}
 
-	bool SAsyncTaskMgr::isRunning()
+	bool STaskLoop::isRunning()
 	{
 		return !_thread.isStopped();
 	}
 
-	long SAsyncTaskMgr::postTask(const IRunnable *runnable, bool waitUntilDone)
+	long STaskLoop::postTask(const IRunnable *runnable, bool waitUntilDone)
 	{
 		if (_thread.isStopped())
 		{
@@ -94,7 +94,7 @@ namespace SOUI
 		return item.taskID;
 	}
 
-	void SAsyncTaskMgr::runLoopProc()
+	void STaskLoop::runLoopProc()
 	{
 		while (true)
 		{
@@ -159,7 +159,7 @@ namespace SOUI
 		_items.clear();
 	}
 
-	void SAsyncTaskMgr::cancelTasksForObject(void *object)
+	void STaskLoop::cancelTasksForObject(void *object)
 	{
 		if (object == NULL)
 		{
@@ -211,7 +211,7 @@ namespace SOUI
 		}
 	}
 
-	bool SAsyncTaskMgr::cancelTask(long taskId)
+	bool STaskLoop::cancelTask(long taskId)
 	{
 		SAutoLock autoLock(_lock);
 		std::list<TaskItem>::iterator itemIt = _items.begin();
@@ -231,7 +231,7 @@ namespace SOUI
 		return false;
 	}
 
-	int SAsyncTaskMgr::getTaskCount() const 
+	int STaskLoop::getTaskCount() const 
 	{
 		SAutoLock autoLock(_lock);
 
@@ -240,8 +240,8 @@ namespace SOUI
 
 }
 
-SOUI_COM_C BOOL SOUI_COM_API SOUI::AsyncTask::SCreateInstance(IObjRef **ppAsyncTask)
+SOUI_COM_C BOOL SOUI_COM_API SOUI::TASKLOOP::SCreateInstance(IObjRef **ppTaskLoop)
 {
-	*ppAsyncTask = new SAsyncTaskMgr();
+	*ppTaskLoop = new STaskLoop();
      return TRUE;
 }

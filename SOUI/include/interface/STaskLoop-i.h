@@ -12,7 +12,7 @@ namespace SOUI
 		virtual const char *getClassInfo() const = 0;
 	};
 
-	struct IAsyncTaskMgr : public IObjRef
+	struct ITaskLoop : public IObjRef
 	{
 		enum Priority
 		{

@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="AsyncTaskMgr"
-	ProjectGUID="{0C32B59E-CF27-32B8-9AFA-29AC77EA24E9}"
+	Name="TaskLoop"
+	ProjectGUID="{226ABB73-A763-3183-ACB4-851544028050}"
 	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform
@@ -16,18 +16,18 @@
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
 			ConfigurationType="2"
-			IntermediateDirectory="..\..\obj\release\AsyncTaskMgr\"
+			IntermediateDirectory="..\..\obj\release\TaskLoop\"
 			UseOfMfc="0">
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".,.,..\..\utilities\include,..\..\soui\include,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
 				AdditionalOptions="/MP"
-				AssemblerListingLocation="..\..\obj\release\AsyncTaskMgr\"
+				AssemblerListingLocation="..\..\obj\release\TaskLoop\"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"
 				ExceptionHandling="1"
 				GeneratePreprocessedFile="0"
-				ObjectFile="..\..\obj\release\AsyncTaskMgr\"
+				ObjectFile="..\..\obj\release\TaskLoop\"
 				Optimization ="1"
 				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
 				ProgramDataBaseFileName="$(IntDir)"
@@ -48,7 +48,7 @@
 				LinkIncremental="1"
 				LinkTimeCodeGeneration="0"
 				OptimizeReferences="2"
-				OutputFile="$(OutDir)\AsyncTaskMgr.dll"
+				OutputFile="$(OutDir)\TaskLoop.dll"
 				ProgramDatabaseFile=""
 				RandomizedBaseAddress="true"
 				SubSystem="2"
@@ -77,18 +77,18 @@
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
 			ConfigurationType="2"
-			IntermediateDirectory="..\..\obj\debug\AsyncTaskMgr\"
+			IntermediateDirectory="..\..\obj\debug\TaskLoop\"
 			UseOfMfc="0">
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".,.,..\..\utilities\include,..\..\soui\include,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
 				AdditionalOptions="/MP"
-				AssemblerListingLocation="..\..\obj\debug\AsyncTaskMgr\"
+				AssemblerListingLocation="..\..\obj\debug\TaskLoop\"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"
 				ExceptionHandling="1"
 				GeneratePreprocessedFile="0"
-				ObjectFile="..\..\obj\debug\AsyncTaskMgr\"
+				ObjectFile="..\..\obj\debug\TaskLoop\"
 				Optimization ="4"
 				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
 				ProgramDataBaseFileName="$(IntDir)"
@@ -106,7 +106,7 @@
 				GenerateDebugInformation="true"
 				IgnoreImportLibrary="true"
 				LinkTimeCodeGeneration="0"
-				OutputFile="$(OutDir)\AsyncTaskMgrd.dll"
+				OutputFile="$(OutDir)\TaskLoopd.dll"
 				ProgramDatabaseFile=""
 				RandomizedBaseAddress="true"
 				SubSystem="2"
@@ -136,7 +136,7 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath="AsyncTaskMgr.cpp" />
+				RelativePath="TaskLoop.cpp" />
 			<File
 				RelativePath="semaphore.cpp" />
 			<File
@@ -147,14 +147,14 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
-				RelativePath="AsyncTaskMgr.h" />
+				RelativePath="TaskLoop.h" />
 			<File
 				RelativePath="semaphore.h" />
 			<File
 				RelativePath="thread.h" />
 		</Filter>
 		<File
-			RelativePath="AsyncTaskMgr.rc" />
+			RelativePath="TaskLoop.rc" />
 	</Files>
 	<Globals>
 	</Globals>

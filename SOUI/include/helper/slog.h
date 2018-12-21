@@ -40,7 +40,7 @@ namespace SOUI
 			pLogMgr->pushLog(id_or_name, level, filter, logBuf, __FILE__, __LINE__, __FUNCTION__, pAddr);\
 		}else\
 		{\
-			ss<<" "__FUNCTION__<<" "<<__FILE__<<":"<<__LINE__<<"\n";\
+			ss<<" "<<__FUNCTION__<<" "<<__FILE__<<":"<<__LINE__<<"\n";\
 			OutputDebugStringA(logBuf);\
 		}\
     } while (0)
