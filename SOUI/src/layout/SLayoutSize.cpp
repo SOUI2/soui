@@ -12,7 +12,7 @@ namespace SOUI
 		L"px",L"dp",L"dip",L"sp"
 	};
 
-	SLayoutSize::SLayoutSize() :fSize(0.0f),unit(px)
+	SLayoutSize::SLayoutSize() :fSize(0.0f),unit(defUnit)
 	{
 
 	}
