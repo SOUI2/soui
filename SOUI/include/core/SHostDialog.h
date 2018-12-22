@@ -52,4 +52,11 @@ namespace SOUI
         SMessageLoop * m_MsgLoop;
     };
 
+	class SOUI_EXP SDpiHostDialog :public SDpiHeler<SDpiHostDialog>,public SHostDialog
+	{		
+		BEGIN_MSG_MAP_EX(SDpiHostDialog)
+			CHAIN_MSG_MAP(SHostDialog)
+			CHAIN_MSG_MAP(SDpiHeler<SDpiHostDialog>)
+		END_MSG_MAP()
+	};
 }
