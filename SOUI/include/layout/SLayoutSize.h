@@ -41,7 +41,10 @@ namespace SOUI
 		bool valueEqual(float value);
 
 		static SLayoutSize fromString(const SStringW & strSize);
+		static void setDefUnit(SStringW & strUnit);
 		static bool fequal(float a, float b);
+
+		static SLayoutSize::Unit defUnit;
 	};
 
 

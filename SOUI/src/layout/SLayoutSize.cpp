@@ -144,4 +144,19 @@ namespace SOUI
 		return ret;
 	}
 
+	void SLayoutSize::setDefUnit(SStringW &strUnit)
+	{
+		strUnit.MakeLower();
+		defUnit = px;
+		for (int i = 0; i < ARRAYSIZE(s_pszUnit); i++)
+		{
+			if (strUnit.Compare(s_pszUnit[i]) == 0)
+			{
+				defUnit = (Unit)i;
+				break;
+			}
+		}
+	}
+
+	SLayoutSize::Unit SLayoutSize::defUnit = SLayoutSize::px;
 }
