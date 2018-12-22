@@ -26,6 +26,8 @@ namespace SOUI
     
     BOOL SOUI_EXP SetMsgTemplate(pugi::xml_node xmlNode);
 
+	void SOUI_EXP SetMsgBoxScale(int nScale);
+
     pugi::xml_node SOUI_EXP GetMsgTemplate();
 
     INT_PTR SOUI_EXP SMessageBox(HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType);

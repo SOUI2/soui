@@ -9,6 +9,8 @@ namespace SOUI
 
     static pugi::xml_document s_xmlMsgTemplate;
     
+	static int g_MsgScale = 100;
+
     BOOL SetMsgTemplate(pugi::xml_node uiRoot)
     {
         if(wcscmp(uiRoot.name(),L"SOUI")!=0 ) return FALSE;
@@ -19,6 +21,11 @@ namespace SOUI
         s_xmlMsgTemplate.append_copy(uiRoot);
         return TRUE;
     }
+
+	void SOUI_EXP SetMsgBoxScale(int nScale)
+	{
+		g_MsgScale= nScale;
+	}
 
     pugi::xml_node GetMsgTemplate()
     {
@@ -158,6 +165,12 @@ namespace SOUI
         pugi::xml_node uiRoot=GetMsgTemplate();
         
         InitFromXml(uiRoot);
+
+		if (g_MsgScale > 100)
+		{
+			SDispatchMessage(UM_SETSCALE, g_MsgScale, 0);
+		}
+
         UINT uType = s_MsgBoxInfo.uType&0x0F;
 
         STabCtrl *pBtnSwitch= FindChildByName2<STabCtrl>(NAME_MSGBOX_BTNSWITCH);

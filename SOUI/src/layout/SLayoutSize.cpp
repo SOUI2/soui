@@ -117,7 +117,7 @@ namespace SOUI
 		if(strSize.IsEmpty()) return;
 		SStringW strUnit = strSize.Right(2);
 		strUnit.MakeLower();
-		unit = px;
+		unit = defUnit;
 		for(int i=0; i< ARRAYSIZE(s_pszUnit);i++)
 		{
 			if(strUnit.Compare(s_pszUnit[i]) == 0)
