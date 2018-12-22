@@ -37,6 +37,7 @@ call :update_repo mfc.demo
 call :update_repo CapScreenDemo
 call :update_repo SOUI-CEF
 call :update_repo nsisdemo
+call :update_repo SouiWallPaper
 
 SET /p selected=1.是否生成soui_demo.sln工程[1=YES;Other=No]:
 if %selected% neq 1 (
