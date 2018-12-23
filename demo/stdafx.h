@@ -34,6 +34,8 @@
 
 #include "SInterpolatorView.h"
 #include "SPathView.h"
+#include "SCheckBox2.h"
+#include "SAniWindow.h"
 
 using namespace SOUI;
 

@@ -51,6 +51,10 @@ public:
 };
 
 
+
+#define PAGE_INDEX_ID_START 100
+#define PAGE_INDEX_ID_END   119
+
 /**
 * @class      CMainDlg
 * @brief      主窗口实现
@@ -201,6 +205,9 @@ protected:
 	void OnEventPath(EventArgs *e);
 
 	HRESULT OnSkinChangeMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bHandled);
+
+	void OnCtrlGroupClick(int nID);
+	void OnCtrlPageClick(int nID);
     //UI控件的事件及响应函数映射表
 	EVENT_MAP_BEGIN()
 		EVENT_HANDLER(EventPath::EventID,OnEventPath)
@@ -252,6 +259,12 @@ protected:
         EVENT_NAME_HANDLER(L"edit_translate",EVT_RE_NOTIFY,OnMatrixWindowReNotify)
         
         EVENT_NAME_HANDLER(L"menu_slider",EventSliderPos::EventID,OnMenuSliderPos)
+		EVENT_ID_COMMAND_RANGE(PAGE_INDEX_ID_START,PAGE_INDEX_ID_END,OnCtrlPageClick)
+		EVENT_ID_COMMAND_RANGE(R.id.group_listctrls,R.id.group_listctrls,OnCtrlGroupClick)
+		EVENT_ID_COMMAND_RANGE(R.id.group_trees,R.id.group_trees,OnCtrlGroupClick)
+		EVENT_ID_COMMAND_RANGE(R.id.group_edits,R.id.group_edits,OnCtrlGroupClick)
+		EVENT_ID_COMMAND_RANGE(R.id.group_buttons,R.id.group_buttons,OnCtrlGroupClick)
+		EVENT_ID_COMMAND_RANGE(R.id.group_others,R.id.group_others,OnCtrlGroupClick)
 	EVENT_MAP_END()	
 
     //HOST消息及响应函数映射表
@@ -280,4 +293,6 @@ private:
 	HWND			m_hSetSkinWnd;
 	STabCtrlHeaderBinder* m_pTabBinder;
 	STabCtrlHeaderBinder* m_pTabBinder2;
+
+	int				m_iCtrlPage;	//当前选择的控件页面ID，范围: [100,119]
 };

@@ -221,6 +221,8 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
 		theApp->RegisterWindowClass<SPathView>();
 		theApp->RegisterWindowClass<SQrCtrl>();
 		theApp->RegisterWindowClass<SProgressRing>();
+		theApp->RegisterWindowClass<SCheckBox2>();
+		theApp->RegisterWindowClass<SAniWindow>();
 
         if(SUCCEEDED(CUiAnimation::Init()))
         {

@@ -90,4 +90,6 @@
 	<button name="win10btn" colorBorder="#ADADAD" colorUp="#E1E1E1" colorDown="#E1E1E1" colorBorderHover="#0078D7" colorUpHover="#E5F1FB" colorDownHover="#E5F1FB" colorBorderPush="#005499" colorUpPush="#CCE4F7" colorDownPush="#CCE4F7" cornerPercent="0.5" />
 	<gradation name="skin_caption" colorFrom="#0000bb" colorTo="#0000ff" vertical="0" />
 	<imgframe name="skin_btn_skin1_png" src="IMGX:btn_skin1_png" states="4" autoFit="1" margin-x="1" margin-y="1" />
+  <imglist name="skin_icons"	src="imgx:icons.png" states="11"/>
+  <imgframe name="skin_category" src="imgx:btn_catetory.png" states="3" margin="3,3,3,3"/>
 </skin>

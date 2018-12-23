@@ -1,160 +1,283 @@
 ﻿<include>
-  <tabctrl pos="0,0,-0,-0" font="style:StrokeAndFill,blurStyle:solid,blurRadius:3" animateSteps="10" animateType="1" tabAlign="left" tabSkin="skin_tab_left" tabInterSkin="skin_tab_left_splitter" tabInterSize="2" tabWidth="150" iconSkin="skin_small_icons" icon-x="5" icon-y="8" colorText="#000000bb">
-    <page title="listctrls">
-      <tabctrl pos="0,0,-0,-0" animateSteps="10" animateType="1" curSel="2" colorBkgnd="#ffffff" tabAlign="top" tabSkin="skin_tab_left" tabInterSkin="skin_tab_left_splitter" tabInterSize="2" tabHeight="30" tabWidth="120" iconSkin="skin_small_icons" icon-x="5" icon-y="4" colorText="#000000bb">
-        <page title="listctrl">
-          <listctrl name="lc_test" hotTrack="1" pos="10,0,-10,-10" itemHeight="20" headerHeight="30" cursor="CUR_TST" font="underline:1" itemSkin="skin_tab_left"  sbSkin="skin_new_scrollbar">
-            <header align="left" itemSwapEnable="1" fixWidth="0" sortHeader="1">
-              <items>
-                <item width="150">name</item>
-                <item width="150">gender</item>
-                <item width="150">age</item>
-                <item width="150">score</item>
-              </items>
-            </header>
-          </listctrl>
-        </page>
-        <page title="mclistview">
-          <mclistview name="mclv_test" colorBkgnd="@color/white" pos="10,10,-10,-10" headerHeight="30">
-            <header align="center"  sortSkin="skin_lcex_header_arrow" itemSkin="skin_lcex_header" itemSwapEnable="1" fixWidth="0" font="underline:0,adding:-3" sortHeader="1" colorBkgnd="#ffffff" >
-              <items>
-                <item width="480">@string/mccol_1</item>
-                <item width="95">@string/mccol_2</item>
-                <item width="100">@string/mccol_3</item>
-                <item width="100">@string/mccol_4</item>
-                <item width="100">@string/mccol_5</item>
-                <item width="100">@string/mccol_6</item>
-              </items>
-            </header>
-            <template itemHeight="80" colorHover="#cccccc" colorSelected="#0000ff">
-              <window name="col1" clipClient="1">
-                <img name="img_icon" skin="skin_icon6" pos="10,8,@64,@64"/>
-                <text name="txt_name" pos="[5,16" font="bold:1,adding:-1">火狐浏览器</text>
-                <text name="txt_desc" pos="{0,36,-10,-10" font="bold:1,adding:-4" dotted="1">速度最快的浏览器</text>
-                <text name="txt_index" pos="|0,|0" offset="-0.5,-0.5" font="adding:10" colorText="#ff000088">10</text>
-              </window>
-              <window name="col2" clipClient="1">
-                <ratingbar name="rating_score" starSkin="skin_star1" starNum="5" value="3.5" pos="10,16"  />
-                <text name="txt_score" pos="10,36" font="adding:-5"  >8.5分</text>
-                <link pos="[5,36" cursor="hand" colorText="#1e78d5" href="www.163.com" font="adding:-5" >投票</link>
-              </window>
-              <window name="col3" clipClient="1">
-                <text name="txt_size" pos="0,26,-0,-26" font="adding:-4" align="center" >85.92M</text>
-              </window>
-              <window  name="col4" clipClient="1">
-                <text name="txt_installtime" pos="0,26,-0,-26" font="adding:-4" align="center" >2015-01-09</text>
-              </window>
-              <window name="col5" clipClient="1">
-                <text name="txt_usetime" pos="0,26,-0,-26" font="adding:-4" align="center" >今天</text>
-                <animateimg pos="|0,|0" offset="-0.5,-0.5" skin="skin_busy" name="ani_test" tip="animateimg is used here" msgTransparent="0" />
-              </window>
-              <window name="col6" clipClient="1">
-                <imgbtn animate="1"  pos="|-35,|-14" font="adding:-3" align="center" skin="skin_install" name="btn_uninstall">卸载</imgbtn>
-              </window>
-            </template>
+  <scrollview pos="0,0,200,-0" viewSize="-1,-1" layout="vbox">
+    <button name="group_listctrls" size="-2,30" padding="10,5,10,5" layout="hbox" gravity="center" drawFocusRect="0">
+      <toggle skin="_skin.sys.tree.toggle" name="tgl_listctrls" toggled="1" msgTransparent="1"/>
+      <text text="列表控件" font="adding:5,bold:1"/>
+    </button>
+    <AniWindow name="panel_listctrls" size="-2,-1" layout="vbox" Interpolator="Accelerate" factor="1.0" steps="10" gravity="center">
+      <check2 id="100" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center" colorBkgnd="#ff0000">
+        <img skin="skin_icons" size="20,20" iconIndex="0"/>
+        <text text="基础列表" extend_left="10"/>
+      </check2>
+      <check2 id="101" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
+        <img skin="skin_icons"  size="20,20" iconIndex="1"/>
+        <text text="多列列表" extend_left="10"/>
+      </check2>
+      <check2 id="102" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
+        <img skin="skin_icons" size="20,20" iconIndex="3"/>
+        <text text="固定高度列表" extend_left="10"/>
+      </check2>
+      <check2 id="103" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
+        <img skin="skin_icons" size="20,20" iconIndex="4"/>
+        <text text="可变高度列表" extend_left="10"/>
+      </check2>
+      <check2 id="104" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
+        <img skin="skin_icons" size="20,20" iconIndex="5"/>
+        <text text="TileView" extend_left="10"/>
+      </check2>
+      <check2 id="105" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
+        <img skin="skin_icons" size="20,20" iconIndex="6"/>
+        <text text="扩展多列列表" extend_left="10"/>
+      </check2>
+    </AniWindow>
+    <button name="group_trees" size="-2,30" padding="10,5,10,5" layout="hbox" gravity="center" drawFocusRect="0">
+      <toggle skin="_skin.sys.tree.toggle" name="tgl_trees" toggled="1"/>
+      <text text="树型控件" font="adding:5,bold:1"/>
+    </button>
+    <AniWindow name="panel_trees" size="-2,-1" layout="vbox" Interpolator="Accelerate" factor="1.0" steps="10" gravity="center">
+      <check2 id="106" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center" colorBkgnd="#ff0000">
+        <img skin="skin_icons" size="20,20" iconIndex="4"/>
+        <text text="TreeCtrl" extend_left="10"/>
+      </check2>
+      <check2 id="107" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
+        <img skin="skin_icons"  size="20,20" iconIndex="5"/>
+        <text text="TreeView" extend_left="10"/>
+      </check2>
+    </AniWindow>
+    <button name="group_edits" size="-2,30" padding="10,5,10,5" layout="hbox" gravity="center" drawFocusRect="0">
+      <toggle skin="_skin.sys.tree.toggle" name="tgl_edits" toggled="1" msgTransparent="1"/>
+      <text text="编辑器及热键" font="adding:5,bold:1"/>
+    </button>
+    <AniWindow name="panel_edits" size="-2,-1" layout="vbox" Interpolator="Accelerate" factor="1.0" steps="10" gravity="center">
+      <check2 id="108" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center" colorBkgnd="#ff0000">
+        <img skin="skin_icons" size="20,20" iconIndex="4"/>
+        <text text="编辑器" extend_left="10"/>
+      </check2>
+      <check2 id="109" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
+        <img skin="skin_icons"  size="20,20" iconIndex="5"/>
+        <text text="热键" extend_left="10"/>
+      </check2>
+      <check2 id="110" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
+        <img skin="skin_icons" size="20,20" iconIndex="6"/>
+        <text text="IP控件" extend_left="10"/>
+      </check2>
+      <check2 id="111" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
+        <img skin="skin_icons" size="20,20" iconIndex="7"/>
+        <text text="富文本" extend_left="10"/>
+      </check2>
+    </AniWindow>
+    <button name="group_buttons" size="-2,30" padding="10,5,10,5" layout="hbox" gravity="center" drawFocusRect="0">
+      <toggle skin="_skin.sys.tree.toggle" name="tgl_buttons" toggled="1" msgTransparent="1"/>
+      <text text="按钮" font="adding:5,bold:1"/>
+    </button>
+    <AniWindow name="panel_buttons" size="-2,-1" layout="vbox" Interpolator="Accelerate" factor="1.0" steps="10" gravity="center">
+      <check2 id="112" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center" colorBkgnd="#ff0000">
+        <img skin="skin_icons" size="20,20" iconIndex="4"/>
+        <text text="按钮" extend_left="10"/>
+      </check2>
+      <check2 id="113" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
+        <img skin="skin_icons"  size="20,20" iconIndex="5"/>
+        <text text="radio button" extend_left="10"/>
+      </check2>
+    </AniWindow>
+    <button name="group_others" size="-2,30" padding="10,5,10,5" layout="hbox" gravity="center" drawFocusRect="0">
+      <toggle skin="_skin.sys.tree.toggle" name="tgl_others" toggled="1" msgTransparent="1"/>
+      <text text="其它控件" font="adding:5,bold:1"/>
+    </button>
+    <AniWindow name="panel_others" size="-2,-1" layout="vbox" Interpolator="Accelerate" factor="1.0" steps="10" gravity="center">
+      <check2 id="114" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
+        <img skin="skin_icons" size="20,20" iconIndex="6"/>
+        <text text="进度条控件" extend_left="10"/>
+      </check2>
+      <check2 id="115" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
+        <img skin="skin_icons" size="20,20" iconIndex="7"/>
+        <text text="日历" extend_left="10"/>
+      </check2>
+      <check2 id="116" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
+        <img skin="skin_icons" size="20,20" iconIndex="8"/>
+        <text text="分割窗口" extend_left="10"/>
+      </check2>
+      <check2 id="117" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
+        <img skin="skin_icons" size="20,20" iconIndex="9"/>
+        <text text="列表框及组合框" extend_left="10"/>
+      </check2>
+      <check2 id="118" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
+        <img skin="skin_icons" size="20,20" iconIndex="2"/>
+        <text text="属性表控件" extend_left="10"/>
+      </check2>
+    </AniWindow>
+  </scrollview>
+  <tabctrl pos="[0,0,-0,-0" name="tab_ctrls" font="style:StrokeAndFill,blurStyle:solid,blurRadius:3" animateSteps="10" animateType="1" tabHeight="0">
+    <page title="listctrl">
+      <listctrl name="lc_test" hotTrack="1" pos="10,0,-10,-10" itemHeight="20" headerHeight="30" cursor="CUR_TST" font="underline:1" itemSkin="skin_tab_left"  sbSkin="skin_new_scrollbar">
+        <header align="left" itemSwapEnable="1" fixWidth="0" sortHeader="1">
+          <items>
+            <item width="150">name</item>
+            <item width="150">gender</item>
+            <item width="150">age</item>
+            <item width="150">score</item>
+          </items>
+        </header>
+      </listctrl>
+    </page>
+    <page title="mclistview">
+      <mclistview name="mclv_test" colorBkgnd="@color/white" pos="10,10,-10,-10" headerHeight="30">
+        <header align="center"  sortSkin="skin_lcex_header_arrow" itemSkin="skin_lcex_header" itemSwapEnable="1" fixWidth="0" font="underline:0,adding:-3" sortHeader="1" colorBkgnd="#ffffff" >
+          <items>
+            <item width="480">@string/mccol_1</item>
+            <item width="95">@string/mccol_2</item>
+            <item width="100">@string/mccol_3</item>
+            <item width="100">@string/mccol_4</item>
+            <item width="100">@string/mccol_5</item>
+            <item width="100">@string/mccol_6</item>
+          </items>
+        </header>
+        <template itemHeight="80" colorHover="#cccccc" colorSelected="#0000ff">
+          <window name="col1" clipClient="1">
+            <img name="img_icon" skin="skin_icon6" pos="10,8,@64,@64"/>
+            <text name="txt_name" pos="[5,16" font="bold:1,adding:-1">火狐浏览器</text>
+            <text name="txt_desc" pos="{0,36,-10,-10" font="bold:1,adding:-4" dotted="1">速度最快的浏览器</text>
+            <text name="txt_index" pos="|0,|0" offset="-0.5,-0.5" font="adding:10" colorText="#ff000088">10</text>
+          </window>
+          <window name="col2" clipClient="1">
+            <ratingbar name="rating_score" starSkin="skin_star1" starNum="5" value="3.5" pos="10,16"  />
+            <text name="txt_score" pos="10,36" font="adding:-5"  >8.5分</text>
+            <link pos="[5,36" cursor="hand" colorText="#1e78d5" href="www.163.com" font="adding:-5" >投票</link>
+          </window>
+          <window name="col3" clipClient="1">
+            <text name="txt_size" pos="0,26,-0,-26" font="adding:-4" align="center" >85.92M</text>
+          </window>
+          <window  name="col4" clipClient="1">
+            <text name="txt_installtime" pos="0,26,-0,-26" font="adding:-4" align="center" >2015-01-09</text>
+          </window>
+          <window name="col5" clipClient="1">
+            <text name="txt_usetime" pos="0,26,-0,-26" font="adding:-4" align="center" >今天</text>
+            <animateimg pos="|0,|0" offset="-0.5,-0.5" skin="skin_busy" name="ani_test" tip="animateimg is used here" msgTransparent="0" />
+          </window>
+          <window name="col6" clipClient="1">
+            <imgbtn animate="1"  pos="|-35,|-14" font="adding:-3" align="center" skin="skin_install" name="btn_uninstall">卸载</imgbtn>
+          </window>
+        </template>
 
-          </mclistview>
-        </page>
-        <page title="listview(fix)">
-          <listview pos="5,[0,-5,-5" name="lv_test_fix" dividerSize="5" wantTab="1">
-            <template itemHeight="50" colorHover="#cccccc" colorSelected="#0000ff" trackMouseEvent="1">
-              <button pos="10,5,@150,@25" name="btn_test" tip="click the button to see how to writing the response function">btn</button>
-              <animateimg pos="[10,{0" skin="skin_busy" name="ani_test" tip="animateimg is used here" msgTransparent="0" />
-              <combobox name="cbx_in_lv" pos="[10,{0,@200,@30"  dropDown="1" dropHeight="300" class="cls_edit" dotted="0" animateTime="200" curSel="2">
-                <liststyle class="cls_edit" iconSkin="skin_menuicon" itemSkin="skin_tab_left" itemHeight="30" colorText="#000000" colorSelText="#FFFFFF" colorItemBkgnd="#FFFFFF" colorItemSelBkgnd="#000088"/>
-                <editstyle inset="5,0,5,0" colorText="#000000" align="left" colorBkgnd="#FFFFFF"/>
-                <items>
-                  <item text="combobox.item1" icon="1" data="100"/>
-                  <item text="combobox.item2" icon="2" data="100"/>
-                  <item text="combobox.item3" icon="3" data="103"/>
-                  <item text="combobox.item4" icon="4" data="100"/>
-                  <item text="combobox.item5" icon="5" data="105"/>
-                  <item text="combobox.item6" icon="0" data="100"/>
-                </items>
-              </combobox>
-              <text pos="-20,{0" offset="-1,0" colorText="#ff0000">text item</text>
-            </template>
-          </listview>
-        </page>
-        <page title="listview(flex)">
-          <listview pos="5,0,-5,-5" name="lv_test_flex" dividerSize="5">
-            <template defHeight="50" oddHeight="50" evenHeight="60" evenSelHeight="90">
-              <itemOdd colorHover="#cccccc" colorSelected="#0000ff">
-                <button pos="10,5,@150,@25" name="btn_test" tip="click the button to see how to writing the response function">btn</button>
-                <text pos="10,[0" multiLines="1" maxWidth="500" colorText="@color/red">text in odd item</text>
-              </itemOdd>
-              <itemEven colorHover="#cccccc" colorSelected="#0000ff">
-                <button pos="10,5,@150,@25" name="btn_test" tip="click the button to see how to writing the response function">btn</button>
-                <text pos="20,[0" colorText="#000000">text in even item</text>
-              </itemEven>
-              <itemEvenHover colorHover="#cccccc" colorSelected="#0000ff">
-                <button pos="10,5,@150,@25" name="btn_test" tip="click the button to see how to writing the response function">btn</button>
-                <text pos="20,[0" colorText="#000000" multilines="1">text in even item been hovered.\n the second line</text>
-              </itemEvenHover>
-            </template>
-          </listview>
+      </mclistview>
+    </page>
+    <page title="listview(fix)">
+      <listview pos="5,[0,-5,-5" name="lv_test_fix" dividerSize="5" wantTab="1">
+        <template itemHeight="50" colorHover="#cccccc" colorSelected="#0000ff" trackMouseEvent="1">
+          <button pos="10,5,@150,@25" name="btn_test" tip="click the button to see how to writing the response function">btn</button>
+          <animateimg pos="[10,{0" skin="skin_busy" name="ani_test" tip="animateimg is used here" msgTransparent="0" />
+          <combobox name="cbx_in_lv" pos="[10,{0,@200,@30"  dropDown="1" dropHeight="300" class="cls_edit" dotted="0" animateTime="200" curSel="2">
+            <liststyle class="cls_edit" iconSkin="skin_menuicon" itemSkin="skin_tab_left" itemHeight="30" colorText="#000000" colorSelText="#FFFFFF" colorItemBkgnd="#FFFFFF" colorItemSelBkgnd="#000088"/>
+            <editstyle inset="5,0,5,0" colorText="#000000" align="left" colorBkgnd="#FFFFFF"/>
+            <items>
+              <item text="combobox.item1" icon="1" data="100"/>
+              <item text="combobox.item2" icon="2" data="100"/>
+              <item text="combobox.item3" icon="3" data="103"/>
+              <item text="combobox.item4" icon="4" data="100"/>
+              <item text="combobox.item5" icon="5" data="105"/>
+              <item text="combobox.item6" icon="0" data="100"/>
+            </items>
+          </combobox>
+          <text pos="-20,{0" offset="-1,0" colorText="#ff0000">text item</text>
+        </template>
+      </listview>
+    </page>
+    <page title="listview(flex)">
+      <listview pos="5,0,-5,-5" name="lv_test_flex" dividerSize="5">
+        <template defHeight="50" oddHeight="50" evenHeight="60" evenSelHeight="90">
+          <itemOdd colorHover="#cccccc" colorSelected="#0000ff">
+            <button pos="10,5,@150,@25" name="btn_test" tip="click the button to see how to writing the response function">btn</button>
+            <text pos="10,[0" multiLines="1" maxWidth="500" colorText="@color/red">text in odd item</text>
+          </itemOdd>
+          <itemEven colorHover="#cccccc" colorSelected="#0000ff">
+            <button pos="10,5,@150,@25" name="btn_test" tip="click the button to see how to writing the response function">btn</button>
+            <text pos="20,[0" colorText="#000000">text in even item</text>
+          </itemEven>
+          <itemEvenHover colorHover="#cccccc" colorSelected="#0000ff">
+            <button pos="10,5,@150,@25" name="btn_test" tip="click the button to see how to writing the response function">btn</button>
+            <text pos="20,[0" colorText="#000000" multilines="1">text in even item been hovered.\n the second line</text>
+          </itemEvenHover>
+        </template>
+      </listview>
 
-        </page>
-        <page title="tileview">
-          <tileview pos="5,0,-5,-5" name="lv_test_tile" wantTab="1" marginSize="5" colorBkgnd="#FFFFFF">
-            <template itemHeight="130" itemWidth="135" colorHover="#cccccc" colorSelected="#0000ff" trackMouseEvent="1" skin="skin_item_bk">
-              <img pos="|0,0,@100,@100" offset="-0.5,0" name="img_file_icon"/>
-              <button pos="|0,[5,@115,@22" offset="-0.5,0" name="btn_test" tip="click the button to see how to writing the response function">btn</button>
-            </template>
-          </tileview>
-        </page>
-        <page title="mclistviewex">
-          <mclistviewex name="musiclist" headerHeight="48" colorSwapLine="rgb(0,0,255)" colorDropBk="rgb(0,0,255)" pos="20,20,-20,-20" sbTop="48">
-            <header2 align="center" matchParent="1" sortSkin="skin_lcex_header_arrow" itemSkin="skin_lcex_header" cursor="hand" itemSwapEnable="1" sortHeader="0" colorText="#000000ff">
-              <items>
-                <item width="150">歌曲</item>
-                <item width="120">歌手</item>
-                <item width="120">专辑</item>
-                <item width="120">时长</item>
-              </items>
-            </header2>
-            <template itemHeight="48" colorHover="#666666" colorSelected="#555555" fond="adding:-4">
-              <window name="col1" clipClient="1">
-                <hr pos="0,0,-0,1" colorLine="#666666" />
-                <text name="songname" dotted="1" pos="5,|,]-30,-0" offset="0,-0.5" font="bold:1,adding:-1">天天想听</text>
-                <window pos="-0,|" name="playbtn" offset="-1.2,-0.5" display="0" show="0">
-                  <!--imgbtn name="btn_play" pos="0,|" offset="0,-0.5" skin="skin_btn_play" show="1" tip="播放" />
+    </page>
+    <page title="tileview">
+      <tileview pos="5,0,-5,-5" name="lv_test_tile" wantTab="1" marginSize="5" colorBkgnd="#FFFFFF">
+        <template itemHeight="130" itemWidth="135" colorHover="#cccccc" colorSelected="#0000ff" trackMouseEvent="1" skin="skin_item_bk">
+          <img pos="|0,0,@100,@100" offset="-0.5,0" name="img_file_icon"/>
+          <button pos="|0,[5,@115,@22" offset="-0.5,0" name="btn_test" tip="click the button to see how to writing the response function">btn</button>
+        </template>
+      </tileview>
+    </page>
+    <page title="mclistviewex">
+      <mclistviewex name="musiclist" headerHeight="48" colorSwapLine="rgb(0,0,255)" colorDropBk="rgb(0,0,255)" pos="20,20,-20,-20" sbTop="48">
+        <header2 align="center" matchParent="1" sortSkin="skin_lcex_header_arrow" itemSkin="skin_lcex_header" cursor="hand" itemSwapEnable="1" sortHeader="0" colorText="#000000ff">
+          <items>
+            <item width="150">歌曲</item>
+            <item width="120">歌手</item>
+            <item width="120">专辑</item>
+            <item width="120">时长</item>
+          </items>
+        </header2>
+        <template itemHeight="48" colorHover="#666666" colorSelected="#555555" fond="adding:-4">
+          <window name="col1" clipClient="1">
+            <hr pos="0,0,-0,1" colorLine="#666666" />
+            <text name="songname" dotted="1" pos="5,|,]-30,-0" offset="0,-0.5" font="bold:1,adding:-1">天天想听</text>
+            <window pos="-0,|" name="playbtn" offset="-1.2,-0.5" display="0" show="0">
+              <!--imgbtn name="btn_play" pos="0,|" offset="0,-0.5" skin="skin_btn_play" show="1" tip="播放" />
                   <imgbtn name="btn_add" pos="[4,|" offset="0,-0.5" skin="skin_btn_add" show="1" tip="添加音乐" />
                   <imgbtn name="btn_down" pos="[4,|" offset="0,-0.5" skin="skin_btn_down" show="1" tip="下载音乐" />
                   <imgbtn name="btn_more" pos="[4,|" offset="0,-0.5" skin="skin_btn_more" show="1" tip="更多" /-->
-                </window>
-              </window>
-              <window name="col2" clipClient="1">
-                <hr pos="0,0,-0,1" colorLine="#666666" />
-                <text name="artist">卖炭翁</text>
-              </window>
-              <window name="col3" clipClient="1">
-                <hr pos="0,0,-0,1" colorLine="#666666" />
-                <text name="album" >SOUI就是棒</text>
-              </window>
-              <window name="col4" clipClient="1">
-                <hr pos="0,0,-0,1" colorLine="#666666" />
-                <text name="lasttime" pos="0,|" offset="0,-0.5" colorText="rgb(100,100,100)">00:00</text>
-              </window>
-            </template>
-          </mclistviewex>
-        </page>
-      </tabctrl>
+            </window>
+          </window>
+          <window name="col2" clipClient="1">
+            <hr pos="0,0,-0,1" colorLine="#666666" />
+            <text name="artist">卖炭翁</text>
+          </window>
+          <window name="col3" clipClient="1">
+            <hr pos="0,0,-0,1" colorLine="#666666" />
+            <text name="album" >SOUI就是棒</text>
+          </window>
+          <window name="col4" clipClient="1">
+            <hr pos="0,0,-0,1" colorLine="#666666" />
+            <text name="lasttime" pos="0,|" offset="0,-0.5" colorText="rgb(100,100,100)">00:00</text>
+          </window>
+        </template>
+      </mclistviewex>
     </page>
-    <page title="edit and hotkey" colorBorder="#ffff00" margin-x="5" margin-y="5">
-      <text pos="50,20">hotkey 1:</text>
-      <hotkey name="ctrl_hk1" width="200" height="25" class="cls_edit"/>
-      <text pos="50,[5">hotkey 2:</text>
-      <hotkey name="ctrl_hk2" width="200" height="25" class="cls_edit"/>
-      <text pos="50,[5">ip address control:</text>
-      <ipctrl name="ip_test" width="200" height="25" class="cls_edit"/>
-      <text pos="50,[5" multiLines="1">single line edit in window, \nshow how attribute "trackMouseEvent" will work:</text>
+    <page title="treectrl">
+      <include src="layout:treectrl"/>
+    </page>
+    <page title="treeview">
+      <include src="layout:page_treeview"/>
+    </page>
+    <page title="edit">
+      <text pos="50,5" multiLines="1">single line edit in window, \nshow how attribute "trackMouseEvent" will work:</text>
       <window class="cls_edit" pos="50,[5,@200,@35" trackMouseEvent="1">
         <edit pos="0,0,-30,-0" font="adding:10" margin="0" cueText="cue text" cueColor="rgb(255,0,0)" password="1">scroll edit</edit>
         <button pos="-30,0,-0,-0" >:)</button>
       </window>
     </page>
-    <page title="buttons" colorBorder="#ffff00" margin-x="15" margin-y="15">
+    <page title="hotkey">
+      <text pos="50,20">hotkey 1:</text>
+      <hotkey name="ctrl_hk1" width="200" height="25" class="cls_edit"/>
+      <text pos="50,[5">hotkey 2:</text>
+      <hotkey name="ctrl_hk2" width="200" height="25" class="cls_edit"/>
+    </page>
+    <page title="ipctrl">
+      <text pos="50,5">ip address control:</text>
+      <ipctrl name="ip_test" width="200" height="25" class="cls_edit"/>
+    </page>
+    <page title="richedit" >
+      <window pos="0,5,-0,@30">
+        <button name="btn_insert_gif" pos="5,0,@120,@25" id="#id_test1">insert gif</button>
+        <button name="btn_append_msg" pos="[5,0,@120,@25">append format msg</button>
+        <button name="btn_richedit_open" pos="[5,0,@120,@25">open from rtf</button>
+        <button name="btn_richedit_save" pos="[5,0,@120,@25">save to rtf</button>
+      </window>
+      <chatedit name="re_gifhost" pos="5,[5,-5,-5" bkgndBlend="1" class="cls_edit" enableDragdrop="1" multiLines="1" vscrollBar="1" sbSkin="skin_vscrollbar" wordWrap="1"  autoVscroll="1" hscrollBar="0" wantReturn="1" wantTab="1" maxBuf="6400000" rtf="rtf:rtf_test"/>
+    </page>
+    <page title="buttons" >
       <imgbtn name="btn_msgbox" pos="10,40" width="200" height="40" accel="ctrl+alt+f9" font="bold:1" skin="win10btn" animate="1">show msg box</imgbtn>
       <text pos="10,[5">press "ctrl+alt+f9" to activate the msgbox button</text>
       <link pos="10,130" maxWidth="100" class="cls_btn_weblink" dotted="1" href="www.setoutsoft.cn">www.setoutsoft.cn</link>
@@ -228,17 +351,17 @@
           <text pos="|0,|0" offset="-0.5,-0.5">page6</text>
         </page>
       </tabctrl>
-	  <window pos="10,[10,@300,@110" layout="hbox" gravity="center" colorBkgnd="#FAFAFA">
-		<window size="20,-2" />
-		<radio size="-1,-2" weight="1" focusable="0" skin="skin_message" iconAlign="center" iconValign="top" text="消息" align="center" valign="top" />
-		<window size="20,-2" />
-		<radio size="-1,-2" weight="1" focusable="0" skin="skin_contacts" iconAlign="center" text="联系人" align="center" />
-		<window size="20,-2" />
-		<radio size="-1,-2" weight="1" focusable="0" skin="skin_group" iconAlign="center" iconValign="bottom" text="群组" align="center" valign="bottom" />
-		<window size="20,-2" />
-	  </window>
+      <window pos="10,[10,@300,@110" layout="hbox" gravity="center" colorBkgnd="#FAFAFA">
+        <window size="20,-2" />
+        <radio size="-1,-2" weight="1" focusable="0" skin="skin_message" iconAlign="center" iconValign="top" text="消息" align="center" valign="top" />
+        <window size="20,-2" />
+        <radio size="-1,-2" weight="1" focusable="0" skin="skin_contacts" iconAlign="center" text="联系人" align="center" />
+        <window size="20,-2" />
+        <radio size="-1,-2" weight="1" focusable="0" skin="skin_group" iconAlign="center" iconValign="bottom" text="群组" align="center" valign="bottom" />
+        <window size="20,-2" />
+      </window>
     </page>
-    <page title="prog and slider" colorBorder="#ff0000" margin-x="1" margin-y="1">
+    <page title="prog and slider">
       <progress name="prog_test" pos="100,100,@200,@15" font="adding:-8" value="20" min="0" max="100" showPercent="1"/>
       <sliderbar name="slider_test" thumbInRail="0" pos="100,[10" alpha="200" width="200" value="20" min="0" max="100"/>
       <sliderbar name="slider_test2" thumbInRail="1" pos="100,[10" alpha="200" width="200" value="20" min="0" max="100"/>
@@ -308,11 +431,8 @@
 
 
     </page>
-    <page title="treectrl">
-      <include src="layout:treectrl"/>
-    </page>
     <page title="propertygrid">
-      <propgrid pos="10,50,-100,-10" nameWidth="180" orderType="group" switchSkin="skin_propswitch" colorBkgnd="#ffffff" itemHeight="30">
+      <propgrid pos="10,10,-10,-10" nameWidth="180" orderType="group" switchSkin="skin_propswitch" colorBkgnd="#ffffff" itemHeight="30">
         <cmdbtnstyle skin="_skin.sys.btn.normal">...</cmdbtnstyle>
         <groups>
           <propgroup name="group1" description="desc of group1">
