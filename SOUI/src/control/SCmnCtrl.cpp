@@ -1246,6 +1246,12 @@ void SToggle::OnColorize(COLORREF cr)
     if(m_pSkin) m_pSkin->OnColorize(cr);
 }
 
+void SToggle::OnScaleChanged(int nScale)
+{
+	__super::OnScaleChanged(nScale);
+	GetScaleSkin(m_pSkin, nScale);
+}
+
 #define GROUP_HEADER        20
 #define GROUP_ROUNDCORNOR    4
 
