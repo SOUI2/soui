@@ -512,6 +512,8 @@ public:
 	virtual BOOL IgnoreState(){return FALSE;}
 	virtual SIZE GetSkinSize();
 
+	
+
 	SOUI_ATTRS_BEGIN()
 		ATTR_SKIN(L"normal",m_skins[0],FALSE)
 		ATTR_SKIN(L"hover",m_skins[1],FALSE)
@@ -521,7 +523,7 @@ public:
 
 protected:
 	virtual void _Draw(IRenderTarget *pRT, LPCRECT rcDraw, DWORD dwState,BYTE byAlpha);
-
+	virtual void _Scale(ISkinObj * skinObj, int nScale);
 	CAutoRefPtr<ISkinObj> m_skins[4];
 };
 }//namespace SOUI
