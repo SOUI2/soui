@@ -256,11 +256,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SAniWindow.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\controls.extend\scalendar2.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\controls.extend\schatedit.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SCheckBox2.cpp"
 				>
 			</File>
 			<File
@@ -490,11 +498,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SAniWindow.h"
+				>
+			</File>
+			<File
 				RelativePath="..\controls.extend\scalendar2.h"
 				>
 			</File>
 			<File
 				RelativePath="..\controls.extend\schatedit.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SCheckBox2.h"
 				>
 			</File>
 			<File

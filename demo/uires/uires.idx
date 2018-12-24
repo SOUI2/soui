@@ -94,7 +94,9 @@
 		<file name="contacts" path="image\contacts.png" />
 		<file name="group" path="image\group.png" />
 		<file name="btn_skin1_png" path="image\btn_skin1.png" />
-	</IMGX>
+    <file name="icons.png" path="image\icons.png"/>
+    <file name="btn_catetory.png" path="image\btn_catetory.png"/>
+  </IMGX>
 	<img.calendar2>
 		<file name="png_skin_btn_semiarc" path="img.calendar2\skin_btn_semiarc.png" />
 		<file name="png_skin_btn_curve" path="img.calendar2\skin_btn_curve.png" />
