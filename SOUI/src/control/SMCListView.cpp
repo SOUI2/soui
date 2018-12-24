@@ -335,7 +335,7 @@ bool SMCListView::OnHeaderClick(EventArgs *pEvt)
         pOrders[hi.iOrder]=i;
         if(i == pEvt2->iItem) iCol = hi.iOrder;
     }
-    if(m_adapter->OnSort(iCol,pstFlags,m_pHeader->GetItemCount()))
+    if(m_adapter && m_adapter->OnSort(iCol,pstFlags,m_pHeader->GetItemCount()))
     {
         //更新表头的排序状态
         for(int i=0;i<m_pHeader->GetItemCount();i++)
