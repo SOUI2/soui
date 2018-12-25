@@ -1,7 +1,6 @@
 ﻿#include "souistd.h"
 #include "layout\SLinearLayout.h"
 #include "helper\SplitString.h"
-#include <algorithm>
 
 namespace SOUI
 {
@@ -222,6 +221,7 @@ namespace SOUI
 		
         int offset = 0;
         float fWeight= 0.0f;
+		int interval = m_interval.toPixelSize(pParent->GetScale());
 
         {//assign width or height
 
@@ -275,12 +275,16 @@ namespace SOUI
                 pSize [iChild] = szChild;
                 offset += m_orientation == Vert ? szChild.cy:szChild.cx;
 
+				offset += interval;//add interval
+
 				iChild++;
 				pChild=pParent->GetNextLayoutChild(pChild);
             }
 
 			nChilds = iChild;
         }
+
+		offset -= interval;//sub the last interval value.
 
         int size = m_orientation == Vert? rcParent.Height():rcParent.Width();
         if(fWeight > 0.0f && size > offset)
@@ -308,7 +312,6 @@ namespace SOUI
 			for(int iChild = 0;iChild < nChilds;iChild ++)
 			{
 				SWindow *pChild = pChilds[iChild];
-
 
                 SLinearLayoutParam *pLinearLayoutParam = pChild->GetLayoutParamT<SLinearLayoutParam>();
 				int nScale = pChild->GetScale();
@@ -353,7 +356,7 @@ namespace SOUI
 
                     offset += rcChild.Width();
                 }
-
+				offset += interval;
             }
 
         }
@@ -432,12 +435,21 @@ namespace SOUI
 			if(m_orientation == Horz)
 			{
 				szRet.cx += pSize[i].cx;
-				szRet.cy = (std::max)(szRet.cy,pSize[i].cy);
+				szRet.cy = smax(szRet.cy,pSize[i].cy);
 			}else
 			{
-				szRet.cx = (std::max)(szRet.cx,pSize[i].cx);
+				szRet.cx = smax(szRet.cx,pSize[i].cx);
 				szRet.cy += pSize[i].cy;
 			}
+		}
+		//add interval
+		if (m_orientation == Horz)
+		{
+			szRet.cx += m_interval.toPixelSize(pParent->GetScale())*(iChild-1);
+		}
+		else
+		{
+			szRet.cy += m_interval.toPixelSize(pParent->GetScale()*(iChild - 1));
 		}
 		delete []pSize;
 		return szRet;

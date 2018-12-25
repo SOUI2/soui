@@ -87,13 +87,14 @@ namespace SOUI
                 ATTR_ENUM_VALUE(L"right",G_Right)
                 ATTR_ENUM_VALUE(L"bottom",G_Bottom)
             ATTR_ENUM_END(m_gravity)
-
+			ATTR_LAYOUTSIZE(L"interval",m_interval,FALSE)
         SOUI_ATTRS_BREAK()
 
 
 	protected:
 		ORIENTATION m_orientation;
         Gravity     m_gravity;
+		SLayoutSize m_interval;
     };
 
 	class SVBox : public SLinearLayout
