@@ -122,10 +122,10 @@ function AddFilters(proj) {
         group.Filter = strResFilter;
 
         var strSouiFilter = wizard.FindSymbol('SOUIRES_FILTER');
-        var group = proj.Object.AddFilter('SoUI Resouece');
+        var group = proj.Object.AddFilter('SoUI Resource');
         group.Filter = strSouiFilter;
         if (wizard.FindSymbol('CHECKBOX_SYSRES_BUILTIN') && (wizard.FindSymbol('ResLoaderType') != 0)) {
-            var group = proj.Object.AddFilter('SoUI Sys Resouece');
+            var group = proj.Object.AddFilter('SoUI Sys Resource');
             group.Filter = strSouiFilter;
         }
     }
@@ -401,8 +401,8 @@ function AddFilesToCustomProj(proj, strProjectName, strProjectPath, InfFile) {
         // ¹ýÂËÆ÷¶ÔÏó
         var projFilters = proj.Object.Filters;
         var filterRes = projFilters.Item('Resource Files');
-        var filterUIRES = projFilters.Item('SoUI Resouece');
-        var filterSysRes = projFilters.Item('SoUI Sys Resouece');
+        var filterUIRES = projFilters.Item('SoUI Resource');
+        var filterSysRes = projFilters.Item('SoUI Sys Resource');
         var strTextStream = InfFile.OpenAsTextStream(1, -2);
         while (!strTextStream.AtEndOfStream) {
             strTpl = strTextStream.ReadLine();
