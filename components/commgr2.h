@@ -267,7 +267,7 @@ public:
 class SComMgr2
 {
 public:
-    SComMgr(LPCTSTR pszImgDecoder = NULL)
+    SComMgr2(LPCTSTR pszImgDecoder = NULL)
     {
         if(pszImgDecoder) m_strImgDecoder = pszImgDecoder;
         else m_strImgDecoder = COM_IMGDECODER;
