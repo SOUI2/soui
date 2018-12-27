@@ -122,7 +122,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
     int nRet = 0; 
 
     //使用imgdecoder-png图片解码模块演示apng动画
-    SComMgr *pComMgr = new SComMgr(_T("imgdecoder-png"));
+    SComMgr2 *pComMgr = new SComMgr2(_T("imgdecoder-png"));
     
 
 
