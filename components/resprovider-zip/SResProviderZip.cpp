@@ -137,15 +137,18 @@ namespace SOUI{
 		{
 		case ZIPRES_PARAM::ZIPFILE:
 			bResult = _Init(zipParam->pszZipFile, zipParam->pszPsw);
+			break;
 		case ZIPRES_PARAM::PEDATA:
 			bResult =_Init(zipParam->peInfo.hInst,
 				         zipParam->peInfo.pszResName,
 				         zipParam->peInfo.pszResType,
 				         zipParam->pszPsw);
+			break;
 		case ZIPRES_PARAM::MEMORYDATA:
 			bResult =_Init(zipParam->Memory.pByteBuffer,
 				         zipParam->Memory.dwByteCounts,
 				         zipParam->pszPsw);
+			break;
 		}
 
 		return bResult;

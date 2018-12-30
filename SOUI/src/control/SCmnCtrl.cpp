@@ -921,7 +921,7 @@ void SCheckBox::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 HRESULT SCheckBox::OnAttrCheck( const SStringW& strValue, BOOL bLoading )
 {
-    SetCheck(strValue != L"0");
+    SetCheck(STRINGASBOOL(strValue));
     return S_FALSE;
 }
 
