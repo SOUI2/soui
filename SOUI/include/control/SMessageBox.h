@@ -25,10 +25,10 @@ namespace SOUI
     #define NAME_MSGBOX_BTN3            L"button3rd"    //第3个按钮ID
     
     BOOL SOUI_EXP SetMsgTemplate(pugi::xml_node xmlNode);
-
+	
     pugi::xml_node SOUI_EXP GetMsgTemplate();
 
-    INT_PTR SOUI_EXP SMessageBox(HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType);
+    INT_PTR SOUI_EXP SMessageBox(HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType, int nScale=100);
 
 
     /** 
@@ -57,7 +57,7 @@ namespace SOUI
         *
         * Describe  提示框
         */        
-        INT_PTR MessageBox( HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType );
+        INT_PTR MessageBox( HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType, int nScale);
     protected:
         /**
          * OnInitDialog
