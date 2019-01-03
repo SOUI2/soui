@@ -19,6 +19,7 @@ using namespace SOUI;
 #include "ThreadObject.h"
 #include "skin/SDemoSkin.h"
 #include "../../controls.extend/SMcListViewEx/STabCtrlHeaderBinder.h"
+#include <helper/SDpiHelper.hpp>
 
 extern UINT g_dwSkinChangeMessage;
 //演示使用SNotifyCenter的异步事件
@@ -63,10 +64,10 @@ public:
 */
 class CMainDlg : public SHostWnd
 			   , public CMagnetFrame	//磁力吸附
-			   //, public ISetSkinHandler	//皮肤处理
 			   , public CThreadObject	//线程对象
 			   , public TAutoEventMapReg<CMainDlg>//通知中心自动注册
 			   , public ISetOrLoadSkinHandler
+,				public SDpiHandler<CMainDlg>
 {
 public:
 
@@ -278,6 +279,7 @@ protected:
 		MSG_WM_TIMER(OnTimer)
 		MESSAGE_HANDLER(g_dwSkinChangeMessage, OnSkinChangeMessage)
 		CHAIN_MSG_MAP(SHostWnd)
+		CHAIN_MSG_MAP(SDpiHandler<CMainDlg>)
 		REFLECT_NOTIFICATIONS_EX()
 	END_MSG_MAP()
 

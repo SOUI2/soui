@@ -194,7 +194,6 @@ public:
 	IToolTip * GetToolTip() const {
 		return m_pTipCtrl;
 	}
-	virtual int GetScale() const;
 protected://辅助函数
     BOOL _InitFromXml(pugi::xml_node xmlNode,int nWidth,int nHeight);
     void _Redraw();
@@ -320,7 +319,7 @@ protected:// IContainer
 
     virtual IScriptModule * GetScriptModule();
 
-	
+	virtual int GetScale() const;
 protected://Swindow 虚方法
     virtual void BeforePaint(IRenderTarget *pRT, SPainter &painter);
     virtual void AfterPaint(IRenderTarget *pRT, SPainter &painter);
@@ -378,79 +377,6 @@ public://事件处理接口
     END_MSG_MAP()
 
 
-};
-const int SKBuiltinScales[] =
-	{
-		100,125,150,200,250,300
-	};
-template <class T>
-class SOUI_EXP  SDpiHeler
-{
-	/*标准化放大比例, 选择比自己指定比例小一号的比例*/
-	int NormalizeScale(int nScale)
-	{
-		for (int i = 1; i < ARRAYSIZE(SKBuiltinScales); i++)
-		{
-			if (nScale < SKBuiltinScales[i])
-			{
-				return SKBuiltinScales[i - 1];
-			}
-		}
-		return SKBuiltinScales[ARRAYSIZE(SKBuiltinScales) - 1];
-	}
-
-protected:
-	void OnDipChanged(WORD dpi, const RECT* desRect)
-	{
-		T *pT = static_cast<T*>(this);
-
-		int nScale = dpi * 100 / 96;
-		nScale = NormalizeScale(nScale);
-		OnScaleChanged(nScale, desRect);
-	}
-	//能过重写些函数来屏蔽一些不处理的DPI。。比如只支持 100 150 200。。。所有都支持基本不现实
-	virtual void OnScaleChanged(WORD nScale, const RECT *desRect)
-	{
-		T *pT = static_cast<T*>(this);
-
-		if (nScale != pT->GetScale())
-		{
-			//pT->OnScaleChanged(nScale);
-			pT->SDispatchMessage(UM_SETSCALE, nScale, 0);
-			pT->SetWindowPos(
-				NULL,
-				desRect->left,
-				desRect->top,
-				desRect->right - desRect->left,
-				desRect->bottom - desRect->top,
-				SWP_NOZORDER | SWP_NOACTIVATE);
-		}
-	}
-public:
-	BOOL ProcessWindowMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lResult, DWORD dwMsgMapID = 0)
-	{
-		BOOL bHandled = TRUE;
-
-		switch (dwMsgMapID)
-		{
-		case 0:
-			if (uMsg == WM_DPICHANGED)
-			{
-				OnDipChanged((WORD)HIWORD(wParam), (RECT* const)lParam);
-				lResult = 0;
-			}
-			break;
-		}
-		return FALSE;
-	}
-};
-
-class SOUI_EXP SDpiHostWnd :public SDpiHeler<SDpiHostWnd>, public SHostWnd
-{
-	BEGIN_MSG_MAP_EX(SDpiHostWnd)
-		CHAIN_MSG_MAP(SHostWnd)
-		CHAIN_MSG_MAP(SDpiHeler<SDpiHostWnd>)
-	END_MSG_MAP()
 };
 
 }//namespace SOUI

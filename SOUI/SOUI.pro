@@ -128,6 +128,8 @@ HEADERS += include/SApp.h \
            include/helper/sdibhelper.h \
            include/helper/unknown.h \
 		   include/helper/SFunctor.hpp \
+		   include/helper/sdpiscale.h \
+		   include/helper/sdpihelper.hpp \
            include/interface/imgdecoder-i.h \
            include/interface/render-i.h \
            include/interface/SResProvider-i.h \
@@ -238,6 +240,7 @@ SOURCES += src/SApp.cpp \
            src/helper/smenuex.cpp \
            src/helper/smatrix.cpp \
            src/helper/sdibhelper.cpp \
+		   src/helper/sdpiscale.cpp \
            src/res.mgr/SUiDef.cpp \
            src/res.mgr/SFontPool.cpp \
            src/res.mgr/SObjDefAttr.cpp \
