@@ -531,73 +531,73 @@ namespace SOUI
 	class STaskHelper {
 	public:
 		template<typename TClass,typename Fun>
-		static void post(ITaskLoop *pTaskLoop,TClass * pObj, Fun fun,bool waitUntilDone)
+		static long post(ITaskLoop *pTaskLoop,TClass * pObj, Fun fun,bool waitUntilDone)
 		{
 			SFunctor0<TClass, Fun> runnable(pObj, fun);
-			pTaskLoop->postTask(&runnable, waitUntilDone);
+			return pTaskLoop->postTask(&runnable, waitUntilDone);
 		}
 
 		template<typename TClass, typename Fun,typename P1>
-		static void post(ITaskLoop *pTaskLoop, TClass * pObj, Fun fun, P1 p1, bool waitUntilDone)
+		static long post(ITaskLoop *pTaskLoop, TClass * pObj, Fun fun, P1 p1, bool waitUntilDone)
 		{
 			SFunctor1<TClass,Fun,P1> runnable(pObj, fun,p1);
-			pTaskLoop->postTask(&runnable, waitUntilDone);
+			return pTaskLoop->postTask(&runnable, waitUntilDone);
 		}
 
 		template<typename TClass, typename Fun, typename P1, typename P2>
-		static void post(ITaskLoop *pTaskLoop, TClass * pObj, Fun fun, P1 p1, P2 p2 ,bool waitUntilDone)
+		static long post(ITaskLoop *pTaskLoop, TClass * pObj, Fun fun, P1 p1, P2 p2 ,bool waitUntilDone)
 		{
 			SFunctor2<TClass, Fun, P1,P2> runnable(pObj, fun, p1,p2);
-			pTaskLoop->postTask(&runnable, waitUntilDone);
+			return pTaskLoop->postTask(&runnable, waitUntilDone);
 		}
 
 		template<typename TClass, typename Fun, typename P1, typename P2, typename P3>
-		static void post(ITaskLoop *pTaskLoop, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,bool waitUntilDone)
+		static long post(ITaskLoop *pTaskLoop, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,bool waitUntilDone)
 		{
 			SFunctor3<TClass, Fun, P1,P2,P3> runnable(pObj, fun, p1,p2,p3);
-			pTaskLoop->postTask(&runnable, waitUntilDone);
+			return pTaskLoop->postTask(&runnable, waitUntilDone);
 		}
 
 		template<typename TClass, typename Fun, typename P1, typename P2, typename P3, typename P4>
-		static void post(ITaskLoop *pTaskLoop, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,P4 p4,bool waitUntilDone)
+		static long post(ITaskLoop *pTaskLoop, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,P4 p4,bool waitUntilDone)
 		{
 			SFunctor4<TClass, Fun, P1,P2,P3,P4> runnable(pObj, fun, p1,p2,p3,p4);
-			pTaskLoop->postTask(&runnable, waitUntilDone);
+			return pTaskLoop->postTask(&runnable, waitUntilDone);
 		}
 
 		template<typename TClass, typename Fun, typename P1, typename P2, typename P3, typename P4, typename P5>
-		static void post(ITaskLoop *pTaskLoop, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,P4 p4, P5 p5,bool waitUntilDone)
+		static long post(ITaskLoop *pTaskLoop, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,P4 p4, P5 p5,bool waitUntilDone)
 		{
 			SFunctor5<TClass, Fun, P1,P2,P3,P4,P5> runnable(pObj, fun, p1,p2,p3,p4,p5);
-			pTaskLoop->postTask(&runnable, waitUntilDone);
+			return pTaskLoop->postTask(&runnable, waitUntilDone);
 		}
 
 		template<typename TClass, typename Fun, typename P1, typename P2, typename P3, typename P4, typename P5, typename P6>
-		static void post(ITaskLoop *pTaskLoop, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,P4 p4, P5 p5,P6 p6,bool waitUntilDone)
+		static long post(ITaskLoop *pTaskLoop, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,P4 p4, P5 p5,P6 p6,bool waitUntilDone)
 		{
 			SFunctor6<TClass, Fun, P1,P2,P3,P4,P5,P6> runnable(pObj, fun, p1,p2,p3,p4,p5,p6);
-			pTaskLoop->postTask(&runnable, waitUntilDone);
+			return pTaskLoop->postTask(&runnable, waitUntilDone);
 		}
 
 		template<typename TClass, typename Fun, typename P1, typename P2, typename P3, typename P4, typename P5, typename P6, typename P7>
-		static void post(ITaskLoop *pTaskLoop, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,P4 p4, P5 p5,P6 p6,P7 p7,bool waitUntilDone)
+		static long post(ITaskLoop *pTaskLoop, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,P4 p4, P5 p5,P6 p6,P7 p7,bool waitUntilDone)
 		{
 			SFunctor7<TClass, Fun, P1,P2,P3,P4,P5,P6,P7> runnable(pObj, fun, p1,p2,p3,p4,p5,p6,p7);
-			pTaskLoop->postTask(&runnable, waitUntilDone);
+			return pTaskLoop->postTask(&runnable, waitUntilDone);
 		}
 
 		template<typename TClass, typename Fun, typename P1, typename P2, typename P3, typename P4, typename P5, typename P6, typename P7, typename P8>
-		static void post(ITaskLoop *pTaskLoop, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,P4 p4, P5 p5,P6 p6,P7 p7,P8 p8,bool waitUntilDone)
+		static long post(ITaskLoop *pTaskLoop, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,P4 p4, P5 p5,P6 p6,P7 p7,P8 p8,bool waitUntilDone)
 		{
 			SFunctor8<TClass, Fun, P1,P2,P3,P4,P5,P6,P7,P8> runnable(pObj, fun, p1,p2,p3,p4,p5,p6,p7,p8);
-			pTaskLoop->postTask(&runnable, waitUntilDone);
+			return pTaskLoop->postTask(&runnable, waitUntilDone);
 		}
 
 		template<typename TClass, typename Fun, typename P1, typename P2, typename P3, typename P4, typename P5, typename P6, typename P7, typename P8, typename P9>
-		static void post(ITaskLoop *pTaskLoop, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,P4 p4, P5 p5,P6 p6,P7 p7,P8 p8,P9 p9,bool waitUntilDone)
+		static long post(ITaskLoop *pTaskLoop, TClass * pObj, Fun fun, P1 p1, P2 p2 ,P3 p3,P4 p4, P5 p5,P6 p6,P7 p7,P8 p8,P9 p9,bool waitUntilDone)
 		{
 			SFunctor9<TClass, Fun, P1,P2,P3,P4,P5,P6,P7,P8,P9> runnable(pObj, fun, p1,p2,p3,p4,p5,p6,p7,p8,p9);
-			pTaskLoop->postTask(&runnable, waitUntilDone);
+			return pTaskLoop->postTask(&runnable, waitUntilDone);
 		}
 
 	};
