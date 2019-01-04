@@ -53,7 +53,6 @@ namespace SOUI
 	{
 		if (_thread.isStopped())
 		{
-			delete runnable;
 			return -1;
 		}
 		IRunnable *pCloneRunnable = runnable->clone();
