@@ -223,9 +223,11 @@ public:
 
     BOOL LoadMenu(pugi::xml_node xmlMenu);
 
-    BOOL InsertMenu(UINT uPosition, UINT uFlags, UINT_PTR nIDNewItem,LPCTSTR strText, int iIcon);
+    BOOL InsertMenu(UINT uPosition, UINT uFlags, UINT_PTR nIDNewItem,LPCTSTR strText, int iIcon=0);
 
-	BOOL AppendMenu(UINT uFlags,UINT_PTR uIDNewItem, LPCTSTR lpNewItem,int iIcon);
+	BOOL AppendMenu(UINT uFlags,UINT_PTR uIDNewItem, LPCTSTR lpNewItem,int iIcon=0);
+
+	BOOL CheckMenuItem(UINT uIdCheckItem, UINT uCheck);
 
 	BOOL DeleteMenu(UINT uPosition, UINT uFlags);
 
@@ -249,6 +251,8 @@ protected:
 
 	SMenuAttr * GetMenuAttr(HMENU hMenu) const;
 	void SetMenuAttr(HMENU hMenu,SMenuAttr *pMenuAttr) const;
+
+	bool m_bAttached;
 };
 
 }//namespace SOUI
