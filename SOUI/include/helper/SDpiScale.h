@@ -8,7 +8,14 @@ namespace SOUI
 
 		static const int * GetBuiltinScales();
 
-		/*标准化放大比例, 选择比自己指定比例小一号的比例*/
+		/**
+        * NormalizeScale
+        * @brief    标准化放大比例, 选择比自己指定比例小一号的比例
+        * @param [in] nScale -- input scale
+        * @return   int -- normalized scale
+        *
+        * Describe  
+        */
 		static int NormalizeScale(int nScale);
 	};
 
