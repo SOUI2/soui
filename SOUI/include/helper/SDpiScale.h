@@ -1,7 +1,7 @@
 #pragma once
 namespace SOUI
 {
-	class SDpiScale
+	class SOUI_EXP SDpiScale
 	{
 	public:
 		static int GetBuiltinScaleCount();
