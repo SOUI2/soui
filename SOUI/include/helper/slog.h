@@ -71,28 +71,31 @@ namespace SOUI
 #define LOG_FORMAT(id_or_name, level, filter, logformat, ...) \
     do{ \
 		SOUI::ILog4zManager * pLogMgr = GETLOGMGR(); \
-		char logbuf[SOUI::LOG4Z_LOG_BUF_SIZE]; \
+		char *logbuf=(char*)malloc(SOUI::LOG4Z_LOG_BUF_SIZE); \
 		if(sizeof(logformat[0]) == sizeof(char))\
 			_snprintf_s(logbuf, SOUI::LOG4Z_LOG_BUF_SIZE, _TRUNCATE, (const char*)logformat, ##__VA_ARGS__); \
 		else \
 		{\
-			wchar_t logbufw[SOUI::LOG4Z_LOG_BUF_SIZE]; \
+			wchar_t *logbufw = (wchar_t*)malloc(SOUI::LOG4Z_LOG_BUF_SIZE*sizeof(wchar_t)); \
 			_snwprintf_s(logbufw, SOUI::LOG4Z_LOG_BUF_SIZE, _TRUNCATE, (const wchar_t*)logformat, ##__VA_ARGS__); \
 			DWORD dwLen = WideCharToMultiByte(CP_ACP, 0, logbufw, -1, NULL, 0, NULL, NULL);\
 			if (dwLen < SOUI::LOG4Z_LOG_BUF_SIZE)\
 			{\
 				WideCharToMultiByte(CP_ACP, 0, logbufw, -1, logbuf, dwLen, NULL, NULL);\
 			}\
+			free(logbufw);\
 		}\
 		if (pLogMgr && pLogMgr->prePushLog(id_or_name,level)) \
 		{\
 			pLogMgr->pushLog(id_or_name, level,filter, logbuf, __FILE__, __LINE__, __FUNCTION__,_ReturnAddress()); \
 		}else\
 		{\
-			char logbuf2[SOUI::LOG4Z_LOG_BUF_SIZE];\
+			char *logbuf2 = (char*)malloc(SOUI::LOG4Z_LOG_BUF_SIZE);\
 			_snprintf_s(logbuf2, SOUI::LOG4Z_LOG_BUF_SIZE, _TRUNCATE, "%s %s %s:%d\n",logbuf, __FUNCTION__, __FILE__, __LINE__ ); \
 			OutputDebugStringA(logbuf2);\
+			free(logbuf2);\
 		}\
+		free(logbuf);\
     } while (0)
 
 //!format string
