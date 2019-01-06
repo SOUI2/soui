@@ -111,7 +111,7 @@ static const char *const LOG_STRING[]=
 };
 
 #if defined (WIN32) || defined(_WIN64)
-const static WORD LOG_COLOR[LOG_LEVEL_FATAL + 1] = {
+const static WORD LOG_COLOR[ILog4zManager::LOG_LEVEL_FATAL + 1] = {
     0,
     0,
     FOREGROUND_BLUE | FOREGROUND_GREEN,
@@ -353,7 +353,7 @@ struct LoggerInfo
     }
 };
 
-class COutoutFileBuilder : public IOutputFileBuilder
+class COutoutFileBuilder : public ILog4zManager::IOutputFileBuilder
 {
 public:
     virtual bool monthDir() const
@@ -417,6 +417,8 @@ public:
     virtual unsigned long long getStatusTotalWriteBytes(){return _ullStatusTotalWriteFileBytes;}
     virtual unsigned long long getStatusWaitingCount(){return _ullStatusTotalPushLog - _ullStatusTotalPopLog;}
     virtual unsigned int getStatusActiveLoggers();
+	virtual void setOutputListener(IOutputListener *pListener);
+
 protected:
     void showColorText(const char *text, int level = LOG_LEVEL_DEBUG);
     LoggerId getLoggerId(const char * name);
@@ -425,7 +427,6 @@ protected:
     bool closeLogger(LoggerId id);
     bool popLog(LogData *& log);
     virtual void run();
-
 
 private:
 
@@ -470,6 +471,7 @@ private:
     unsigned long long _ullStatusTotalPopLog;
 
     IOutputFileBuilder * m_pOutputFileBuilder;
+	IOutputListener    * m_pListener;
 };
 
 
@@ -686,31 +688,31 @@ static bool parseConfigLine(const std::string& line, int curLineNum, std::string
     {
         if (kv.second == "trace" || kv.second == "all")
         {
-            iter->second._level = LOG_LEVEL_TRACE;
+            iter->second._level = ILog4zManager::LOG_LEVEL_TRACE;
         }
         else if (kv.second == "debug")
         {
-            iter->second._level = LOG_LEVEL_DEBUG;
+            iter->second._level = ILog4zManager::LOG_LEVEL_DEBUG;
         }
         else if (kv.second == "info")
         {
-            iter->second._level = LOG_LEVEL_INFO;
+            iter->second._level = ILog4zManager::LOG_LEVEL_INFO;
         }
         else if (kv.second == "warn" || kv.second == "warning")
         {
-            iter->second._level = LOG_LEVEL_WARN;
+            iter->second._level = ILog4zManager::LOG_LEVEL_WARN;
         }
         else if (kv.second == "error")
         {
-            iter->second._level = LOG_LEVEL_ERROR;
+            iter->second._level = ILog4zManager::LOG_LEVEL_ERROR;
         }
         else if (kv.second == "alarm")
         {
-            iter->second._level = LOG_LEVEL_ALARM;
+            iter->second._level = ILog4zManager::LOG_LEVEL_ALARM;
         }
         else if (kv.second == "fatal")
         {
-            iter->second._level = LOG_LEVEL_FATAL;
+            iter->second._level = ILog4zManager::LOG_LEVEL_FATAL;
         }
     }
     //! display
@@ -1169,6 +1171,7 @@ LogerManager::LogerManager()
     _loggers[LOG4Z_MAIN_LOGGER_ID]._name = _proName;
     
     m_pOutputFileBuilder = & s_defOutputFileBuilder;
+	m_pListener = NULL;
 }
 
 LogerManager::~LogerManager()
@@ -1540,6 +1543,13 @@ bool LogerManager::pushLog(LoggerId id, int level, const char * filter, const ch
         }
     }
 
+	{//output log to listener.
+		AutoLock l(_hotLock);
+		if(m_pListener)
+		{
+			m_pListener->onOutputLog(level,filter,log,file,line,func,pRetAddr);
+		}
+	}
     if (LOG4Z_ALL_SYNCHRONOUS_OUTPUT)
     {
         delete pLog;
@@ -1595,6 +1605,7 @@ bool LogerManager::setLoggerOutFile(LoggerId id, bool enable)
 
 void LogerManager::setOutputFileBuilder(IOutputFileBuilder *pOutputFileBuilder)
 {
+	AutoLock l(_logLock);
     m_pOutputFileBuilder = pOutputFileBuilder;
 }
 
@@ -1709,7 +1720,7 @@ bool LogerManager::openLogger(LogData * pLog)
     int id = pLog->_id;
     if (id < 0 || id >_lastId)
     {
-        showColorText("log4z: openLogger can not open, invalide logger id! \r\n", LOG_LEVEL_FATAL);
+        showColorText("log4z: openLogger can not open, invalid logger id! \r\n", LOG_LEVEL_FATAL);
         return false;
     }
 
@@ -1923,7 +1934,10 @@ void LogerManager::run()
 
 }
 
-
+void LogerManager::setOutputListener(IOutputListener *pListener){
+	AutoLock l(_hotLock);
+	m_pListener = pListener;
+}
 
 SOUI_COM_C BOOL SOUI_COM_API SOUI::LOG4Z::SCreateInstance(IObjRef **ppLogMgr)
 {

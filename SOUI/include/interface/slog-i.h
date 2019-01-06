@@ -14,34 +14,41 @@ const int LOG4Z_MAIN_LOGGER_ID = 0;
 
 typedef int LoggerId;
 
-//! LOG Level
-enum ENUM_LOG_LEVEL
-{
-    LOG_LEVEL_TRACE = 0,
-    LOG_LEVEL_DEBUG,
-    LOG_LEVEL_INFO,
-    LOG_LEVEL_WARN,
-    LOG_LEVEL_ERROR,
-    LOG_LEVEL_ALARM,
-    LOG_LEVEL_FATAL,
-};
 
-struct IOutputFileBuilder
-{
-    //每个月创建log文件夹
-    virtual bool monthDir() const = 0;
-    
-    //每天创建log文件
-    virtual bool dayLog() const = 0;
-    
-    //生成LOG文件名
-    //至少应该包含pszLogName，及curFileIndex这两个参数
-    virtual bool buildOutputFile(char *pszFileName,int nLen,tm time,const char * pszLogName,unsigned long pid,int curFileIndex) const =0;
-};
 
 //! log4z class
 struct  ILog4zManager : public IObjRef
 {
+	//! LOG Level
+	enum ENUM_LOG_LEVEL
+	{
+		LOG_LEVEL_TRACE = 0,
+		LOG_LEVEL_DEBUG,
+		LOG_LEVEL_INFO,
+		LOG_LEVEL_WARN,
+		LOG_LEVEL_ERROR,
+		LOG_LEVEL_ALARM,
+		LOG_LEVEL_FATAL,
+	};
+
+	struct IOutputFileBuilder
+	{
+		//每个月创建log文件夹
+		virtual bool monthDir() const = 0;
+
+		//每天创建log文件
+		virtual bool dayLog() const = 0;
+
+		//生成LOG文件名
+		//至少应该包含pszLogName，及curFileIndex这两个参数
+		virtual bool buildOutputFile(char *pszFileName,int nLen,tm time,const char * pszLogName,unsigned long pid,int curFileIndex) const =0;
+	};
+
+	struct IOutputListener
+	{
+		virtual void onOutputLog(int level, const char * filter, const char * log, const char * file , int line , const char * func , const void *pRetAddr) = 0;
+	};
+
     virtual ~ILog4zManager(){};
 
     //! Config or overwrite configure
@@ -95,6 +102,7 @@ struct  ILog4zManager : public IObjRef
     virtual unsigned long long getStatusTotalWriteBytes() = 0;
     virtual unsigned long long getStatusWaitingCount() = 0;
     virtual unsigned int getStatusActiveLoggers() = 0;
+	virtual void setOutputListener(IOutputListener *pListener) = 0;
 };
 
 }

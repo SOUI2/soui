@@ -47,13 +47,13 @@ namespace SOUI
 
 
 //! fast micro
-#define LOG_TRACE(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::LOG_LEVEL_TRACE, log)
-#define LOG_DEBUG(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::LOG_LEVEL_DEBUG, log)
-#define LOG_INFO(id_or_name, filter, log)  SOUI_LOG_STREAM(id_or_name, filter, SOUI::LOG_LEVEL_INFO, log)
-#define LOG_WARN(id_or_name, filter, log)  SOUI_LOG_STREAM(id_or_name, filter, SOUI::LOG_LEVEL_WARN, log)
-#define LOG_ERROR(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::LOG_LEVEL_ERROR, log)
-#define LOG_ALARM(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::LOG_LEVEL_ALARM, log)
-#define LOG_FATAL(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::LOG_LEVEL_FATAL, log)
+#define LOG_TRACE(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::ILog4zManager::LOG_LEVEL_TRACE, log)
+#define LOG_DEBUG(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::ILog4zManager::LOG_LEVEL_DEBUG, log)
+#define LOG_INFO(id_or_name, filter, log)  SOUI_LOG_STREAM(id_or_name, filter, SOUI::ILog4zManager::LOG_LEVEL_INFO, log)
+#define LOG_WARN(id_or_name, filter, log)  SOUI_LOG_STREAM(id_or_name, filter, SOUI::ILog4zManager::LOG_LEVEL_WARN, log)
+#define LOG_ERROR(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::ILog4zManager::LOG_LEVEL_ERROR, log)
+#define LOG_ALARM(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::ILog4zManager::LOG_LEVEL_ALARM, log)
+#define LOG_FATAL(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::ILog4zManager::LOG_LEVEL_FATAL, log)
 
 //! super micro.
 #define LOGT(filter, log ) LOG_TRACE(SOUI::LOG4Z_MAIN_LOGGER_ID,filter, log )
@@ -95,13 +95,13 @@ namespace SOUI
     } while (0)
 
 //!format string
-#define LOGFMT_TRACE(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::LOG_LEVEL_TRACE, filter, fmt, ##__VA_ARGS__)
-#define LOGFMT_DEBUG(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::LOG_LEVEL_DEBUG, filter, fmt, ##__VA_ARGS__)
-#define LOGFMT_INFO(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::LOG_LEVEL_INFO,  filter,fmt, ##__VA_ARGS__)
-#define LOGFMT_WARN(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::LOG_LEVEL_WARN,  filter,fmt, ##__VA_ARGS__)
-#define LOGFMT_ERROR(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::LOG_LEVEL_ERROR, filter, fmt, ##__VA_ARGS__)
-#define LOGFMT_ALARM(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::LOG_LEVEL_ALARM, filter, fmt, ##__VA_ARGS__)
-#define LOGFMT_FATAL(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::LOG_LEVEL_FATAL, filter, fmt, ##__VA_ARGS__)
+#define LOGFMT_TRACE(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::ILog4zManager::LOG_LEVEL_TRACE, filter, fmt, ##__VA_ARGS__)
+#define LOGFMT_DEBUG(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::ILog4zManager::LOG_LEVEL_DEBUG, filter, fmt, ##__VA_ARGS__)
+#define LOGFMT_INFO(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::ILog4zManager::LOG_LEVEL_INFO,  filter,fmt, ##__VA_ARGS__)
+#define LOGFMT_WARN(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::ILog4zManager::LOG_LEVEL_WARN,  filter,fmt, ##__VA_ARGS__)
+#define LOGFMT_ERROR(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::ILog4zManager::LOG_LEVEL_ERROR, filter, fmt, ##__VA_ARGS__)
+#define LOGFMT_ALARM(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::ILog4zManager::LOG_LEVEL_ALARM, filter, fmt, ##__VA_ARGS__)
+#define LOGFMT_FATAL(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::ILog4zManager::LOG_LEVEL_FATAL, filter, fmt, ##__VA_ARGS__)
 #define LOGFMTT( filter, fmt, ...) LOGFMT_TRACE(SOUI::LOG4Z_MAIN_LOGGER_ID, filter, fmt,  ##__VA_ARGS__)
 #define LOGFMTD( filter, fmt, ...) LOGFMT_DEBUG(SOUI::LOG4Z_MAIN_LOGGER_ID, filter, fmt,  ##__VA_ARGS__)
 #define LOGFMTI( filter, fmt, ...) LOGFMT_INFO(SOUI::LOG4Z_MAIN_LOGGER_ID, filter, fmt,  ##__VA_ARGS__)
