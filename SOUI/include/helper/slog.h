@@ -31,7 +31,7 @@ namespace SOUI
 #define SOUI_LOG_STREAM(id_or_name, filter, level,  log)\
     do{\
 		SOUI::ILog4zManager * pLogMgr = GETLOGMGR(); \
-		char logBuf[SOUI::LOG4Z_LOG_BUF_SIZE];\
+		char *logBuf= (char*)malloc(SOUI::LOG4Z_LOG_BUF_SIZE);\
 		SOUI::Log4zStream ss(logBuf, SOUI::LOG4Z_LOG_BUF_SIZE);\
 		ss << log;\
 		if (pLogMgr && pLogMgr->prePushLog(id_or_name,level)) \
@@ -43,6 +43,7 @@ namespace SOUI
 			ss<<" "<<__FUNCTION__<<" "<<__FILE__<<":"<<__LINE__<<"\n";\
 			OutputDebugStringA(logBuf);\
 		}\
+		free(logBuf);\
     } while (0)
 
 

@@ -6,7 +6,7 @@
 namespace SOUI{
 
 //! the max log content length.
-const int LOG4Z_LOG_BUF_SIZE = 65535;
+const int LOG4Z_LOG_BUF_SIZE = 10240;
 
 
 const int LOG4Z_MAIN_LOGGER_ID = 0;
