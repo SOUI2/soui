@@ -50,6 +50,7 @@ protected:                                          \
 
 #define EVENT_CHECK_SENDER_ROOT(pRoot)              \
     {                                               \
+    if(!pRoot) return FALSE;\
     SOUI::SWindow *pWnd = SOUI::sobj_cast<SOUI::SWindow>(pEvt->sender);\
     if(pWnd && pRoot != pWnd && !pWnd->IsDescendant(pRoot)) \
         return FALSE;                               \
