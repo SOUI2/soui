@@ -1435,7 +1435,7 @@ bool LogerManager::pushLog(LoggerId id, int level, const char * filter, const ch
     if(pRetAddr)
     {
         HMODULE hMod = 0;
-        GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,(LPCSTR)pRetAddr,&hMod);
+        GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS| GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,(LPCSTR)pRetAddr,&hMod);
         GetModuleFileNameA(hMod,szPath,100);
         pModuleName = strrchr(szPath,'\\')+1;
     }
