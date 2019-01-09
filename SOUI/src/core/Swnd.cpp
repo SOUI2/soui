@@ -1277,7 +1277,8 @@ namespace SOUI
 
 		CRect rcText;
 		GetTextRect(rcText);
-		DrawText(pRT,m_strText.GetText(FALSE), m_strText.GetText(FALSE).GetLength(), rcText, GetTextAlign());
+		SStringT strText = GetWindowText(FALSE);
+		DrawText(pRT, strText, strText.GetLength(), rcText, GetTextAlign());
 
 		//draw focus rect
 		if(IsFocused())
@@ -1371,7 +1372,9 @@ namespace SOUI
 		CAutoRefPtr<IRenderTarget> pRT;
 		GETRENDERFACTORY->CreateRenderTarget(&pRT,0,0);
 		BeforePaintEx(pRT);
-		DrawText(pRT,m_strText.GetText(FALSE), m_strText.GetText(FALSE).GetLength(), rcTest4Text, nTestDrawMode | DT_CALCRECT);
+
+		SStringT strText = GetWindowText(FALSE);
+		DrawText(pRT, strText, strText.GetLength(), rcTest4Text, nTestDrawMode | DT_CALCRECT);
 
 		//计算子窗口大小
 		CSize szChilds = GetLayout()->MeasureChildren(this,rcContainer.Width(),rcContainer.Height());

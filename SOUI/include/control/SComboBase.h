@@ -162,6 +162,9 @@ namespace SOUI
         */    
         virtual int FindString(LPCTSTR pszFind,int nAfter=0);
 
+
+		virtual CSize GetDesiredSize(int nParentWid, int nParentHei);
+
         /**
         * SComboBoxBase::DropDown
         * @brief    下拉事件

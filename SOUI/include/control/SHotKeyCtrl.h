@@ -73,7 +73,9 @@ namespace SOUI
        */
       void GetHotKey(WORD & vKey,WORD &wModifers);
 
-
+	  
+  public:
+	  virtual SStringT GetWindowText(BOOL bRawText = FALSE);
   protected:
       /**
        * SHotKeyCtrl::OnGetDlgCode
@@ -85,6 +87,7 @@ namespace SOUI
       {
           return (SC_WANTALLKEYS|SC_WANTSYSKEY) & (~SC_WANTTAB);
       }
+
       /**
        * SHotKeyCtrl::OnCreate
        * @brief    创建
@@ -183,7 +186,7 @@ namespace SOUI
 
       SOUI_MSG_MAP_BEGIN()
           MSG_WM_CREATE(OnCreate)
-          MSG_WM_PAINT_EX(OnPaint)
+          //MSG_WM_PAINT_EX(OnPaint)
           MSG_WM_LBUTTONDOWN(OnLButtonDown)
           MSG_WM_SETFOCUS_EX(OnSetFocus)
           MSG_WM_KILLFOCUS_EX(OnKillFocus)
