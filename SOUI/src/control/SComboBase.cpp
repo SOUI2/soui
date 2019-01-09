@@ -124,9 +124,9 @@ namespace SOUI
         GetClientRect(prc);
 		int nHei = prc->bottom - prc->top;
         prc->left= prc->right-nHei*szBtn.cx/szBtn.cy;
-		if (!m_bAutoFitDropBtn) {
+		if (m_bAutoFitDropBtn) {
 			prc->top += (prc->bottom - prc->top - szBtn.cy) / 2;
-			prc->left += (prc->right - prc->left - szBtn.cx) / 2;
+			prc->left = prc->right - szBtn.cx;
 			prc->right = prc->left + szBtn.cx;
 			prc->bottom = prc->top + szBtn.cy;
 		}
