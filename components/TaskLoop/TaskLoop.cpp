@@ -102,7 +102,7 @@ namespace SOUI
 				break;
 			}
 
-			_itemsSem.wait(10);
+			_itemsSem.wait(INFINITE);
 
 			{
 				SAutoLock autoLock(_lock);
