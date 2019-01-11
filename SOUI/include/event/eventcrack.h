@@ -60,7 +60,7 @@ protected:                                          \
 #define EVENT_HANDLER(cd, func)                     \
     if(cd == uCode)                                 \
     {                                               \
-        func(pEvt); return TRUE;                    \
+        pEvt->bubbleUp = false; func(pEvt); return !pEvt->bubbleUp; \
     } 
 
 
@@ -68,14 +68,14 @@ protected:                                          \
 #define EVENT_ID_HANDLER(id, cd, func)              \
     if(cd == uCode && id == pEvt->idFrom)           \
     {                                               \
-        func(pEvt); return TRUE;                    \
+        pEvt->bubbleUp = false; func(pEvt); return !pEvt->bubbleUp; \
     }
 
 // void OnEvent(EventArgs *pEvt)
 #define EVENT_ID_RANGE_HANDLER(idMin, idMax , cd, func) \
     if(cd == uCode  && idMin <= pEvt->idFrom && idMax >= pEvt->idFrom )\
     {                                               \
-    func(pEvt); return TRUE;                        \
+        pEvt->bubbleUp = false; func(pEvt); return !pEvt->bubbleUp; \
     }
 
 
@@ -83,7 +83,7 @@ protected:                                          \
 #define EVENT_NAME_HANDLER(name, cd, func)          \
     if(cd == uCode && pEvt->nameFrom!= NULL && wcscmp(pEvt->nameFrom,name)==0) \
     {                                               \
-        func(pEvt); return TRUE;                    \
+        pEvt->bubbleUp = false; func(pEvt); return !pEvt->bubbleUp; \
     }
 
 
@@ -91,32 +91,28 @@ protected:                                          \
 #define EVENT_COMMAND(func)                                             \
     if (SOUI::EVT_CMD == uCode)                                         \
     {                                                                   \
-        func(pEvt);                                                     \
-        return TRUE;                                                    \
+        pEvt->bubbleUp = false; func(pEvt); return !pEvt->bubbleUp; \
     }                                                                   \
 
 // void OnCommand()
 #define EVENT_ID_COMMAND(id, func)                                      \
     if (SOUI::EVT_CMD == uCode && id == pEvt->idFrom)                   \
     {                                                                   \
-        func();                                                         \
-        return TRUE;                                                    \
+        pEvt->bubbleUp = false; func(); return !pEvt->bubbleUp;         \
     }                                                                   \
  
-// void OnCommand()
+// void OnCommand(int nID)
 #define EVENT_ID_COMMAND_RANGE(idMin, idMax, func)                               \
     if (SOUI::EVT_CMD == uCode && idMin <= pEvt->idFrom && idMax >= pEvt->idFrom )  \
     {                                                                            \
-        func(pEvt->idFrom);                                                      \
-        return TRUE;                                                             \
+        pEvt->bubbleUp = false; func(pEvt->idFrom); return !pEvt->bubbleUp; \
     }                                                                            \
 
 // void OnCommand()
 #define EVENT_NAME_COMMAND(name, func)                                      \
     if (SOUI::EVT_CMD == uCode && pEvt->nameFrom!= NULL && wcscmp(pEvt->nameFrom,name)==0)  \
     {                                                                       \
-        func();                                                             \
-        return TRUE;                                                        \
+        pEvt->bubbleUp = false; func(); return !pEvt->bubbleUp;             \
     }                                                                       \
 
  
@@ -124,9 +120,10 @@ protected:                                          \
 #define EVENT_ID_CONTEXTMENU(id,func)                                      \
     if (SOUI::EVT_CTXMENU == uCode && pEvt->idFrom==id)                    \
 {                                                                          \
+    pEvt->bubbleUp = false;                                                \
     SOUI::EventCtxMenu* pEvtCtxMenu = (SOUI::EventCtxMenu*)pEvt;           \
     pEvtCtxMenu->bCancel=func(pEvtCtxMenu->pt);                            \
-    return TRUE;                                                           \
+    return !pEvt->bubbleUp;                                                \
 }                                                                          \
 
 
@@ -134,8 +131,9 @@ protected:                                          \
 #define EVENT_NAME_CONTEXTMENU(name,func)                                       \
     if (SOUI::EVT_CTXMENU == uCode && pEvt->nameFrom!= NULL && wcscmp(pEvt->nameFrom,name)==0) \
 {                                                                               \
+    pEvt->bubbleUp = false;                                                     \
     SOUI::EventCtxMenu* pEvtCtxMenu = (SOUI::EventCtxMenu*)pEvt;                \
     pEvtCtxMenu->bCancel=func(pEvtCtxMenu->pt);                                 \
-    return TRUE;                                                                \
+    return !pEvt->bubbleUp;                                                     \
 }                                                                               \
 
