@@ -1728,6 +1728,17 @@ void SEdit::OnSetFocus(SWND wndOld)
     if(!m_strCue.GetText(FALSE).IsEmpty() && GetWindowTextLength() == 0) Invalidate();
 }
 
+UINT SEdit::GetCueTextAlign()
+{
+	UINT algin= SWindow::GetTextAlign();
+	algin&=~(DT_CENTER|DT_RIGHT);
+	if(m_dwStyle&ES_CENTER)
+		algin|=DT_CENTER;
+	else if(m_dwStyle&ES_RIGHT)
+		algin|=DT_RIGHT;	 
+	return algin;
+}
+
 void SEdit::OnPaint( IRenderTarget * pRT )
 {
     SRichEdit::OnPaint(pRT);
@@ -1745,7 +1756,7 @@ void SEdit::OnPaint( IRenderTarget * pRT )
         rcInsetPixel.right = rcInsetPixel.right * GetScale() / 100;
         rcInsetPixel.bottom = rcInsetPixel.bottom * GetScale() / 100;
         rc.DeflateRect(rcInsetPixel.left, rcInsetPixel.top, rcInsetPixel.right, rcInsetPixel.bottom);
-        pRT->DrawText(m_strCue.GetText(FALSE),m_strCue.GetText(FALSE).GetLength(),&rc,DT_SINGLELINE|DT_VCENTER);
+		pRT->DrawText(m_strCue.GetText(FALSE),m_strCue.GetText(FALSE).GetLength(),&rc,GetCueTextAlign());
         
         pRT->SetTextColor(crOld);
         AfterPaint(pRT,painter);

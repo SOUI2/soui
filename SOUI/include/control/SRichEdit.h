@@ -1258,7 +1258,8 @@ namespace SOUI
         * Describe  此函数是消息响应函数
         */
         void OnSetFocus(SWND wndOld);
-        /**
+		UINT GetCueTextAlign();
+		/**
         * SEdit::OnKillFocus
         * @brief    失去焦点
         * 
