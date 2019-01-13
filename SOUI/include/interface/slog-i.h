@@ -46,7 +46,7 @@ struct  ILog4zManager : public IObjRef
 
 	struct IOutputListener
 	{
-		virtual void onOutputLog(int level, const char * filter, const char * log, const char * file , int line , const char * func , const void *pRetAddr) = 0;
+		virtual void onOutputLog(int level, const char * filter, const char * log, int nLogLen) = 0;
 	};
 
     virtual ~ILog4zManager(){};

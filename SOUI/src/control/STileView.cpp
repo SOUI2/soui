@@ -46,6 +46,9 @@ STileView::STileView()
     , m_itemCapture(NULL)
     , m_nMarginSize(0.0f, SLayoutSize::px)
     , m_bWantTab(FALSE)
+	, m_bDatasetInvalidated(false)
+	, m_bPendingUpdate(false)
+	, m_iPendingUpdateItem(-2)
 {
     m_bFocusable = TRUE;
     m_observer.Attach(new STileViewDataSetObserver(this));
@@ -941,6 +944,21 @@ void STileView::DispatchMessage2Items(UINT uMsg,WPARAM wParam,LPARAM lParam)
 			pItem->SDispatchMessage(uMsg, wParam, lParam);
 		}
 	}
+}
+
+void STileView::OnShowWindow(BOOL bShow, UINT nStatus)
+{
+	__super::OnShowWindow(bShow,nStatus);
+	if(IsVisible(TRUE) && m_bPendingUpdate)
+	{
+		if(m_iPendingUpdateItem == -1)
+			onDataSetChanged();
+		else
+			onItemDataChanged(m_iPendingUpdateItem);
+		m_bPendingUpdate = false;
+		m_iPendingUpdateItem = -2;
+	}
+
 }
 
 }

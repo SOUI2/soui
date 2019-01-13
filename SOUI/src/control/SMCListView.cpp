@@ -48,7 +48,9 @@ namespace SOUI
         ,m_itemCapture(NULL)
         ,m_pSkinDivider(NULL)
         ,m_bWantTab(FALSE)
-        ,m_bDatasetInvalidated(TRUE)
+		,m_bDatasetInvalidated(TRUE)
+		,m_bPendingUpdate(false)
+		,m_iPendingUpdateItem(-2)
     {
         m_bFocusable = TRUE;
         m_bClipClient = TRUE;
@@ -393,6 +395,12 @@ bool SMCListView::OnHeaderSwap(EventArgs *pEvt)
 void SMCListView::onDataSetChanged()
 {
     if(!m_adapter) return;
+	if(!IsVisible(TRUE))
+	{
+		m_bPendingUpdate = true;
+		m_iPendingUpdateItem = -1;
+		return;
+	}
 
 	//更新列显示状态
 	m_pHeader->GetEventSet()->setMutedState(true);
@@ -419,6 +427,14 @@ void SMCListView::onDataSetInvalidated()
 
 void SMCListView::onItemDataChanged(int iItem)
 {
+	if(!m_adapter) return;
+	if(!IsVisible(TRUE))
+	{
+		m_bPendingUpdate = true;
+		m_iPendingUpdateItem = m_iPendingUpdateItem==-2?iItem:-1;
+		return;
+	}
+
 	if(iItem<m_iFirstVisible) return;
 	if(iItem>=m_iFirstVisible + (int)m_lstItems.GetCount()) return;
 	if(m_lvItemLocator->IsFixHeight())
@@ -1183,6 +1199,20 @@ void SMCListView::DispatchMessage2Items(UINT uMsg,WPARAM wParam,LPARAM lParam)
 			SItemPanel *pItem = pLstTypeItems->GetNext(pos);
 			pItem->SDispatchMessage(uMsg, wParam, lParam);
 		}
+	}
+}
+
+void SMCListView::OnShowWindow(BOOL bShow, UINT nStatus)
+{
+	__super::OnShowWindow(bShow,nStatus);
+	if(IsVisible(TRUE) && m_bPendingUpdate)
+	{
+		if(m_iPendingUpdateItem == -1)
+			onDataSetChanged();
+		else
+			onItemDataChanged(m_iPendingUpdateItem);
+		m_bPendingUpdate = false;
+		m_iPendingUpdateItem = -2;
 	}
 }
 

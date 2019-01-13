@@ -171,8 +171,6 @@
 //! the max logger count.
 const int LOG4Z_LOGGER_MAX = 10;
 
-//! all logger synchronous output or not
-const bool LOG4Z_ALL_SYNCHRONOUS_OUTPUT = false;
 //! all logger synchronous display to the windows debug output
 const bool LOG4Z_ALL_DEBUGOUTPUT_DISPLAY = true;
 

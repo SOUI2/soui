@@ -48,6 +48,8 @@ namespace SOUI
         ,m_pSkinDivider(NULL)
         ,m_bWantTab(FALSE)
         ,m_bDataSetInvalidated(FALSE)
+		,m_bPendingUpdate(false)
+		,m_iPendingUpdateItem(-2)
     {
         m_bFocusable = TRUE;
         m_observer.Attach(new SListViewDataSetObserver(this));
@@ -154,6 +156,12 @@ namespace SOUI
     void SListView::onDataSetChanged()
     {
         if(!m_adapter) return;
+		if(!IsVisible(TRUE))
+		{
+			m_bPendingUpdate = true;
+			m_iPendingUpdateItem = -1;
+			return;
+		}
         if(m_lvItemLocator) m_lvItemLocator->OnDataSetChanged();
         if(m_iSelItem != -1 && m_iSelItem >= m_adapter->getCount())
             m_iSelItem = -1;
@@ -170,6 +178,14 @@ namespace SOUI
 
 	void SListView::onItemDataChanged(int iItem)
 	{
+		if(!m_adapter) return;
+		if(!IsVisible(TRUE))
+		{
+			m_bPendingUpdate = true;
+			m_iPendingUpdateItem = m_iPendingUpdateItem==-2?iItem:-1;
+			return;
+		}
+
 		if(iItem<m_iFirstVisible) return;
 		if(iItem>=m_iFirstVisible + (int)m_lstItems.GetCount()) return;
 		if(m_lvItemLocator->IsFixHeight())
@@ -908,4 +924,19 @@ namespace SOUI
 			}
 		}
 	}
+
+	void SListView::OnShowWindow(BOOL bShow, UINT nStatus)
+	{
+		__super::OnShowWindow(bShow,nStatus);
+		if(IsVisible(TRUE) && m_bPendingUpdate)
+		{
+			if(m_iPendingUpdateItem == -1)
+				onDataSetChanged();
+			else
+				onItemDataChanged(m_iPendingUpdateItem);
+			m_bPendingUpdate = false;
+			m_iPendingUpdateItem = -2;
+		}
+	}
+
 }
