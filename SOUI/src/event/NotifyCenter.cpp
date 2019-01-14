@@ -40,9 +40,9 @@ protected:
 
 LRESULT SNotifyReceiver::OnNotifyEvent(UINT uMsg,WPARAM wParam,LPARAM lParam)
 {
+#if _MSC_VER >= 1700	//VS2012
 	switch (wParam)
 	{
-#if _MSC_VER >= 1700	//VS2012
 	case 1:
 		{
 			std::function<void(void)>* f = (std::function<void(void)>*)lParam;
@@ -56,10 +56,10 @@ LRESULT SNotifyReceiver::OnNotifyEvent(UINT uMsg,WPARAM wParam,LPARAM lParam)
 			delete f;
 		}
 		break;
-#endif//_MSC_VER >= 1700	//VS2012
 	default:
 		break;
 	}
+#endif//_MSC_VER >= 1700	//VS2012
 	return 0;
 }
 
