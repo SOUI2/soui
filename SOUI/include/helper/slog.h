@@ -3,8 +3,10 @@
 #include <stdio.h>
 
 #ifndef GETLOGMGR
-#include "SApp.h"
+#include <SApp.h>
 #define GETLOGMGR() SOUI::SApplication::getSingletonPtr()?SOUI::SApplication::getSingleton().GetLogManager():NULL
+#else
+#include <interface/slog-i.h>
 #endif
 
 #ifndef E_RANGE
@@ -316,9 +318,9 @@ namespace SOUI {
 	{
 #if defined (WIN32) || defined(_WIN64)
 		DWORD dwLen = WideCharToMultiByte(CP_ACP, 0, t, -1, NULL, 0, NULL, NULL);
-		if (dwLen < LOG4Z_LOG_BUF_SIZE)
+		if (dwLen < SOUI::LOG4Z_LOG_BUF_SIZE)
 		{
-			char buf[LOG4Z_LOG_BUF_SIZE];
+			char buf[SOUI::LOG4Z_LOG_BUF_SIZE];
 			dwLen = WideCharToMultiByte(CP_ACP, 0, t, -1, buf, dwLen, NULL, NULL);
 			if (dwLen > 0)
 			{

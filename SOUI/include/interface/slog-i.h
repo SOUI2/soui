@@ -6,11 +6,10 @@
 namespace SOUI{
 
 //! the max log content length.
-const int LOG4Z_LOG_BUF_SIZE = 10240;
-
-
-const int LOG4Z_MAIN_LOGGER_ID = 0;
-
+	enum{
+		LOG4Z_LOG_BUF_SIZE = 10240,
+		LOG4Z_MAIN_LOGGER_ID = 0,
+	};
 
 typedef int LoggerId;
 
