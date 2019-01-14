@@ -145,7 +145,7 @@ namespace SOUI
 
 	struct ITrCtxProvider
 	{
-		virtual const SStringW & GetTrCtx() = 0;
+		virtual const SStringW & GetTrCtx() const = 0;
 	};
 
 	class  SOUI_EXP STrText
@@ -959,6 +959,7 @@ namespace SOUI
         */
         virtual void AfterPaint(IRenderTarget *pRT, SPainter &painter);
         
+		virtual const SStringW & GetTrCtx() const;
     public://caret相关方法
         virtual BOOL CreateCaret(HBITMAP pBmp,int nWid,int nHeight);
         virtual void ShowCaret(BOOL bShow);   
@@ -1283,6 +1284,7 @@ namespace SOUI
             ATTR_SKIN(L"ncskin", m_pNcSkin, TRUE)   //直接获得皮肤对象
             ATTR_INT(L"data", m_uData, 0 )
 			ATTR_I18NSTRT(L"text",m_strText,TRUE)	//从text属性中获取显示文本
+			ATTR_STRINGW(L"trCtx",m_strTrCtx,FALSE) 
             ATTR_CUSTOM(L"enable", OnAttrEnable)
             ATTR_CUSTOM(L"visible", OnAttrVisible)
             ATTR_CUSTOM(L"show", OnAttrVisible)
@@ -1305,8 +1307,6 @@ namespace SOUI
 
 
 		virtual HRESULT OnLanguageChanged();
-
-		virtual const SStringW & GetTrCtx();
 
 		virtual void OnScaleChanged(int scale);
 
@@ -1346,6 +1346,7 @@ namespace SOUI
         STrText             m_strText;          /**< 窗口文字 */
         STrText             m_strToolTipText;   /**< 窗口ToolTip */
         SStringW            m_strName;          /**< 窗口名称 */
+		SStringW			m_strTrCtx;			/**< translate context. empty than use container's tr ctx*/
         int                 m_nID;              /**< 窗口ID */
         UINT                m_uZorder;          /**< 窗口Zorder */
 

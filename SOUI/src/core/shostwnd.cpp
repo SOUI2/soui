@@ -64,7 +64,7 @@ void SHostWndAttr::Init()
 	m_hAppIconBig = (NULL);
 }
 
-const SStringW & SHostWndAttr::GetTrCtx() {
+const SStringW & SHostWndAttr::GetTrCtx() const{
 	return m_strTrCtx;
 }
 
@@ -1259,7 +1259,7 @@ BOOL SHostWnd::UnregisterTimelineHandler( ITimelineHandler *pHandler )
     return bRet;
 }
 
-const SStringW & SHostWnd::GetTranslatorContext()
+const SStringW & SHostWnd::GetTranslatorContext() const
 {
     return m_hostAttr.m_strTrCtx;
 }

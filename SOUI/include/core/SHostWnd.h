@@ -51,7 +51,7 @@ namespace SOUI
         
 		void Init();
         
-		virtual const SStringW & GetTrCtx();
+		virtual const SStringW & GetTrCtx() const;
 
 		CRect GetMaxInset(int nScale) const;
 
@@ -285,7 +285,7 @@ protected:// IContainer
 
     virtual HWND GetHostHwnd();
 
-    virtual const SStringW & GetTranslatorContext();
+    virtual const SStringW & GetTranslatorContext() const;
 
     virtual IRenderTarget * OnGetRenderTarget(const CRect & rc,DWORD gdcFlags);
 

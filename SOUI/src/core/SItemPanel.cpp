@@ -194,7 +194,7 @@ HWND SItemPanel::GetHostHwnd()
     return m_pFrmHost->GetContainer()->GetHostHwnd();
 }
 
-const SStringW & SItemPanel::GetTranslatorContext()
+const SStringW & SItemPanel::GetTranslatorContext() const
 {
     return m_pFrmHost->GetContainer()->GetTranslatorContext();
 }

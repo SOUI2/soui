@@ -674,7 +674,7 @@ namespace SOUI
 
 	SStringW SWindow::tr( const SStringW &strSrc )
 	{
-		return TR(strSrc,GetContainer()->GetTranslatorContext());
+		return TR(strSrc,GetTrCtx());
 	}
 
 	// Create SWindow from xml element
@@ -2752,9 +2752,12 @@ namespace SOUI
 		}
 	}
 
-	const SStringW & SWindow::GetTrCtx()
+	const SStringW & SWindow::GetTrCtx() const
 	{
-		return GetContainer()->GetTranslatorContext();	
+		if (m_strTrCtx.IsEmpty())
+			return GetContainer()->GetTranslatorContext();
+		else
+			return m_strTrCtx;
 	}
 
 	int SWindow::GetScale() const

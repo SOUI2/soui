@@ -54,7 +54,7 @@ namespace SOUI
 
         virtual HWND GetHostHwnd()=0;
 
-        virtual const SStringW & GetTranslatorContext()=0;
+        virtual const SStringW & GetTranslatorContext() const=0;
 
         virtual BOOL IsTranslucent() const =0;
         

@@ -1062,7 +1062,7 @@ namespace SOUI
 		}
 	}
 
-	const SStringW & SMenuEx::GetTranslatorContext()
+	const SStringW & SMenuEx::GetTranslatorContext() const
 	{
 		if (m_pParent != NULL)
 		{
