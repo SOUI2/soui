@@ -67,8 +67,8 @@ void SNotifyReceiver::OnTimer(UINT_PTR uID)
 {
 	if(uID==TIMERID_ASYNC)
 	{
-		m_pCallback->OnFireEvts();
 		KillTimer(uID);
+		m_pCallback->OnFireEvts();
 	}
 }
 
