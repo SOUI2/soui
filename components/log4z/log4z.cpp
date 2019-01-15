@@ -303,8 +303,7 @@ struct LogData
 {
     LoggerId _id;        //dest logger id
     int    _level;    //log level
-    time_t _time;        //create time
-    unsigned int _precise; //create time 
+    unsigned __int64 _time;        //create time
 	DWORD _pid;
 	DWORD _tid;
 	std::string _content; //content
@@ -1429,13 +1428,11 @@ bool LogerManager::pushLog(LoggerId id, int level, const char * filter, const ch
         now /=10;
         now -=11644473600000000ULL;
         now /=1000;
-        pLog->_time = now/1000;
-        pLog->_precise = (unsigned int)(now%1000);
+        pLog->_time = now;
 #else
         struct timeval tm;
         gettimeofday(&tm, NULL);
-        pLog->_time = tm.tv_sec;
-        pLog->_precise = tm.tv_usec/1000;
+        pLog->_time = tm.tv_sec*1000+tm.tv_usec/1000;
 #endif
     }
     
@@ -1758,14 +1755,14 @@ void LogerManager::run()
 			int nContentLen = 0;
 			//format log
 			{
-				tm tt = timeToTm(pLog->_time);
+				tm tt = timeToTm(pLog->_time/1000);
 				if (pLog->_file.empty() || !_loggers[pLog->_id]._fileLine)
 				{
 #if defined (WIN32) || defined(_WIN64)
 
 					int ret = _snprintf_s(pszBuf, LOG4Z_LOG_BUF_SIZE, _TRUNCATE, "pid=%u tid=%u %d-%02d-%02d %02d:%02d:%02d.%03d %s %s %s \"%s\"\r\n",
 						pLog->_pid, pLog->_tid,
-						tt.tm_year + 1900, tt.tm_mon + 1, tt.tm_mday, tt.tm_hour, tt.tm_min, tt.tm_sec, pLog->_precise,
+						tt.tm_year + 1900, tt.tm_mon + 1, tt.tm_mday, tt.tm_hour, tt.tm_min, tt.tm_sec, (int)(pLog->_time%1000),
 						LOG_STRING[pLog->_level], pLog->_moduleName.c_str(), pLog->_filter.c_str(), pLog->_content.c_str());
 					if (ret == -1)
 					{
@@ -1774,7 +1771,7 @@ void LogerManager::run()
 					nContentLen = ret;
 #else
 					int ret = snprintf(pszBuf, LOG4Z_LOG_BUF_SIZE, "%d-%02d-%02d %02d:%02d:%02d.%03d %s %s %s\r\n",
-						tt.tm_year + 1900, tt.tm_mon + 1, tt.tm_mday, tt.tm_hour, tt.tm_min, tt.tm_sec, pLog->_precise,
+						tt.tm_year + 1900, tt.tm_mon + 1, tt.tm_mday, tt.tm_hour, tt.tm_min, tt.tm_sec, (int)(pLog->_time%1000),
 						LOG_STRING[pLog->_level],pLog->_filter.c_str(), pLog->_content.c_str());
 					if (ret == -1)
 					{
@@ -1801,7 +1798,7 @@ void LogerManager::run()
 #if defined (WIN32) || defined(_WIN64)
 					int ret = _snprintf_s(pszBuf, LOG4Z_LOG_BUF_SIZE, _TRUNCATE, "pid=%u tid=%u %d-%02d-%02d %02d:%02d:%02d.%03d %s %s %s \"%s\" %s (%s):%d\r\n",
 						pLog->_pid, pLog->_tid,
-						tt.tm_year + 1900, tt.tm_mon + 1, tt.tm_mday, tt.tm_hour, tt.tm_min, tt.tm_sec, pLog->_precise,
+						tt.tm_year + 1900, tt.tm_mon + 1, tt.tm_mday, tt.tm_hour, tt.tm_min, tt.tm_sec, (int)(pLog->_time%1000),
 						LOG_STRING[pLog->_level], pLog->_moduleName.c_str(), pLog->_filter.c_str(), pLog->_content.c_str(), pLog->_func.c_str(), pNameBegin, pLog->_line);
 					if (ret == -1)
 					{
@@ -1810,7 +1807,7 @@ void LogerManager::run()
 					nContentLen = ret;
 #else
 					int ret = snprintf(pszBuf, LOG4Z_LOG_BUF_SIZE, "%d-%02d-%02d %02d:%02d:%02d.%03d %s %s %s (%s):%d %s\r\n",
-						tt.tm_year + 1900, tt.tm_mon + 1, tt.tm_mday, tt.tm_hour, tt.tm_min, tt.tm_sec, pLog->_precise,
+						tt.tm_year + 1900, tt.tm_mon + 1, tt.tm_mday, tt.tm_hour, tt.tm_min, tt.tm_sec, (int)(pLog->_time%1000),
 						LOG_STRING[pLog->_level], pLog->_filter.c_str(), pLog->_content.c_str(), pNameBegin, pLog->_line, pLog->_func.c_str());
 					if (ret == -1)
 					{
@@ -1830,7 +1827,7 @@ void LogerManager::run()
 
 			if(m_pListener)
 			{
-				m_pListener->onOutputLog(pLog->_level,pLog->_filter.c_str(),pLog->_content.c_str(),pLog->_content.length());
+				m_pListener->onOutputLog(pLog->_level,pLog->_filter.c_str(),pLog->_content.c_str(),pLog->_content.length(),pLog->_time);
 			}
 
             if (curLogger._display)

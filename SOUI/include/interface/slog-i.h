@@ -45,7 +45,7 @@ struct  ILog4zManager : public IObjRef
 
 	struct IOutputListener
 	{
-		virtual void onOutputLog(int level, const char * filter, const char * log, int nLogLen) = 0;
+		virtual void onOutputLog(int level, const char * filter, const char * log, int nLogLen,unsigned __int64 time_) = 0;
 	};
 
     virtual ~ILog4zManager(){};
