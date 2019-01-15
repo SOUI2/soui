@@ -87,6 +87,13 @@ SNotifyCenter::~SNotifyCenter(void)
 	m_pReceiver->DestroyWindow();
 	delete m_pReceiver;
 	m_pReceiver = NULL;
+
+	SPOSITION pos = m_ayncEvent.GetTailPosition();
+	while (pos)
+	{
+		EventArgs *e = m_ayncEvent.GetNext(pos);
+		e->Release();
+	}
 }
 
 void SNotifyCenter::FireEventSync( EventArgs *e )
@@ -127,14 +134,25 @@ void SNotifyCenter::OnFireEvent( EventArgs *e )
 
 void SNotifyCenter::OnFireEvts()
 {
-	SAutoLock lock(m_cs);
-	SPOSITION pos = m_ayncEvent.GetHeadPosition();
+	SList<EventArgs *> evts;
+	{
+		SAutoLock lock(m_cs);
+		SPOSITION pos = m_ayncEvent.GetHeadPosition();
+		while (pos)
+		{
+			EventArgs *e = m_ayncEvent.GetNext(pos);
+			evts.AddTail(e);
+		}
+		m_ayncEvent.RemoveAll();
+	}
+
+	SPOSITION pos = evts.GetHeadPosition();
 	while(pos)
 	{
-		EventArgs *e = m_ayncEvent.GetNext(pos);
+		EventArgs *e = evts.GetNext(pos);
 		OnFireEvent(e);
+		e->Release();
 	}
-	m_ayncEvent.RemoveAll();
 }
 
 
