@@ -1,14 +1,38 @@
 #pragma once
 #include "SDpiScale.h"
 #include <WinUser.h>
-#include "wtl.mini/msgcrack.h"
-
+#include <wtl.mini/msgcrack.h>
+#include <wtl.mini/souimisc.h>
+#pragma comment(lib,"version.lib")
 
 namespace SOUI{
 
-	class CDpiHelper
+	class SDpiHelper
 	{
 	public:
+		//获取一个PE文件的version
+		static BOOL PEVersion(LPCTSTR pszFileName, WORD &wMajor, WORD &wMinor, WORD & wVer3, WORD & wVer4)
+		{
+			DWORD dwResHandle;
+			void *pBuf;
+			BOOL bRet = FALSE;
+			DWORD dwVerInfoSize = GetFileVersionInfoSize(pszFileName, &dwResHandle);
+			if (!dwVerInfoSize) return FALSE;
+			pBuf = malloc(dwVerInfoSize);
+			GetFileVersionInfo(pszFileName, dwResHandle, dwVerInfoSize, pBuf);
+			UINT nVersionLen;
+			VS_FIXEDFILEINFO *pstFileVersion;
+			if (VerQueryValue(pBuf, _T("\\"), (void**)&pstFileVersion, &nVersionLen) && nVersionLen >= sizeof(VS_FIXEDFILEINFO))
+			{
+				wVer4 = LOWORD(pstFileVersion->dwFileVersionLS);
+				wVer3 = HIWORD(pstFileVersion->dwFileVersionLS);
+				wMinor = LOWORD(pstFileVersion->dwFileVersionMS);
+				wMajor = HIWORD(pstFileVersion->dwFileVersionMS);
+			}
+			free(pBuf);
+			return TRUE;
+		}
+
 		// 	//-------------------------------------------------------------------------
 		// 	// 函数    : GetNtVersionNumbers
 		// 	// 功能    : 调用RtlGetNtVersionNumbers获取系统版本信息
@@ -41,31 +65,7 @@ namespace SOUI{
 			return bRet;
 		}
 
-		static BOOL IsVerOrGreater(DWORD dwMajorVersion, DWORD dwMinorVersion, DWORD dwBuildNumber = 0)
-		{
-			OSVERSIONINFOEXW osvi = { 0 };
-			DWORDLONG dwlConditionMask = 0;
-			ZeroMemory(&osvi, sizeof(osvi));
-			osvi.dwOSVersionInfoSize = sizeof(osvi);
-			osvi.dwMajorVersion = dwMajorVersion;
-			osvi.dwMinorVersion = dwMinorVersion;
-			// 主版本号判断
-			VER_SET_CONDITION(dwlConditionMask, VER_MAJORVERSION, VER_GREATER);
-			if (::VerifyVersionInfo(&osvi, VER_MAJORVERSION, dwlConditionMask))
-				return TRUE;
-			// 次版本号判断
-			VER_SET_CONDITION(dwlConditionMask, VER_MAJORVERSION, VER_EQUAL);
-			VER_SET_CONDITION(dwlConditionMask, VER_MINORVERSION, VER_GREATER);
-			if (::VerifyVersionInfo(&osvi, VER_MAJORVERSION | VER_MINORVERSION, dwlConditionMask))
-				return TRUE;
-			//build num
-			VER_SET_CONDITION(dwlConditionMask, VER_MAJORVERSION, VER_EQUAL);
-			VER_SET_CONDITION(dwlConditionMask, VER_MINORVERSION, VER_EQUAL);
-			VER_SET_CONDITION(dwlConditionMask, VER_BUILDNUMBER, VER_GREATER_EQUAL);
-			return ::VerifyVersionInfo(&osvi, VER_MAJORVERSION | VER_MINORVERSION, dwlConditionMask);
-		}
 
-	public:
 		static int getScaleOld(HWND hWnd = NULL)
 		{
 			HDC screen = ::GetDC(hWnd);
@@ -74,37 +74,31 @@ namespace SOUI{
 			ReleaseDC(hWnd, screen);
 			return nScale;
 		}
-		//看了网吧的WIN7根本没有这个注册表项
-		static int getScaleFormReg()
+
+		static BOOL IsVerOrGreater(WORD wVers[4], WORD wMajor, WORD wMinor, WORD wSpBuild=0)
 		{
-			//HKEY_CURRENT_USER\Control Panel\Desktop\LogPixels
-			HKEY hKey;
-			LSTATUS ec = RegOpenKeyEx(HKEY_CURRENT_USER,
-				_T("(Control Panel\\Desktop)"),
-				0,
-				KEY_READ, &hKey);
-			if (ec == ERROR_SUCCESS)
-			{
-				DWORD dwType = REG_DWORD;
-				DWORD dwSize = sizeof(DWORD);
-				DWORD dpi;
-				if (ERROR_SUCCESS == RegQueryValueEx(hKey, _T("LogPixels"), 0, &dwType, (LPBYTE)&dpi, &dwSize))
-				{
+			if (wVers[0] < wMajor)
+				return FALSE;
+			if (wVers[0] > wMajor)
+				return TRUE;
+			if (wVers[1] < wMinor)
+				return FALSE;
+			if (wVers[1] > wMinor)
+				return TRUE;
 
-				}
-				RegCloseKey(hKey);
-			}
-			return 0;
+			return wVers[2] >= wSpBuild;
 		}
-
+	public:
 		static int getScale(HWND hWnd)
 		{
+			WORD wVers[4];
+			PEVersion(_T("ntdll.dll"), wVers[0], wVers[1], wVers[2], wVers[3]);
 			//win7
-			if (!IsVerOrGreater(6, 1, 7600))
+			if (!IsVerOrGreater(wVers,6,1,7600))
 				return 100;
 			int nScale = 100;
 			//For Win10 1607
-			if (IsVerOrGreater(10, 0, 14955))
+			if (IsVerOrGreater(wVers, 10, 0, 14955))
 			{
 				HMODULE hModule = LoadLibrary(L"User32.dll");
 				if (hModule)
@@ -121,7 +115,7 @@ namespace SOUI{
 				}
 			}
 			//for win 8.1 or later
-			else  if (IsVerOrGreater(6, 3))
+			else  if (IsVerOrGreater(wVers, 6, 3))
 			{
 				HMODULE hModule = LoadLibrary(_T("Shcore.dll"));
 				if (hModule)
@@ -152,7 +146,7 @@ namespace SOUI{
 			}
 			else
 			{
-				nScale = getScaleOld();
+				nScale = getScaleOld(hWnd);
 			}
 			return nScale;
 		}
