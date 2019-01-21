@@ -840,7 +840,7 @@ SScrollView::SScrollView()
 void SScrollView::OnSize(UINT nType,CSize size)
 {
     __super::OnSize(nType,size);
-	UpdateViewSize();
+	UpdateScrollBar();
 }
 
 void SScrollView::OnViewOriginChanged( CPoint ptOld,CPoint ptNew )
@@ -1012,7 +1012,6 @@ BOOL SScrollView::OnScroll(BOOL bVertical,UINT uCode,int nPos)
     return bRet;
 }
 
-
 void SScrollView::UpdateViewSize()
 {
 	CRect rcWnd = SWindow::GetClientRect();
@@ -1032,13 +1031,14 @@ void SScrollView::UpdateViewSize()
 	else
 		szView.cy = m_viewSize[1].toPixelSize(GetScale());
 
-	if (szView.cx == -1 || szView.cy == -1)
+	if (m_viewSize[0].isWrapContent() || m_viewSize[1].isWrapContent())
 	{
 		CSize szCalc = GetLayout()->MeasureChildren(this, szView.cx, szView.cy);
-		if (szView.cx == -1)
-			szView.cx = szCalc.cx;
-		if (szView.cy == -1)
-			szView.cy = szCalc.cy;
+		CRect rcPadding = GetStyle().GetPadding();
+		if (m_viewSize[0].isWrapContent())
+			szView.cx = szCalc.cx + rcPadding.left + rcPadding.right;
+		if (m_viewSize[1].isWrapContent())
+			szView.cy = szCalc.cy + rcPadding.top + rcPadding.bottom;
 	}
 
 	if (szView.cy > rcWnd.Height() && m_viewSize[0].isMatchParent())
@@ -1070,10 +1070,17 @@ HRESULT SScrollView::OnAttrViewSize(const SStringW & strValue,BOOL bLoading)
 CRect SScrollView::GetChildrenLayoutRect()
 {
 	CRect rcRet=__super::GetChildrenLayoutRect();
+	CRect rcPadding = GetStyle().GetPadding();
 	rcRet.OffsetRect(-m_ptOrigin);
-	rcRet.right=rcRet.left+m_szView.cx;
-	rcRet.bottom=rcRet.top+m_szView.cy;
+	rcRet.right=rcRet.left+m_szView.cx - rcPadding.left - rcPadding.right;
+	rcRet.bottom=rcRet.top+m_szView.cy -rcPadding.top - rcPadding.bottom;
 	return rcRet;
+}
+
+void SScrollView::UpdateChildrenPosition()
+{
+	UpdateViewSize();
+	__super::UpdateChildrenPosition();
 }
 
 

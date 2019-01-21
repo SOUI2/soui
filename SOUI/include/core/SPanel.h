@@ -205,6 +205,7 @@ namespace SOUI
 
         virtual void UpdateScrollBar();
 
+		virtual void UpdateChildrenPosition();
     protected:
     
 		void UpdateViewSize();
@@ -215,7 +216,6 @@ namespace SOUI
             ATTR_INT(L"origin-x", m_ptOrigin.x, FALSE)
             ATTR_INT(L"origin-y", m_ptOrigin.y, FALSE)
             ATTR_CUSTOM(L"viewSize",OnAttrViewSize)
-			ATTR_LAYOUTSIZE2(L"viewSize",m_viewSize,TRUE)
         SOUI_ATTRS_END()
 
         SOUI_MSG_MAP_BEGIN()
