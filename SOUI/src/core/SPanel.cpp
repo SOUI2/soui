@@ -910,6 +910,14 @@ void SScrollView::UpdateScrollBar()
     SWindow::GetClientRect(&rcClient);
 
     CSize size=rcClient.Size();
+
+	CSize backupSize=m_szView;
+	//view适应父窗口
+	if(m_szViewSetSize.cx==-2)
+		m_szView.cx=0;
+	if(m_szViewSetSize.cy==-2)
+		m_szView.cy=0;
+
     m_wBarVisible=SSB_NULL;    //关闭滚动条
 	CPoint ptOrigin = m_ptOrigin;//backup
 
@@ -983,6 +991,7 @@ void SScrollView::UpdateScrollBar()
         }
     }
 
+	m_szView=backupSize;
     SetScrollPos(TRUE,m_siVer.nPos,TRUE);
     SetScrollPos(FALSE,m_siHoz.nPos,TRUE);
 
@@ -1022,11 +1031,10 @@ BOOL SScrollView::OnScroll(BOOL bVertical,UINT uCode,int nPos)
 }
 
 HRESULT SScrollView::OnAttrViewSize(const SStringW & strValue,BOOL bLoading)
-{
-    CSize szView;
-    swscanf(strValue,L"%d,%d",&szView.cx,&szView.cy);
+{   
+    swscanf(strValue,L"%d,%d",&m_szViewSetSize.cx,&m_szViewSetSize.cy);
     
-    m_bAutoViewSize = (szView.cx<=0 || szView.cy<=0) ;
+    m_bAutoViewSize = (m_szViewSetSize.cx<=0 || m_szViewSetSize.cy<=0) ;
     
     if(m_bAutoViewSize)
     {
@@ -1039,10 +1047,10 @@ HRESULT SScrollView::OnAttrViewSize(const SStringW & strValue,BOOL bLoading)
     {
         if(bLoading)
         {
-            m_szView = szView;
+            m_szView = m_szViewSetSize;
         }else
         {
-            SetViewSize(szView);
+            SetViewSize(m_szViewSetSize);
         }
     }
     return S_FALSE;

@@ -224,6 +224,8 @@ namespace SOUI
         BOOL  m_bAutoViewSize;
         CSize m_szView;
         CPoint m_ptOrigin;
+		//保存view设置的尺寸
+		CSize m_szViewSetSize;
     };
 
 }//namespace SOUI
