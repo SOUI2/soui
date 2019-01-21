@@ -80,7 +80,7 @@ namespace SOUI
 
 		virtual ILayoutParam * CreateLayoutParam() const;
 
-		virtual CSize MeasureChildren(SWindow * pParent,int nWidth,int nHeight) const;
+		virtual CSize MeasureChildren(const SWindow * pParent,int nWidth,int nHeight) const;
 
 
 		SOUI_ATTRS_BEGIN()
@@ -94,7 +94,7 @@ namespace SOUI
 			ATTR_GRIDGRAVITY(L"gravity",m_GravityX=m_GravityY,TRUE)
 		SOUI_ATTRS_BREAK()
 	protected:
-		int CalcCells(SWindow *pParent) const;
+		int CalcCells(const SWindow *pParent) const;
 
 		int m_nCols;				/**<行数 */
 		int m_nRows;				/**<列数 */

@@ -198,7 +198,6 @@ namespace SOUI
     protected:
         virtual void OnViewSizeChanged(CSize szOld,CSize szNew);
         virtual void OnViewOriginChanged(CPoint ptOld,CPoint ptNew);
-		virtual void UpdateChildrenPosition();
     protected:
         virtual CRect GetChildrenLayoutRect();
 
@@ -206,24 +205,26 @@ namespace SOUI
 
         virtual void UpdateScrollBar();
 
-		
     protected:
     
+		void UpdateViewSize();
+
         HRESULT OnAttrViewSize(const SStringW & strValue,BOOL bLoading);
         
         SOUI_ATTRS_BEGIN()
             ATTR_INT(L"origin-x", m_ptOrigin.x, FALSE)
             ATTR_INT(L"origin-y", m_ptOrigin.y, FALSE)
             ATTR_CUSTOM(L"viewSize",OnAttrViewSize)
+			ATTR_LAYOUTSIZE2(L"viewSize",m_viewSize,TRUE)
         SOUI_ATTRS_END()
 
         SOUI_MSG_MAP_BEGIN()
             MSG_WM_SIZE(OnSize)
         SOUI_MSG_MAP_END()
     protected:
-        BOOL  m_bAutoViewSize;
-        CSize m_szView;
+		SLayoutSize m_viewSize[2];
         CPoint m_ptOrigin;
+		CSize  m_szView;
     };
 
 }//namespace SOUI

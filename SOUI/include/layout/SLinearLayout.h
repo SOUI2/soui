@@ -71,7 +71,7 @@ namespace SOUI
 
         virtual void LayoutChildren(SWindow * pParent);
         virtual ILayoutParam * CreateLayoutParam() const;
-		virtual CSize MeasureChildren(SWindow * pParent,int nWidth,int nHeight) const;
+		virtual CSize MeasureChildren(const SWindow * pParent,int nWidth,int nHeight) const;
 		virtual bool IsParamAcceptable(ILayoutParam *pLayoutParam) const;
 
         

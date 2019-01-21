@@ -196,7 +196,7 @@ namespace SOUI
 		void accNotifyEvent(DWORD dwEvt);
 	public:
 
-		ILayout * GetLayout(){
+		ILayout * GetLayout() const{
 			return m_pLayout;
 		}
 
@@ -229,7 +229,7 @@ namespace SOUI
         *
         * Describe  
         */
-		SWindow * GetNextLayoutChild(SWindow *pCurChild);
+		SWindow * GetNextLayoutChild(SWindow *pCurChild) const;
 
     public://SWindow状态相关方法
         /**

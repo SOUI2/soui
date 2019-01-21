@@ -1681,7 +1681,7 @@ namespace SOUI
 	}
 
 
-	SWindow * SWindow::GetNextLayoutChild(SWindow *pCurChild)
+	SWindow * SWindow::GetNextLayoutChild(SWindow *pCurChild) const
 	{
 		SWindow *pRet = NULL;
 		if(pCurChild == NULL)

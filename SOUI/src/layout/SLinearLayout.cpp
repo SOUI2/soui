@@ -367,7 +367,7 @@ namespace SOUI
     }
 
 	//nWidth,nHeight == -1:wrap_content
-	CSize SLinearLayout::MeasureChildren(SWindow * pParent,int nWidth,int nHeight) const
+	CSize SLinearLayout::MeasureChildren(const SWindow * pParent,int nWidth,int nHeight) const
 	{
 		CSize *pSize = new CSize [pParent->GetChildrenCount()];
 
