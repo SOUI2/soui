@@ -453,10 +453,16 @@ SImageWnd::~SImageWnd()
 void SImageWnd::OnPaint(IRenderTarget *pRT)
 {
     CRect rcWnd = GetWindowRect();
-
+	if (rcWnd.IsRectEmpty())
+		return;
 	if (m_bKeepAspect)
 	{
-		CSize szImg = m_pSkin->GetSkinSize();
+		CSize szImg;
+		if (m_pImg) szImg = m_pImg->Size();
+		else if(m_pSkin) szImg = m_pSkin->GetSkinSize();
+		if (szImg.cx == 0 || szImg.cy == 0)
+			return;
+
 		float fWndRatio = rcWnd.Width()*1.0f / rcWnd.Height();
 		float fImgRatio = szImg.cx*1.0f / szImg.cy;
 		if (fWndRatio > fImgRatio)
