@@ -1,5 +1,5 @@
 ﻿<include>
-  <scrollview pos="0,0,200,-0" viewSize="-1,-1" layout="vbox">
+  <scrollview pos="0,0,200,-0" viewSize="-2,-1" layout="vbox">
     <button name="group_listctrls" size="-2,30" padding="10,5,10,5" layout="hbox" gravity="center" drawFocusRect="0">
       <toggle skin="_skin.sys.tree.toggle" name="tgl_listctrls" toggled="1" msgTransparent="1"/>
       <text text="列表控件" font="adding:5,bold:1"/>

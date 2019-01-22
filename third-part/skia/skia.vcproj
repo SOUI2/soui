@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9,00"
 	Name="skia"
-	ProjectGUID="{FD0B837B-0C5D-3A8F-9E96-5726231B7211}"
+	ProjectGUID="{323CEBC1-B5DD-326E-9A02-497A1C1C6E93}"
 	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform
@@ -21,7 +21,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".,.,include\config,include\core,src\core,include\gpu,src\gpu,include\images,include\utils,include\utils\win,src\utils,include\ports,include/text,include\effects,src\sfnt,include\pathops,src\image,src\opts,src\lazy,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
-				AdditionalOptions="/MP -w34100 -w34189 -w44996"
+				AdditionalOptions="/MP"
 				AssemblerListingLocation="..\..\obj\release\skia\"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996,4244,4800,4100"
@@ -70,7 +70,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".,.,include\config,include\core,src\core,include\gpu,src\gpu,include\images,include\utils,include\utils\win,src\utils,include\ports,include/text,include\effects,src\sfnt,include\pathops,src\image,src\opts,src\lazy,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
-				AdditionalOptions="/MP -w34100 -w34189 -w44996"
+				AdditionalOptions="/MP"
 				AssemblerListingLocation="..\..\obj\debug\skia\"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996,4244,4800,4100"

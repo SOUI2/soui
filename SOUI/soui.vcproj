@@ -1,1149 +1,631 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="soui"
-	ProjectGUID="{3142EB88-0071-3141-8E39-42365457AF03}"
-	Keyword="Qt4VSv1.0"
-	TargetFrameworkVersion="0"
-	>
+	ProjectGUID="{E05A659B-B78E-34E7-9856-81AB1F4C3F01}"
+	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform
-			Name="Win32"
-		/>
+			Name="Win32" />
 	</Platforms>
-	<ToolFiles>
-	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="..\bin\"
-			IntermediateDirectory="..\obj\release\soui\"
-			ConfigurationType="2"
-			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				WarningLevel="0"
-				DefaultCharType="0"
-				EnableErrorChecks="1"
-			/>
+			ConfigurationType="2"
+			IntermediateDirectory="..\obj\release\soui\"
+			UseOfMfc="0">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				Optimization="1"
 				AdditionalIncludeDirectories=".,..\config,.,include,..\utilities\include,..\tools\mkspecs\win32-msvc2008"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,SOUI_EXPORTS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
-				GeneratePreprocessedFile="0"
-				ExceptionHandling="1"
-				RuntimeLibrary="0"
-				TreatWChar_tAsBuiltInType="true"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="include\souistd.h"
-				PrecompiledHeaderFile="$(IntDir)\soui.pch"
+				AdditionalOptions="/MP"
 				AssemblerListingLocation="..\obj\release\soui\"
-				ObjectFile="..\obj\release\soui\"
-				ProgramDataBaseFileName="$(IntDir)"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"
+				ExceptionHandling="1"
 				ForcedIncludeFiles="include\souistd.h"
-			/>
+				GeneratePreprocessedFile="0"
+				ObjectFile="..\obj\release\soui\"
+				Optimization ="1"
+				PrecompiledHeaderFile="$(IntDir)\soui.pch"
+				PrecompiledHeaderThrough="include\souistd.h"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,SOUI_EXPORTS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
+				ProgramDataBaseFileName="$(IntDir)"
+				RuntimeLibrary="0"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="true"
+				UsePrecompiledHeader="2"
+				WarningLevel="3" />
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,SOUI_EXPORTS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
 				AdditionalDependencies="utilities.lib"
-				OutputFile="$(OutDir)\soui.dll"
-				LinkIncremental="1"
-				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="..\bin"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile=""
-				SubSystem="2"
-				OptimizeReferences="2"
+				DataExecutionPrevention="true"
 				EnableCOMDATFolding="2"
+				GenerateDebugInformation="true"
+				IgnoreImportLibrary="true"
+				LinkIncremental="1"
 				LinkTimeCodeGeneration="0"
-				TargetMachine="1"
-			/>
+				OptimizeReferences="2"
+				OutputFile="$(OutDir)\soui.dll"
+				ProgramDatabaseFile=""
+				RandomizedBaseAddress="true"
+				SubSystem="2"
+				SuppressStartupBanner="true"
+				TargetMachine="1" />
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCManifestTool" />
 			<Tool
-				Name="VCManifestTool"
-			/>
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCPostBuildEventTool" />
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCPreBuildEventTool" />
 			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCPreLinkEventTool" />
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,SOUI_EXPORTS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST" />
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="..\bin\"
-			IntermediateDirectory="..\obj\debug\soui\"
-			ConfigurationType="2"
-			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				WarningLevel="0"
-				DefaultCharType="0"
-				EnableErrorChecks="1"
-			/>
+			ConfigurationType="2"
+			IntermediateDirectory="..\obj\debug\soui\"
+			UseOfMfc="0">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				Optimization="4"
 				AdditionalIncludeDirectories=".,..\config,.,include,..\utilities\include,..\tools\mkspecs\win32-msvc2008"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,SOUI_EXPORTS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
-				GeneratePreprocessedFile="0"
-				ExceptionHandling="1"
-				RuntimeLibrary="1"
-				TreatWChar_tAsBuiltInType="true"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="include\souistd.h"
-				PrecompiledHeaderFile="$(IntDir)\souid.pch"
+				AdditionalOptions="/MP"
 				AssemblerListingLocation="..\obj\debug\soui\"
-				ObjectFile="..\obj\debug\soui\"
-				ProgramDataBaseFileName="$(IntDir)"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"
+				ExceptionHandling="1"
 				ForcedIncludeFiles="include\souistd.h"
-			/>
+				GeneratePreprocessedFile="0"
+				ObjectFile="..\obj\debug\soui\"
+				Optimization ="4"
+				PrecompiledHeaderFile="$(IntDir)\souid.pch"
+				PrecompiledHeaderThrough="include\souistd.h"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,SOUI_EXPORTS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				ProgramDataBaseFileName="$(IntDir)"
+				RuntimeLibrary="1"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="true"
+				UsePrecompiledHeader="2"
+				WarningLevel="3" />
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,SOUI_EXPORTS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,_DEBUG"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
 				AdditionalDependencies="utilitiesd.lib"
-				OutputFile="$(OutDir)\souid.dll"
-				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="..\bin"
+				DataExecutionPrevention="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=""
-				SubSystem="2"
+				IgnoreImportLibrary="true"
 				LinkTimeCodeGeneration="0"
-				TargetMachine="1"
-			/>
+				OutputFile="$(OutDir)\souid.dll"
+				ProgramDatabaseFile=""
+				RandomizedBaseAddress="true"
+				SubSystem="2"
+				SuppressStartupBanner="true"
+				TargetMachine="1" />
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCManifestTool" />
 			<Tool
-				Name="VCManifestTool"
-			/>
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCPostBuildEventTool" />
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCPreBuildEventTool" />
 			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCPreLinkEventTool" />
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,SOUI_EXPORTS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,_DEBUG" />
 		</Configuration>
 	</Configurations>
-	<References>
-	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
-			>
-			<File
-				RelativePath="src\core\Accelerator.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\helper\AppDir.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\helper\DragWnd.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\event\EventSet.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\core\FocusManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\helper\MemDC.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\helper\MenuWndHook.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\event\NotifyCenter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\msaa\SAccProxyCmnCtrl.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\msaa\SAccProxyWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SActiveX.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\SApp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\activex\SAxContainer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\activex\SBStr.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SCalendar.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SCaption.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\core\scaret.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SCmnCtrl.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SComboBase.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SComboBox.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SComboView.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SDateTimePicker.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\helper\sdibhelper.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\res.mgr\SDpiAwareFont.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\helper\SDpiScale.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SDropDown.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\core\SDropTargetDispatcher.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\res.mgr\SFontPool.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\layout\SGridLayout.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SHeaderCtrl.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\core\SHostDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\core\shostwnd.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SHotKeyCtrl.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\core\SimpleWnd.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\animator\SInterpolatorImpl.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\core\SItemPanel.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\layout\SLayoutSize.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\layout\SLinearLayout.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SListbox.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SListCtrl.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SListView.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\helper\SListViewItemLocator.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\helper\smatrix.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SMcListView.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\helper\SMenu.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SMenuBar.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\helper\smenuex.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SMessageBox.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\core\SMsgLoop.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\res.mgr\SNamedValue.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\res.mgr\SObjDefAttr.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\core\SObjectFactory.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\layout\SouiLayout.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\core\SPanel.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SRealWnd.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\res.mgr\SResProvider.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\res.mgr\SResProviderMgr.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SRichEdit.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\helper\SScriptTimer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SScrollbar.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\core\SSkin.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\res.mgr\SSkinPool.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SSliderBar.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SSpinButtonCtrl.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\SSplitWnd.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\res.mgr\SStylePool.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\STabCtrl.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\STileView.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\helper\STileViewItemLocator.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\helper\STimerEx.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\helper\stooltip.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\STreeCtrl.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\control\STreeView.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\res.mgr\SUiDef.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\updatelayeredwindow\SUpdateLayeredWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\core\SWindowMgr.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\core\Swnd.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\core\SwndAccessible.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\core\SwndContainerImpl.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\helper\SwndFinder.cpp"
-				>
-			</File>
-			<File
-				RelativePath="src\core\SwndStyle.cpp"
-				>
-			</File>
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			<File
+				RelativePath="src\core\Accelerator.cpp" />
+			<File
+				RelativePath="src\helper\AppDir.cpp" />
+			<File
+				RelativePath="src\helper\DragWnd.cpp" />
+			<File
+				RelativePath="src\event\EventSet.cpp" />
+			<File
+				RelativePath="src\core\FocusManager.cpp" />
+			<File
+				RelativePath="src\helper\MemDC.cpp" />
+			<File
+				RelativePath="src\helper\MenuWndHook.cpp" />
+			<File
+				RelativePath="src\event\NotifyCenter.cpp" />
+			<File
+				RelativePath="src\msaa\SAccProxyCmnCtrl.cpp" />
+			<File
+				RelativePath="src\msaa\SAccProxyWindow.cpp" />
+			<File
+				RelativePath="src\control\SActiveX.cpp" />
+			<File
+				RelativePath="src\SApp.cpp" />
+			<File
+				RelativePath="src\activex\SAxContainer.cpp" />
+			<File
+				RelativePath="src\activex\SBStr.cpp" />
+			<File
+				RelativePath="src\control\SCalendar.cpp" />
+			<File
+				RelativePath="src\control\SCaption.cpp" />
+			<File
+				RelativePath="src\control\SCmnCtrl.cpp" />
+			<File
+				RelativePath="src\control\SComboBase.cpp" />
+			<File
+				RelativePath="src\control\SComboBox.cpp" />
+			<File
+				RelativePath="src\control\SComboView.cpp" />
+			<File
+				RelativePath="src\control\SDateTimePicker.cpp" />
+			<File
+				RelativePath="src\res.mgr\SDpiAwareFont.cpp" />
+			<File
+				RelativePath="src\control\SDropDown.cpp" />
+			<File
+				RelativePath="src\core\SDropTargetDispatcher.cpp" />
+			<File
+				RelativePath="src\res.mgr\SFontPool.cpp" />
+			<File
+				RelativePath="src\layout\SGridLayout.cpp" />
+			<File
+				RelativePath="src\control\SHeaderCtrl.cpp" />
+			<File
+				RelativePath="src\core\SHostDialog.cpp" />
+			<File
+				RelativePath="src\control\SHotKeyCtrl.cpp" />
+			<File
+				RelativePath="src\animator\SInterpolatorImpl.cpp" />
+			<File
+				RelativePath="src\core\SItemPanel.cpp" />
+			<File
+				RelativePath="src\layout\SLayoutSize.cpp" />
+			<File
+				RelativePath="src\layout\SLinearLayout.cpp" />
+			<File
+				RelativePath="src\control\SListCtrl.cpp" />
+			<File
+				RelativePath="src\control\SListView.cpp" />
+			<File
+				RelativePath="src\helper\SListViewItemLocator.cpp" />
+			<File
+				RelativePath="src\control\SListbox.cpp" />
+			<File
+				RelativePath="src\control\SMcListView.cpp" />
+			<File
+				RelativePath="src\helper\SMenu.cpp" />
+			<File
+				RelativePath="src\control\SMenuBar.cpp" />
+			<File
+				RelativePath="src\control\SMessageBox.cpp" />
+			<File
+				RelativePath="src\core\SMsgLoop.cpp" />
+			<File
+				RelativePath="src\res.mgr\SNamedValue.cpp" />
+			<File
+				RelativePath="src\res.mgr\SObjDefAttr.cpp" />
+			<File
+				RelativePath="src\core\SObjectFactory.cpp" />
+			<File
+				RelativePath="src\core\SPanel.cpp" />
+			<File
+				RelativePath="src\control\SRealWnd.cpp" />
+			<File
+				RelativePath="src\res.mgr\SResProvider.cpp" />
+			<File
+				RelativePath="src\res.mgr\SResProviderMgr.cpp" />
+			<File
+				RelativePath="src\control\SRichEdit.cpp" />
+			<File
+				RelativePath="src\helper\SScriptTimer.cpp" />
+			<File
+				RelativePath="src\control\SScrollbar.cpp" />
+			<File
+				RelativePath="src\core\SSkin.cpp" />
+			<File
+				RelativePath="src\res.mgr\SSkinPool.cpp" />
+			<File
+				RelativePath="src\control\SSliderBar.cpp" />
+			<File
+				RelativePath="src\control\SSpinButtonCtrl.cpp" />
+			<File
+				RelativePath="src\control\SSplitWnd.cpp" />
+			<File
+				RelativePath="src\res.mgr\SStylePool.cpp" />
+			<File
+				RelativePath="src\control\STabCtrl.cpp" />
+			<File
+				RelativePath="src\control\STileView.cpp" />
+			<File
+				RelativePath="src\helper\STileViewItemLocator.cpp" />
+			<File
+				RelativePath="src\helper\STimerEx.cpp" />
+			<File
+				RelativePath="src\control\STreeCtrl.cpp" />
+			<File
+				RelativePath="src\control\STreeView.cpp" />
+			<File
+				RelativePath="src\res.mgr\SUiDef.cpp" />
+			<File
+				RelativePath="src\updatelayeredwindow\SUpdateLayeredWindow.cpp" />
+			<File
+				RelativePath="src\core\SWindowMgr.cpp" />
+			<File
+				RelativePath="src\core\SimpleWnd.cpp" />
+			<File
+				RelativePath="src\layout\SouiLayout.cpp" />
+			<File
+				RelativePath="src\core\Swnd.cpp" />
+			<File
+				RelativePath="src\core\SwndAccessible.cpp" />
+			<File
+				RelativePath="src\core\SwndContainerImpl.cpp" />
+			<File
+				RelativePath="src\helper\SwndFinder.cpp" />
+			<File
+				RelativePath="src\core\SwndStyle.cpp" />
+			<File
+				RelativePath="src\core\scaret.cpp" />
+			<File
+				RelativePath="src\helper\sdibhelper.cpp" />
+			<File
+				RelativePath="src\helper\sdpiscale.cpp" />
+			<File
+				RelativePath="src\core\shostwnd.cpp" />
+			<File
+				RelativePath="src\helper\smatrix.cpp" />
+			<File
+				RelativePath="src\helper\smenuex.cpp" />
+			<File
+				RelativePath="src\helper\stooltip.cpp" />
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
-			<File
-				RelativePath="include\core\Accelerator.h"
-				>
-			</File>
-			<File
-				RelativePath="include\interface\adapter-i.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\AppDir.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\auto_reset.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\color.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\copylist.hpp"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\DragWnd.h"
-				>
-			</File>
-			<File
-				RelativePath="include\event\eventcrack.h"
-				>
-			</File>
-			<File
-				RelativePath="include\event\Events.h"
-				>
-			</File>
-			<File
-				RelativePath="include\event\EventSet.h"
-				>
-			</File>
-			<File
-				RelativePath="include\event\EventSubscriber.h"
-				>
-			</File>
-			<File
-				RelativePath="include\activex\flash10t.tlh"
-				>
-			</File>
-			<File
-				RelativePath="include\activex\flash10t.tli"
-				>
-			</File>
-			<File
-				RelativePath="include\core\FocusManager.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\hostmsg.h"
-				>
-			</File>
-			<File
-				RelativePath="include\interface\imgdecoder-i.h"
-				>
-			</File>
-			<File
-				RelativePath="include\interface\LvItemLocator-i.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\MemDC.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\MenuWndHook.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\mybuffer.h"
-				>
-			</File>
-			<File
-				RelativePath="include\event\NotifyCenter.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\RealWndHandler-i.h"
-				>
-			</File>
-			<File
-				RelativePath="include\interface\render-i.h"
-				>
-			</File>
-			<File
-				RelativePath="include\interface\SAccHelper-i.h"
-				>
-			</File>
-			<File
-				RelativePath="include\interface\SAccProxy-i.h"
-				>
-			</File>
-			<File
-				RelativePath="include\msaa\SAccProxyCmnCtrl.h"
-				>
-			</File>
-			<File
-				RelativePath="include\msaa\SAccProxyWindow.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SActiveX.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\SAdapterBase.h"
-				>
-			</File>
-			<File
-				RelativePath="include\SApp.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\SAttrCracker.h"
-				>
-			</File>
-			<File
-				RelativePath="include\interface\SAttrStorage-i.h"
-				>
-			</File>
-			<File
-				RelativePath="src\activex\SAxContainer.h"
-				>
-			</File>
-			<File
-				RelativePath="src\activex\SAxUtil.h"
-				>
-			</File>
-			<File
-				RelativePath="include\activex\SBStr.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SCalendar.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SCaption.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\scaret.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SCmnCtrl.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SComboBase.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SComboBox.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SComboView.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SDateTimePicker.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\SDefine.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\sdibhelper.h"
-				>
-			</File>
-			<File
-				RelativePath="include\res.mgr\SDpiAwareFont.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\helper\SDpiHelper.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\helper\SDpiScale.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SDropDown.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\SDropTargetDispatcher.h"
-				>
-			</File>
-			<File
-				RelativePath="include\res.mgr\SFontPool.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\SFunctor.hpp"
-				>
-			</File>
-			<File
-				RelativePath="include\layout\SGridLayout.h"
-				>
-			</File>
-			<File
-				RelativePath="include\layout\SGridLayoutParamStruct.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SHeaderCtrl.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\SHostDialog.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\SHostWnd.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SHotKeyCtrl.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\SimpleWnd.h"
-				>
-			</File>
-			<File
-				RelativePath="include\interface\SInterpolator-i.h"
-				>
-			</File>
-			<File
-				RelativePath="include\animator\SInterpolatorImpl.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\SItemPanel.h"
-				>
-			</File>
-			<File
-				RelativePath="include\interface\slayout-i.h"
-				>
-			</File>
-			<File
-				RelativePath="include\layout\SLayoutSize.h"
-				>
-			</File>
-			<File
-				RelativePath="include\layout\SLinearLayout.h"
-				>
-			</File>
-			<File
-				RelativePath="include\layout\SLinearLayoutParamStruct.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SListbox.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SListCtrl.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SListView.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\SListViewItemLocator.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\slog-def.h"
-				>
-			</File>
-			<File
-				RelativePath="include\interface\slog-i.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\slog.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\smatrix.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SMcListView.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\SMenu.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SMenuBar.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\smenuex.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SMessageBox.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\SMsgLoop.h"
-				>
-			</File>
-			<File
-				RelativePath="include\res.mgr\SNamedValue.h"
-				>
-			</File>
-			<File
-				RelativePath="include\res.mgr\SObjDefAttr.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\SObjectFactory.h"
-				>
-			</File>
-			<File
-				RelativePath="include\soui-version.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SouiCtrls.h"
-				>
-			</File>
-			<File
-				RelativePath="include\layout\SouiLayout.h"
-				>
-			</File>
-			<File
-				RelativePath="include\layout\SouiLayoutParamStruct.h"
-				>
-			</File>
-			<File
-				RelativePath="include\souistd.h"
-				>
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File
+				RelativePath="include\core\Accelerator.h" />
+			<File
+				RelativePath="include\helper\AppDir.h" />
+			<File
+				RelativePath="include\helper\DragWnd.h" />
+			<File
+				RelativePath="include\event\EventSet.h" />
+			<File
+				RelativePath="include\event\EventSubscriber.h" />
+			<File
+				RelativePath="include\event\Events.h" />
+			<File
+				RelativePath="include\core\FocusManager.h" />
+			<File
+				RelativePath="include\interface\LvItemLocator-i.h" />
+			<File
+				RelativePath="include\helper\MemDC.h" />
+			<File
+				RelativePath="include\helper\MenuWndHook.h" />
+			<File
+				RelativePath="include\event\NotifyCenter.h" />
+			<File
+				RelativePath="include\control\RealWndHandler-i.h" />
+			<File
+				RelativePath="include\interface\SAccHelper-i.h" />
+			<File
+				RelativePath="include\interface\SAccProxy-i.h" />
+			<File
+				RelativePath="include\msaa\SAccProxyCmnCtrl.h" />
+			<File
+				RelativePath="include\msaa\SAccProxyWindow.h" />
+			<File
+				RelativePath="include\control\SActiveX.h" />
+			<File
+				RelativePath="include\helper\SAdapterBase.h" />
+			<File
+				RelativePath="include\SApp.h" />
+			<File
+				RelativePath="include\helper\SAttrCracker.h" />
+			<File
+				RelativePath="include\interface\SAttrStorage-i.h" />
+			<File
+				RelativePath="src\activex\SAxContainer.h" />
+			<File
+				RelativePath="src\activex\SAxUtil.h" />
+			<File
+				RelativePath="include\activex\SBStr.h" />
+			<File
+				RelativePath="include\control\SCalendar.h" />
+			<File
+				RelativePath="include\control\SCaption.h" />
+			<File
+				RelativePath="include\control\SCmnCtrl.h" />
+			<File
+				RelativePath="include\control\SComboBase.h" />
+			<File
+				RelativePath="include\control\SComboBox.h" />
+			<File
+				RelativePath="include\control\SComboView.h" />
+			<File
+				RelativePath="include\control\SDateTimePicker.h" />
+			<File
+				RelativePath="include\core\SDefine.h" />
+			<File
+				RelativePath="include\res.mgr\SDpiAwareFont.h" />
+			<File
+				RelativePath="include\control\SDropDown.h" />
+			<File
+				RelativePath="include\core\SDropTargetDispatcher.h" />
+			<File
+				RelativePath="include\res.mgr\SFontPool.h" />
+			<File
+				RelativePath="include\helper\SFunctor.hpp" />
+			<File
+				RelativePath="include\layout\SGridLayout.h" />
+			<File
+				RelativePath="include\layout\SGridLayoutParamStruct.h" />
+			<File
+				RelativePath="include\control\SHeaderCtrl.h" />
+			<File
+				RelativePath="include\core\SHostDialog.h" />
+			<File
+				RelativePath="include\core\SHostWnd.h" />
+			<File
+				RelativePath="include\control\SHotKeyCtrl.h" />
+			<File
+				RelativePath="include\interface\SInterpolator-i.h" />
+			<File
+				RelativePath="include\animator\SInterpolatorImpl.h" />
+			<File
+				RelativePath="include\core\SItemPanel.h" />
+			<File
+				RelativePath="include\layout\SLayoutSize.h" />
+			<File
+				RelativePath="include\layout\SLinearLayout.h" />
+			<File
+				RelativePath="include\layout\SLinearLayoutParamStruct.h" />
+			<File
+				RelativePath="include\control\SListCtrl.h" />
+			<File
+				RelativePath="include\control\SListView.h" />
+			<File
+				RelativePath="include\helper\SListViewItemLocator.h" />
+			<File
+				RelativePath="include\control\SListbox.h" />
+			<File
+				RelativePath="include\control\SMcListView.h" />
+			<File
+				RelativePath="include\helper\SMenu.h" />
+			<File
+				RelativePath="include\control\SMenuBar.h" />
+			<File
+				RelativePath="include\control\SMessageBox.h" />
+			<File
+				RelativePath="include\core\SMsgLoop.h" />
+			<File
+				RelativePath="include\res.mgr\SNamedValue.h" />
+			<File
+				RelativePath="include\res.mgr\SObjDefAttr.h" />
+			<File
+				RelativePath="include\core\SObjectFactory.h" />
+			<File
+				RelativePath="include\core\SPanel.h" />
+			<File
+				RelativePath="include\interface\SPathEffect-i.h" />
+			<File
+				RelativePath="include\control\SRealWnd.h" />
+			<File
+				RelativePath="include\helper\SResID.h" />
+			<File
+				RelativePath="include\interface\SResProvider-i.h" />
+			<File
+				RelativePath="include\res.mgr\SResProvider.h" />
+			<File
+				RelativePath="include\res.mgr\SResProviderMgr.h" />
+			<File
+				RelativePath="include\control\SRichEdit.h" />
+			<File
+				RelativePath="include\interface\SScriptModule-i.h" />
+			<File
+				RelativePath="include\helper\SScriptTimer.h" />
+			<File
+				RelativePath="include\control\SScrollbar.h" />
+			<File
+				RelativePath="include\core\SSingleton.h" />
+			<File
+				RelativePath="include\core\SSingleton2.h" />
+			<File
+				RelativePath="include\core\SSingletonMap.h" />
+			<File
+				RelativePath="include\core\SSkin.h" />
+			<File
+				RelativePath="include\core\SSkinObjBase.h" />
+			<File
+				RelativePath="include\res.mgr\SSkinPool.h" />
+			<File
+				RelativePath="include\interface\SSkinobj-i.h" />
+			<File
+				RelativePath="include\control\SSliderBar.h" />
+			<File
+				RelativePath="include\control\SSpinButtonCtrl.h" />
+			<File
+				RelativePath="include\control\SSplitWnd.h" />
+			<File
+				RelativePath="include\res.mgr\SStylePool.h" />
+			<File
+				RelativePath="include\control\STabCtrl.h" />
+			<File
+				RelativePath="include\interface\STaskLoop-i.h" />
+			<File
+				RelativePath="include\control\STileView.h" />
+			<File
+				RelativePath="include\helper\STileViewItemLocator.h" />
+			<File
+				RelativePath="include\helper\STime.h" />
+			<File
+				RelativePath="include\helper\STimerEx.h" />
+			<File
+				RelativePath="include\helper\SToolTip.h" />
+			<File
+				RelativePath="include\interface\STranslator-i.h" />
+			<File
+				RelativePath="include\control\STreeCtrl.h" />
+			<File
+				RelativePath="include\control\STreeView.h" />
+			<File
+				RelativePath="include\res.mgr\SUiDef.h" />
+			<File
+				RelativePath="src\updatelayeredwindow\SUpdateLayeredWindow.h" />
+			<File
+				RelativePath="include\core\SWindowMgr.h" />
+			<File
+				RelativePath="include\core\SimpleWnd.h" />
+			<File
+				RelativePath="include\control\SouiCtrls.h" />
+			<File
+				RelativePath="include\layout\SouiLayout.h" />
+			<File
+				RelativePath="include\layout\SouiLayoutParamStruct.h" />
+			<File
+				RelativePath="include\helper\SplitString.h" />
+			<File
+				RelativePath="include\core\Swnd.h" />
+			<File
+				RelativePath="include\core\SwndAccessible.h" />
+			<File
+				RelativePath="include\core\SwndContainer-i.h" />
+			<File
+				RelativePath="include\core\SwndContainerImpl.h" />
+			<File
+				RelativePath="include\helper\SwndFinder.h" />
+			<File
+				RelativePath="include\helper\SwndMsgCracker.h" />
+			<File
+				RelativePath="include\core\SwndStyle.h" />
+			<File
+				RelativePath="include\interface\TvItemLocator-i.h" />
+			<File
+				RelativePath="include\interface\adapter-i.h" />
+			<File
+				RelativePath="include\helper\auto_reset.h" />
+			<File
+				RelativePath="include\helper\color.h" />
+			<File
+				RelativePath="include\helper\copylist.hpp" />
+			<File
+				RelativePath="include\event\eventcrack.h" />
+			<File
+				RelativePath="include\activex\flash10t.tlh" />
+			<File
+				RelativePath="include\activex\flash10t.tli" />
+			<File
+				RelativePath="include\core\hostmsg.h" />
+			<File
+				RelativePath="include\interface\imgdecoder-i.h" />
+			<File
+				RelativePath="include\helper\mybuffer.h" />
+			<File
+				RelativePath="include\interface\render-i.h" />
+			<File
+				RelativePath="include\core\scaret.h" />
+			<File
+				RelativePath="include\helper\sdibhelper.h" />
+			<File
+				RelativePath="include\helper\sdpihelper.hpp" />
+			<File
+				RelativePath="include\helper\sdpiscale.h" />
+			<File
+				RelativePath="include\interface\slayout-i.h" />
+			<File
+				RelativePath="include\helper\slog-def.h" />
+			<File
+				RelativePath="include\interface\slog-i.h" />
+			<File
+				RelativePath="include\helper\slog.h" />
+			<File
+				RelativePath="include\helper\smatrix.h" />
+			<File
+				RelativePath="include\helper\smenuex.h" />
+			<File
+				RelativePath="include\soui-version.h" />
+			<File
+				RelativePath="include\souistd.h">
 				<FileConfiguration
-					Name="Release|Win32"
-					>
+					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
+						CommandLine="echo /*-------------------------------------------------------------------- >include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * Precompiled header source file used by Visual Studio.NET to generate>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * the .pch file.>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo *>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * Due to issues with the dependencies checker within the IDE, it>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * sometimes fails to recompile the PCH file, if we force the IDE to>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * create the PCH file directly from the header file.>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo *>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * specified, and is used as the common stdafx.cpp. The file is only>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * generated when creating .vcproj project files, and is not used for>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * command line compilations by nmake.>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo *>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * WARNING: All changes made in this file will be lost.>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo --------------------------------------------------------------------*/>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo #include &quot;souistd.h&quot;>>include\souistd.h.cpp"
 						Description="Generating precompiled header source file &apos;include\souistd.h.cpp&apos; ..."
-						CommandLine="echo /*-------------------------------------------------------------------- &gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * Precompiled header source file used by Visual Studio.NET to generate&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * the .pch file.&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo *&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * Due to issues with the dependencies checker within the IDE, it&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * sometimes fails to recompile the PCH file, if we force the IDE to&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * create the PCH file directly from the header file.&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo *&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * specified, and is used as the common stdafx.cpp. The file is only&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * generated when creating .vcproj project files, and is not used for&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * command line compilations by nmake.&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo *&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * WARNING: All changes made in this file will be lost.&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo --------------------------------------------------------------------*/&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo #include &quot;souistd.h&quot;&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;"
-						Outputs="include\souistd.h.cpp"
-					/>
+						Outputs="include\souistd.h.cpp" />
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
+						CommandLine="echo /*-------------------------------------------------------------------- >include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * Precompiled header source file used by Visual Studio.NET to generate>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * the .pch file.>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo *>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * Due to issues with the dependencies checker within the IDE, it>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * sometimes fails to recompile the PCH file, if we force the IDE to>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * create the PCH file directly from the header file.>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo *>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * specified, and is used as the common stdafx.cpp. The file is only>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * generated when creating .vcproj project files, and is not used for>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * command line compilations by nmake.>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo *>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * WARNING: All changes made in this file will be lost.>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo --------------------------------------------------------------------*/>>include\souistd.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo #include &quot;souistd.h&quot;>>include\souistd.h.cpp"
 						Description="Generating precompiled header source file &apos;include\souistd.h.cpp&apos; ..."
-						CommandLine="echo /*-------------------------------------------------------------------- &gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * Precompiled header source file used by Visual Studio.NET to generate&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * the .pch file.&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo *&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * Due to issues with the dependencies checker within the IDE, it&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * sometimes fails to recompile the PCH file, if we force the IDE to&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * create the PCH file directly from the header file.&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo *&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * specified, and is used as the common stdafx.cpp. The file is only&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * generated when creating .vcproj project files, and is not used for&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * command line compilations by nmake.&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo *&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * WARNING: All changes made in this file will be lost.&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo --------------------------------------------------------------------*/&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo #include &quot;souistd.h&quot;&gt;&gt;include\souistd.h.cpp&#x0D;&#x0A;"
-						Outputs="include\souistd.h.cpp"
-					/>
+						Outputs="include\souistd.h.cpp" />
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="include\core\SPanel.h"
-				>
-			</File>
+				RelativePath="include\interface\stooltip-i.h" />
 			<File
-				RelativePath="include\interface\SPathEffect-i.h"
-				>
-			</File>
+				RelativePath="include\control\stree.hpp" />
 			<File
-				RelativePath="include\helper\SplitString.h"
-				>
-			</File>
+				RelativePath="include\helper\swndspy.h" />
 			<File
-				RelativePath="include\control\SRealWnd.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\SResID.h"
-				>
-			</File>
-			<File
-				RelativePath="include\interface\SResProvider-i.h"
-				>
-			</File>
-			<File
-				RelativePath="include\res.mgr\SResProvider.h"
-				>
-			</File>
-			<File
-				RelativePath="include\res.mgr\SResProviderMgr.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SRichEdit.h"
-				>
-			</File>
-			<File
-				RelativePath="include\interface\SScriptModule-i.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\SScriptTimer.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SScrollbar.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\SSingleton.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\SSingleton2.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\SSingletonMap.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\SSkin.h"
-				>
-			</File>
-			<File
-				RelativePath="include\interface\SSkinobj-i.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\SSkinObjBase.h"
-				>
-			</File>
-			<File
-				RelativePath="include\res.mgr\SSkinPool.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SSliderBar.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SSpinButtonCtrl.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\SSplitWnd.h"
-				>
-			</File>
-			<File
-				RelativePath="include\res.mgr\SStylePool.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\STabCtrl.h"
-				>
-			</File>
-			<File
-				RelativePath="include\interface\STaskLoop-i.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\STileView.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\STileViewItemLocator.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\STime.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\STimerEx.h"
-				>
-			</File>
-			<File
-				RelativePath="include\interface\stooltip-i.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\SToolTip.h"
-				>
-			</File>
-			<File
-				RelativePath="include\interface\STranslator-i.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\stree.hpp"
-				>
-			</File>
-			<File
-				RelativePath="include\control\STreeCtrl.h"
-				>
-			</File>
-			<File
-				RelativePath="include\control\STreeView.h"
-				>
-			</File>
-			<File
-				RelativePath="include\res.mgr\SUiDef.h"
-				>
-			</File>
-			<File
-				RelativePath="src\updatelayeredwindow\SUpdateLayeredWindow.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\SWindowMgr.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\Swnd.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\SwndAccessible.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\SwndContainer-i.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\SwndContainerImpl.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\SwndFinder.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\SwndMsgCracker.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\swndspy.h"
-				>
-			</File>
-			<File
-				RelativePath="include\core\SwndStyle.h"
-				>
-			</File>
-			<File
-				RelativePath="include\interface\TvItemLocator-i.h"
-				>
-			</File>
-			<File
-				RelativePath="include\helper\unknown.h"
-				>
-			</File>
+				RelativePath="include\helper\unknown.h" />
 		</Filter>
 		<Filter
 			Name="Generated Files"
 			Filter="cpp;c;cxx;moc;h;def;odl;idl;res;"
-			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
-			>
+			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}">
 			<File
-				RelativePath="include\souistd.h.cpp"
-				>
+				RelativePath="include\souistd.h.cpp">
 				<FileConfiguration
-					Name="Release|Win32"
-					>
+					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-						PrecompiledHeaderThrough="souistd.h"
 						ForcedIncludeFiles="$(NOINHERIT)"
-					/>
+						PrecompiledHeaderThrough="souistd.h"
+						UsePrecompiledHeader="1" />
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-						PrecompiledHeaderThrough="souistd.h"
 						ForcedIncludeFiles="$(NOINHERIT)"
-					/>
+						PrecompiledHeaderThrough="souistd.h"
+						UsePrecompiledHeader="1" />
 				</FileConfiguration>
 			</File>
 		</Filter>
 		<File
-			RelativePath="soui.rc"
-			>
-		</File>
+			RelativePath="soui.rc" />
 	</Files>
 	<Globals>
 	</Globals>

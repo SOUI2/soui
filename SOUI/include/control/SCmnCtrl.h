@@ -373,10 +373,13 @@ protected:
     ISkinObj *m_pSkin;  /**< ISkinObj对象 */
     CAutoRefPtr<IBitmap>    m_pImg;//使用代码设定的图片
     FilterLevel             m_fl;
+	bool m_bKeepAspect; /**< keep aspect ratio */
+
     SOUI_ATTRS_BEGIN()
         ATTR_SKIN(L"skin", m_pSkin, TRUE)
         ATTR_INT(L"iconIndex", m_iFrame, FALSE)
 		ATTR_INT(L"tile", m_iTile, TRUE)
+		ATTR_BOOL(L"keepAspect",m_bKeepAspect,TRUE)
     SOUI_ATTRS_END()
 
     SOUI_MSG_MAP_BEGIN()

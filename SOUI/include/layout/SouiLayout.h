@@ -83,7 +83,7 @@ namespace SOUI{
 
         virtual ILayoutParam * CreateLayoutParam() const;
 
-        virtual CSize MeasureChildren(SWindow * pParent,int nWidth,int nHeight) const;
+        virtual CSize MeasureChildren(const SWindow * pParent,int nWidth,int nHeight) const;
     protected:
         struct WndPos{
             SWindow *pWnd;

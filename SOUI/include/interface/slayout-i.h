@@ -39,6 +39,6 @@ namespace SOUI{
 		virtual bool IsParamAcceptable(ILayoutParam *pLayoutParam) const = 0;
         virtual void LayoutChildren(SWindow * pParent) = 0;
         virtual ILayoutParam * CreateLayoutParam() const = 0;
-		virtual CSize MeasureChildren(SWindow * pParent,int nWidth,int nHeight) const =0;
+		virtual CSize MeasureChildren(const SWindow * pParent,int nWidth,int nHeight) const =0;
     };
 }
