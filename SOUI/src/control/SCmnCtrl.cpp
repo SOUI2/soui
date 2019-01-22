@@ -436,6 +436,7 @@ SImageWnd::SImageWnd()
     , m_fl(kNone_FilterLevel)
     , m_bManaged(FALSE)
 	, m_iTile(0)
+	, m_bKeepAspect(0)
 {
     m_bMsgTransparent=TRUE;
 }
@@ -452,6 +453,24 @@ SImageWnd::~SImageWnd()
 void SImageWnd::OnPaint(IRenderTarget *pRT)
 {
     CRect rcWnd = GetWindowRect();
+
+	if (m_bKeepAspect)
+	{
+		CSize szImg = m_pSkin->GetSkinSize();
+		float fWndRatio = rcWnd.Width()*1.0f / rcWnd.Height();
+		float fImgRatio = szImg.cx*1.0f / szImg.cy;
+		if (fWndRatio > fImgRatio)
+		{
+			int nWid = rcWnd.Height()*fImgRatio;
+			rcWnd.DeflateRect((rcWnd.Width() - nWid) / 2, 0);
+		}
+		else
+		{
+			int nHei = rcWnd.Width() / fImgRatio;
+			rcWnd.DeflateRect(0,(rcWnd.Height() - nHei) / 2);
+		}
+	}
+
     if(m_pImg)
     {
         CRect rcImg(CPoint(0,0),m_pImg->Size());
@@ -461,9 +480,11 @@ void SImageWnd::OnPaint(IRenderTarget *pRT)
 			pRT->DrawBitmapEx(rcWnd, m_pImg, &rcImg, MAKELONG(EM_NULL, m_fl));
 		else if (m_iTile == 2)
 			pRT->DrawBitmapEx(rcWnd, m_pImg, &rcImg, MAKELONG(EM_TILE, m_fl));
-    }
-    else if (m_pSkin)
-        m_pSkin->Draw(pRT, rcWnd, m_iFrame);
+	}
+	else if (m_pSkin)
+	{
+		m_pSkin->Draw(pRT, rcWnd, m_iFrame);
+	}
 }
 
 BOOL SImageWnd::SetSkin(ISkinObj *pSkin,int iFrame/*=0*/,BOOL bAutoFree/*=TRUE*/)
