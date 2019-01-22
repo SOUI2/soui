@@ -467,12 +467,12 @@ void SImageWnd::OnPaint(IRenderTarget *pRT)
 		float fImgRatio = szImg.cx*1.0f / szImg.cy;
 		if (fWndRatio > fImgRatio)
 		{
-			int nWid = rcWnd.Height()*fImgRatio;
+			int nWid = (int)(rcWnd.Height()*fImgRatio);
 			rcWnd.DeflateRect((rcWnd.Width() - nWid) / 2, 0);
 		}
 		else
 		{
-			int nHei = rcWnd.Width() / fImgRatio;
+			int nHei = (int)(rcWnd.Width() / fImgRatio);
 			rcWnd.DeflateRect(0,(rcWnd.Height() - nHei) / 2);
 		}
 	}
