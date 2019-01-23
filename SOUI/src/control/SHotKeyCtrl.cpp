@@ -43,7 +43,8 @@ void SHotKeyCtrl::OnPaint( IRenderTarget * pRT )
     CRect rcClient;
     GetTextRect(&rcClient);
     SStringT str=GetWindowText();
-    pRT->DrawText(str,str.GetLength(),&rcClient,DT_LEFT|DT_VCENTER|DT_SINGLELINE);
+	UINT uAlign = GetTextAlign();
+    pRT->DrawText(str,str.GetLength(),&rcClient, uAlign);
     AfterPaint(pRT,painter);
 }
 
@@ -60,7 +61,24 @@ void SHotKeyCtrl::UpdateCaret()
     
     CRect rcClient;
     GetTextRect(&rcClient);
-    GetContainer()->OnSetCaretPos(rcClient.left+szTxt.cx,rcClient.top+(rcClient.Height()-szTxt.cy)/2);
+
+	UINT uAlign = GetTextAlign();
+	int x = rcClient.left + szTxt.cx;
+	int y = rcClient.top + (rcClient.Height() - szTxt.cy) / 2;
+	if (uAlign & DT_CENTER)
+		x += (rcClient.Width() - szTxt.cx) / 2;
+	else if (uAlign & DT_RIGHT)
+		x = rcClient.right;
+
+    GetContainer()->OnSetCaretPos(x,y);
+}
+
+UINT SHotKeyCtrl::GetTextAlign()
+{
+	UINT uAlign = SWindow::GetTextAlign();
+	uAlign &= ~DT_BOTTOM;
+	uAlign |= DT_VCENTER | DT_SINGLELINE;
+	return uAlign;
 }
 
 void SHotKeyCtrl::OnSetFocus(SWND wndOld)
