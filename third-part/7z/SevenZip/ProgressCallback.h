@@ -1,7 +1,7 @@
 #pragma once
 #include "CompressionFormat.h"
 #include <vector>
-namespace SevenZip
+namespace SevenZipEx
 {
     class ProgressCallback
     {

@@ -5,7 +5,7 @@
 #include "CompressionLevel.h"
 #include <vector>
 
-namespace SevenZip
+namespace SevenZipEx
 {
 	class SevenZipArchive
 	{

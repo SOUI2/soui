@@ -7,7 +7,7 @@
 #include "../CPP/Common/MyWindows.h"
 
 
-namespace SevenZip
+namespace SevenZipEx
 {
 namespace intl
 {

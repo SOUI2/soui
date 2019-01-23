@@ -2,7 +2,7 @@
 #include "FileSys.h"
 
 
-namespace SevenZip
+namespace SevenZipEx
 {
 namespace intl
 {

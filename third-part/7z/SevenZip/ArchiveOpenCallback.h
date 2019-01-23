@@ -5,7 +5,7 @@
 #include "../CPP/7zip/IPassword.h"
 #include "../CPP/Common/MyString.h"
 
-namespace SevenZip
+namespace SevenZipEx
 {
 namespace intl
 {

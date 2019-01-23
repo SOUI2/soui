@@ -5,7 +5,7 @@
 #include "SevenString.h"
 #include <windows.h>
 
-namespace SevenZip
+namespace SevenZipEx
 {
 	TString StrFmt( const TCHAR* format, ... );
 	TString GetWinErrMsg( const TString& contextMessage, DWORD lastError );

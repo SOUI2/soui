@@ -1,7 +1,7 @@
 #include "OutStreamWrapper.h"
 
 
-namespace SevenZip
+namespace SevenZipEx
 {
 namespace intl
 {

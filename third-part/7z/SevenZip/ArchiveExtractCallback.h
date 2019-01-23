@@ -10,7 +10,7 @@
 #include "CompressionFormat.h"
 #include "ProgressCallback.h"
 
-namespace SevenZip
+namespace SevenZipEx
 {
 namespace intl
 {

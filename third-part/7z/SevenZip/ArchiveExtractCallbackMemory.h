@@ -12,7 +12,7 @@
 #include "FileStream.h"
 #include "FileStreamMemory.h"
 
-namespace SevenZip
+namespace SevenZipEx
 {
 namespace intl
 {

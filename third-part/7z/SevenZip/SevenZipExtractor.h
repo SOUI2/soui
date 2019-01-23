@@ -4,7 +4,7 @@
 #include "ProgressCallback.h"
 #include "SevenZipPwd.h"
 
-namespace SevenZip
+namespace SevenZipEx
 {
 
     class SevenZipExtractor : public SevenZipArchive

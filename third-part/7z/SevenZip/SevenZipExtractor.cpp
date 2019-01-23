@@ -8,7 +8,7 @@
 #include "UsefulFunctions.h"
 
 
-namespace SevenZip
+namespace SevenZipEx
 {
 
     using namespace intl;
@@ -165,7 +165,7 @@ namespace SevenZip
         m_overwriteMode = mode;
     }
 
-    SevenZip::OverwriteModeEnum SevenZipExtractor::GetOverwriteMode()
+    SevenZipEx::OverwriteModeEnum SevenZipExtractor::GetOverwriteMode()
     {
         return m_overwriteMode;
     }

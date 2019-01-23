@@ -1,7 +1,7 @@
 #include "InStreamWrapper.h"
 
 
-namespace SevenZip
+namespace SevenZipEx
 {
 namespace intl
 {

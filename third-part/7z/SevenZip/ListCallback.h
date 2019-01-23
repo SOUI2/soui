@@ -2,7 +2,7 @@
 #include "CompressionFormat.h"
 
 
-namespace SevenZip
+namespace SevenZipEx
 {
 	class ListCallback
 	{

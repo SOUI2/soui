@@ -2,7 +2,7 @@
 #include "UsefulFunctions.h"
 
 
-namespace SevenZip
+namespace SevenZipEx
 {
 	SevenZipArchive::SevenZipArchive()
 		: m_compressionFormat(CompressionFormat::SevenZip)

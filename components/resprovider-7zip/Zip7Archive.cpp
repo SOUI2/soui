@@ -225,9 +225,9 @@ static std::string WString2String(const std::wstring &wstr)
 	BOOL CZipArchive::Open(LPCTSTR pszFileName,LPCSTR pszPassword)
 	{
 		std::wstring s_pwd = StdStringtoWideString(pszPassword);
-		SevenZip::SevenZipPassword pwd(true, s_pwd);
+		SevenZipEx::SevenZipPassword pwd(true, s_pwd);
 		CFileStream fileStreams;
-		SevenZip::SevenZipExtractorMemory decompress;
+		SevenZipEx::SevenZipExtractorMemory decompress;
 		decompress.SetArchivePath(pszFileName);
 		 
 		return (S_OK == decompress.ExtractArchive(m_fileStreams, NULL, &pwd));

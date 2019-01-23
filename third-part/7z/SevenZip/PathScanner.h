@@ -5,7 +5,7 @@
 #include "FileInfo.h"
 
 
-namespace SevenZip
+namespace SevenZipEx
 {
 namespace intl
 {

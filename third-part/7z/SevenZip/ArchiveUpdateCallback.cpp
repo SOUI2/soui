@@ -5,7 +5,7 @@
 #include "../CPP/Common/MyCom.h"
 #include "../CPP/Common/Defs.h"
 
-namespace SevenZip
+namespace SevenZipEx
 {
 namespace intl
 {

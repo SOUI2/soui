@@ -7,7 +7,7 @@
 #include "ArchiveOpenCallback.h"
 #include "InStreamWrapper.h"
 
-namespace SevenZip
+namespace SevenZipEx
 {
     using namespace intl;
 

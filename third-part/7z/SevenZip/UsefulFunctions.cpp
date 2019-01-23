@@ -91,7 +91,7 @@
 
 STDAPI CreateObject(const GUID *clsid, const GUID *iid, void **outObject);
 
-namespace SevenZip
+namespace SevenZipEx
 {
     using namespace intl;
 
@@ -102,7 +102,7 @@ namespace SevenZip
         switch (format)
         {
         case CompressionFormat::Zip:
-            guid = &SevenZip::intl::CLSID_CFormatZip;
+            guid = &SevenZipEx::intl::CLSID_CFormatZip;
             break;
 
 //         case CompressionFormat::GZip:
@@ -126,19 +126,19 @@ namespace SevenZip
 //             break;
 
         case CompressionFormat::Cab:
-            guid = &SevenZip::intl::CLSID_CFormatCab;
+            guid = &SevenZipEx::intl::CLSID_CFormatCab;
             break;
 
         case CompressionFormat::Lzma:
-            guid = &SevenZip::intl::CLSID_CFormatLzma;
+            guid = &SevenZipEx::intl::CLSID_CFormatLzma;
             break;
 
         case CompressionFormat::Lzma86:
-            guid = &SevenZip::intl::CLSID_CFormatLzma86;
+            guid = &SevenZipEx::intl::CLSID_CFormatLzma86;
             break;
 
         default:
-            guid = &SevenZip::intl::CLSID_CFormat7z;
+            guid = &SevenZipEx::intl::CLSID_CFormat7z;
             break;
         }
         return guid;

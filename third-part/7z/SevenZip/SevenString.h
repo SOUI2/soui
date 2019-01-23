@@ -5,7 +5,7 @@
 #include <string>
 
 
-namespace SevenZip
+namespace SevenZipEx
 {
 #ifdef _UNICODE
 	typedef std::wstring TString;

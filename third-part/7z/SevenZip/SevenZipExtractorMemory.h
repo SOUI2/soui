@@ -5,7 +5,7 @@
 #include "SevenZipPwd.h"
 #include "FileStream.h"
 
-namespace SevenZip
+namespace SevenZipEx
 {
 
     class SevenZipExtractorMemory : public SevenZipArchive

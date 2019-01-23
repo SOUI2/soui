@@ -3,7 +3,7 @@
 
 #include "SevenString.h"
 
-namespace SevenZip
+namespace SevenZipEx
 {
 
 	struct SevenZipPassword
