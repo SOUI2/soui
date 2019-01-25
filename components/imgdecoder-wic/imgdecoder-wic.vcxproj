@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{71CBA080-8E3D-312E-B9F9-5870F4B2FC90}</ProjectGuid>
+    <ProjectGuid>{A3E4E1D3-D4CB-351C-A7E2-DFDDEAD9E1D2}</ProjectGuid>
     <RootNamespace>imgdecoder-wic</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>

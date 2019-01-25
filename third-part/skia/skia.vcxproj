@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{757641DF-92E6-38D0-A386-20E177E42477}</ProjectGuid>
+    <ProjectGuid>{F763A887-31EF-332B-AFEA-04DD43622BFD}</ProjectGuid>
     <RootNamespace>skia</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>

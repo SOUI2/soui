@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D103C108-5176-3D00-BEB3-E1B91F3E187B}</ProjectGuid>
+    <ProjectGuid>{35CDDF7C-0FE4-3349-8D1A-75080C8043C7}</ProjectGuid>
     <RootNamespace>sqlite3</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>

@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D8F4087A-1899-3059-8DFE-6DE91D1766CC}</ProjectGuid>
+    <ProjectGuid>{EDD2A11C-3F1F-3C15-BF2D-85F010111782}</ProjectGuid>
     <RootNamespace>render-gdi</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>

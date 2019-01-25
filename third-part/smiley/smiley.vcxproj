@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1C1F85F5-2239-35EE-B0D1-9BA9E39CF456}</ProjectGuid>
+    <ProjectGuid>{294D7EA5-B040-3805-9815-20AEB9ABADFC}</ProjectGuid>
     <RootNamespace>smiley</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>

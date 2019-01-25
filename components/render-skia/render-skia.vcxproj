@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{C0F15248-9579-3042-A581-67485123016B}</ProjectGuid>
+    <ProjectGuid>{BC229D21-2A7F-362C-8522-EDE1842617AD}</ProjectGuid>
     <RootNamespace>render-skia</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>

@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{3FC1464D-EB84-34A5-826E-C324A63B2D05}</ProjectGuid>
+    <ProjectGuid>{F9733CF0-C9E0-38CD-81F9-AE1AB0B71272}</ProjectGuid>
     <RootNamespace>log4z</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>

@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{ABF72994-6B44-3679-851D-57B0EA987C8F}</ProjectGuid>
+    <ProjectGuid>{A36B181A-1ABB-305D-9D32-B289652D1172}</ProjectGuid>
     <RootNamespace>resprovider-7zip</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>

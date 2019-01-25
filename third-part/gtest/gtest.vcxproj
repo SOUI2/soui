@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{60F21962-729F-346A-ABFB-ED1B28E6BBCF}</ProjectGuid>
+    <ProjectGuid>{DBE52ECB-1632-3690-9EC7-4148F2CEF3EC}</ProjectGuid>
     <RootNamespace>gtest</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>

@@ -46,3 +46,26 @@ Ankh.NoLoad
 
 #Soui
 demos
+components/components.sln
+components/components.sln
+components/components.sln
+components/components.sln
+components/imgdecoder-gdip/imgdecoder-gdip.vcxproj
+components/imgdecoder-png/imgdecoder-png.vcxproj
+components/imgdecoder-stb/imgdecoder-stb.vcxproj
+components/imgdecoder-wic/imgdecoder-wic.vcxproj
+components/log4z/log4z.vcxproj
+components/render-gdi/render-gdi.vcxproj
+components/render-skia/render-skia.vcxproj
+components/resprovider-7zip/resprovider-7zip.vcxproj
+components/resprovider-zip/resprovider-zip.vcxproj
+components/ScriptModule-LUA/scriptmodule-lua.vcxproj
+components/TaskLoop/TaskLoop.vcxproj
+components/translator/translator.vcxproj
+demo/demo.vcxproj
+soui-sys-resource/soui-sys-resource.vcxproj
+SOUI/soui.vcxproj
+components/components.sln
+components/imgdecoder-gdip/imgdecoder-gdip.vcxproj
+SOUI/soui.vcxproj
+soui.sln

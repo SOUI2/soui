@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A965D178-5DBB-3227-B335-789C3AE55439}</ProjectGuid>
+    <ProjectGuid>{2016D1D3-1224-3A24-B577-F9FB8E968A74}</ProjectGuid>
     <RootNamespace>zlib</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>

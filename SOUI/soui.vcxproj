@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{C18FD3C8-5C22-3BF1-B96F-21D571D11A61}</ProjectGuid>
+    <ProjectGuid>{04FBA5DA-40F1-3D5E-A7AF-AA9A05D54F8B}</ProjectGuid>
     <RootNamespace>soui</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>

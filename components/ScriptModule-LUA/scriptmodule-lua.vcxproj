@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{AEEFC3E1-62C2-30F7-9C0F-0D0CA89E3338}</ProjectGuid>
+    <ProjectGuid>{A66F3F32-188A-38C4-A71F-1FAFD1AE77AB}</ProjectGuid>
     <RootNamespace>scriptmodule-lua</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>

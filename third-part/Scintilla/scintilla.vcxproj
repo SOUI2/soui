@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{5EC2BA1A-D954-38BF-9B61-EDE4D4A12F39}</ProjectGuid>
+    <ProjectGuid>{F8379A8B-76AF-3F6D-9F5E-4FB37EA71A0A}</ProjectGuid>
     <RootNamespace>scintilla</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>

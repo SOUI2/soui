@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{C4AE25FB-C917-3709-A1D6-8E255301FCA3}</ProjectGuid>
+    <ProjectGuid>{E7C4F2A4-E52B-372A-83FC-CF672EF70276}</ProjectGuid>
     <RootNamespace>mhook</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>

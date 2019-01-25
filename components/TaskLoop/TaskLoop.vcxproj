@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{198EED87-0337-3E9D-8DAB-85C95297C5CE}</ProjectGuid>
+    <ProjectGuid>{455E3704-BD0D-36F5-A801-567EFBC1F830}</ProjectGuid>
     <RootNamespace>TaskLoop</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>

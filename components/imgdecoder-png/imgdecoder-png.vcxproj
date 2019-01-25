@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{60D7A5BA-87EC-303B-B276-36BD2789DCB3}</ProjectGuid>
+    <ProjectGuid>{A71A5C2F-9F2D-376F-B48E-DA96F955911E}</ProjectGuid>
     <RootNamespace>imgdecoder-png</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>
