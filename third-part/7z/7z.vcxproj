@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6D85EC31-DE0F-3410-B49D-154D7CBE1B52}</ProjectGuid>
+    <RootNamespace>7z</RootNamespace>
+    <Keyword>Qt4VSv1.0</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;" Label="Configuration">
+    <PlatformToolSet>v120_xp</PlatformToolSet>
+    <OutputDirectory>..\..\bin\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <IntermediateDirectory>..\..\obj\release\7z\</IntermediateDirectory>
+    <PrimaryOutput>7z</PrimaryOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;" Label="Configuration">
+    <PlatformToolSet>v120_xp</PlatformToolSet>
+    <OutputDirectory>..\..\bin\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <IntermediateDirectory>..\..\obj\debug\7z\</IntermediateDirectory>
+    <PrimaryOutput>7zd</PrimaryOutput>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists(&apos;$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props&apos;)" />
+  </ImportGroup>
+  <ImportGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists(&apos;$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props&apos;)" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\..\bin\</OutDir>
+    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">..\..\obj\release\7z\</IntDir>
+    <TargetName Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">7z</TargetName>
+    <IgnoreImportLibrary Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</IgnoreImportLibrary>
+    <OutDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\..\bin\</OutDir>
+    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">..\..\obj\debug\7z\</IntDir>
+    <TargetName Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">7zd</TargetName>
+    <IgnoreImportLibrary Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</IgnoreImportLibrary>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.;.;..\..\config;..\..\tools\mkspecs\win32-msvc2013;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>..\..\obj\release\7z\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4100;4101;4102;4189;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ObjectFileName>..\..\obj\release\7z\</ObjectFileName>
+      <Optimization>MinSpace</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;EXTERNAL_CODECS;NO_REGISTRY;_7ZIP_LARGE_PAGES;_7ZIP_ST_9;QT_NO_DYNAMIC_CAST;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)\7z.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;EXTERNAL_CODECS;NO_REGISTRY;_7ZIP_LARGE_PAGES;_7ZIP_ST_9;QT_NO_DYNAMIC_CAST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.;.;..\..\config;..\..\tools\mkspecs\win32-msvc2013;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>..\..\obj\debug\7z\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4100;4101;4102;4189;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ObjectFileName>..\..\obj\debug\7z\</ObjectFileName>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;EXTERNAL_CODECS;NO_REGISTRY;_7ZIP_LARGE_PAGES;_7ZIP_ST_9;QT_NO_DYNAMIC_CAST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)\7zd.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;EXTERNAL_CODECS;NO_REGISTRY;_7ZIP_LARGE_PAGES;_7ZIP_ST_9;QT_NO_DYNAMIC_CAST;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="CPP\7zip\Crypto\7zAes.cpp" />
+    <ClCompile Include="C\7zBuf2.c" />
+    <ClCompile Include="CPP\7zip\Archive\7z\7zCompressionMode.cpp" />
+    <ClCompile Include="C\7zCrc.c" />
+    <ClCompile Include="CPP\7zip\Archive\7z\7zDecode.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\7z\7zEncode.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\7z\7zExtract.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\7z\7zFolderInStream.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\7z\7zHandler.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\7z\7zHandlerOut.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\7z\7zHeader.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\7z\7zIn.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\7z\7zOut.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\7z\7zProperties.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\7z\7zSpecStream.cpp" />
+    <ClCompile Include="C\7zStream.c" />
+    <ClCompile Include="CPP\7zip\Archive\7z\7zUpdate.cpp" />
+    <ClCompile Include="C\Aes.c" />
+    <ClCompile Include="C\Alloc.c" />
+    <ClCompile Include="CPP\7zip\Archive\ArchiveExports.cpp" />
+    <ClCompile Include="SevenZip\ArchiveExtractCallback.cpp" />
+    <ClCompile Include="SevenZip\ArchiveExtractCallbackMemory.cpp" />
+    <ClCompile Include="SevenZip\ArchiveOpenCallback.cpp" />
+    <ClCompile Include="SevenZip\ArchiveUpdateCallback.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\BZip2Crc.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\BZip2Decoder.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\BZip2Encoder.cpp" />
+    <ClCompile Include="C\Bcj2.c" />
+    <ClCompile Include="CPP\7zip\Compress\Bcj2Coder.cpp" />
+    <ClCompile Include="C\Bcj2Enc.c" />
+    <ClCompile Include="CPP\7zip\Compress\BcjCoder.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\BitlDecoder.cpp" />
+    <ClCompile Include="C\Blake2s.c" />
+    <ClCompile Include="SevenZip\BlobBuffer.cpp" />
+    <ClCompile Include="C\Bra.c" />
+    <ClCompile Include="C\Bra86.c" />
+    <ClCompile Include="C\BraIA64.c" />
+    <ClCompile Include="CPP\7zip\Compress\BranchMisc.cpp" />
+    <ClCompile Include="C\BwtSort.c" />
+    <ClCompile Include="CPP\Common\CRC.cpp" />
+    <ClCompile Include="CPP\7zip\Common\CWrappers.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Cab\CabBlockInStream.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Cab\CabHandler.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Cab\CabHeader.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Cab\CabIn.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Chm\ChmIn.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\CodecExports.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Common\CoderMixer2.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\CopyCoder.cpp" />
+    <ClCompile Include="C\CpuArch.c" />
+    <ClCompile Include="CPP\7zip\Common\CreateCoder.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\DeflateDecoder.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\DeflateEncoder.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\DeflateProps.cpp" />
+    <ClCompile Include="C\Delta.c" />
+    <ClCompile Include="CPP\7zip\Archive\DllExports2.cpp" />
+    <ClCompile Include="C\DllSecur.c" />
+    <ClCompile Include="CPP\7zip\Archive\Common\DummyOutStream.cpp" />
+    <ClCompile Include="CPP\Common\DynLimBuf.cpp" />
+    <ClCompile Include="SevenZip\ErpExcept.cpp" />
+    <ClCompile Include="CPP\Windows\FileDir.cpp" />
+    <ClCompile Include="CPP\Windows\FileFind.cpp" />
+    <ClCompile Include="CPP\Windows\FileIO.cpp" />
+    <ClCompile Include="CPP\Windows\FileName.cpp" />
+    <ClCompile Include="SevenZip\FileStream.cpp" />
+    <ClCompile Include="SevenZip\FileStreamMemory.cpp" />
+    <ClCompile Include="SevenZip\FileSys.cpp" />
+    <ClCompile Include="CPP\7zip\Common\FilterCoder.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Common\FindSignature.cpp" />
+    <ClCompile Include="SevenZip\GUIDs.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\HandlerCont.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Common\HandlerOut.cpp" />
+    <ClCompile Include="CPP\7zip\Crypto\HmacSha1.cpp" />
+    <ClCompile Include="CPP\7zip\Crypto\HmacSha256.cpp" />
+    <ClCompile Include="C\HuffEnc.c" />
+    <ClCompile Include="CPP\7zip\Compress\ImplodeDecoder.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\ImplodeHuffmanDecoder.cpp" />
+    <ClCompile Include="CPP\7zip\Common\InBuffer.cpp" />
+    <ClCompile Include="CPP\7zip\Common\InOutTempBuffer.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Common\InStreamWithCRC.cpp" />
+    <ClCompile Include="SevenZip\InStreamWrapper.cpp" />
+    <ClCompile Include="CPP\Common\IntToString.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Iso\IsoHandler.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Iso\IsoHeader.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Iso\IsoIn.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Common\ItemNameUtils.cpp" />
+    <ClCompile Include="CPP\7zip\Common\LimitedStreams.cpp" />
+    <ClCompile Include="C\LzFind.c" />
+    <ClCompile Include="C\LzFindMt.c" />
+    <ClCompile Include="CPP\7zip\Compress\LzOutWindow.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\LzhDecoder.cpp" />
+    <ClCompile Include="C\Lzma2Dec.c" />
+    <ClCompile Include="CPP\7zip\Compress\Lzma2Decoder.cpp" />
+    <ClCompile Include="C\Lzma2Enc.c" />
+    <ClCompile Include="CPP\7zip\Compress\Lzma2Encoder.cpp" />
+    <ClCompile Include="C\LzmaDec.c" />
+    <ClCompile Include="CPP\7zip\Compress\LzmaDecoder.cpp" />
+    <ClCompile Include="C\LzmaEnc.c" />
+    <ClCompile Include="CPP\7zip\Compress\LzmaEncoder.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\LzmsDecoder.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\LzxDecoder.cpp" />
+    <ClCompile Include="CPP\7zip\Common\MemBlocks.cpp" />
+    <ClCompile Include="CPP\7zip\Common\MethodId.cpp" />
+    <ClCompile Include="CPP\7zip\Common\MethodProps.cpp" />
+    <ClCompile Include="C\MtCoder.c" />
+    <ClCompile Include="CPP\7zip\Archive\Common\MultiStream.cpp" />
+    <ClCompile Include="CPP\7zip\Crypto\MyAes.cpp" />
+    <ClCompile Include="CPP\Common\MyMap.cpp" />
+    <ClCompile Include="CPP\Common\MyString.cpp" />
+    <ClCompile Include="CPP\Common\MyVector.cpp" />
+    <ClCompile Include="CPP\Common\MyWindows.cpp" />
+    <ClCompile Include="CPP\Common\MyXml.cpp" />
+    <ClCompile Include="CPP\Common\NewHandler.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Nsis\NsisDecode.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Nsis\NsisHandler.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Nsis\NsisIn.cpp" />
+    <ClCompile Include="CPP\7zip\Common\OffsetStream.cpp" />
+    <ClCompile Include="CPP\7zip\Common\OutBuffer.cpp" />
+    <ClCompile Include="CPP\7zip\Common\OutMemStream.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Common\OutStreamWithCRC.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Common\OutStreamWithSha1.cpp" />
+    <ClCompile Include="SevenZip\OutStreamWrapper.cpp" />
+    <ClCompile Include="SevenZip\OutStreamWrapperMemory.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Common\ParseProperties.cpp" />
+    <ClCompile Include="SevenZip\PathScanner.cpp" />
+    <ClCompile Include="CPP\7zip\Crypto\Pbkdf2HmacSha1.cpp" />
+    <ClCompile Include="C\Ppmd7.c" />
+    <ClCompile Include="C\Ppmd7Dec.c" />
+    <ClCompile Include="C\Ppmd7Enc.c" />
+    <ClCompile Include="C\Ppmd8.c" />
+    <ClCompile Include="C\Ppmd8Dec.c" />
+    <ClCompile Include="C\Ppmd8Enc.c" />
+    <ClCompile Include="CPP\7zip\Compress\PpmdDecoder.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\PpmdEncoder.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\PpmdZip.cpp" />
+    <ClCompile Include="CPP\7zip\Common\ProgressMt.cpp" />
+    <ClCompile Include="CPP\7zip\Common\ProgressUtils.cpp" />
+    <ClCompile Include="CPP\7zip\Common\PropId.cpp" />
+    <ClCompile Include="CPP\Windows\PropVariant.cpp" />
+    <ClCompile Include="SevenZip\PropVariant2.cpp" />
+    <ClCompile Include="CPP\Windows\PropVariantUtils.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\QuantumDecoder.cpp" />
+    <ClCompile Include="CPP\7zip\Crypto\RandGen.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\Rar1Decoder.cpp" />
+    <ClCompile Include="CPP\7zip\Crypto\Rar20Crypto.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\Rar2Decoder.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\Rar3Decoder.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\Rar3Vm.cpp" />
+    <ClCompile Include="CPP\7zip\Crypto\Rar5Aes.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\Rar5Decoder.cpp" />
+    <ClCompile Include="CPP\7zip\Crypto\RarAes.cpp" />
+    <ClCompile Include="SevenZip\SevenZipArchive.cpp" />
+    <ClCompile Include="SevenZip\SevenZipCompressor.cpp" />
+    <ClCompile Include="SevenZip\SevenZipException.cpp" />
+    <ClCompile Include="SevenZip\SevenZipExtractor.cpp" />
+    <ClCompile Include="SevenZip\SevenZipExtractorMemory.cpp" />
+    <ClCompile Include="SevenZip\SevenZipLister.cpp" />
+    <ClCompile Include="C\Sha1.c" />
+    <ClCompile Include="C\Sha256.c" />
+    <ClCompile Include="CPP\7zip\Compress\ShrinkDecoder.cpp" />
+    <ClCompile Include="C\Sort.c" />
+    <ClCompile Include="CPP\7zip\Common\StreamBinder.cpp" />
+    <ClCompile Include="CPP\7zip\Common\StreamObjects.cpp" />
+    <ClCompile Include="CPP\7zip\Common\StreamUtils.cpp" />
+    <ClCompile Include="CPP\Common\StringConvert.cpp" />
+    <ClCompile Include="CPP\Common\StringToInt.cpp" />
+    <ClCompile Include="CPP\Windows\Synchronization.cpp" />
+    <ClCompile Include="CPP\Windows\System.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Tar\TarHandler.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Tar\TarHandlerOut.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Tar\TarHeader.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Tar\TarIn.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Tar\TarOut.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Tar\TarUpdate.cpp" />
+    <ClCompile Include="C\Threads.c" />
+    <ClCompile Include="CPP\Windows\TimeUtils.cpp" />
+    <ClCompile Include="CPP\Common\UTFConvert.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Udf\UdfIn.cpp" />
+    <ClCompile Include="CPP\7zip\Common\UniqBlocks.cpp" />
+    <ClCompile Include="SevenZip\UsefulFunctions.cpp" />
+    <ClCompile Include="CPP\7zip\Common\VirtThread.cpp" />
+    <ClCompile Include="CPP\Common\Wildcard.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Wim\WimHandler.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Wim\WimHandlerOut.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Wim\WimIn.cpp" />
+    <ClCompile Include="CPP\7zip\Crypto\WzAes.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\XpressDecoder.cpp" />
+    <ClCompile Include="C\Xz.c" />
+    <ClCompile Include="C\XzCrc64.c" />
+    <ClCompile Include="C\XzCrc64Opt.c" />
+    <ClCompile Include="C\XzDec.c" />
+    <ClCompile Include="C\XzEnc.c" />
+    <ClCompile Include="C\XzIn.c" />
+    <ClCompile Include="CPP\7zip\Compress\ZDecoder.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Zip\ZipAddCommon.cpp" />
+    <ClCompile Include="CPP\7zip\Crypto\ZipCrypto.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Zip\ZipHandler.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Zip\ZipHandlerOut.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Zip\ZipIn.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Zip\ZipItem.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Zip\ZipOut.cpp" />
+    <ClCompile Include="CPP\7zip\Crypto\ZipStrong.cpp" />
+    <ClCompile Include="CPP\7zip\Archive\Zip\ZipUpdate.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\ZlibDecoder.cpp" />
+    <ClCompile Include="CPP\7zip\Compress\ZlibEncoder.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CPP\7zip\Crypto\7zAes.h" />
+    <ClInclude Include="CPP\7zip\Crypto\7zAesRegister.h" />
+    <ClInclude Include="CPP\7zip\Archive\7z\7zCompressionMode.h" />
+    <ClInclude Include="C\7zCrc.h" />
+    <ClInclude Include="CPP\7zip\Archive\7z\7zDecode.h" />
+    <ClInclude Include="CPP\7zip\Archive\7z\7zEncode.h" />
+    <ClInclude Include="CPP\7zip\Archive\7z\7zFolderInStream.h" />
+    <ClInclude Include="CPP\7zip\Archive\7z\7zHandler.h" />
+    <ClInclude Include="CPP\7zip\Archive\7z\7zHandlerOut.h" />
+    <ClInclude Include="CPP\7zip\Archive\7z\7zHeader.h" />
+    <ClInclude Include="CPP\7zip\Archive\7z\7zIn.h" />
+    <ClInclude Include="CPP\7zip\Archive\7z\7zItem.h" />
+    <ClInclude Include="CPP\7zip\Archive\7z\7zOut.h" />
+    <ClInclude Include="CPP\7zip\Archive\7z\7zProperties.h" />
+    <ClInclude Include="CPP\7zip\Archive\7z\7zSpecStream.h" />
+    <ClInclude Include="C\7zTypes.h" />
+    <ClInclude Include="CPP\7zip\Archive\7z\7zUpdate.h" />
+    <ClInclude Include="include\7zpp.h" />
+    <ClInclude Include="C\Aes.h" />
+    <ClInclude Include="C\Alloc.h" />
+    <ClInclude Include="SevenZip\ArchiveExtractCallback.h" />
+    <ClInclude Include="SevenZip\ArchiveExtractCallbackMemory.h" />
+    <ClInclude Include="SevenZip\ArchiveOpenCallback.h" />
+    <ClInclude Include="SevenZip\ArchiveUpdateCallback.h" />
+    <ClInclude Include="CPP\7zip\Compress\BZip2Const.h" />
+    <ClInclude Include="CPP\7zip\Compress\BZip2Crc.h" />
+    <ClInclude Include="CPP\7zip\Compress\BZip2Decoder.h" />
+    <ClInclude Include="CPP\7zip\Compress\BZip2Encoder.h" />
+    <ClInclude Include="C\Bcj2.h" />
+    <ClInclude Include="CPP\7zip\Compress\Bcj2Coder.h" />
+    <ClInclude Include="CPP\7zip\Compress\BcjCoder.h" />
+    <ClInclude Include="CPP\7zip\Compress\BitlDecoder.h" />
+    <ClInclude Include="CPP\7zip\Compress\BitlEncoder.h" />
+    <ClInclude Include="CPP\7zip\Compress\BitmDecoder.h" />
+    <ClInclude Include="CPP\7zip\Compress\BitmEncoder.h" />
+    <ClInclude Include="C\Blake2.h" />
+    <ClInclude Include="SevenZip\BlobBuffer.h" />
+    <ClInclude Include="C\Bra.h" />
+    <ClInclude Include="CPP\7zip\Compress\BranchMisc.h" />
+    <ClInclude Include="C\BwtSort.h" />
+    <ClInclude Include="CPP\7zip\Common\CWrappers.h" />
+    <ClInclude Include="CPP\7zip\Archive\Cab\CabBlockInStream.h" />
+    <ClInclude Include="CPP\7zip\Archive\Cab\CabHandler.h" />
+    <ClInclude Include="CPP\7zip\Archive\Cab\CabHeader.h" />
+    <ClInclude Include="CPP\7zip\Archive\Cab\CabIn.h" />
+    <ClInclude Include="CPP\7zip\Archive\Cab\CabItem.h" />
+    <ClInclude Include="CPP\7zip\Archive\Chm\ChmHandler.h" />
+    <ClInclude Include="CPP\7zip\Archive\Chm\ChmIn.h" />
+    <ClInclude Include="CPP\7zip\Archive\Common\CoderMixer2.h" />
+    <ClInclude Include="CPP\Common\Common.h" />
+    <ClInclude Include="C\Compiler.h" />
+    <ClInclude Include="SevenZip\CompressionFormat.h" />
+    <ClInclude Include="SevenZip\CompressionLevel.h" />
+    <ClInclude Include="CPP\7zip\Compress\CopyCoder.h" />
+    <ClInclude Include="C\CpuArch.h" />
+    <ClInclude Include="CPP\7zip\Common\CreateCoder.h" />
+    <ClInclude Include="CPP\7zip\Compress\DeflateConst.h" />
+    <ClInclude Include="CPP\7zip\Compress\DeflateDecoder.h" />
+    <ClInclude Include="CPP\7zip\Compress\DeflateEncoder.h" />
+    <ClInclude Include="CPP\7zip\Archive\DeflateProps.h" />
+    <ClInclude Include="CPP\Common\Defs.h" />
+    <ClInclude Include="CPP\Windows\Defs.h" />
+    <ClInclude Include="C\Delta.h" />
+    <ClInclude Include="C\DllSecur.h" />
+    <ClInclude Include="CPP\7zip\Archive\Common\DummyOutStream.h" />
+    <ClInclude Include="CPP\Common\DynLimBuf.h" />
+    <ClInclude Include="CPP\Common\DynamicBuffer.h" />
+    <ClInclude Include="SevenZip\Enum.h" />
+    <ClInclude Include="SevenZip\ErpExcept.h" />
+    <ClInclude Include="CPP\Windows\FileDir.h" />
+    <ClInclude Include="CPP\Windows\FileFind.h" />
+    <ClInclude Include="CPP\Windows\FileIO.h" />
+    <ClInclude Include="SevenZip\FileInfo.h" />
+    <ClInclude Include="CPP\Windows\FileName.h" />
+    <ClInclude Include="SevenZip\FileStream.h" />
+    <ClInclude Include="SevenZip\FileStreamMemory.h" />
+    <ClInclude Include="SevenZip\FileSys.h" />
+    <ClInclude Include="CPP\7zip\Common\FilterCoder.h" />
+    <ClInclude Include="CPP\7zip\Archive\Common\FindSignature.h" />
+    <ClInclude Include="SevenZip\GUIDs.h" />
+    <ClInclude Include="CPP\7zip\Archive\HandlerCont.h" />
+    <ClInclude Include="CPP\7zip\Crypto\HmacSha1.h" />
+    <ClInclude Include="CPP\7zip\Crypto\HmacSha256.h" />
+    <ClInclude Include="C\HuffEnc.h" />
+    <ClInclude Include="CPP\7zip\Compress\HuffmanDecoder.h" />
+    <ClInclude Include="CPP\7zip\Archive\IArchive.h" />
+    <ClInclude Include="CPP\7zip\ICoder.h" />
+    <ClInclude Include="CPP\7zip\IDecl.h" />
+    <ClInclude Include="CPP\7zip\IPassword.h" />
+    <ClInclude Include="CPP\7zip\IProgress.h" />
+    <ClInclude Include="CPP\7zip\IStream.h" />
+    <ClInclude Include="CPP\7zip\Compress\ImplodeDecoder.h" />
+    <ClInclude Include="CPP\7zip\Compress\ImplodeHuffmanDecoder.h" />
+    <ClInclude Include="CPP\7zip\Common\InBuffer.h" />
+    <ClInclude Include="CPP\7zip\Common\InOutTempBuffer.h" />
+    <ClInclude Include="CPP\7zip\Archive\Common\InStreamWithCRC.h" />
+    <ClInclude Include="SevenZip\InStreamWrapper.h" />
+    <ClInclude Include="CPP\Common\IntToString.h" />
+    <ClInclude Include="CPP\7zip\Archive\Iso\IsoHandler.h" />
+    <ClInclude Include="CPP\7zip\Archive\Iso\IsoHeader.h" />
+    <ClInclude Include="CPP\7zip\Archive\Iso\IsoIn.h" />
+    <ClInclude Include="CPP\7zip\Archive\Iso\IsoItem.h" />
+    <ClInclude Include="CPP\7zip\Archive\Common\ItemNameUtils.h" />
+    <ClInclude Include="CPP\7zip\Common\LimitedStreams.h" />
+    <ClInclude Include="SevenZip\ListCallback.h" />
+    <ClInclude Include="C\LzFind.h" />
+    <ClInclude Include="C\LzFindMt.h" />
+    <ClInclude Include="C\LzHash.h" />
+    <ClInclude Include="CPP\7zip\Compress\LzOutWindow.h" />
+    <ClInclude Include="CPP\7zip\Compress\LzhDecoder.h" />
+    <ClInclude Include="C\Lzma2Dec.h" />
+    <ClInclude Include="CPP\7zip\Compress\Lzma2Decoder.h" />
+    <ClInclude Include="C\Lzma2Enc.h" />
+    <ClInclude Include="CPP\7zip\Compress\Lzma2Encoder.h" />
+    <ClInclude Include="C\LzmaDec.h" />
+    <ClInclude Include="CPP\7zip\Compress\LzmaDecoder.h" />
+    <ClInclude Include="C\LzmaEnc.h" />
+    <ClInclude Include="CPP\7zip\Compress\LzmaEncoder.h" />
+    <ClInclude Include="CPP\7zip\Compress\LzmsDecoder.h" />
+    <ClInclude Include="CPP\7zip\Compress\Lzx.h" />
+    <ClInclude Include="CPP\7zip\Compress\LzxDecoder.h" />
+    <ClInclude Include="CPP\7zip\Common\MemBlocks.h" />
+    <ClInclude Include="CPP\7zip\Common\MethodId.h" />
+    <ClInclude Include="CPP\7zip\Common\MethodProps.h" />
+    <ClInclude Include="C\MtCoder.h" />
+    <ClInclude Include="CPP\7zip\Compress\Mtf8.h" />
+    <ClInclude Include="CPP\7zip\Archive\Common\MultiStream.h" />
+    <ClInclude Include="CPP\7zip\Crypto\MyAes.h" />
+    <ClInclude Include="CPP\Common\MyBuffer.h" />
+    <ClInclude Include="CPP\Common\MyCom.h" />
+    <ClInclude Include="CPP\Common\MyException.h" />
+    <ClInclude Include="CPP\Common\MyInitGuid.h" />
+    <ClInclude Include="CPP\Common\MyLinux.h" />
+    <ClInclude Include="CPP\Common\MyMap.h" />
+    <ClInclude Include="CPP\Common\MyString.h" />
+    <ClInclude Include="CPP\Common\MyTypes.h" />
+    <ClInclude Include="CPP\Common\MyUnknown.h" />
+    <ClInclude Include="CPP\Common\MyVector.h" />
+    <ClInclude Include="CPP\Common\MyWindows.h" />
+    <ClInclude Include="CPP\Common\MyXml.h" />
+    <ClInclude Include="CPP\Common\NewHandler.h" />
+    <ClInclude Include="CPP\7zip\Archive\Nsis\NsisDecode.h" />
+    <ClInclude Include="CPP\7zip\Archive\Nsis\NsisHandler.h" />
+    <ClInclude Include="CPP\7zip\Archive\Nsis\NsisIn.h" />
+    <ClInclude Include="CPP\7zip\Common\OffsetStream.h" />
+    <ClInclude Include="CPP\7zip\Common\OutBuffer.h" />
+    <ClInclude Include="CPP\7zip\Common\OutMemStream.h" />
+    <ClInclude Include="CPP\7zip\Archive\Common\OutStreamWithCRC.h" />
+    <ClInclude Include="CPP\7zip\Archive\Common\OutStreamWithSha1.h" />
+    <ClInclude Include="SevenZip\OutStreamWrapper.h" />
+    <ClInclude Include="SevenZip\OutStreamWrapperMemory.h" />
+    <ClInclude Include="CPP\7zip\Archive\Common\ParseProperties.h" />
+    <ClInclude Include="SevenZip\PathScanner.h" />
+    <ClInclude Include="CPP\7zip\Crypto\Pbkdf2HmacSha1.h" />
+    <ClInclude Include="C\Ppmd.h" />
+    <ClInclude Include="C\Ppmd7.h" />
+    <ClInclude Include="C\Ppmd8.h" />
+    <ClInclude Include="CPP\7zip\Compress\PpmdDecoder.h" />
+    <ClInclude Include="CPP\7zip\Compress\PpmdEncoder.h" />
+    <ClInclude Include="CPP\7zip\Compress\PpmdZip.h" />
+    <ClInclude Include="C\Precomp.h" />
+    <ClInclude Include="SevenZip\ProgressCallback.h" />
+    <ClInclude Include="CPP\7zip\Common\ProgressMt.h" />
+    <ClInclude Include="CPP\7zip\Common\ProgressUtils.h" />
+    <ClInclude Include="CPP\7zip\PropID.h" />
+    <ClInclude Include="CPP\Windows\PropVariant.h" />
+    <ClInclude Include="SevenZip\PropVariant2.h" />
+    <ClInclude Include="CPP\Windows\PropVariantUtils.h" />
+    <ClInclude Include="CPP\7zip\Compress\QuantumDecoder.h" />
+    <ClInclude Include="CPP\7zip\Crypto\RandGen.h" />
+    <ClInclude Include="CPP\7zip\Compress\Rar1Decoder.h" />
+    <ClInclude Include="CPP\7zip\Crypto\Rar20Crypto.h" />
+    <ClInclude Include="CPP\7zip\Compress\Rar2Decoder.h" />
+    <ClInclude Include="CPP\7zip\Compress\Rar3Decoder.h" />
+    <ClInclude Include="CPP\7zip\Compress\Rar3Vm.h" />
+    <ClInclude Include="CPP\7zip\Crypto\Rar5Aes.h" />
+    <ClInclude Include="CPP\7zip\Compress\Rar5Decoder.h" />
+    <ClInclude Include="CPP\7zip\Archive\Rar\Rar5Handler.h" />
+    <ClInclude Include="CPP\7zip\Crypto\RarAes.h" />
+    <ClInclude Include="CPP\7zip\Archive\Rar\RarHandler.h" />
+    <ClInclude Include="CPP\7zip\Archive\Rar\RarHeader.h" />
+    <ClInclude Include="CPP\7zip\Archive\Rar\RarItem.h" />
+    <ClInclude Include="CPP\7zip\Archive\Rar\RarVol.h" />
+    <ClInclude Include="CPP\7zip\Common\RegisterArc.h" />
+    <ClInclude Include="CPP\7zip\Common\RegisterCodec.h" />
+    <ClInclude Include="C\RotateDefs.h" />
+    <ClInclude Include="SevenZip\SevenString.h" />
+    <ClInclude Include="SevenZip\SevenZipArchive.h" />
+    <ClInclude Include="SevenZip\SevenZipCompressor.h" />
+    <ClInclude Include="SevenZip\SevenZipException.h" />
+    <ClInclude Include="SevenZip\SevenZipExtractor.h" />
+    <ClInclude Include="SevenZip\SevenZipExtractorMemory.h" />
+    <ClInclude Include="SevenZip\SevenZipLister.h" />
+    <ClInclude Include="C\Sha1.h" />
+    <ClInclude Include="CPP\7zip\Crypto\Sha1Cls.h" />
+    <ClInclude Include="C\Sha256.h" />
+    <ClInclude Include="CPP\7zip\Compress\ShrinkDecoder.h" />
+    <ClInclude Include="C\Sort.h" />
+    <ClInclude Include="CPP\7zip\Common\StreamBinder.h" />
+    <ClInclude Include="CPP\7zip\Common\StreamObjects.h" />
+    <ClInclude Include="CPP\7zip\Common\StreamUtils.h" />
+    <ClInclude Include="CPP\Common\StringConvert.h" />
+    <ClInclude Include="CPP\Common\StringToInt.h" />
+    <ClInclude Include="CPP\Windows\Synchronization.h" />
+    <ClInclude Include="CPP\Windows\System.h" />
+    <ClInclude Include="CPP\7zip\Archive\Tar\TarHandler.h" />
+    <ClInclude Include="CPP\7zip\Archive\Tar\TarHeader.h" />
+    <ClInclude Include="CPP\7zip\Archive\Tar\TarIn.h" />
+    <ClInclude Include="CPP\7zip\Archive\Tar\TarItem.h" />
+    <ClInclude Include="CPP\7zip\Archive\Tar\TarOut.h" />
+    <ClInclude Include="CPP\7zip\Archive\Tar\TarUpdate.h" />
+    <ClInclude Include="CPP\Windows\Thread.h" />
+    <ClInclude Include="C\Threads.h" />
+    <ClInclude Include="CPP\Windows\TimeUtils.h" />
+    <ClInclude Include="CPP\Common\UTFConvert.h" />
+    <ClInclude Include="CPP\7zip\Archive\Udf\UdfHandler.h" />
+    <ClInclude Include="CPP\7zip\Archive\Udf\UdfIn.h" />
+    <ClInclude Include="CPP\7zip\Common\UniqBlocks.h" />
+    <ClInclude Include="SevenZip\UsefulFunctions.h" />
+    <ClInclude Include="CPP\7zip\Common\VirtThread.h" />
+    <ClInclude Include="CPP\Common\Wildcard.h" />
+    <ClInclude Include="CPP\7zip\Archive\Wim\WimHandler.h" />
+    <ClInclude Include="CPP\7zip\Archive\Wim\WimIn.h" />
+    <ClInclude Include="CPP\7zip\Crypto\WzAes.h" />
+    <ClInclude Include="CPP\7zip\Compress\XpressDecoder.h" />
+    <ClInclude Include="C\Xz.h" />
+    <ClInclude Include="C\XzCrc64.h" />
+    <ClInclude Include="C\XzEnc.h" />
+    <ClInclude Include="CPP\7zip\Archive\XzHandler.h" />
+    <ClInclude Include="CPP\7zip\Compress\ZDecoder.h" />
+    <ClInclude Include="CPP\7zip\Archive\Zip\ZipAddCommon.h" />
+    <ClInclude Include="CPP\7zip\Archive\Zip\ZipCompressionMode.h" />
+    <ClInclude Include="CPP\7zip\Crypto\ZipCrypto.h" />
+    <ClInclude Include="CPP\7zip\Archive\Zip\ZipHandler.h" />
+    <ClInclude Include="CPP\7zip\Archive\Zip\ZipHeader.h" />
+    <ClInclude Include="CPP\7zip\Archive\Zip\ZipIn.h" />
+    <ClInclude Include="CPP\7zip\Archive\Zip\ZipItem.h" />
+    <ClInclude Include="CPP\7zip\Archive\Zip\ZipOut.h" />
+    <ClInclude Include="CPP\7zip\Crypto\ZipStrong.h" />
+    <ClInclude Include="CPP\7zip\Archive\Zip\ZipUpdate.h" />
+    <ClInclude Include="CPP\7zip\Compress\ZlibDecoder.h" />
+    <ClInclude Include="CPP\7zip\Compress\ZlibEncoder.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Asm\x86\7zCrcOpt.asm">
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">Asm\x86\7zCrcOpt.asm;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">ml.exe -c -WX -W3 -Fo$(IntDir)%(FileName).obj Asm\x86\7zCrcOpt.asm</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">asm build</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">$(IntDir)%(FileName).obj;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">Asm\x86\7zCrcOpt.asm;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">ml.exe -c -WX -W3 -Fo$(IntDir)%(FileName).obj Asm\x86\7zCrcOpt.asm</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">asm build</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">$(IntDir)%(FileName).obj;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="Asm\x86\AesOpt.asm">
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">Asm\x86\AesOpt.asm;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">ml.exe -c -WX -W3 -Fo$(IntDir)%(FileName).obj Asm\x86\AesOpt.asm</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">asm build</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">$(IntDir)%(FileName).obj;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">Asm\x86\AesOpt.asm;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">ml.exe -c -WX -W3 -Fo$(IntDir)%(FileName).obj Asm\x86\AesOpt.asm</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">asm build</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">$(IntDir)%(FileName).obj;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>
