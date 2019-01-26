@@ -15,7 +15,7 @@ namespace SOUI
 		_itemsSem(),
 		_items(),
 		_hasRunningItem(false),
-		_runningItem(0),
+		_runningItem(0,0),
 		_nextTaskID(0)
 	{
 	}
@@ -49,7 +49,7 @@ namespace SOUI
 		return !_thread.isStopped();
 	}
 
-	long STaskLoop::postTask(const IRunnable *runnable, bool waitUntilDone)
+	long STaskLoop::postTask(const IRunnable *runnable, bool waitUntilDone, int priority)
 	{
 		if (_thread.isStopped())
 		{
@@ -64,7 +64,7 @@ namespace SOUI
 		}
 
 		Semaphore semaphore;
-		TaskItem item(pCloneRunnable);
+		TaskItem item(pCloneRunnable,priority);
 
 		if (waitUntilDone)
 		{
@@ -75,9 +75,19 @@ namespace SOUI
 
 		item.taskID = _nextTaskID;
 		_nextTaskID = (_nextTaskID + 1) & ((std::numeric_limits<long>::max)());
-		_items.push_back(item);
+		std::list<TaskItem>::reverse_iterator it= _items.rbegin();
+		while(it != _items.rend())
+		{
+			if(it->nPriority>=priority)
+			{
+				_items.insert(it.base(),item);
+				break;
+			}
+			it ++;
+		}
+		if(it==_items.rend())
+			_items.push_front(item);
 
-		size_t totalSize = _items.size();
 		_lock.Leave();
 		_itemsSem.notify();
 
@@ -109,7 +119,7 @@ namespace SOUI
 				SAutoLock autoRunningLock(_runningLock);
 
 				_hasRunningItem = false;
-				_runningItem = TaskItem(0);
+				_runningItem = TaskItem(0,0);
 				if (!_items.empty())
 				{
 					_hasRunningItem = true;
@@ -135,7 +145,7 @@ namespace SOUI
 					}
 
 					_hasRunningItem = false;
-					_runningItem = TaskItem(0);
+					_runningItem = TaskItem(0,0);
 				}
 			}
 		}// end of while

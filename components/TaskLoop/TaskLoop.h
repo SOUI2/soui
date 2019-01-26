@@ -66,12 +66,17 @@ namespace SOUI
 		*/
 		bool isRunning();
 
-		long postTask(const IRunnable *runnable, bool waitUntilDone);
+		long postTask(const IRunnable *runnable, bool waitUntilDone, int priority);
 	private:
 		class TaskItem
 		{
 		public:
-			TaskItem(IRunnable *runnable) : taskID(0), runnable(runnable), semaphore(NULL) {}
+			TaskItem(IRunnable *runnable_, int nPriority_) 
+				: taskID(0)
+				, runnable(runnable_)
+				, nPriority(nPriority_)
+				, semaphore(NULL) 
+			{}
 
 			const char *getRunnableInfo()
 			{
@@ -81,6 +86,7 @@ namespace SOUI
 			long taskID;
 			SSharedPtr<IRunnable> runnable;
 			Semaphore *semaphore;
+			int  nPriority;
 		};
 
 

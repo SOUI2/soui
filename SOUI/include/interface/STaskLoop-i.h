@@ -38,9 +38,10 @@ namespace SOUI
 		* postTask post or send a tasks to this task manager.
 		* @param runnable the to be run task object.
 		* @param waitUntilDone, true for send and false for post.
+		* @param priority, the task priority.
 		* @return the task id, can be used by cancelTask.
 		*/
-		virtual long postTask(const IRunnable *runnable, bool waitUntilDone) = 0;
+		virtual long postTask(const IRunnable *runnable, bool waitUntilDone, int priority=0) = 0;
 
 		/**
 		* Remove tasks for a sepcific object from runloop pening task list
