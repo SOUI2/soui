@@ -44,7 +44,7 @@ namespace SOUI
 		virtual long postTask(const IRunnable *runnable, bool waitUntilDone, int priority=0) = 0;
 
 		/**
-		* Remove tasks for a sepcific object from runloop pening task list
+		* Remove tasks for a specific object from task loop pending task list
 		* @param object the specific object wants pending functors to be removed
 		*/
 		virtual void cancelTasksForObject(void *object) = 0;
@@ -57,8 +57,8 @@ namespace SOUI
 		virtual bool cancelTask(long taskId) = 0;
 
 		/**
-		* get the total task number in the runloop queue.
-		* @return total task number in runloop queue
+		* get the total task number in the task loop queue.
+		* @return total task number in task loop queue
 		*/
 		virtual int getTaskCount() const = 0;
 
@@ -68,6 +68,12 @@ namespace SOUI
 		*/
 		virtual bool isRunning() = 0;
 
-
+		/**
+		* get the running task info.
+		* @param buf, to receive task info buf.
+		* @param bufLen, buffer length
+		* @return false - no task is running; true - succeed.
+		*/
+		virtual bool getRunningTaskInfo(char *buf, int bufLen) = 0;
 	};
 }

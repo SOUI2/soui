@@ -9,14 +9,14 @@ namespace SOUI
 {
 
 	STaskLoop::STaskLoop() :
-		_lock(),
-		_runningLock(),
-		_thread(),
-		_itemsSem(),
-		_items(),
-		_hasRunningItem(false),
-		_runningItem(0,0),
-		_nextTaskID(0)
+		m_taskListLock(),
+		m_runningLock(),
+		m_thread(),
+		m_itemsSem(),
+		m_items(),
+		m_hasRunningItem(false),
+		m_runningItem(NULL,0),
+		m_nextTaskID(0)
 	{
 	}
 
@@ -28,9 +28,9 @@ namespace SOUI
 	void STaskLoop::start(const char * pszName,Priority priority)
 	{
 		{
-			SAutoLock autoLock(_lock);
-			_items.clear();
-			if(pszName) _name = pszName;
+			SAutoLock autoLock(m_taskListLock);
+			m_items.clear();
+			if(pszName) m_strName = pszName;
 		}
 		_start(this, &STaskLoop::runLoopProc,  priority);
 	}
@@ -39,24 +39,24 @@ namespace SOUI
 	{
 		int taskNum = getTaskCount();
 
-		_thread.stop();
-		_itemsSem.notify();
-		_thread.waitForStop();
+		m_thread.stop();
+		m_itemsSem.notify();
+		m_thread.waitForStop();
 	}
 
 	bool STaskLoop::isRunning()
 	{
-		return !_thread.isStopped();
+		return !m_thread.isStopped();
 	}
 
 	long STaskLoop::postTask(const IRunnable *runnable, bool waitUntilDone, int priority)
 	{
-		if (_thread.isStopped())
+		if (m_thread.isStopped())
 		{
 			return -1;
 		}
 		IRunnable *pCloneRunnable = runnable->clone();
-		if (Thread::getCurrentThreadID() == _thread.getThreadID() && waitUntilDone)
+		if (Thread::getCurrentThreadID() == m_thread.getThreadID() && waitUntilDone)
 		{
 			pCloneRunnable->run();
 			delete pCloneRunnable;
@@ -71,25 +71,25 @@ namespace SOUI
 			item.semaphore = &semaphore;
 		}
 
-		_lock.Enter();
+		m_taskListLock.Enter();
 
-		item.taskID = _nextTaskID;
-		_nextTaskID = (_nextTaskID + 1) & ((std::numeric_limits<long>::max)());
-		std::list<TaskItem>::reverse_iterator it= _items.rbegin();
-		while(it != _items.rend())
+		item.taskID = m_nextTaskID;
+		m_nextTaskID = (m_nextTaskID + 1) & ((std::numeric_limits<long>::max)());
+		std::list<TaskItem>::reverse_iterator it= m_items.rbegin();
+		while(it != m_items.rend())
 		{
 			if(it->nPriority>=priority)
 			{
-				_items.insert(it.base(),item);
+				m_items.insert(it.base(),item);
 				break;
 			}
 			it ++;
 		}
-		if(it==_items.rend())
-			_items.push_front(item);
+		if(it==m_items.rend())
+			m_items.push_front(item);
 
-		_lock.Leave();
-		_itemsSem.notify();
+		m_taskListLock.Leave();
+		m_itemsSem.notify();
 
 		if (waitUntilDone)
 		{
@@ -107,56 +107,58 @@ namespace SOUI
 	{
 		while (true)
 		{
-			if (_thread.isStopping())
+			if (m_thread.isStopping())
 			{
 				break;
 			}
 
-			_itemsSem.wait(INFINITE);
+			m_itemsSem.wait(INFINITE);
 
 			{
-				SAutoLock autoLock(_lock);
-				SAutoLock autoRunningLock(_runningLock);
-
-				_hasRunningItem = false;
-				_runningItem = TaskItem(0,0);
-				if (!_items.empty())
+				SAutoLock autoLock(m_taskListLock);
+				SAutoLock autoRunningLock(m_runningLock);
+				SAutoLock autoRuningInfoLock(m_runningInfoLock);
+				m_hasRunningItem = false;
+				m_runingItemInfo.clear();
+				m_runningItem = TaskItem(NULL,0);
+				if (!m_items.empty())
 				{
-					_hasRunningItem = true;
-					_runningItem = _items.front();
-					_items.pop_front();
+					m_hasRunningItem = true;
+					m_runningItem = m_items.front();
+					m_runingItemInfo = m_runningItem.getRunnableInfo();
+					m_items.pop_front();
 				}
 			}
 
 
 			{
-				//执行一个task
-				SAutoLock autoRunningLock(_runningLock);
-
-				if (_hasRunningItem)
+				SAutoLock autoRunningLock(m_runningLock);
+				if (m_hasRunningItem)
 				{
-					TaskItem item = _runningItem;
+					TaskItem item = m_runningItem;
 					item.runnable->run();
-
 					if (item.semaphore)
 					{
 						//通知一个task执行完毕
 						item.semaphore->notify();
 					}
-
-					_hasRunningItem = false;
-					_runningItem = TaskItem(0,0);
+				}
+				{
+					SAutoLock autoRuningInfoLock(m_runningInfoLock);
+					m_hasRunningItem = false;
+					m_runingItemInfo.clear();
+					m_runningItem = TaskItem(NULL,0);
 				}
 			}
 		}// end of while
 
-		SAutoLock autoLock(_lock);
+		SAutoLock autoLock(m_taskListLock);
 
-		size_t itemsSize = _items.size();
+		size_t itemsSize = m_items.size();
 		while (itemsSize > 0)
 		{
-			TaskItem item = _items.front();
-			_items.pop_front();
+			TaskItem item = m_items.front();
+			m_items.pop_front();
 			itemsSize--;
 
 			if (item.semaphore)
@@ -165,15 +167,15 @@ namespace SOUI
 			}
 		}
 
-		_items.clear();
+		m_items.clear();
 	}
 
 	bool STaskLoop::getName(char * pszBuf, int nBufLen)
 	{
-		SAutoLock autoLock(_lock);
-		if (_name.length() >= (size_t)nBufLen)
+		SAutoLock autoLock(m_taskListLock);
+		if (m_strName.length() >= (size_t)nBufLen)
 			return false;
-		strcpy_s(pszBuf, nBufLen, _name.c_str());
+		strcpy_s(pszBuf, nBufLen, m_strName.c_str());
 		return true;
 	}
 
@@ -185,16 +187,16 @@ namespace SOUI
 		}
 
 		{
-			SAutoLock autoLock(_lock);
-			std::list<TaskItem>::iterator iter = _items.begin();
+			SAutoLock autoLock(m_taskListLock);
+			std::list<TaskItem>::iterator iter = m_items.begin();
 
-			while (iter != _items.end())
+			while (iter != m_items.end())
 			{
 				TaskItem &item = *iter;
 
 				if (item.runnable->getObject() == object)
 				{
-					iter = _items.erase(iter);
+					iter = m_items.erase(iter);
 				}
 				else
 				{
@@ -202,43 +204,28 @@ namespace SOUI
 				}
 			}
 		}
-
 		{
-			if (Thread::getCurrentThreadID() != _thread.getThreadID())
-			{
-				_runningLock.Enter();
-			}
-
-			if (Thread::getCurrentThreadID() != _thread.getThreadID())
-			{
-				_runningLock.Leave();
-			}
-		}
-
-		{
-			if (Thread::getCurrentThreadID() != _thread.getThreadID())
-			{
-				_runningLock.Enter();
-			}
-
-
-			if (Thread::getCurrentThreadID() != _thread.getThreadID())
-			{
-				_runningLock.Leave();
+			SAutoLock autoLock(m_runningLock);
+			SAutoLock autoLockRunningInfo(m_runningInfoLock);
+			if(m_hasRunningItem)
+			{//make sure the running item is not belong to the to be canceled object.
+				m_hasRunningItem = false;
+				m_runingItemInfo.clear();
+				m_runningItem = TaskItem(NULL,0);
 			}
 		}
 	}
 
 	bool STaskLoop::cancelTask(long taskId)
 	{
-		SAutoLock autoLock(_lock);
-		std::list<TaskItem>::iterator itemIt = _items.begin();
+		SAutoLock autoLock(m_taskListLock);
+		std::list<TaskItem>::iterator itemIt = m_items.begin();
 
-		while (itemIt != _items.end())
+		while (itemIt != m_items.end())
 		{
 			if (itemIt->taskID == taskId)
 			{
-				itemIt = _items.erase(itemIt);
+				itemIt = m_items.erase(itemIt);
 				return true;
 			}
 			else
@@ -251,9 +238,18 @@ namespace SOUI
 
 	int STaskLoop::getTaskCount() const 
 	{
-		SAutoLock autoLock(_lock);
+		SAutoLock autoLock(m_taskListLock);
 
-		return (int)_items.size();
+		return (int)m_items.size();
+	}
+
+	bool STaskLoop::getRunningTaskInfo(char *buf, int bufLen)
+	{
+		SAutoLock autoLock(m_runningInfoLock);
+		if(!m_hasRunningItem)
+			return false;
+		strcat_s(buf,bufLen-1,m_runingItemInfo.c_str());
+		return true;
 	}
 
 }
