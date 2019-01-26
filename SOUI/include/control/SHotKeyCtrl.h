@@ -177,6 +177,8 @@ namespace SOUI
 
       void UpdateCaret();
 
+	  UINT GetTextAlign();
+
       SOUI_ATTRS_BEGIN()
           ATTR_WORD(L"invalidComb",m_wInvalidComb,FALSE)
           ATTR_WORD(L"defCombKey",m_wInvalidModifier,FALSE)
@@ -186,7 +188,7 @@ namespace SOUI
 
       SOUI_MSG_MAP_BEGIN()
           MSG_WM_CREATE(OnCreate)
-          //MSG_WM_PAINT_EX(OnPaint)
+          MSG_WM_PAINT_EX(OnPaint)
           MSG_WM_LBUTTONDOWN(OnLButtonDown)
           MSG_WM_SETFOCUS_EX(OnSetFocus)
           MSG_WM_KILLFOCUS_EX(OnKillFocus)
