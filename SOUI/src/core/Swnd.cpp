@@ -1377,6 +1377,8 @@ namespace SOUI
 		DrawText(pRT, strText, strText.GetLength(), rcTest4Text, nTestDrawMode | DT_CALCRECT);
 
 		//计算子窗口大小
+		rcContainer.DeflateRect(m_style.GetMargin());
+		rcContainer.DeflateRect(rcPadding);
 		CSize szChilds = GetLayout()->MeasureChildren(this,rcContainer.Width(),rcContainer.Height());
 
 		
