@@ -32,7 +32,7 @@ namespace SOUI
 		void _start(TClass *obj, Fun fun, Priority priority)
 		{
 			SFunctor0<TClass,Fun>  runnable(this, &STaskLoop::runLoopProc);
-			_thread.start(&runnable, _name,  (Thread::ThreadPriority)priority);
+			m_thread.start(&runnable, m_strName,  (Thread::ThreadPriority)priority);
 		}
 		/**
 		* Stop task mgr synchronized.
@@ -66,12 +66,22 @@ namespace SOUI
 		*/
 		bool isRunning();
 
-		long postTask(const IRunnable *runnable, bool waitUntilDone);
+		long postTask(const IRunnable *runnable, bool waitUntilDone, int priority);
+
+		bool getName(char * pszBuf, int nBufLen);
+
+		bool getRunningTaskInfo(char *buf, int bufLen);
+
 	private:
 		class TaskItem
 		{
 		public:
-			TaskItem(IRunnable *runnable) : taskID(0), runnable(runnable), semaphore(NULL) {}
+			TaskItem(IRunnable *runnable_, int nPriority_) 
+				: taskID(0)
+				, runnable(runnable_)
+				, nPriority(nPriority_)
+				, semaphore(NULL) 
+			{}
 
 			const char *getRunnableInfo()
 			{
@@ -81,6 +91,7 @@ namespace SOUI
 			long taskID;
 			SSharedPtr<IRunnable> runnable;
 			Semaphore *semaphore;
+			int  nPriority;
 		};
 
 
@@ -88,18 +99,19 @@ namespace SOUI
 
 		void runLoopProc();
 
-		mutable SCriticalSection _lock;
-		SCriticalSection _runningLock;
-		std::string _name;
-		Thread _thread;
-		Semaphore _itemsSem;
-		std::list<TaskItem> _items;
-		bool _hasRunningItem;
-		TaskItem _runningItem;
-		DWORD _nextTaskID;
+		mutable SCriticalSection m_taskListLock;
+		SCriticalSection m_runningLock;
+		std::string m_strName;
+		Thread m_thread;
+		Semaphore m_itemsSem;
+		std::list<TaskItem> m_items;
 
-		// 通过 TObjRefImpl 继承
-		virtual bool getName(char * pszBuf, int nBufLen) override;
+		SCriticalSection m_runningInfoLock;
+		bool m_hasRunningItem;
+		std::string m_runingItemInfo;
+		TaskItem m_runningItem;
+		long m_nextTaskID;
+
 	};
 
     namespace TASKLOOP
