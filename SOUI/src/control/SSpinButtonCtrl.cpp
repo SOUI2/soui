@@ -174,7 +174,19 @@ namespace SOUI
 	{
 		SWindow *pBuddy = GetBuddy();
 		if(pBuddy)
-			m_nValue = _ttoi(pBuddy->GetWindowTextW());
+		{
+			int nValue = _ttoi(pBuddy->GetWindowTextW());
+			if (nValue <= m_nMax && nValue >= m_nMin)
+			{
+				m_nValue = nValue;
+
+				EventSpinValue2String evt(this);
+				evt.bInit = false;
+				evt.nValue = m_nValue;
+				evt.strValue = SStringT().Format(_T("%d"), m_nValue);
+				FireEvent(evt);
+			}
+		}
 		return true;
 	}
 
