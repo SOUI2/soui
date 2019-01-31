@@ -170,11 +170,34 @@ namespace SOUI
 		OnClick();
 	}
 
+	bool SSpinButtonCtrl::OnBuddyChange(EventArgs* pEvt)
+	{
+		SWindow *pBuddy = GetBuddy();
+		if(pBuddy)
+		{
+			int nValue = _ttoi(pBuddy->GetWindowTextW());
+			if (nValue <= m_nMax && nValue >= m_nMin)
+			{
+				m_nValue = nValue;
+
+				EventSpinValue2String evt(this);
+				evt.bInit = false;
+				evt.nValue = m_nValue;
+				evt.strValue = SStringT().Format(_T("%d"), m_nValue);
+				FireEvent(evt);
+			}
+		}
+		return true;
+	}
+
 	int SSpinButtonCtrl::OnCreate(void *)
 	{
 		int nRet =__super::OnCreate(NULL);
 		if (nRet != 0) return nRet;
 		OnValueChanged(true);
+
+		SWindow *pBuddy = GetBuddy();
+		if (pBuddy)	pBuddy->GetEventSet()->subscribeEvent(EVT_RE_NOTIFY, Subscriber(&SSpinButtonCtrl::OnBuddyChange, this));
 		return 0;
 	}
 
