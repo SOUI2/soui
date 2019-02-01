@@ -2,6 +2,7 @@
 
 #include <unknown/obj-ref-i.h>
 
+#define SOUI_EXP
 
 namespace SOUI
 {
@@ -52,4 +53,12 @@ namespace SOUI
 		virtual void SetCallback(IIpcSvrCallback * pCallback) = 0;
 		virtual void CheckConectivity() = 0;
 	};
+
+	struct IIpcFactory : IObjRef
+	{
+		virtual HRESULT CreateIpcServer(IIpcServer ** ppServer) = 0;
+		virtual HRESULT CreateIpcConnection(IIpcConnection ** ppConn) = 0;
+	};
+
+
 }
