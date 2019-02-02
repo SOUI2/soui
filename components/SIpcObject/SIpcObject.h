@@ -3,28 +3,74 @@
 #include <interface/SIpcObj-i.h>
 #include <unknown/obj-ref-impl.hpp>
 #include <map>
+#include "ShareMemBuffer.h"
+
 namespace SOUI
 {
-	class SIpcObject
+	class SIpcConnection : public TObjRefImpl<IIpcConnection>
 	{
+		friend class SIpcServer;
 	public:
-		SIpcObject();
-		~SIpcObject();
+		SIpcConnection() :m_pCallback(NULL) {}
+		virtual ~SIpcConnection() {}
+
+	public:
+		virtual void SetCallback(IIpcConnCallback *pCallback);
+
+		virtual HRESULT ConnectTo(ULONG_PTR idLocal, ULONG_PTR idRemote);
+
+		virtual HRESULT Disconnect();
+
+		virtual HRESULT CallFun(IFunParams * pParam) const;
+
+	public:
+		HRESULT HandleFun(UINT uFunID, SParamStream * ps);
+
+	private:
+		static LRESULT CALLBACK _WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+		LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+	public:
+		CShareMemBuffer * GetLocalBuffer() { return &m_localBuf; }
+		CShareMemBuffer * GetRemoteBuffer() { return &m_RemoteBuf; }
+	protected:
+		BOOL OpenShareBuffer(HWND hLocal, HWND hRemote, DWORD uBufSize);
+	protected:
+		HWND	m_hLocalId;
+		mutable CShareMemBuffer	m_localBuf;
+		HWND	m_hRemoteId;
+		CShareMemBuffer	m_RemoteBuf;
+
+		IIpcConnCallback * m_pCallback;
+		WNDPROC			  m_prevWndProc;
 	};
+
 
 	class SIpcServer : public TObjRefImpl<IIpcServer>
 	{
 	public:
-		SIpcServer() :m_pCallback(NULL) {}
+		SIpcServer();
+
 
 	public:
 		// Í¨¹ý TObjRefImpl ¼Ì³Ð
-		virtual void SetCallback(IIpcSvrCallback * pCallback) override;
+		virtual HRESULT Init(ULONG_PTR idSvr, IIpcSvrCallback * pCallback) override;
 		virtual void CheckConectivity() override;
 
 	private:
+		static LRESULT CALLBACK _WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+		LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+		LRESULT OnConnect(HWND hClient);
+		LRESULT OnDisconnect(HWND hClient);
+		LRESULT OnClientMsg(UINT uMsg, WPARAM wp, LPARAM lp);
+	private:
+		WNDPROC			  m_prevWndProc;
 		IIpcSvrCallback * m_pCallback;
-		std::map<ULONG_PTR, IIpcConnection *> m_mapClients;
+		HWND			  m_hSvr;
+		std::map<HWND, SIpcConnection *> m_mapClients;
 	};
 
 	class SIpcFactory : public TObjRefImpl<IIpcFactory>

@@ -24,13 +24,8 @@ INCLUDEPATH += . \
 dir = ../..
 include($$dir/common.pri)
 
-CONFIG(debug,debug|release){
-	LIBS += utilitiesd.lib
-}
-else{
-	LIBS += utilities.lib
-}
+PRECOMPILED_HEADER = stdafx.h
 
 # Input
-HEADERS += SIpcObject.h
-SOURCES += SIpcObject.cpp
+HEADERS += SIpcObject.h ShareMemBuffer.h
+SOURCES += SIpcObject.cpp ShareMemBuffer.cpp
