@@ -2,7 +2,7 @@
 
 #include <unknown/obj-ref-i.h>
 
-#define SOUI_EXP
+#define UM_CALL_FUN (WM_USER+1000)
 
 namespace SOUI
 {
@@ -71,43 +71,58 @@ namespace SOUI
 		virtual void FromStream4Output(SParamStream &  ps) = 0;
 	};
 
-	struct IIpcConnCallback
+	struct IIpcConnection;
+	struct IIpcHandle : IObjRef
 	{
-		virtual HRESULT HandleFun(UINT uFunID, SParamStream * ps) = 0;
-		virtual void BuildShareBufferName(ULONG_PTR idLocal, ULONG_PTR idRemote, TCHAR szBuf[MAX_PATH]) const = 0;
-		virtual void * GetSecurityAttr() const = 0;
-		virtual void ReleaseSecurityAttr(void* psa) const = 0;
-	};
+		virtual void SetIpcConnection(IIpcConnection *pConn) = 0;
 
-	struct IIpcConnection : IObjRef
-	{
-		virtual void SetCallback(IIpcConnCallback *pCallback) = 0;
+		virtual IIpcConnection * GetIpcConnection() const = 0;
+
+		virtual LRESULT OnMessage(ULONG_PTR idLocal, UINT uMsg, WPARAM wp, LPARAM lp, BOOL &bHandled) = 0;
 
 		virtual HRESULT ConnectTo(ULONG_PTR idLocal, ULONG_PTR idRemote) = 0;
 
 		virtual HRESULT Disconnect() = 0;
 
-		virtual HRESULT CallFun(IFunParams * pParam) const = 0;
+		virtual bool CallFun(IFunParams * pParam) const = 0;
 
+		virtual ULONG_PTR GetLocalId() const = 0;
+
+		virtual ULONG_PTR GetRemoteId() const = 0;
+
+		virtual IShareBuffer * GetSendBuffer()  = 0;
+
+		virtual IShareBuffer * GetRecvBuffer()  = 0;
+
+		virtual BOOL InitShareBuf(ULONG_PTR idLocal, ULONG_PTR idRemote, UINT nBufSize, void* pSa) = 0;
 	};
 
-	struct IIpcSvrCallback : IIpcConnCallback
+	struct IIpcConnection : IObjRef
 	{
-		virtual void OnConnected(IIpcConnection * pConnection) = 0;
-		virtual void OnDisconnected(IIpcConnection * pConnection) = 0;
+		virtual IIpcHandle * GetIpcHandle() = 0;
+		virtual bool HandleFun(UINT uFunID, SParamStream & ps) = 0;
+		virtual void BuildShareBufferName(ULONG_PTR idLocal, ULONG_PTR idRemote, TCHAR szBuf[MAX_PATH]) const = 0;
+	};
+
+	struct IIpcSvrCallback 
+	{
+		virtual void OnNewConnection(IIpcHandle * pIpcHandle, IIpcConnection ** ppConn) = 0;
 		virtual int GetBufSize() const = 0;
+		virtual void * GetSecurityAttr() const = 0;
+		virtual void ReleaseSecurityAttr(void* psa) const = 0;
 	};
 
 	struct IIpcServer : IObjRef
 	{
-		virtual void CheckConectivity() = 0;
-		virtual HRESULT Init(ULONG_PTR idSvr, IIpcSvrCallback * pCallback) = 0;
+		virtual HRESULT Init(ULONG_PTR idSvr, IIpcSvrCallback * pCallback) =0;
+		virtual void CheckConnectivity() =0;
+		virtual LRESULT OnMessage(ULONG_PTR idLocal, UINT uMsg, WPARAM wp, LPARAM lp,BOOL &bHandled) =0;
 	};
 
 	struct IIpcFactory : IObjRef
 	{
-		virtual HRESULT CreateIpcServer(IIpcServer ** ppServer) = 0;
-		virtual HRESULT CreateIpcConnection(IIpcConnection ** ppConn) = 0;
+		virtual HRESULT CreateIpcServer(IIpcServer ** ppServer) =0;
+		virtual HRESULT CreateIpcHandle(IIpcHandle ** ppHandle) =0;
 	};
 
 
