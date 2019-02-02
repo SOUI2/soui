@@ -10,6 +10,7 @@ TARGET = $$TARGET"64"
 !LIB_ALL:!COM_LIB{
 	RC_FILE += SIpcObject.rc
 	CONFIG += dll
+	DEFINES += BUILD_SIPC
 }
 else{
 	CONFIG += staticlib
