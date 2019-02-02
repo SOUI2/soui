@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9,00"
 	Name="imgdecoder-stb"
-	ProjectGUID="{9124605F-BA70-39A5-B328-D3E0AB8394B9}"
+	ProjectGUID="{CA079EA9-FDD6-35A9-9DE8-B5AC396B678C}"
 	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform
@@ -21,7 +21,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".,.,..\..\utilities\include,..\..\soui\include,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
-				AdditionalOptions="/MP -w34100 -w34189 -w44996"
+				AdditionalOptions="/MP"
 				AssemblerListingLocation="..\..\obj\release\imgdecoder-stb\"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"
@@ -81,7 +81,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".,.,..\..\utilities\include,..\..\soui\include,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
-				AdditionalOptions="/MP -w34100 -w34189 -w44996"
+				AdditionalOptions="/MP"
 				AssemblerListingLocation="..\..\obj\debug\imgdecoder-stb\"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9,00"
 	Name="mhook"
-	ProjectGUID="{96954A2E-CEE8-38BB-A476-71E1E8897FC6}"
+	ProjectGUID="{56B8E0D6-3A12-3931-89D4-D88F8B127803}"
 	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform
@@ -21,7 +21,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".,.,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
-				AdditionalOptions="/MP -w34100 -w34189 -w44996"
+				AdditionalOptions="/MP"
 				AssemblerListingLocation="..\..\obj\release\mhook\"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"
@@ -70,7 +70,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".,.,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
-				AdditionalOptions="/MP -w34100 -w34189 -w44996"
+				AdditionalOptions="/MP"
 				AssemblerListingLocation="..\..\obj\debug\mhook\"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"
