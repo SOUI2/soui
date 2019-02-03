@@ -178,12 +178,25 @@ void STileView::onDataSetInvalidated()
     Invalidate();
 }
 
+void STileView::UpdateVisibleItem(int iItem)
+{	
+	SItemPanel * pItem = GetItemPanel(iItem);
+	SASSERT(pItem);
+	m_adapter->getView(iItem,pItem,m_xmlTemplate.first_child());
+}
 
 void STileView::onItemDataChanged(int iItem)
 {
+	if(!m_adapter) return;
+	if(!IsVisible(TRUE))
+	{
+		m_bPendingUpdate = true;
+		m_iPendingUpdateItem = m_iPendingUpdateItem==-2?iItem:-1;
+		return;
+	}
 	if(iItem<m_iFirstVisible) return;
 	if(iItem>=m_iFirstVisible + (int)m_lstItems.GetCount()) return;
-	UpdateVisibleItems();
+	UpdateVisibleItem(iItem);
 }
 
 void STileView::OnPaint(IRenderTarget *pRT)
