@@ -124,9 +124,9 @@ namespace SOUI
         GetClientRect(prc);
 		int nHei = prc->bottom - prc->top;
         prc->left= prc->right-nHei*szBtn.cx/szBtn.cy;
-		if (!m_bAutoFitDropBtn) {
+		if (m_bAutoFitDropBtn) {
 			prc->top += (prc->bottom - prc->top - szBtn.cy) / 2;
-			prc->left += (prc->right - prc->left - szBtn.cx) / 2;
+			prc->left = prc->right - szBtn.cx;
 			prc->right = prc->left + szBtn.cx;
 			prc->bottom = prc->top + szBtn.cy;
 		}
@@ -447,6 +447,59 @@ namespace SOUI
         }
         return -1;
     }
+
+	CSize SComboBase::GetDesiredSize(int nParentWid, int nParentHei)
+	{
+		CSize szRet(-1, -1);
+		if (GetLayoutParam()->IsSpecifiedSize(Horz))
+		{//检查设置大小
+			szRet.cx = GetLayoutParam()->GetSpecifiedSize(Horz).toPixelSize(GetScale());
+		}
+		else if (GetLayoutParam()->IsMatchParent(Horz))
+		{
+			szRet.cx = nParentWid;
+		}
+
+		if (GetLayoutParam()->IsSpecifiedSize(Vert))
+		{//检查设置大小
+			szRet.cy = GetLayoutParam()->GetSpecifiedSize(Vert).toPixelSize(GetScale());
+		}
+		else if (GetLayoutParam()->IsMatchParent(Vert))
+		{
+			szRet.cy = nParentHei;
+		}
+
+		if (szRet.cx != -1 && szRet.cy != -1)
+			return szRet;
+		int nTestDrawMode = GetTextAlign() & ~(DT_CENTER | DT_RIGHT | DT_VCENTER | DT_BOTTOM);
+
+		CRect rcPadding = GetStyle().GetPadding();
+		//计算文本大小
+		CRect rcTest(0, 0, 100000, 100000);
+
+		CAutoRefPtr<IRenderTarget> pRT;
+		GETRENDERFACTORY->CreateRenderTarget(&pRT, 0, 0);
+		BeforePaintEx(pRT);
+
+		SStringT strText = GetWindowText(FALSE);
+		SStringT strForText = strText.IsEmpty() ? _T("A") : strText;
+		DrawText(pRT, strForText, strForText.GetLength(), rcTest, nTestDrawMode | DT_CALCRECT);
+		if (strText.IsEmpty()) rcTest.right = rcTest.left;
+
+		SIZE szBtn = m_pSkinBtn->GetSkinSize();
+		rcTest.right += szBtn.cx;
+		rcTest.bottom = smax(rcTest.Height(), szBtn.cy);
+
+		rcTest.InflateRect(m_style.GetMargin());
+		rcTest.InflateRect(rcPadding);
+
+		if (GetLayoutParam()->IsWrapContent(Horz))
+			szRet.cx = rcTest.Width();
+		if (GetLayoutParam()->IsWrapContent(Vert))
+			szRet.cy = rcTest.Height();
+
+		return szRet;
+	}
 
     SStringT SComboBase::GetWindowText(BOOL bRawText/*=TRUE*/)
     {

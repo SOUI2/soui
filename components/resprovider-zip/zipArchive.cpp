@@ -656,6 +656,24 @@ CZipFile::CZipFile(DWORD dwSize/*=0*/)
 		return bOK;
 	}
 
+	BOOL CZipArchive::Open(LPBYTE pBytes, DWORD dwByteCount) 
+	{
+		Close();
+
+		m_fileRes.Attach(pBytes, dwByteCount);
+
+		// ?
+		m_hFile = (HANDLE)pBytes;
+
+		BOOL bOK=OpenZip();
+		if(!bOK)
+		{
+			m_fileRes.Detach();
+			m_hFile=INVALID_HANDLE_VALUE;
+		}
+		return bOK;
+	}
+
 	BOOL CZipArchive::Open( HMODULE hModule,LPCTSTR pszName,LPCTSTR pszType )
 	{
 		HRSRC hResInfo = ::FindResource(hModule, pszName, pszType);

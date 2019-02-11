@@ -50,7 +50,7 @@ protected:
 protected:
     void onDataSetChanged();
     void onDataSetInvalidated();
-    
+    void onItemDataChanged(int iItem);
 protected:
     bool OnItemClick(EventArgs *pEvt);
 
@@ -92,6 +92,7 @@ protected:
     void OnSetFocus(SWND wndOld);
 
     LRESULT OnSetScale(UINT uMsg, WPARAM wParam, LPARAM lParam);
+	void OnShowWindow(BOOL bShow, UINT nStatus);
 
     SOUI_MSG_MAP_BEGIN()
 		MSG_WM_PAINT_EX(OnPaint)
@@ -103,6 +104,7 @@ protected:
 		MSG_WM_KILLFOCUS_EX(OnKillFocus)
 		MSG_WM_SETFOCUS_EX(OnSetFocus)
         MESSAGE_HANDLER_EX(UM_SETSCALE, OnSetScale)
+		MSG_WM_SHOWWINDOW(OnShowWindow)
         MESSAGE_RANGE_HANDLER_EX(WM_MOUSEFIRST, WM_MOUSELAST, OnMouseEvent)
 		MESSAGE_RANGE_HANDLER_EX(WM_KEYFIRST, WM_KEYLAST, OnKeyEvent)
 		MESSAGE_RANGE_HANDLER_EX(WM_IME_STARTCOMPOSITION, WM_IME_KEYLAST, OnKeyEvent)
@@ -122,7 +124,10 @@ protected:
         SItemPanel *pItem;
         int nType;
     };
-    
+
+	bool							m_bPendingUpdate;//response for data set changed in OnShowWindow.
+	int								m_iPendingUpdateItem; //-1 for all. -2 for nothing
+
     int                             m_iFirstVisible;//第一个显示项索引
     SList<ItemInfo>                 m_lstItems; //当前正在显示的项
     SItemPanel                     *m_itemCapture;//The item panel that has been set capture.

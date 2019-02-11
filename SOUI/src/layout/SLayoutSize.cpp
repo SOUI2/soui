@@ -12,7 +12,7 @@ namespace SOUI
 		L"px",L"dp",L"dip",L"sp"
 	};
 
-	SLayoutSize::SLayoutSize() :fSize(0.0f),unit(px)
+	SLayoutSize::SLayoutSize() :fSize(0.0f),unit(defUnit)
 	{
 
 	}
@@ -117,7 +117,7 @@ namespace SOUI
 		if(strSize.IsEmpty()) return;
 		SStringW strUnit = strSize.Right(2);
 		strUnit.MakeLower();
-		unit = px;
+		unit = defUnit;
 		for(int i=0; i< ARRAYSIZE(s_pszUnit);i++)
 		{
 			if(strUnit.Compare(s_pszUnit[i]) == 0)
@@ -144,4 +144,19 @@ namespace SOUI
 		return ret;
 	}
 
+	void SLayoutSize::setDefUnit(SStringW &strUnit)
+	{
+		strUnit.MakeLower();
+		defUnit = px;
+		for (int i = 0; i < ARRAYSIZE(s_pszUnit); i++)
+		{
+			if (strUnit.Compare(s_pszUnit[i]) == 0)
+			{
+				defUnit = (Unit)i;
+				break;
+			}
+		}
+	}
+
+	SLayoutSize::Unit SLayoutSize::defUnit = SLayoutSize::px;
 }

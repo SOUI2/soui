@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9,00"
 	Name="scriptmodule-lua"
-	ProjectGUID="{2C066C58-C598-3598-B42E-5930C429294D}"
+	ProjectGUID="{00375A42-C1A6-3566-AE0F-3F35969E7575}"
 	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform
@@ -21,7 +21,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".,.,src,..\..\third-part\lua-52\src,..\..\soui\include,..\..\utilities\include,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
-				AdditionalOptions="/MP -w34100 -w34189 -w44996"
+				AdditionalOptions="/MP"
 				AssemblerListingLocation="..\..\obj\release\scriptmodule-lua\"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"
@@ -86,7 +86,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".,.,src,..\..\third-part\lua-52\src,..\..\soui\include,..\..\utilities\include,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
-				AdditionalOptions="/MP -w34100 -w34189 -w44996"
+				AdditionalOptions="/MP"
 				AssemblerListingLocation="..\..\obj\debug\scriptmodule-lua\"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"

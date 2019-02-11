@@ -72,9 +72,6 @@
       <page title="layout" tip="show layout capability in soui">
         <include src="layout:page_layout"/>
       </page>
-      <page title="treeview">
-        <include src="layout:page_treeview"/>
-      </page>
       <page title ="misc." tip="many features, just find it.">
         <include src="layout:page_misc"/>
       </page>

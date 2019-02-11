@@ -51,5 +51,4 @@ namespace SOUI
         
         SMessageLoop * m_MsgLoop;
     };
-
 }

@@ -296,6 +296,8 @@
 			<File
 				RelativePath="src\helper\sdibhelper.cpp" />
 			<File
+				RelativePath="src\helper\sdpiscale.cpp" />
+			<File
 				RelativePath="src\core\shostwnd.cpp" />
 			<File
 				RelativePath="src\helper\smatrix.cpp" />
@@ -369,8 +371,6 @@
 			<File
 				RelativePath="include\control\SComboView.h" />
 			<File
-				RelativePath="include\helper\SCriticalSection.h" />
-			<File
 				RelativePath="include\control\SDateTimePicker.h" />
 			<File
 				RelativePath="include\core\SDefine.h" />
@@ -382,6 +382,8 @@
 				RelativePath="include\core\SDropTargetDispatcher.h" />
 			<File
 				RelativePath="include\res.mgr\SFontPool.h" />
+			<File
+				RelativePath="include\helper\SFunctor.hpp" />
 			<File
 				RelativePath="include\layout\SGridLayout.h" />
 			<File
@@ -477,6 +479,8 @@
 			<File
 				RelativePath="include\control\STabCtrl.h" />
 			<File
+				RelativePath="include\interface\STaskLoop-i.h" />
+			<File
 				RelativePath="include\control\STileView.h" />
 			<File
 				RelativePath="include\helper\STileViewItemLocator.h" />
@@ -550,6 +554,10 @@
 				RelativePath="include\core\scaret.h" />
 			<File
 				RelativePath="include\helper\sdibhelper.h" />
+			<File
+				RelativePath="include\helper\sdpihelper.hpp" />
+			<File
+				RelativePath="include\helper\sdpiscale.h" />
 			<File
 				RelativePath="include\interface\slayout-i.h" />
 			<File

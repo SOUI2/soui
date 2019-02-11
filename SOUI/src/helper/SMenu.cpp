@@ -190,28 +190,29 @@ LRESULT SMenuODWnd::OnMenuChar(UINT nChar, UINT nFlags, HMENU hMenu)
 
 //////////////////////////////////////////////////////////////////////////
 
-SMenu::SMenu():m_hMenu(0)
+SMenu::SMenu():m_hMenu(0),m_bAttached(false)
 {
 }
 
-SMenu::SMenu( const SMenu & src )
+SMenu::SMenu( const SMenu & src ) : m_hMenu(0), m_bAttached(false)
 {
-    m_hMenu=src.m_hMenu;
+	Attach(src.m_hMenu);
 }
 
-SMenu::SMenu(HMENU hMenu)
+SMenu::SMenu(HMENU hMenu):m_hMenu(0), m_bAttached(false)
 {
 	Attach(hMenu);
 }
 
 SMenu::~SMenu(void)
 {
-    DestroyMenu();
+    if(!m_bAttached) 
+		DestroyMenu();
 }
 
 BOOL SMenu::LoadMenu( LPCTSTR pszResName ,LPCTSTR pszType)
 {
-    if(::IsMenu(m_hMenu)) return FALSE;
+	SASSERT(!::IsMenu(m_hMenu));
 
     pugi::xml_document xmlDoc;
     if(!LOADXML(xmlDoc,pszResName,pszType)) return FALSE;
@@ -398,12 +399,14 @@ void SMenu::FreeMenuItemData(HMENU hMemu)
 
 void SMenu::DestroyMenu()
 {
+	SASSERT(!m_bAttached);
 	if(::IsMenu(m_hMenu))
 	{
 		//free item data
 		FreeMenuItemData(m_hMenu);
 		::DestroyMenu(m_hMenu);
 	}
+	m_hMenu = NULL;
 }
 
 BOOL SMenu::ModifyMenuString(UINT uPosition, UINT uFlags,LPCTSTR lpItemString)
@@ -437,6 +440,11 @@ BOOL SMenu::AppendMenu(UINT uFlags,UINT_PTR uIDNewItem, LPCTSTR lpNewItem,int iI
 	return InsertMenu(-1,uFlags,uIDNewItem,lpNewItem,iIcon);
 }
 
+BOOL SMenu::CheckMenuItem(UINT uIdCheckItem, UINT uCheck)
+{
+	return ::CheckMenuItem(m_hMenu, uIdCheckItem, uCheck);
+}
+
 SMenuAttr * SMenu::GetMenuAttr(HMENU hMenu) const
 {
 	SASSERT(::IsMenu(hMenu));
@@ -455,17 +463,21 @@ void SMenu::SetMenuAttr(HMENU hMenu,SMenuAttr *pMenuAttr) const
 
 BOOL SMenu::Attach(HMENU hMenu)
 {
+	SASSERT(m_hMenu == NULL);
 	SMenuAttr * pMenuAttr = GetMenuAttr(hMenu);
 	if(IsBadReadPtr(pMenuAttr,sizeof(SMenuAttr)))
 		return FALSE;
 	m_hMenu = hMenu;
+	m_bAttached = true;
 	return TRUE;
 }
 
 HMENU SMenu::Detach()
 {
+	SASSERT(m_bAttached);
 	HMENU hRet = m_hMenu;
 	m_hMenu = NULL;
+	m_bAttached = false;
 	return hRet;
 }
 

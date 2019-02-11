@@ -152,6 +152,17 @@ namespace SOUI
         virtual SStringT GetWindowText(BOOL bRawText=FALSE);
 
         virtual SStringT GetLBText(int iItem,BOOL bRawText=FALSE) =0;
+
+		/**
+        * SComboBoxBase::SetWindowText
+        * @brief    设置显示文本
+        * @param    LPCTSTR pszText -- 文本
+        *
+        * Describe  
+        */
+        virtual void SetWindowText(LPCTSTR pszText);
+
+
         /**
         * FindString
         * @brief    查找字符串位置
@@ -161,6 +172,9 @@ namespace SOUI
         * Describe  
         */    
         virtual int FindString(LPCTSTR pszFind,int nAfter=0);
+
+
+		virtual CSize GetDesiredSize(int nParentWid, int nParentHei);
 
         /**
         * SComboBoxBase::DropDown
@@ -275,15 +289,6 @@ namespace SOUI
         * Describe  获取文本位置
         */
         virtual void GetTextRect(LPRECT pRect);
-
-        /**
-        * SComboBoxBase::SetWindowText
-        * @brief    设置显示文本
-        * @param    LPCTSTR pszText -- 文本
-        *
-        * Describe  
-        */
-        virtual void SetWindowText(LPCTSTR pszText);
 
         virtual void OnColorize(COLORREF cr);
         

@@ -171,15 +171,13 @@
 //! the max logger count.
 const int LOG4Z_LOGGER_MAX = 10;
 
-//! all logger synchronous output or not
-const bool LOG4Z_ALL_SYNCHRONOUS_OUTPUT = false;
 //! all logger synchronous display to the windows debug output
 const bool LOG4Z_ALL_DEBUGOUTPUT_DISPLAY = true;
 
 //! default logger output file.
 const char* const LOG4Z_DEFAULT_PATH = "./log/";
 //! default log filter level
-const int LOG4Z_DEFAULT_LEVEL = SOUI::LOG_LEVEL_DEBUG;
+const int LOG4Z_DEFAULT_LEVEL = SOUI::ILog4zManager::LOG_LEVEL_DEBUG;
 //! default logger display
 const bool LOG4Z_DEFAULT_DISPLAY = true;
 //! default logger output to file

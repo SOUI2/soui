@@ -32,12 +32,13 @@ namespace SOUI{
 		virtual void SetWrapContent(ORIENTATION orientation) = 0;
 		virtual void SetSpecifiedSize(ORIENTATION orientation, const SLayoutSize& layoutSize) = 0;
 		virtual void * GetRawData() = 0;
+		virtual ILayoutParam * Clone() const = 0;
     };
 
     struct SOUI_EXP ILayout : IObject , IObjRef{
 		virtual bool IsParamAcceptable(ILayoutParam *pLayoutParam) const = 0;
         virtual void LayoutChildren(SWindow * pParent) = 0;
         virtual ILayoutParam * CreateLayoutParam() const = 0;
-		virtual CSize MeasureChildren(SWindow * pParent,int nWidth,int nHeight) const =0;
+		virtual CSize MeasureChildren(const SWindow * pParent,int nWidth,int nHeight) const =0;
     };
 }

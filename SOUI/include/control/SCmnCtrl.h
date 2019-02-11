@@ -373,10 +373,13 @@ protected:
     ISkinObj *m_pSkin;  /**< ISkinObj对象 */
     CAutoRefPtr<IBitmap>    m_pImg;//使用代码设定的图片
     FilterLevel             m_fl;
+	bool m_bKeepAspect; /**< keep aspect ratio */
+
     SOUI_ATTRS_BEGIN()
         ATTR_SKIN(L"skin", m_pSkin, TRUE)
         ATTR_INT(L"iconIndex", m_iFrame, FALSE)
 		ATTR_INT(L"tile", m_iTile, TRUE)
+		ATTR_BOOL(L"keepAspect",m_bKeepAspect,TRUE)
     SOUI_ATTRS_END()
 
     SOUI_MSG_MAP_BEGIN()
@@ -614,7 +617,8 @@ protected:
 
     SOUI_ATTRS_BEGIN()
         ATTR_COLOR(L"colorLine", m_crLine, FALSE)
-        ATTR_INT(L"size", m_nLineSize, FALSE)
+		ATTR_COLOR(L"lineColor", m_crLine, FALSE)
+		ATTR_INT(L"lineSize", m_nLineSize, FALSE)
         ATTR_ENUM_BEGIN(L"mode", HRMODE, FALSE)
             ATTR_ENUM_VALUE(L"vertical", HR_VERT)
             ATTR_ENUM_VALUE(L"horizontal", HR_HORZ)
@@ -995,9 +999,10 @@ protected:
     void OnPaint(IRenderTarget *pRT);
     void OnLButtonUp(UINT nFlags,CPoint pt);
     virtual CSize GetDesiredSize(LPCRECT pRcContainer);
-    virtual BOOL NeedRedrawWhenStateChange(){return TRUE;}
+    virtual BOOL NeedRedrawWhenStateChange(){return TRUE;}	
     virtual void OnColorize(COLORREF cr);
-    
+	virtual void OnScaleChanged(int nScale);
+
     SOUI_ATTRS_BEGIN()
         ATTR_INT(L"toggled", m_bToggled, TRUE)
         ATTR_SKIN(L"skin", m_pSkin, TRUE)

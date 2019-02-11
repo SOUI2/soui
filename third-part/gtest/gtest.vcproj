@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9,00"
 	Name="gtest"
-	ProjectGUID="{604242E0-34FB-3F34-A5CF-0236582184C1}"
+	ProjectGUID="{F8148F66-0541-3864-808D-D4A51F0D72D1}"
 	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform
@@ -21,7 +21,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".,include,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
-				AdditionalOptions="/MP -w34100 -w34189 -w44996"
+				AdditionalOptions="/MP"
 				AssemblerListingLocation="..\..\obj\release\gtest\"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"
@@ -29,7 +29,7 @@
 				GeneratePreprocessedFile="0"
 				ObjectFile="..\..\obj\release\gtest\"
 				Optimization ="1"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,_VARIADIC_MAX=10,QT_NO_DYNAMIC_CAST,NDEBUG"
 				ProgramDataBaseFileName="$(IntDir)"
 				RuntimeLibrary="0"
 				SuppressStartupBanner="true"
@@ -56,7 +56,7 @@
 				Name="VCPreLinkEventTool" />
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,_VARIADIC_MAX=10,QT_NO_DYNAMIC_CAST"
 				ResourceOutputFileName="$(OutDir)\$(InputName).res" />
 		</Configuration>
 		<Configuration
@@ -70,7 +70,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".,include,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
-				AdditionalOptions="/MP -w34100 -w34189 -w44996"
+				AdditionalOptions="/MP"
 				AssemblerListingLocation="..\..\obj\debug\gtest\"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"
@@ -78,7 +78,7 @@
 				GeneratePreprocessedFile="0"
 				ObjectFile="..\..\obj\debug\gtest\"
 				Optimization ="4"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,_VARIADIC_MAX=10,QT_NO_DYNAMIC_CAST"
 				ProgramDataBaseFileName="$(IntDir)"
 				RuntimeLibrary="1"
 				SuppressStartupBanner="true"
@@ -105,7 +105,7 @@
 				Name="VCPreLinkEventTool" />
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,_DEBUG"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,_CRT_SECURE_NO_WARNINGS,_VARIADIC_MAX=10,QT_NO_DYNAMIC_CAST,_DEBUG"
 				ResourceOutputFileName="$(OutDir)\$(InputName).res" />
 		</Configuration>
 	</Configurations>

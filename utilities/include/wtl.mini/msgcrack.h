@@ -184,6 +184,20 @@ public: \
             return TRUE; \
     }
 
+#ifndef WM_DPICHANGED
+#define WM_DPICHANGED 0x02E0
+#endif
+// void OnDipChanged(WORD dpi,const RECT* desRect)
+#define MSG_WM_DPICHANGED(func)\
+	if (uMsg == WM_DPICHANGED) \
+	{ \
+		SetMsgHandled(TRUE); \
+		func((WORD)HIWORD(wParam), (RECT* const)lParam); \
+		if (IsMsgHandled()) \
+		return TRUE; \
+	}
+
+
 // void OnDestroy()
 #define MSG_WM_DESTROY(func) \
     if (uMsg == WM_DESTROY) \

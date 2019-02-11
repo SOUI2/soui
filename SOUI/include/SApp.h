@@ -60,13 +60,23 @@ interface IMsgLoopFactory : public IObjRef
     virtual void DestoryMsgLoop(SMessageLoop * pMsgLoop) =0;
 };
 
-interface SOUI_EXP ISystemObjectRegister : public IObjRef
+interface SOUI_EXP ISystemObjectRegister
 {
-	virtual void RegisterLayouts(SObjectFactoryMgr *objFactory){}
-	virtual void RegisterSkins(SObjectFactoryMgr *objFactory) {}
-	virtual void RegisterWindows(SObjectFactoryMgr *objFactory){}
-	virtual void RegisterInterpolator(SObjectFactoryMgr *objFactory){}
+	virtual void RegisterLayouts(SObjectFactoryMgr *objFactory)  {}
+	virtual void RegisterSkins(SObjectFactoryMgr *objFactory)  {}
+	virtual void RegisterWindows(SObjectFactoryMgr *objFactory)  {}
+	virtual void RegisterInterpolator(SObjectFactoryMgr *objFactory) {}
 };
+
+class SOUI_EXP SObjectDefaultRegister : public ISystemObjectRegister
+{
+public:
+	void RegisterWindows(SObjectFactoryMgr *objFactory);
+	void RegisterSkins(SObjectFactoryMgr *objFactory);
+	void RegisterLayouts(SObjectFactoryMgr *objFactory);
+	void RegisterInterpolator(SObjectFactoryMgr *objFactory);
+};
+
 
 /** 
  * @class     SApplication
@@ -89,7 +99,7 @@ public:
      *
      * Describe  
      */
-    SApplication(IRenderFactory *pRendFactory,HINSTANCE hInst,LPCTSTR pszHostClassName=_T("SOUIHOST"), ISystemObjectRegister *pSysObjRegister = NULL, BOOL bImeApp = FALSE);
+    SApplication(IRenderFactory *pRendFactory,HINSTANCE hInst,LPCTSTR pszHostClassName = _T("SOUIHOST"), ISystemObjectRegister & sysObjRegister = SObjectDefaultRegister(), BOOL bImeApp = FALSE);
 
     ~SApplication(void);
 

@@ -73,7 +73,9 @@ namespace SOUI
        */
       void GetHotKey(WORD & vKey,WORD &wModifers);
 
-
+	  
+  public:
+	  virtual SStringT GetWindowText(BOOL bRawText = FALSE);
   protected:
       /**
        * SHotKeyCtrl::OnGetDlgCode
@@ -85,6 +87,7 @@ namespace SOUI
       {
           return (SC_WANTALLKEYS|SC_WANTSYSKEY) & (~SC_WANTTAB);
       }
+
       /**
        * SHotKeyCtrl::OnCreate
        * @brief    创建
@@ -173,6 +176,8 @@ namespace SOUI
       void UpdateModifier();
 
       void UpdateCaret();
+
+	  UINT GetTextAlign();
 
       SOUI_ATTRS_BEGIN()
           ATTR_WORD(L"invalidComb",m_wInvalidComb,FALSE)

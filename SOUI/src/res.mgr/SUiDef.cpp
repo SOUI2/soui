@@ -149,6 +149,15 @@ namespace SOUI{
 						defFontInfo.strFaceName = KDefFontFace;
 					}
 
+					//parse default Unit
+					pugi::xml_node xmlUnit;
+					xmlUnit = root.child(L"unit", false);
+					if (xmlUnit)
+					{
+						SStringT unit = xmlUnit.attribute(L"defUnit").as_string(L"dp");
+						SLayoutSize::setDefUnit(unit);
+					}
+
 					//load named string
 					{
 						pugi::xml_document docData;
@@ -207,7 +216,7 @@ namespace SOUI{
 							objDefAttr.Attach(new SObjDefAttr);
 							objDefAttr->Init(nodeData);
 						}
-					}
+					}					
 					bRet = TRUE;
 				}
 			}

@@ -10,7 +10,8 @@ class SNotifyReceiver:public CSimpleWnd
 {
 public:
 	enum{
-		UM_NOTIFYEVENT = (WM_USER+1000)
+		UM_NOTIFYEVENT = (WM_USER+1000),
+		TIMERID_ASYNC = 100,
 	};
 
 	SNotifyReceiver(INotifyCallback * pCallback) :m_pCallback(pCallback)
@@ -25,7 +26,10 @@ public:
 
 	LRESULT OnNotifyEvent(UINT uMsg,WPARAM wParam,LPARAM lParam);
 
+	void OnTimer(UINT_PTR uID);
+
 	BEGIN_MSG_MAP_EX(SNotifyReceiver)
+		MSG_WM_TIMER(OnTimer)
 		MESSAGE_HANDLER_EX(UM_NOTIFYEVENT, OnNotifyEvent)
 	END_MSG_MAP()
 
@@ -36,16 +40,9 @@ protected:
 
 LRESULT SNotifyReceiver::OnNotifyEvent(UINT uMsg,WPARAM wParam,LPARAM lParam)
 {
+#if _MSC_VER >= 1700	//VS2012
 	switch (wParam)
 	{
-	case 0:
-		{
-			EventArgs *e = (EventArgs*)lParam;
-			m_pCallback->OnFireEvent(e);
-			e->Release();
-		}
-		break;
-#if _MSC_VER >= 1700	//VS2012
 	case 1:
 		{
 			std::function<void(void)>* f = (std::function<void(void)>*)lParam;
@@ -59,9 +56,20 @@ LRESULT SNotifyReceiver::OnNotifyEvent(UINT uMsg,WPARAM wParam,LPARAM lParam)
 			delete f;
 		}
 		break;
-#endif//_MSC_VER >= 1700	//VS2012
+	default:
+		break;
 	}
+#endif//_MSC_VER >= 1700	//VS2012
 	return 0;
+}
+
+void SNotifyReceiver::OnTimer(UINT_PTR uID)
+{
+	if(uID==TIMERID_ASYNC)
+	{
+		KillTimer(uID);
+		m_pCallback->OnFireEvts();
+	}
 }
 
 
@@ -79,6 +87,13 @@ SNotifyCenter::~SNotifyCenter(void)
 	m_pReceiver->DestroyWindow();
 	delete m_pReceiver;
 	m_pReceiver = NULL;
+
+	SPOSITION pos = m_ayncEvent.GetTailPosition();
+	while (pos)
+	{
+		EventArgs *e = m_ayncEvent.GetNext(pos);
+		e->Release();
+	}
 }
 
 void SNotifyCenter::FireEventSync( EventArgs *e )
@@ -90,8 +105,13 @@ void SNotifyCenter::FireEventSync( EventArgs *e )
 //把事件抛到事件队列，不检查事件是否注册，执行事件时再检查。
 void SNotifyCenter::FireEventAsync( EventArgs *e )
 {
+	SAutoLock lock(m_cs);
 	e->AddRef();
-	m_pReceiver->PostMessage(SNotifyReceiver::UM_NOTIFYEVENT,0,(LPARAM)e);
+	if(m_ayncEvent.GetCount()==0)
+	{
+		m_pReceiver->SetTimer(SNotifyReceiver::TIMERID_ASYNC,20,NULL);
+	}
+	m_ayncEvent.AddTail(e);
 }
 
 
@@ -110,6 +130,31 @@ void SNotifyCenter::OnFireEvent( EventArgs *e )
 		if(!e->bubbleUp) break;
 	}
 }
+
+
+void SNotifyCenter::OnFireEvts()
+{
+	SList<EventArgs *> evts;
+	{
+		SAutoLock lock(m_cs);
+		SPOSITION pos = m_ayncEvent.GetHeadPosition();
+		while (pos)
+		{
+			EventArgs *e = m_ayncEvent.GetNext(pos);
+			evts.AddTail(e);
+		}
+		m_ayncEvent.RemoveAll();
+	}
+
+	SPOSITION pos = evts.GetHeadPosition();
+	while(pos)
+	{
+		EventArgs *e = evts.GetNext(pos);
+		OnFireEvent(e);
+		e->Release();
+	}
+}
+
 
 bool SNotifyCenter::RegisterEventMap( const ISlotFunctor &slot )
 {

@@ -15,9 +15,12 @@ namespace SOUI
 		void SetStep(UINT nStep);
 
 		SWindow * GetBuddy();
+
     protected:
         virtual CSize GetDesiredSize(LPCRECT pRcContainer);
 		virtual BOOL NeedRedrawWhenStateChange() { return TRUE; }
+        virtual void OnColorize(COLORREF cr);
+
     protected:
         void OnValueChanged(bool bInit=false);
     
@@ -26,6 +29,7 @@ namespace SOUI
 		void OnMouseMove(UINT nFlags, CPoint point);
 		void OnPaint(IRenderTarget *pRT);
 		void OnTimer(char cTimerId);
+		bool OnBuddyChange(EventArgs * pEvt);
 		int OnCreate(void *);
 		void OnClick();
 		SOUI_MSG_MAP_BEGIN()

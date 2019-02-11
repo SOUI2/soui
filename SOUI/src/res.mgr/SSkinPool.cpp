@@ -3,6 +3,7 @@
 #include "core/Sskin.h"
 #include "SApp.h"
 #include "helper/mybuffer.h"
+#include "helper/SDpiScale.h"
 
 namespace SOUI
 {
@@ -78,23 +79,7 @@ int SSkinPool::LoadSkins(pugi::xml_node xmlNode)
     return nLoaded;
 }
 
-const int KBuiltinScales [] =
-{
-	100,125,150,200,250,300
-};
 
-/*标准化放大比例, 选择比自己指定比例小一号的比例*/
-int NormalizeScale(int nScale)
-{
-	for (int i = 1; i < ARRAYSIZE(KBuiltinScales); i++)
-	{
-		if (nScale < KBuiltinScales[i])
-		{
-			return KBuiltinScales[i-1];
-		}
-	}
-	return KBuiltinScales[ARRAYSIZE(KBuiltinScales) - 1];
-}
 
 ISkinObj* SSkinPool::GetSkin(const SStringW & strSkinName,int nScale)
 {
@@ -102,14 +87,14 @@ ISkinObj* SSkinPool::GetSkin(const SStringW & strSkinName,int nScale)
 
     if(!HasKey(key))
     {
-		nScale = NormalizeScale(nScale);
+		nScale = SDpiScale::NormalizeScale(nScale);
 		key.scale = nScale;
 		if (!HasKey(key))
 		{
 			bool bFind = false;
-			for (int i = 0; i < ARRAYSIZE(KBuiltinScales); i++)
+			for (int i = 0; i < SDpiScale::GetBuiltinScaleCount(); i++)
 			{
-				key.scale = KBuiltinScales[i];
+				key.scale = SDpiScale::GetBuiltinScales()[i];
 				bFind = HasKey(key);
 				if (bFind) break;
 			}

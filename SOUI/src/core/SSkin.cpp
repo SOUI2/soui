@@ -740,6 +740,20 @@ SIZE SSKinGroup::GetSkinSize()
 	return CSize();
 }
 
+void SSKinGroup::_Scale(ISkinObj * skinObj, int nScale)
+{
+	__super::_Scale(skinObj, nScale);
+	SSKinGroup *pRet = sobj_cast<SSKinGroup>(skinObj);
+	if (m_skins[0])
+		pRet->m_skins[0] = m_skins[0]->Scale(nScale);
+	if (m_skins[1])
+		pRet->m_skins[1] = m_skins[1]->Scale(nScale);
+	if (m_skins[2])
+		pRet->m_skins[2] = m_skins[2]->Scale(nScale);
+	if (m_skins[3])
+		pRet->m_skins[3] = m_skins[3]->Scale(nScale);
+}
+
 /*
 IBitmap中的内存为RGBA格式，.9中使用alpha通道==0或者255来确定如何拉伸
 */

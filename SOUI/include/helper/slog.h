@@ -3,8 +3,10 @@
 #include <stdio.h>
 
 #ifndef GETLOGMGR
-#include "SApp.h"
+#include <SApp.h>
 #define GETLOGMGR() SOUI::SApplication::getSingletonPtr()?SOUI::SApplication::getSingleton().GetLogManager():NULL
+#else
+#include <interface/slog-i.h>
 #endif
 
 #ifndef E_RANGE
@@ -31,7 +33,7 @@ namespace SOUI
 #define SOUI_LOG_STREAM(id_or_name, filter, level,  log)\
     do{\
 		SOUI::ILog4zManager * pLogMgr = GETLOGMGR(); \
-		char logBuf[SOUI::LOG4Z_LOG_BUF_SIZE];\
+		char *logBuf= (char*)malloc(SOUI::LOG4Z_LOG_BUF_SIZE);\
 		SOUI::Log4zStream ss(logBuf, SOUI::LOG4Z_LOG_BUF_SIZE);\
 		ss << log;\
 		if (pLogMgr && pLogMgr->prePushLog(id_or_name,level)) \
@@ -40,19 +42,21 @@ namespace SOUI
 			pLogMgr->pushLog(id_or_name, level, filter, logBuf, __FILE__, __LINE__, __FUNCTION__, pAddr);\
 		}else\
 		{\
+			ss<<" "<<__FUNCTION__<<" "<<__FILE__<<":"<<__LINE__<<"\n";\
 			OutputDebugStringA(logBuf);\
 		}\
+		free(logBuf);\
     } while (0)
 
 
 //! fast micro
-#define LOG_TRACE(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::LOG_LEVEL_TRACE, log)
-#define LOG_DEBUG(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::LOG_LEVEL_DEBUG, log)
-#define LOG_INFO(id_or_name, filter, log)  SOUI_LOG_STREAM(id_or_name, filter, SOUI::LOG_LEVEL_INFO, log)
-#define LOG_WARN(id_or_name, filter, log)  SOUI_LOG_STREAM(id_or_name, filter, SOUI::LOG_LEVEL_WARN, log)
-#define LOG_ERROR(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::LOG_LEVEL_ERROR, log)
-#define LOG_ALARM(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::LOG_LEVEL_ALARM, log)
-#define LOG_FATAL(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::LOG_LEVEL_FATAL, log)
+#define LOG_TRACE(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::ILog4zManager::LOG_LEVEL_TRACE, log)
+#define LOG_DEBUG(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::ILog4zManager::LOG_LEVEL_DEBUG, log)
+#define LOG_INFO(id_or_name, filter, log)  SOUI_LOG_STREAM(id_or_name, filter, SOUI::ILog4zManager::LOG_LEVEL_INFO, log)
+#define LOG_WARN(id_or_name, filter, log)  SOUI_LOG_STREAM(id_or_name, filter, SOUI::ILog4zManager::LOG_LEVEL_WARN, log)
+#define LOG_ERROR(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::ILog4zManager::LOG_LEVEL_ERROR, log)
+#define LOG_ALARM(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::ILog4zManager::LOG_LEVEL_ALARM, log)
+#define LOG_FATAL(id_or_name, filter, log) SOUI_LOG_STREAM(id_or_name, filter, SOUI::ILog4zManager::LOG_LEVEL_FATAL, log)
 
 //! super micro.
 #define LOGT(filter, log ) LOG_TRACE(SOUI::LOG4Z_MAIN_LOGGER_ID,filter, log )
@@ -69,36 +73,41 @@ namespace SOUI
 #define LOG_FORMAT(id_or_name, level, filter, logformat, ...) \
     do{ \
 		SOUI::ILog4zManager * pLogMgr = GETLOGMGR(); \
-		char logbuf[SOUI::LOG4Z_LOG_BUF_SIZE]; \
+		char *logbuf=(char*)malloc(SOUI::LOG4Z_LOG_BUF_SIZE); \
 		if(sizeof(logformat[0]) == sizeof(char))\
 			_snprintf_s(logbuf, SOUI::LOG4Z_LOG_BUF_SIZE, _TRUNCATE, (const char*)logformat, ##__VA_ARGS__); \
 		else \
 		{\
-			wchar_t logbufw[SOUI::LOG4Z_LOG_BUF_SIZE]; \
+			wchar_t *logbufw = (wchar_t*)malloc(SOUI::LOG4Z_LOG_BUF_SIZE*sizeof(wchar_t)); \
 			_snwprintf_s(logbufw, SOUI::LOG4Z_LOG_BUF_SIZE, _TRUNCATE, (const wchar_t*)logformat, ##__VA_ARGS__); \
 			DWORD dwLen = WideCharToMultiByte(CP_ACP, 0, logbufw, -1, NULL, 0, NULL, NULL);\
 			if (dwLen < SOUI::LOG4Z_LOG_BUF_SIZE)\
 			{\
 				WideCharToMultiByte(CP_ACP, 0, logbufw, -1, logbuf, dwLen, NULL, NULL);\
 			}\
+			free(logbufw);\
 		}\
 		if (pLogMgr && pLogMgr->prePushLog(id_or_name,level)) \
 		{\
 			pLogMgr->pushLog(id_or_name, level,filter, logbuf, __FILE__, __LINE__, __FUNCTION__,_ReturnAddress()); \
 		}else\
 		{\
-			OutputDebugStringA(logbuf);\
+			char *logbuf2 = (char*)malloc(SOUI::LOG4Z_LOG_BUF_SIZE);\
+			_snprintf_s(logbuf2, SOUI::LOG4Z_LOG_BUF_SIZE, _TRUNCATE, "%s %s %s:%d\n",logbuf, __FUNCTION__, __FILE__, __LINE__ ); \
+			OutputDebugStringA(logbuf2);\
+			free(logbuf2);\
 		}\
+		free(logbuf);\
     } while (0)
 
 //!format string
-#define LOGFMT_TRACE(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::LOG_LEVEL_TRACE, filter, fmt, ##__VA_ARGS__)
-#define LOGFMT_DEBUG(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::LOG_LEVEL_DEBUG, filter, fmt, ##__VA_ARGS__)
-#define LOGFMT_INFO(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::LOG_LEVEL_INFO,  filter,fmt, ##__VA_ARGS__)
-#define LOGFMT_WARN(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::LOG_LEVEL_WARN,  filter,fmt, ##__VA_ARGS__)
-#define LOGFMT_ERROR(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::LOG_LEVEL_ERROR, filter, fmt, ##__VA_ARGS__)
-#define LOGFMT_ALARM(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::LOG_LEVEL_ALARM, filter, fmt, ##__VA_ARGS__)
-#define LOGFMT_FATAL(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::LOG_LEVEL_FATAL, filter, fmt, ##__VA_ARGS__)
+#define LOGFMT_TRACE(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::ILog4zManager::LOG_LEVEL_TRACE, filter, fmt, ##__VA_ARGS__)
+#define LOGFMT_DEBUG(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::ILog4zManager::LOG_LEVEL_DEBUG, filter, fmt, ##__VA_ARGS__)
+#define LOGFMT_INFO(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::ILog4zManager::LOG_LEVEL_INFO,  filter,fmt, ##__VA_ARGS__)
+#define LOGFMT_WARN(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::ILog4zManager::LOG_LEVEL_WARN,  filter,fmt, ##__VA_ARGS__)
+#define LOGFMT_ERROR(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::ILog4zManager::LOG_LEVEL_ERROR, filter, fmt, ##__VA_ARGS__)
+#define LOGFMT_ALARM(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::ILog4zManager::LOG_LEVEL_ALARM, filter, fmt, ##__VA_ARGS__)
+#define LOGFMT_FATAL(id_or_name, filter, fmt, ...)  LOG_FORMAT(id_or_name, SOUI::ILog4zManager::LOG_LEVEL_FATAL, filter, fmt, ##__VA_ARGS__)
 #define LOGFMTT( filter, fmt, ...) LOGFMT_TRACE(SOUI::LOG4Z_MAIN_LOGGER_ID, filter, fmt,  ##__VA_ARGS__)
 #define LOGFMTD( filter, fmt, ...) LOGFMT_DEBUG(SOUI::LOG4Z_MAIN_LOGGER_ID, filter, fmt,  ##__VA_ARGS__)
 #define LOGFMTI( filter, fmt, ...) LOGFMT_INFO(SOUI::LOG4Z_MAIN_LOGGER_ID, filter, fmt,  ##__VA_ARGS__)
@@ -309,9 +318,9 @@ namespace SOUI {
 	{
 #if defined (WIN32) || defined(_WIN64)
 		DWORD dwLen = WideCharToMultiByte(CP_ACP, 0, t, -1, NULL, 0, NULL, NULL);
-		if (dwLen < LOG4Z_LOG_BUF_SIZE)
+		if (dwLen < SOUI::LOG4Z_LOG_BUF_SIZE)
 		{
-			char buf[LOG4Z_LOG_BUF_SIZE];
+			char buf[SOUI::LOG4Z_LOG_BUF_SIZE];
 			dwLen = WideCharToMultiByte(CP_ACP, 0, t, -1, buf, dwLen, NULL, NULL);
 			if (dwLen > 0)
 			{

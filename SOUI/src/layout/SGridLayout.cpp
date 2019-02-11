@@ -195,10 +195,15 @@ namespace SOUI
 
 	void * SGridLayoutParam::GetRawData()
 	{
-		return (SGridLayoutParam*)this;
+		return (SGridLayoutParamStruct*)this;
 	}
 
-
+	ILayoutParam * SGridLayoutParam::Clone() const
+	{
+		SGridLayoutParam *pRet = new SGridLayoutParam();
+		memcpy(pRet->GetRawData(), (SGridLayoutParamStruct*)this, sizeof(SGridLayoutParamStruct));
+		return pRet;
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	SGridLayout::SGridLayout(void):m_GravityX(gCenter),m_GravityY(gCenter),m_nCols(-1),m_nRows(-1)
@@ -224,7 +229,7 @@ namespace SOUI
 	/*
 	* MeasureChildren 计算gridlayout的子窗口大小
 	*/
-	CSize SGridLayout::MeasureChildren(SWindow * pParent,int nWidth,int nHeight) const
+	CSize SGridLayout::MeasureChildren(const SWindow * pParent,int nWidth,int nHeight) const
 	{
 		SUNUSED(nWidth);
 		SUNUSED(nHeight);
@@ -593,7 +598,7 @@ namespace SOUI
 		delete []pCellsSpan;
 	}
 
-	int SGridLayout::CalcCells(SWindow *pParent) const
+	int SGridLayout::CalcCells(const SWindow *pParent) const
 	{
 		int nCells = 0;
 		SWindow *pCell = pParent->GetNextLayoutChild(NULL);

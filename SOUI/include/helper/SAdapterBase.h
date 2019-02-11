@@ -62,6 +62,17 @@ namespace SOUI
                 pObserver->onInvalidated();
             }
         }
+
+		void notifyItemChanged(int iItem)
+		{
+			SPOSITION pos = m_lstObserver.GetHeadPosition();
+			while(pos)
+			{
+				ILvDataSetObserver *pObserver = m_lstObserver.GetNext(pos);
+				pObserver->OnItemChanged(iItem);
+			}
+		}
+
     protected:
         SList<ILvDataSetObserver *> m_lstObserver;
     };
@@ -82,6 +93,10 @@ namespace SOUI
         void notifyDataSetInvalidated() {
             m_obzMgr.notifyInvalidated();
         }
+
+		void notifyItemDataChanged(int iItem){
+			m_obzMgr.notifyItemChanged(iItem);
+		}
 
         virtual void registerDataSetObserver(ILvDataSetObserver * observer)
         {

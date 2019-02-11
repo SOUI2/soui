@@ -1,7 +1,6 @@
 ﻿#include "souistd.h"
 #include "layout\SLinearLayout.h"
 #include "helper\SplitString.h"
-#include <algorithm>
 
 namespace SOUI
 {
@@ -196,6 +195,12 @@ namespace SOUI
 		return (SLinearLayoutParamStruct*)this;
 	}
 
+	ILayoutParam * SLinearLayoutParam::Clone() const
+	{
+		SLinearLayoutParam *pRet = new SLinearLayoutParam();
+		memcpy(pRet->GetRawData(), (SLinearLayoutParamStruct*)this, sizeof(SLinearLayoutParamStruct));
+		return pRet;
+	}
 
 	//////////////////////////////////////////////////////////////////////////
     SLinearLayout::SLinearLayout(void):m_gravity(G_Undefined)
@@ -216,6 +221,7 @@ namespace SOUI
 		
         int offset = 0;
         float fWeight= 0.0f;
+		int interval = m_interval.toPixelSize(pParent->GetScale());
 
         {//assign width or height
 
@@ -269,6 +275,8 @@ namespace SOUI
                 pSize [iChild] = szChild;
                 offset += m_orientation == Vert ? szChild.cy:szChild.cx;
 
+				offset += interval;//add interval
+
 				iChild++;
 				pChild=pParent->GetNextLayoutChild(pChild);
             }
@@ -276,20 +284,26 @@ namespace SOUI
 			nChilds = iChild;
         }
 
+		offset -= interval;//sub the last interval value.
+
         int size = m_orientation == Vert? rcParent.Height():rcParent.Width();
         if(fWeight > 0.0f && size > offset)
         {//assign size by weight
-            int nRemain = size - offset;
+            int nRemain = size - offset;						
+
 			for(int iChild = 0;iChild < nChilds;iChild ++)
             {
+				if (SLayoutSize::fequal(fWeight, 0.0f))
+					break;
 				SWindow *pChild = pChilds[iChild];
-
 				SLinearLayoutParam *pLinearLayoutParam = pChild->GetLayoutParamT<SLinearLayoutParam>();
-
                 if(pLinearLayoutParam->weight > 0.0f)
                 {
-                    LONG & szChild = m_orientation == Vert? pSize[iChild].cy:pSize[iChild].cx;
-                    szChild += (int)(nRemain*pLinearLayoutParam->weight/fWeight);
+					int extra = int(nRemain*pLinearLayoutParam->weight / fWeight + 0.5f);
+					 LONG & szChild = m_orientation == Vert? pSize[iChild].cy:pSize[iChild].cx;
+                    szChild += extra;
+					nRemain -= extra;
+					fWeight -= pLinearLayoutParam->weight;
                 }
             }
         }
@@ -298,7 +312,6 @@ namespace SOUI
 			for(int iChild = 0;iChild < nChilds;iChild ++)
 			{
 				SWindow *pChild = pChilds[iChild];
-
 
                 SLinearLayoutParam *pLinearLayoutParam = pChild->GetLayoutParamT<SLinearLayoutParam>();
 				int nScale = pChild->GetScale();
@@ -343,7 +356,7 @@ namespace SOUI
 
                     offset += rcChild.Width();
                 }
-
+				offset += interval;
             }
 
         }
@@ -354,7 +367,7 @@ namespace SOUI
     }
 
 	//nWidth,nHeight == -1:wrap_content
-	CSize SLinearLayout::MeasureChildren(SWindow * pParent,int nWidth,int nHeight) const
+	CSize SLinearLayout::MeasureChildren(const SWindow * pParent,int nWidth,int nHeight) const
 	{
 		CSize *pSize = new CSize [pParent->GetChildrenCount()];
 
@@ -392,10 +405,6 @@ namespace SOUI
 			if(szChild.cx == SIZE_WRAP_CONTENT || szChild.cy == SIZE_WRAP_CONTENT)
 			{
                 int nWid = szChild.cx, nHei = szChild.cy;
-                if(nWid == SIZE_WRAP_CONTENT)
-                    nWid = nWidth * pParentLayoutParam->IsWrapContent(Horz)?-1:1; //把父窗口的WrapContent属性通过-1标志传递给GetDesiredSize
-                if(nHei == SIZE_WRAP_CONTENT)
-                    nHei = nHeight * pParentLayoutParam->IsWrapContent(Vert)?-1:1;//把父窗口的WrapContent属性通过-1标志传递给GetDesiredSize
 
 				CSize szCalc = pChild->GetDesiredSize(nWid,nHei);
 				if(szChild.cx == SIZE_WRAP_CONTENT) 
@@ -422,12 +431,21 @@ namespace SOUI
 			if(m_orientation == Horz)
 			{
 				szRet.cx += pSize[i].cx;
-				szRet.cy = (std::max)(szRet.cy,pSize[i].cy);
+				szRet.cy = smax(szRet.cy,pSize[i].cy);
 			}else
 			{
-				szRet.cx = (std::max)(szRet.cx,pSize[i].cx);
+				szRet.cx = smax(szRet.cx,pSize[i].cx);
 				szRet.cy += pSize[i].cy;
 			}
+		}
+		//add interval
+		if (m_orientation == Horz)
+		{
+			szRet.cx += m_interval.toPixelSize(pParent->GetScale())*(iChild-1);
+		}
+		else
+		{
+			szRet.cy += m_interval.toPixelSize(pParent->GetScale()*(iChild - 1));
 		}
 		delete []pSize;
 		return szRet;

@@ -13,7 +13,10 @@ public:
     }
     virtual void onChanged();
     virtual void onInvalidated();
-    
+
+	virtual void OnItemChanged(int iItem);
+
+
 protected:
     STileView *m_pOwner;
 };
@@ -29,6 +32,11 @@ void STileViewDataSetObserver::onInvalidated()
     m_pOwner->onDataSetInvalidated();
 }
 
+void STileViewDataSetObserver::OnItemChanged(int iItem)
+{
+	m_pOwner->onItemDataChanged(iItem);
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 STileView::STileView()
@@ -38,6 +46,9 @@ STileView::STileView()
     , m_itemCapture(NULL)
     , m_nMarginSize(0.0f, SLayoutSize::px)
     , m_bWantTab(FALSE)
+	, m_bDatasetInvalidated(false)
+	, m_bPendingUpdate(false)
+	, m_iPendingUpdateItem(-2)
 {
     m_bFocusable = TRUE;
     m_observer.Attach(new STileViewDataSetObserver(this));
@@ -165,6 +176,14 @@ void STileView::onDataSetInvalidated()
 {
     m_bDatasetInvalidated = TRUE;
     Invalidate();
+}
+
+
+void STileView::onItemDataChanged(int iItem)
+{
+	if(iItem<m_iFirstVisible) return;
+	if(iItem>=m_iFirstVisible + (int)m_lstItems.GetCount()) return;
+	UpdateVisibleItems();
 }
 
 void STileView::OnPaint(IRenderTarget *pRT)
@@ -306,6 +325,8 @@ void STileView::UpdateVisibleItems()
             ii.pItem->GetEventSet()->setMutedState(true);
             ii.pItem->ModifyItemState(dwState,0);
             ii.pItem->GetEventSet()->setMutedState(false);
+	    if (dwState & WndState_Hover) 
+		m_pHoverItem = ii.pItem;
 
             m_adapter->getView(iNewLastVisible, ii.pItem, m_xmlTemplate.first_child());
 			ii.pItem->DoColorize(GetColorizeColor());
@@ -335,13 +356,13 @@ void STileView::UpdateVisibleItems()
         {
             continue;
         }
-        if(ii.pItem == m_pHoverItem)
+        if(ii.pItem->GetState() & WndState_Hover)
         {
             ii.pItem->DoFrameEvent(WM_MOUSELEAVE, 0, 0);
             m_pHoverItem = NULL;
         }
         ii.pItem->GetEventSet()->setMutedState(true);
-        if(ii.pItem->GetItemIndex() == m_iSelItem)
+        if(ii.pItem->GetState() & WndState_Check)
         {
             ii.pItem->ModifyItemState(0, WndState_Check);
             ii.pItem->GetFocusManager()->SetFocusedHwnd(0);
@@ -923,6 +944,21 @@ void STileView::DispatchMessage2Items(UINT uMsg,WPARAM wParam,LPARAM lParam)
 			pItem->SDispatchMessage(uMsg, wParam, lParam);
 		}
 	}
+}
+
+void STileView::OnShowWindow(BOOL bShow, UINT nStatus)
+{
+	__super::OnShowWindow(bShow,nStatus);
+	if(IsVisible(TRUE) && m_bPendingUpdate)
+	{
+		if(m_iPendingUpdateItem == -1)
+			onDataSetChanged();
+		else
+			onItemDataChanged(m_iPendingUpdateItem);
+		m_bPendingUpdate = false;
+		m_iPendingUpdateItem = -2;
+	}
+
 }
 
 }

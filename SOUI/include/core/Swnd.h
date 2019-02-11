@@ -145,7 +145,7 @@ namespace SOUI
 
 	struct ITrCtxProvider
 	{
-		virtual const SStringW & GetTrCtx() = 0;
+		virtual const SStringW & GetTrCtx() const = 0;
 	};
 
 	class  SOUI_EXP STrText
@@ -196,29 +196,22 @@ namespace SOUI
 		void accNotifyEvent(DWORD dwEvt);
 	public:
 
-		ILayout * GetLayout(){
+		ILayout * GetLayout() const{
 			return m_pLayout;
 		}
 
 		template<class T>
 		T * GetLayoutParamT() const
 		{
-			return sobj_cast<T>(m_pLayoutParam);
+			return sobj_cast<T>(GetLayoutParam());
 		}
 
-		ILayoutParam * GetLayoutParam()
+		virtual ILayoutParam * GetLayoutParam() const
 		{
 			return m_pLayoutParam;
 		}
 
-		bool SetLayoutParam(ILayoutParam * pLayoutParam)
-		{
-			SWindow *pParent = GetParent();
-			if(!pParent->GetLayout()->IsParamAcceptable(pLayoutParam))
-				return false;
-			m_pLayoutParam = pLayoutParam;
-			return true;
-		}
+		bool SetLayoutParam(ILayoutParam * pLayoutParam);
 
 		bool IsFloat() const{
 			return !!m_bFloat;
@@ -236,7 +229,7 @@ namespace SOUI
         *
         * Describe  
         */
-		SWindow * GetNextLayoutChild(SWindow *pCurChild);
+		SWindow * GetNextLayoutChild(SWindow *pCurChild) const;
 
     public://SWindow状态相关方法
         /**
@@ -966,6 +959,7 @@ namespace SOUI
         */
         virtual void AfterPaint(IRenderTarget *pRT, SPainter &painter);
         
+		virtual const SStringW & GetTrCtx() const;
     public://caret相关方法
         virtual BOOL CreateCaret(HBITMAP pBmp,int nWid,int nHeight);
         virtual void ShowCaret(BOOL bShow);   
@@ -1290,6 +1284,7 @@ namespace SOUI
             ATTR_SKIN(L"ncskin", m_pNcSkin, TRUE)   //直接获得皮肤对象
             ATTR_INT(L"data", m_uData, 0 )
 			ATTR_I18NSTRT(L"text",m_strText,TRUE)	//从text属性中获取显示文本
+			ATTR_STRINGW(L"trCtx",m_strTrCtx,FALSE) 
             ATTR_CUSTOM(L"enable", OnAttrEnable)
             ATTR_CUSTOM(L"visible", OnAttrVisible)
             ATTR_CUSTOM(L"show", OnAttrVisible)
@@ -1299,12 +1294,12 @@ namespace SOUI
             ATTR_CUSTOM(L"layeredWindow",OnAttrLayeredWindow)
             ATTR_CUSTOM(L"trackMouseEvent",OnAttrTrackMouseEvent)
 			ATTR_CUSTOM(L"tip",OnAttrTip)
-            ATTR_INT(L"msgTransparent", m_bMsgTransparent, FALSE)
+            ATTR_BOOL(L"msgTransparent", m_bMsgTransparent, FALSE)
             ATTR_LAYOUTSIZE(L"maxWidth",m_nMaxWidth,FALSE)
-            ATTR_INT(L"clipClient",m_bClipClient,FALSE)
-            ATTR_INT(L"focusable",m_bFocusable,FALSE)
-            ATTR_INT(L"drawFocusRect",m_bDrawFocusRect,TRUE)
-            ATTR_INT(L"float",m_bFloat,FALSE)
+            ATTR_BOOL(L"clipClient",m_bClipClient,FALSE)
+            ATTR_BOOL(L"focusable",m_bFocusable,FALSE)
+            ATTR_BOOL(L"drawFocusRect",m_bDrawFocusRect,TRUE)
+            ATTR_BOOL(L"float",m_bFloat,FALSE)
 			ATTR_CHAIN(m_style,HRET_FLAG_STYLE)					    //交给SwndStyle处理
 			ATTR_CHAIN_PTR(m_pLayout,HRET_FLAG_LAYOUT)				//交给Layout处理
 			ATTR_CHAIN_PTR(m_pLayoutParam,HRET_FLAG_LAYOUT_PARAM)	//交给LayoutParam处理
@@ -1312,8 +1307,6 @@ namespace SOUI
 
 
 		virtual HRESULT OnLanguageChanged();
-
-		virtual const SStringW & GetTrCtx();
 
 		virtual void OnScaleChanged(int scale);
 
@@ -1353,6 +1346,7 @@ namespace SOUI
         STrText             m_strText;          /**< 窗口文字 */
         STrText             m_strToolTipText;   /**< 窗口ToolTip */
         SStringW            m_strName;          /**< 窗口名称 */
+		SStringW			m_strTrCtx;			/**< translate context. empty than use container's tr ctx*/
         int                 m_nID;              /**< 窗口ID */
         UINT                m_uZorder;          /**< 窗口Zorder */
 

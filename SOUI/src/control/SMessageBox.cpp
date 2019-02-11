@@ -8,7 +8,8 @@ namespace SOUI
 {
 
     static pugi::xml_document s_xmlMsgTemplate;
-    
+    	
+	
     BOOL SetMsgTemplate(pugi::xml_node uiRoot)
     {
         if(wcscmp(uiRoot.name(),L"SOUI")!=0 ) return FALSE;
@@ -19,6 +20,7 @@ namespace SOUI
         s_xmlMsgTemplate.append_copy(uiRoot);
         return TRUE;
     }
+	
 
     pugi::xml_node GetMsgTemplate()
     {
@@ -39,13 +41,13 @@ namespace SOUI
         UINT    uType;
     }s_MsgBoxInfo;
     
-    INT_PTR SMessageBoxImpl::MessageBox( HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType )
+    INT_PTR SMessageBoxImpl::MessageBox( HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType ,int nScale)
     {
         if(!GetMsgTemplate()) return ::MessageBox(hWnd,lpText,lpCaption,uType);
         s_MsgBoxInfo.pszText=lpText;
         s_MsgBoxInfo.pszCaption=lpCaption;
         s_MsgBoxInfo.uType=uType;
-        
+		m_nScale = nScale;
         return DoModal(hWnd);
     }
 
@@ -158,6 +160,7 @@ namespace SOUI
         pugi::xml_node uiRoot=GetMsgTemplate();
         
         InitFromXml(uiRoot);
+		
         UINT uType = s_MsgBoxInfo.uType&0x0F;
 
         STabCtrl *pBtnSwitch= FindChildByName2<STabCtrl>(NAME_MSGBOX_BTNSWITCH);
@@ -192,11 +195,11 @@ namespace SOUI
         }
         
         const wchar_t *pszFrameAttr=uiRoot.attribute(L"frameSize").value();
-        CRect rcFrame;
-        swscanf(pszFrameAttr,L"%d,%d,%d,%d",&rcFrame.left,&rcFrame.top,&rcFrame.right,&rcFrame.bottom);
-        CSize szMin;
-        const wchar_t *pszMinAttr=uiRoot.attribute(L"minSize").value();
-        swscanf(pszMinAttr,L"%d,%d",&szMin.cx,&szMin.cy);
+		SLayoutSize rcFrame[4];
+		swscanf(pszFrameAttr, L"%f,%f,%f,%f", &(rcFrame[0].fSize), &(rcFrame[1].fSize), &(rcFrame[2].fSize), &(rcFrame[3].fSize));
+		SLayoutSize szMin[2];
+		const wchar_t *pszMinAttr = uiRoot.attribute(L"minSize").value();
+		swscanf(pszMinAttr, L"%f,%f", &(szMin[0].fSize), &(szMin[1].fSize));
 
         SWindow * pTitle= FindChildByName(NAME_MSGBOX_TITLE);
         SASSERT(pTitle);
@@ -214,9 +217,9 @@ namespace SOUI
         CRect rcText = pMsg->GetWindowRect();//获取msg的左边位置
         
         CSize szWnd;
-        szWnd.cx=(std::max)(szMin.cx,rcText.left + szText.cx + rcFrame.right);
-        szWnd.cy=(std::max)(szMin.cy,rcFrame.top + szText.cy + rcFrame.bottom);
-        
+		szWnd.cx = (std::max)((LONG)szMin[0].toPixelSize(GetScale()), rcText.left + szText.cx + rcFrame[0].toPixelSize(GetScale()) + rcFrame[2].toPixelSize(GetScale()));
+		szWnd.cy = (std::max)((LONG)szMin[1].toPixelSize(GetScale()), rcText.top + szText.cy + rcFrame[1].toPixelSize(GetScale()) + rcFrame[3].toPixelSize(GetScale()));
+
         SetWindowPos(0,0,0,szWnd.cx,szWnd.cy,SWP_NOMOVE|SWP_NOACTIVATE|SWP_NOZORDER);   
         pMsg->GetRoot()->UpdateLayout();
         //将msg text的上下位置设置成和parent相同。
@@ -231,10 +234,10 @@ namespace SOUI
     }
 
     //////////////////////////////////////////////////////////////////////////
-    INT_PTR SMessageBox( HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType )
+    INT_PTR SMessageBox( HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType,int nScale)
     {
         SMessageBoxImpl msgBox;
-        return msgBox.MessageBox(hWnd,lpText,lpCaption,uType);
+        return msgBox.MessageBox(hWnd,lpText,lpCaption,uType, nScale);
     }
 
 

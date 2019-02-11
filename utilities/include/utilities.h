@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "utilities-def.h"
-#include "string/tstring.h"
+#include <windows.h>
 
 namespace SOUI
 {

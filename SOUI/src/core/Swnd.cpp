@@ -37,10 +37,6 @@ namespace SOUI
 		strTr = S_CW2T(TR(S_CT2W(strRaw),pTrCtxProvider->GetTrCtx()));
 	}
 
-
-
-
-
 	//////////////////////////////////////////////////////////////////////////
 	// SWindow Implement
 	//////////////////////////////////////////////////////////////////////////
@@ -678,7 +674,7 @@ namespace SOUI
 
 	SStringW SWindow::tr( const SStringW &strSrc )
 	{
-		return TR(strSrc,GetContainer()->GetTranslatorContext());
+		return TR(strSrc,GetTrCtx());
 	}
 
 	// Create SWindow from xml element
@@ -1281,7 +1277,8 @@ namespace SOUI
 
 		CRect rcText;
 		GetTextRect(rcText);
-		DrawText(pRT,m_strText.GetText(FALSE), m_strText.GetText(FALSE).GetLength(), rcText, GetTextAlign());
+		SStringT strText = GetWindowText(FALSE);
+		DrawText(pRT, strText, strText.GetLength(), rcText, GetTextAlign());
 
 		//draw focus rect
 		if(IsFocused())
@@ -1375,9 +1372,13 @@ namespace SOUI
 		CAutoRefPtr<IRenderTarget> pRT;
 		GETRENDERFACTORY->CreateRenderTarget(&pRT,0,0);
 		BeforePaintEx(pRT);
-		DrawText(pRT,m_strText.GetText(FALSE), m_strText.GetText(FALSE).GetLength(), rcTest4Text, nTestDrawMode | DT_CALCRECT);
+
+		SStringT strText = GetWindowText(FALSE);
+		DrawText(pRT, strText, strText.GetLength(), rcTest4Text, nTestDrawMode | DT_CALCRECT);
 
 		//计算子窗口大小
+		rcContainer.DeflateRect(m_style.GetMargin());
+		rcContainer.DeflateRect(rcPadding);
 		CSize szChilds = GetLayout()->MeasureChildren(this,rcContainer.Width(),rcContainer.Height());
 
 		
@@ -1682,7 +1683,7 @@ namespace SOUI
 	}
 
 
-	SWindow * SWindow::GetNextLayoutChild(SWindow *pCurChild)
+	SWindow * SWindow::GetNextLayoutChild(SWindow *pCurChild) const
 	{
 		SWindow *pRet = NULL;
 		if(pCurChild == NULL)
@@ -2277,7 +2278,7 @@ namespace SOUI
 
 	HRESULT SWindow::OnAttrVisible( const SStringW& strValue, BOOL bLoading )
 	{
-		BOOL bVisible = strValue != L"0";
+		BOOL bVisible = STRINGASBOOL(strValue);
 		if(!bLoading)   SetVisible(bVisible,TRUE);
 		else m_bVisible=bVisible;
 		return S_FALSE;
@@ -2285,7 +2286,7 @@ namespace SOUI
 
 	HRESULT SWindow::OnAttrEnable( const SStringW& strValue, BOOL bLoading )
 	{
-		BOOL bEnable = strValue != L"0";
+		BOOL bEnable = STRINGASBOOL(strValue);
 		if(bLoading)
 		{
 			if (bEnable)
@@ -2302,7 +2303,7 @@ namespace SOUI
 
 	HRESULT SWindow::OnAttrDisplay( const SStringW& strValue, BOOL bLoading )
 	{
-		m_bDisplay = strValue != L"0";
+		m_bDisplay = STRINGASBOOL(strValue);
 		if(bLoading)
 			return S_FALSE;
 
@@ -2347,7 +2348,7 @@ namespace SOUI
 
 	HRESULT SWindow::OnAttrTrackMouseEvent( const SStringW& strValue, BOOL bLoading )
 	{
-		m_style.m_bTrackMouseEvent = strValue==L"0"?0:1;
+		m_style.m_bTrackMouseEvent = STRINGASBOOL(strValue);
 		if(!bLoading)
 		{
 			if(m_style.m_bTrackMouseEvent)
@@ -2406,7 +2407,7 @@ namespace SOUI
 
 	HRESULT SWindow::OnAttrCache( const SStringW& strValue, BOOL bLoading )
 	{
-		m_bCacheDraw = strValue != L"0";
+		m_bCacheDraw = STRINGASBOOL(strValue);
 
 		if(!bLoading)
 		{
@@ -2443,7 +2444,7 @@ namespace SOUI
 
 	HRESULT SWindow::OnAttrLayeredWindow( const SStringW& strValue, BOOL bLoading )
 	{
-		m_bLayeredWindow = strValue!=L"0";
+		m_bLayeredWindow = STRINGASBOOL(strValue);
 		if(!bLoading)
 		{
 			UpdateLayeredWindowMode();
@@ -2753,9 +2754,12 @@ namespace SOUI
 		}
 	}
 
-	const SStringW & SWindow::GetTrCtx()
+	const SStringW & SWindow::GetTrCtx() const
 	{
-		return GetContainer()->GetTranslatorContext();	
+		if (m_strTrCtx.IsEmpty())
+			return GetContainer()->GetTranslatorContext();
+		else
+			return m_strTrCtx;
 	}
 
 	int SWindow::GetScale() const
@@ -2810,6 +2814,15 @@ namespace SOUI
 	void SWindow::accNotifyEvent(DWORD dwEvt)
 	{
 		NotifyWinEvent(dwEvt, GetContainer()->GetHostHwnd(), GetSwnd(), CHILDID_SELF);
+	}
+
+	bool SWindow::SetLayoutParam(ILayoutParam * pLayoutParam)
+	{
+		SWindow *pParent = GetParent();
+		if (!pParent->GetLayout()->IsParamAcceptable(pLayoutParam))
+			return false;
+		m_pLayoutParam = pLayoutParam;
+		return true;
 	}
 
 }//namespace SOUI

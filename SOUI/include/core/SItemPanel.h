@@ -52,7 +52,7 @@ public://SwndContainerImpl
 
     virtual SWND OnSetSwndCapture(SWND swnd);
     virtual HWND GetHostHwnd();
-    virtual const SStringW & GetTranslatorContext();
+    virtual const SStringW & GetTranslatorContext() const;
     virtual void FrameToHost(RECT & rc);
     virtual BOOL IsTranslucent() const;
     virtual BOOL IsSendWheel2Hover() const;
