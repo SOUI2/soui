@@ -1,112 +1,48 @@
 ﻿<include>
-  <scrollview pos="0,0,200,-0" viewSize="-2,-1" layout="vbox">
-    <button name="group_listctrls" size="-2,30" padding="10,5,10,5" layout="hbox" gravity="center" drawFocusRect="0">
-      <toggle skin="_skin.sys.tree.toggle" name="tgl_listctrls" toggled="1" msgTransparent="1"/>
-      <text text="列表控件" font="adding:5,bold:1"/>
-    </button>
-    <AniWindow name="panel_listctrls" size="-2,-1" layout="vbox" Interpolator="Accelerate" factor="1.0" steps="10" gravity="center">
-      <check2 id="100" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center" colorBkgnd="#ff0000">
-        <img skin="skin_icons" size="20,20" iconIndex="0"/>
-        <text text="基础列表" extend_left="10"/>
-      </check2>
-      <check2 id="101" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
-        <img skin="skin_icons"  size="20,20" iconIndex="1"/>
-        <text text="多列列表" extend_left="10"/>
-      </check2>
-      <check2 id="102" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
-        <img skin="skin_icons" size="20,20" iconIndex="3"/>
-        <text text="固定高度列表" extend_left="10"/>
-      </check2>
-      <check2 id="103" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
-        <img skin="skin_icons" size="20,20" iconIndex="4"/>
-        <text text="可变高度列表" extend_left="10"/>
-      </check2>
-      <check2 id="104" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
-        <img skin="skin_icons" size="20,20" iconIndex="5"/>
-        <text text="TileView" extend_left="10"/>
-      </check2>
-      <check2 id="105" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
-        <img skin="skin_icons" size="20,20" iconIndex="6"/>
-        <text text="扩展多列列表" extend_left="10"/>
-      </check2>
-    </AniWindow>
-    <button name="group_trees" size="-2,30" padding="10,5,10,5" layout="hbox" gravity="center" drawFocusRect="0">
-      <toggle skin="_skin.sys.tree.toggle" name="tgl_trees" toggled="1"/>
-      <text text="树型控件" font="adding:5,bold:1"/>
-    </button>
-    <AniWindow name="panel_trees" size="-2,-1" layout="vbox" Interpolator="Accelerate" factor="1.0" steps="10" gravity="center">
-      <check2 id="106" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center" colorBkgnd="#ff0000">
-        <img skin="skin_icons" size="20,20" iconIndex="4"/>
-        <text text="TreeCtrl" extend_left="10"/>
-      </check2>
-      <check2 id="107" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
-        <img skin="skin_icons"  size="20,20" iconIndex="5"/>
-        <text text="TreeView" extend_left="10"/>
-      </check2>
-    </AniWindow>
-    <button name="group_edits" size="-2,30" padding="10,5,10,5" layout="hbox" gravity="center" drawFocusRect="0">
-      <toggle skin="_skin.sys.tree.toggle" name="tgl_edits" toggled="1" msgTransparent="1"/>
-      <text text="编辑器及热键" font="adding:5,bold:1"/>
-    </button>
-    <AniWindow name="panel_edits" size="-2,-1" layout="vbox" Interpolator="Accelerate" factor="1.0" steps="10" gravity="center">
-      <check2 id="108" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center" colorBkgnd="#ff0000">
-        <img skin="skin_icons" size="20,20" iconIndex="4"/>
-        <text text="编辑器" extend_left="10"/>
-      </check2>
-      <check2 id="109" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
-        <img skin="skin_icons"  size="20,20" iconIndex="5"/>
-        <text text="热键" extend_left="10"/>
-      </check2>
-      <check2 id="110" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
-        <img skin="skin_icons" size="20,20" iconIndex="6"/>
-        <text text="IP控件" extend_left="10"/>
-      </check2>
-      <check2 id="111" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
-        <img skin="skin_icons" size="20,20" iconIndex="7"/>
-        <text text="富文本" extend_left="10"/>
-      </check2>
-    </AniWindow>
-    <button name="group_buttons" size="-2,30" padding="10,5,10,5" layout="hbox" gravity="center" drawFocusRect="0">
-      <toggle skin="_skin.sys.tree.toggle" name="tgl_buttons" toggled="1" msgTransparent="1"/>
-      <text text="按钮" font="adding:5,bold:1"/>
-    </button>
-    <AniWindow name="panel_buttons" size="-2,-1" layout="vbox" Interpolator="Accelerate" factor="1.0" steps="10" gravity="center">
-      <check2 id="112" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center" colorBkgnd="#ff0000">
-        <img skin="skin_icons" size="20,20" iconIndex="4"/>
-        <text text="按钮" extend_left="10"/>
-      </check2>
-      <check2 id="113" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
-        <img skin="skin_icons"  size="20,20" iconIndex="5"/>
-        <text text="radio button" extend_left="10"/>
-      </check2>
-    </AniWindow>
-    <button name="group_others" size="-2,30" padding="10,5,10,5" layout="hbox" gravity="center" drawFocusRect="0">
-      <toggle skin="_skin.sys.tree.toggle" name="tgl_others" toggled="1" msgTransparent="1"/>
-      <text text="其它控件" font="adding:5,bold:1"/>
-    </button>
-    <AniWindow name="panel_others" size="-2,-1" layout="vbox" Interpolator="Accelerate" factor="1.0" steps="10" gravity="center">
-      <check2 id="114" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
-        <img skin="skin_icons" size="20,20" iconIndex="6"/>
-        <text text="进度条控件" extend_left="10"/>
-      </check2>
-      <check2 id="115" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
-        <img skin="skin_icons" size="20,20" iconIndex="7"/>
-        <text text="日历" extend_left="10"/>
-      </check2>
-      <check2 id="116" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
-        <img skin="skin_icons" size="20,20" iconIndex="8"/>
-        <text text="分割窗口" extend_left="10"/>
-      </check2>
-      <check2 id="117" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
-        <img skin="skin_icons" size="20,20" iconIndex="9"/>
-        <text text="列表框及组合框" extend_left="10"/>
-      </check2>
-      <check2 id="118" size="-2,30" skin="skin_category" layout="hbox" padding="10,0,0,0" gravity="center">
-        <img skin="skin_icons" size="20,20" iconIndex="2"/>
-        <text text="属性表控件" extend_left="10"/>
-      </check2>
-    </AniWindow>
-  </scrollview>
+  <grouplist pos="0,0,200,-0" name="gl_catalog" layout="vbox"  viewSize="-2,-1">
+    <groupTemplate layout="vbox" size="-2,-1">
+      <button name="title" size="-2,38" padding="10,5,10,5" layout="hbox" gravity="center">
+        <text name="txt_label" weight="1" font="adding:5,bold:1" />
+        <toggle skin="_skin.sys.tree.toggle" name="tgl_switch" toggled="1" msgTransparent="1"/>
+      </button>
+      <aniwindow name="container" layout="vbox" size="-2,-1" Interpolator="Accelerate" factor="1.0" steps="10" gravity="center"/>
+    </groupTemplate>
+    <itemTemplate size="-2,30" layout="hbox" gravity="center" class_name="check2" skin="skin_category">
+      <img skin="skin_icons" name="img_indicator" size="20,20" iconIndex="0"/>
+      <text name="txt_label" extend_left="10"/>
+    </itemTemplate>
+    <data>
+      <group text="列表控件" id="1000">
+        <item text="基础列表" icon="1" name="page_listctrl" id="100"/>
+        <item text="多列列表" icon="2" name="page_mclistview" id="101"/>
+        <item text="固定高度列表" icon="3" name="page_fix_height_listview" id="102"/>
+        <item text="可变高度列表" icon="4" name="page_flex_height_listview" id="103"/>
+        <item text="TileView" icon="5" name="page_tileview" id="104"/>
+        <item text="扩展多列列表" icon="6" name="page_mclistview_ex" id="105"/>
+      </group>
+      <group text="树型控件" id="2000">
+        <item text="TreeCtrl" icon="7" name="page_treectrl" id="106"/>
+        <item text="TreeView" icon="8" name="page_treeview" id="107"/>
+      </group>
+      <group text="编辑器及热键" id="3000">
+        <item text="编辑器" icon="1" name="page_edit" id="108" />
+        <item text="热键" icon="2" name="page_hotkey" id="109" />
+        <item text="IP控件" icon="3" name="page_ipctrl" id="110" />
+        <item text="富文本" icon="4" name="page_richedit" id="111" />
+      </group>
+      <group text="按钮" id="4000">
+        <item text="按钮" icon="5" name="page_button" id="112"/>
+        <item text="radio button" icon="6" name="page_radio_button" id="113"/>
+      </group>
+      <group text="其它控件" id="5000">
+        <item text="进度条控件" icon="7" name="page_progress" id="114"/>
+        <item text="日历" icon="8" name="page_calendar" id="115"/>
+        <item text="分割窗口" icon="1" name="page_splitwnd" id="116"/>
+        <item text="列表框及组合框" icon="2" name="page_listbox" id="117"/>
+        <item text="属性表控件" icon="3" name="page_property" id="118"/>
+      </group>
+    </data>
+  </grouplist>
   <tabctrl pos="[0,0,-0,-0" name="tab_ctrls" font="style:StrokeAndFill,blurStyle:solid,blurRadius:3" animateSteps="10" animateType="1" tabHeight="0">
     <page title="listctrl">
       <listctrl name="lc_test" hotTrack="1" pos="10,0,-10,-10" itemHeight="20" headerHeight="30" cursor="CUR_TST" font="underline:1" itemSkin="skin_tab_left"  sbSkin="skin_new_scrollbar">
@@ -369,7 +305,7 @@
       <sliderbar name="slider_test4" thumbInRail="1" vertical="1" pos="[10,10" alpha="200" height="200" value="20" min="0" max="100"/>
       <scrollbar name="sb_test1" pos="[10,10,@200,@16" min="0" max="100" value="10" page="10" vertical="0"/>
       <scrollbar name="sb_test2" pos="[50,10,@16,@200" min="0" max="100" value="10" page="10" vertical="1"/>
-      <progressRing name="prog_ring" pos="100,[10,@200,@200" colorBkgnd="#cccccc" arcRate="0.5" min="0" max="100" value="32" showPercent="1"/>
+      <progressRing name="prog_ring" pos="100,[10,@200,@200" arcRate="0.5" min="0" max="100" value="32" showPercent="1"/>
     </page>
     <page title="calendar" layout="vbox">
       <window size="-2,-1" layout="hbox" padding="5,5,5,5">

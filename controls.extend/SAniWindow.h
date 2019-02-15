@@ -10,7 +10,7 @@ namespace SOUI
 		SAniWindow(void);
 		~SAniWindow(void);
 
-		
+		void EnableAnimate(bool bEnable);
 	protected:
 		virtual void OnNextFrame();
 
@@ -41,11 +41,12 @@ namespace SOUI
 		CAutoRefPtr<IInterpolator> m_aniInterpolator;
 		int						   m_nSteps;
 		int						   m_iAniStep;
-		SIZE					   m_szWnd;
+		CSize					   m_szWnd;
 
 		AniMode					   m_aniMode;
 		bool					   m_bSaveSize;
 		CAutoRefPtr<ILayoutParam>  m_layoutParamTmp;
+		bool					   m_bEnableAni;
 	};
 
 }
