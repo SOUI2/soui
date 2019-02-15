@@ -13,6 +13,7 @@ TARGET = $$TARGET"64"
 	DEFINES += BUILD_SIPC
 }
 else{
+	DEFINES += _LIB
 	CONFIG += staticlib
 }
 

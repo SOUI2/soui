@@ -831,6 +831,9 @@ int SPanel::GetSbWidth()
 SScrollView::SScrollView()
 {
     m_bClipClient=TRUE;
+	m_viewSize[0].setInvalid();
+	m_viewSize[1].setInvalid();
+
     GetEventSet()->addEvent(EVENTID(EventScrollViewOriginChanged));
     GetEventSet()->addEvent(EVENTID(EventScrollViewSizeChanged));
     GetEventSet()->addEvent(EVENTID(EventScroll));
@@ -1014,6 +1017,8 @@ BOOL SScrollView::OnScroll(BOOL bVertical,UINT uCode,int nPos)
 
 void SScrollView::UpdateViewSize()
 {
+	if(!(m_viewSize[0].isValid() && m_viewSize[1].isValid()))
+		return;
 	CRect rcWnd = SWindow::GetClientRect();
 
 	CSize szView;
