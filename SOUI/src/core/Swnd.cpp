@@ -176,11 +176,20 @@ namespace SOUI
 	{
 		m_strText.SetText(lpszText);
 		accNotifyEvent(EVENT_OBJECT_NAMECHANGE);
+		OnContentChanged();
+	}
+
+
+	void SWindow::OnContentChanged()
+	{
 		if(IsVisible(TRUE)) Invalidate();
-		if (GetLayoutParam()->IsWrapContent(Horz) || GetLayoutParam()->IsWrapContent(Vert))
+		if (GetLayoutParam()->IsWrapContent(Any))
 		{
 			RequestRelayout();
 			if(IsVisible(TRUE)) Invalidate();
+		}else if(GetLayoutParam()->IsMatchParent(Any) && GetParent())
+		{
+			GetParent()->OnContentChanged();
 		}
 	}
 
@@ -1376,12 +1385,22 @@ namespace SOUI
 		SStringT strText = GetWindowText(FALSE);
 		DrawText(pRT, strText, strText.GetLength(), rcTest4Text, nTestDrawMode | DT_CALCRECT);
 
+		CRect rcMargin = m_style.GetMargin();
 		//计算子窗口大小
-		rcContainer.DeflateRect(m_style.GetMargin());
-		rcContainer.DeflateRect(rcPadding);
+		if(rcContainer.Width()>0)
+		{
+			rcContainer.left += rcMargin.left + rcPadding.left;
+			rcContainer.right-=rcMargin.right + rcPadding.right;
+			if(rcContainer.Width()<0) rcContainer.right=rcContainer.left;
+		}
+		if(rcContainer.Height()>0)
+		{
+			rcContainer.top += rcMargin.top + rcPadding.top;
+			rcContainer.bottom -= rcMargin.bottom + rcPadding.bottom;
+			if(rcContainer.Height()<0) rcContainer.bottom = rcContainer.top;
+		}
 		CSize szChilds = GetLayout()->MeasureChildren(this,rcContainer.Width(),rcContainer.Height());
 
-		
 		CRect rcTest(0,0, smax(szChilds.cx,rcTest4Text.right),smax(szChilds.cy,rcTest4Text.bottom));
 
 		rcTest.InflateRect(m_style.GetMargin());
@@ -1400,9 +1419,6 @@ namespace SOUI
 	{
 		bool isParentHorzWrapContent = nParentWid<0;
 		bool isParentVertWrapContent = nParentHei<0;
-
-		nParentWid = abs(nParentWid);
-		nParentHei = abs(nParentHei);
 
 		ILayoutParam * pLayoutParam = GetLayoutParam();
 		bool bSaveHorz = isParentHorzWrapContent && pLayoutParam->IsMatchParent(Horz);

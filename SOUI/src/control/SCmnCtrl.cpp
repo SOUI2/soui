@@ -529,12 +529,7 @@ void SImageWnd::SetImage(IBitmap * pBitmap,FilterLevel fl)
 {
     m_pImg = pBitmap;
     m_fl = fl;
-    if(GetLayoutParam()->IsWrapContent(Any) && GetParent())
-    {
-        //重新计算坐标
-        RequestRelayout();
-    }
-    Invalidate();
+	OnContentChanged();
 }
 
 IBitmap* SImageWnd::GetImage()

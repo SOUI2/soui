@@ -818,6 +818,8 @@ namespace SOUI
         
         virtual void UpdateLayout();
         
+		virtual void OnContentChanged();
+
         virtual SStringW tr(const SStringW &strSrc);
 
         virtual SWND SwndFromPoint(CPoint ptHitTest, BOOL bOnlyText);
