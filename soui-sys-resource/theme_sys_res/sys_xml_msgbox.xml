@@ -14,7 +14,7 @@
 
   <root skin="_skin.sys.wnd.bkgnd" layout="vbox">
     <caption size="-2,29">
-      <text pos="9,9,@100,@20" class="cls_txt_red" name="msgtitle"  font="size:16">title</text>
+      <text pos="9,9,@100,@20" class="cls_txt_red" name="msgtitle">title</text>
       <imgbtn id="2" skin="_skin.sys.btn.close"    pos="-45,0" tip="close"/>
     </caption>
 
