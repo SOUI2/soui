@@ -3,7 +3,7 @@
 #include <animator/SInterpolatorImpl.h>
 namespace SOUI
 {
-	SAniWindow::SAniWindow(void):m_nSteps(20),m_iAniStep(0),m_aniMode(AM_NONE), m_bSaveSize(true)
+	SAniWindow::SAniWindow(void):m_nSteps(20),m_iAniStep(0),m_aniMode(AM_NONE), m_bSaveSize(true),m_bEnableAni(true)
 	{
 		m_bClipClient = TRUE;
 		m_bDisplay = FALSE;
@@ -19,7 +19,7 @@ namespace SOUI
 		SASSERT(m_iAniStep<m_nSteps);
 		SASSERT(m_aniMode != AM_NONE);
 		m_iAniStep++;
-		m_layoutParamTmp->SetSpecifiedSize(Vert, SLayoutSize(GetHeight(), SLayoutSize::px));
+		m_layoutParamTmp->SetSpecifiedSize(Vert, SLayoutSize((float)GetHeight(), SLayoutSize::px));
 		RequestRelayout();
 		UpdateWindow();
 		if(m_iAniStep == m_nSteps)
@@ -43,7 +43,7 @@ namespace SOUI
 
 	void SAniWindow::OnShowWindow(BOOL bShow, UINT nStatus)
 	{
-		if(nStatus == NormalShow)
+		if(nStatus == NormalShow && m_bEnableAni && m_szWnd.cx >0 && m_szWnd.cy>0)
 		{
 			if(m_aniMode != AM_NONE)
 				return;
@@ -59,7 +59,7 @@ namespace SOUI
 			m_bSaveSize = false;
 			m_iAniStep = 0;
 			GetContainer()->RegisterTimelineHandler(this);
-			m_layoutParamTmp->SetSpecifiedSize(Vert, SLayoutSize(GetHeight(), SLayoutSize::px));
+			m_layoutParamTmp->SetSpecifiedSize(Vert, SLayoutSize((float)GetHeight(), SLayoutSize::px));
 		}else
 		{
 			SWindow::OnShowWindow(bShow,nStatus);
@@ -100,6 +100,11 @@ namespace SOUI
 		if (m_aniMode == AM_HIDE)
 			nHei = m_szWnd.cy - nHei;
 		return nHei;
+	}
+
+	void SAniWindow::EnableAnimate(bool bEnable)
+	{
+		m_bEnableAni = bEnable;
 	}
 
 }

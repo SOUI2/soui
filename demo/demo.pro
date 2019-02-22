@@ -67,6 +67,8 @@ HEADERS += MainDlg.h \
           ../controls.extend/smiley/SSmileyCtrl.h \
           ../controls.extend/tipwnd.h \
           ../controls.extend/sprogressring.h \
+          ../controls.extend/saniwindow.h \
+          ../controls.extend/sgrouplist.h \
           ../controls.extend/SMcListViewEx/STabCtrlHeaderBinder.h \
           httpsvr/filereader-i.h \
           httpsvr/genericserver.h \
@@ -90,7 +92,6 @@ HEADERS += MainDlg.h \
           qrcode/QR_Encode.h \
           SPathView.h \
           SCheckBox2.h \
-          SAniWindow.h \
 
 SOURCES += demo.cpp \
           MainDlg.cpp \
@@ -126,6 +127,8 @@ SOURCES += demo.cpp \
           ../controls.extend/SFreeMoveWindow.cpp \
           ../controls.extend/tipwnd.cpp \
           ../controls.extend/sprogressring.cpp \
+          ../controls.extend/saniwindow.cpp \
+          ../controls.extend/sgrouplist.cpp \
           httpsvr/genericserver.cpp \
           httpsvr/httpserver.cpp \
           magnet/magnetframe.cpp \
@@ -146,7 +149,6 @@ SOURCES += demo.cpp \
           qrcode/QR_Encode.cpp \
           SPathView.cpp \
           SCheckBox2.cpp \
-          SAniWindow.cpp \
 
 RC_FILE += demo.rc
 

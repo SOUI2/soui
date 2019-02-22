@@ -215,8 +215,10 @@ namespace SOUI
     {
         CRect rcParent = pParent->GetChildrenLayoutRect();
 		        
-        CSize *pSize = new CSize [pParent->GetChildrenCount()];
+        SIZE *pSize = new SIZE [pParent->GetChildrenCount()];
 		SWindow ** pChilds = new SWindow * [pParent->GetChildrenCount()];
+		memset(pSize,0,sizeof(SIZE)*pParent->GetChildrenCount());
+
 		int nChilds = 0;
 		
         int offset = 0;
@@ -282,9 +284,9 @@ namespace SOUI
             }
 
 			nChilds = iChild;
+			offset -= interval;//sub the last interval value.
         }
 
-		offset -= interval;//sub the last interval value.
 
         int size = m_orientation == Vert? rcParent.Height():rcParent.Width();
         if(fWeight > 0.0f && size > offset)
@@ -300,7 +302,7 @@ namespace SOUI
                 if(pLinearLayoutParam->weight > 0.0f)
                 {
 					int extra = int(nRemain*pLinearLayoutParam->weight / fWeight + 0.5f);
-					 LONG & szChild = m_orientation == Vert? pSize[iChild].cy:pSize[iChild].cx;
+					LONG & szChild = m_orientation == Vert? pSize[iChild].cy:pSize[iChild].cx;
                     szChild += extra;
 					nRemain -= extra;
 					fWeight -= pLinearLayoutParam->weight;
@@ -369,11 +371,14 @@ namespace SOUI
 	//nWidth,nHeight == -1:wrap_content
 	CSize SLinearLayout::MeasureChildren(const SWindow * pParent,int nWidth,int nHeight) const
 	{
-		CSize *pSize = new CSize [pParent->GetChildrenCount()];
-
+		SIZE *pSize = new SIZE [pParent->GetChildrenCount()];
+		SWindow ** pChilds = new SWindow * [pParent->GetChildrenCount()];
+		memset(pSize,0,sizeof(SIZE)*pParent->GetChildrenCount());
 
         ILayoutParam * pParentLayoutParam = pParent->GetLayoutParam();
 
+        int nChilds = 0;
+        {
 		int iChild = 0;
 
 		SWindow *pChild = pParent->GetNextLayoutChild(NULL);
@@ -423,29 +428,31 @@ namespace SOUI
 
 			pChild = pParent->GetNextLayoutChild(pChild);
 		}
-		
+        nChilds = iChild;
+        }
 
 		CSize szRet;
-		for(int i=0;i<iChild;i++)
+		for(int i=0;i<nChilds;i++)
 		{
 			if(m_orientation == Horz)
 			{
-				szRet.cx += pSize[i].cx;
 				szRet.cy = smax(szRet.cy,pSize[i].cy);
+				szRet.cx += pSize[i].cx;
 			}else
 			{
 				szRet.cx = smax(szRet.cx,pSize[i].cx);
 				szRet.cy += pSize[i].cy;
 			}
 		}
-		//add interval
+		//add intervals
+        int interval =  m_interval.toPixelSize(pParent->GetScale());
 		if (m_orientation == Horz)
 		{
-			szRet.cx += m_interval.toPixelSize(pParent->GetScale())*(iChild-1);
+			szRet.cx += interval * (nChilds-1);
 		}
 		else
 		{
-			szRet.cy += m_interval.toPixelSize(pParent->GetScale()*(iChild - 1));
+			szRet.cy += interval * (nChilds - 1);
 		}
 		delete []pSize;
 		return szRet;

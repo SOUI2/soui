@@ -223,6 +223,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
 		theApp->RegisterWindowClass<SProgressRing>();
 		theApp->RegisterWindowClass<SCheckBox2>();
 		theApp->RegisterWindowClass<SAniWindow>();
+		theApp->RegisterWindowClass<SGroupList>();
 
         if(SUCCEEDED(CUiAnimation::Init()))
         {

@@ -146,9 +146,12 @@ namespace SOUI
 	{
 		CRect    rcClient;
 		GetClientRect(&rcClient);
+		if(!m_arrItems[iItem].bVisible)
+			return CRect();
 		CRect rcItem(rcClient.left, rcClient.top, rcClient.left, rcClient.bottom);
 		for (UINT i = 0; i <= iItem && i < m_arrItems.GetCount(); i++)
 		{
+			if(!m_arrItems[i].bVisible) continue;
 			rcItem.left = rcItem.right;
 			rcItem.right = rcItem.left + m_arrItems[i].cx.toPixelSize(GetScale());
 		}
@@ -243,7 +246,6 @@ namespace SOUI
 		{
 			if (!m_bDragging)
 			{
-				m_bDragging = TRUE;
 				if (IsItemHover(m_dwHitTest) && m_bItemSwapEnable)
 				{
 					m_dwDragTo = m_dwHitTest;
@@ -252,6 +254,7 @@ namespace SOUI
 					m_hDragImg = CreateDragImage(LOWORD(m_dwHitTest));
 					CPoint pt = m_ptClick - rcItem.TopLeft();
 					CDragWnd::BeginDrag(m_hDragImg, pt, 0, 128, LWA_ALPHA | LWA_COLORKEY);
+					m_bDragging = TRUE;
 				}
 			}
 			if (IsItemHover(m_dwHitTest))

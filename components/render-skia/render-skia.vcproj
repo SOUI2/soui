@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9,00"
 	Name="render-skia"
-	ProjectGUID="{C15CEE8D-4F0B-3255-9884-00B485406A33}"
+	ProjectGUID="{0D6D6208-1735-36E0-94B8-A64A6C80DD68}"
 	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform

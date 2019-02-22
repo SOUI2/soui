@@ -67,12 +67,12 @@ BEGIN
         BLOCK "080404b0"
         BEGIN
             VALUE "CompanyName", "Æô³ÌÈí¼þ"
-            VALUE "FileDescription", "TaskLoop"
+            VALUE "FileDescription", "SIpcObject"
             VALUE "FileVersion", "1, 0, 0, 1"
-            VALUE "InternalName", "TaskLoop"
+            VALUE "InternalName", "SIpcObject"
             VALUE "LegalCopyright", "Copyright (C) 2019"
-            VALUE "OriginalFilename", "TaskLoop.dll"
-            VALUE "ProductName", "TaskLoop"
+            VALUE "OriginalFilename", "SIpcObject.dll"
+            VALUE "ProductName", "SIpcObject"
             VALUE "ProductVersion", "1, 0, 0, 1"
         END
     END

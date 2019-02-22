@@ -1,427 +1,749 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="demo"
-	ProjectGUID="{9C102717-A183-3B9A-AE9B-BF46BE0AFA32}"
-	Keyword="Qt4VSv1.0">
+	ProjectGUID="{11DC0DEC-161B-3B92-BF38-7E08DE8B4A41}"
+	Keyword="Qt4VSv1.0"
+	TargetFrameworkVersion="0"
+	>
 	<Platforms>
 		<Platform
-			Name="Win32" />
+			Name="Win32"
+		/>
 	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="..\bin\"
+			IntermediateDirectory="..\obj\release\demo\"
+			ConfigurationType="1"
+			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
-			ConfigurationType="1"
-			IntermediateDirectory="..\obj\release\demo\"
-			UseOfMfc="0">
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".,.,..\utilities\include,..\soui\include,..\third-part\wke\include,..\third-part\mhook\mhook-lib,..\components,..\config,..\tools\mkspecs\win32-msvc2008"
-				AssemblerListingLocation="..\obj\release\demo\"
-				DebugInformationFormat="3"
-				DisableSpecificWarnings="4100,4101,4102,4189,4996"
-				ExceptionHandling="1"
-				ForcedIncludeFiles="stdafx.h"
-				GeneratePreprocessedFile="0"
-				ObjectFile="..\obj\release\demo\"
-				Optimization ="1"
-				PrecompiledHeaderFile="$(IntDir)\demo.pch"
-				PrecompiledHeaderThrough="stdafx.h"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
-				ProgramDataBaseFileName="$(IntDir)"
-				RuntimeLibrary="0"
-				SuppressStartupBanner="true"
-				TreatWChar_tAsBuiltInType="true"
-				UsePrecompiledHeader="2"
-				WarningLevel="3" />
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool" />
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="utilities.lib soui.lib mhook.lib smiley.lib"
-				AdditionalLibraryDirectories="..\bin"
-				AdditionalOptions="&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot;"
-				DataExecutionPrevention="true"
-				EnableCOMDATFolding="2"
-				GenerateDebugInformation="true"
-				IgnoreImportLibrary="true"
-				LinkIncremental="1"
-				LinkTimeCodeGeneration="0"
-				OptimizeReferences="2"
-				OutputFile="$(OutDir)\demo.exe"
-				ProgramDatabaseFile=""
-				RandomizedBaseAddress="true"
-				SubSystem="2"
-				SuppressStartupBanner="true"
-				TargetMachine="1" />
+				Name="VCXMLDataGeneratorTool"
+			/>
 			<Tool
-				Name="VCManifestTool" />
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
+				WarningLevel="0"
 				DefaultCharType="0"
 				EnableErrorChecks="1"
-				WarningLevel="0" />
+			/>
 			<Tool
-				Name="VCPostBuildEventTool" />
+				Name="VCCLCompilerTool"
+				Optimization="1"
+				AdditionalIncludeDirectories=".,.,..\utilities\include,..\soui\include,..\third-part\wke\include,..\third-part\mhook\mhook-lib,..\components,..\config,..\tools\mkspecs\win32-msvc2008"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
+				GeneratePreprocessedFile="0"
+				ExceptionHandling="1"
+				RuntimeLibrary="0"
+				TreatWChar_tAsBuiltInType="true"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="stdafx.h"
+				PrecompiledHeaderFile="$(IntDir)\demo.pch"
+				AssemblerListingLocation="..\obj\release\demo\"
+				ObjectFile="..\obj\release\demo\"
+				ProgramDataBaseFileName="$(IntDir)"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4100,4101,4102,4189,4996"
+				ForcedIncludeFiles="stdafx.h"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool" />
-			<Tool
-				Name="VCPreLinkEventTool" />
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST" />
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="true"
+				AdditionalOptions="&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot;"
+				AdditionalDependencies="utilities.lib soui.lib mhook.lib smiley.lib"
+				OutputFile="$(OutDir)\demo.exe"
+				LinkIncremental="1"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="..\bin"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=""
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				LinkTimeCodeGeneration="0"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="..\bin\"
+			IntermediateDirectory="..\obj\debug\demo\"
+			ConfigurationType="1"
+			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
-			ConfigurationType="1"
-			IntermediateDirectory="..\obj\debug\demo\"
-			UseOfMfc="0">
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".,.,..\utilities\include,..\soui\include,..\third-part\wke\include,..\third-part\mhook\mhook-lib,..\components,..\config,..\tools\mkspecs\win32-msvc2008"
-				AssemblerListingLocation="..\obj\debug\demo\"
-				DebugInformationFormat="3"
-				DisableSpecificWarnings="4100,4101,4102,4189,4996"
-				ExceptionHandling="1"
-				ForcedIncludeFiles="stdafx.h"
-				GeneratePreprocessedFile="0"
-				ObjectFile="..\obj\debug\demo\"
-				Optimization ="4"
-				PrecompiledHeaderFile="$(IntDir)\demod.pch"
-				PrecompiledHeaderThrough="stdafx.h"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
-				ProgramDataBaseFileName="$(IntDir)"
-				RuntimeLibrary="1"
-				SuppressStartupBanner="true"
-				TreatWChar_tAsBuiltInType="true"
-				UsePrecompiledHeader="2"
-				WarningLevel="3" />
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool" />
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="utilitiesd.lib souid.lib mhookd.lib smileyd.lib"
-				AdditionalLibraryDirectories="..\bin"
-				AdditionalOptions="&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot;"
-				DataExecutionPrevention="true"
-				GenerateDebugInformation="true"
-				IgnoreImportLibrary="true"
-				LinkTimeCodeGeneration="0"
-				OutputFile="$(OutDir)\demod.exe"
-				ProgramDatabaseFile=""
-				RandomizedBaseAddress="true"
-				SubSystem="2"
-				SuppressStartupBanner="true"
-				TargetMachine="1" />
+				Name="VCXMLDataGeneratorTool"
+			/>
 			<Tool
-				Name="VCManifestTool" />
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
+				WarningLevel="0"
 				DefaultCharType="0"
 				EnableErrorChecks="1"
-				WarningLevel="0" />
+			/>
 			<Tool
-				Name="VCPostBuildEventTool" />
+				Name="VCCLCompilerTool"
+				Optimization="4"
+				AdditionalIncludeDirectories=".,.,..\utilities\include,..\soui\include,..\third-part\wke\include,..\third-part\mhook\mhook-lib,..\components,..\config,..\tools\mkspecs\win32-msvc2008"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				GeneratePreprocessedFile="0"
+				ExceptionHandling="1"
+				RuntimeLibrary="1"
+				TreatWChar_tAsBuiltInType="true"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="stdafx.h"
+				PrecompiledHeaderFile="$(IntDir)\demod.pch"
+				AssemblerListingLocation="..\obj\debug\demo\"
+				ObjectFile="..\obj\debug\demo\"
+				ProgramDataBaseFileName="$(IntDir)"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4100,4101,4102,4189,4996"
+				ForcedIncludeFiles="stdafx.h"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool" />
-			<Tool
-				Name="VCPreLinkEventTool" />
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,_DEBUG" />
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,_DEBUG"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="true"
+				AdditionalOptions="&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot;"
+				AdditionalDependencies="utilitiesd.lib souid.lib mhookd.lib smileyd.lib"
+				OutputFile="$(OutDir)\demod.exe"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="..\bin"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=""
+				SubSystem="2"
+				LinkTimeCodeGeneration="0"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
 			<File
-				RelativePath="FormatMsgDlg.cpp" />
+				RelativePath="..\controls.extend\reole\dataobject.cpp"
+				>
+			</File>
 			<File
-				RelativePath="MainDlg.cpp" />
+				RelativePath="demo.cpp"
+				>
+			</File>
 			<File
-				RelativePath="qrcode\QR_Encode.cpp" />
+				RelativePath="FormatMsgDlg.cpp"
+				>
+			</File>
 			<File
-				RelativePath="SAniWindow.cpp" />
+				RelativePath="httpsvr\genericserver.cpp"
+				>
+			</File>
 			<File
-				RelativePath="SCheckBox2.cpp" />
+				RelativePath="httpsvr\httpserver.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SChromeTabCtrl.cpp" />
+				RelativePath="magnet\magnetframe.cpp"
+				>
+			</File>
 			<File
-				RelativePath="skin\SDemoSkin.cpp" />
+				RelativePath="MainDlg.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SDocHostUIHandler.cpp" />
+				RelativePath="memflash.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SFreeMoveWindow.cpp" />
+				RelativePath="qrcode\QR_Encode.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\gif\SGifPlayer.cpp" />
+				RelativePath="..\controls.extend\reole\richeditole.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SMcListViewEx\SHeaderCtrlEx.cpp" />
+				RelativePath="..\controls.extend\SAniWindow.cpp"
+				>
+			</File>
 			<File
-				RelativePath="SInterpolatorView.cpp" />
+				RelativePath="..\controls.extend\scalendar2.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SMcListViewEx\SMCListViewEx.cpp" />
+				RelativePath="..\controls.extend\schatedit.cpp"
+				>
+			</File>
 			<File
-				RelativePath="SPathView.cpp" />
+				RelativePath="SCheckBox2.cpp"
+				>
+			</File>
 			<File
-				RelativePath="qrcode\SQrCtrl.cpp" />
+				RelativePath="..\controls.extend\SChromeTabCtrl.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SRatingBar.cpp" />
+				RelativePath="clock\sclock.cpp"
+				>
+			</File>
 			<File
-				RelativePath="trayicon\SShellNofityHwnd2.cpp" />
+				RelativePath="skin\SDemoSkin.cpp"
+				>
+			</File>
 			<File
-				RelativePath="trayicon\SShellNotifyIcon.cpp" />
+				RelativePath="appledock\sdesktopdock.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\gif\SSkinAPNG.cpp" />
+				RelativePath="..\controls.extend\SDocHostUIHandler.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\gif\SSkinGif.cpp" />
+				RelativePath="skin\SetSkinWnd2.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SSkinImgFrame3.cpp" />
+				RelativePath="..\controls.extend\sfadeframe.cpp"
+				>
+			</File>
 			<File
-				RelativePath="skin\SSkinLoader.cpp" />
+				RelativePath="..\controls.extend\SFreeMoveWindow.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SMcListViewEx\STabCtrlHeaderBinder.cpp" />
+				RelativePath="..\controls.extend\gif\SGifPlayer.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SWkeWebkit.cpp" />
+				RelativePath="..\controls.extend\SGroupList.cpp"
+				>
+			</File>
 			<File
-				RelativePath="skin\SetSkinWnd2.cpp" />
+				RelativePath="..\controls.extend\SMcListViewEx\SHeaderCtrlEx.cpp"
+				>
+			</File>
 			<File
-				RelativePath="SmileyCreateHook.cpp" />
+				RelativePath="..\controls.extend\siectrl.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\reole\dataobject.cpp" />
+				RelativePath="..\controls.extend\simagemaskwnd.cpp"
+				>
+			</File>
 			<File
-				RelativePath="demo.cpp" />
+				RelativePath="SInterpolatorView.cpp"
+				>
+			</File>
 			<File
-				RelativePath="httpsvr\genericserver.cpp" />
+				RelativePath="..\controls.extend\sipaddressctrl.cpp"
+				>
+			</File>
 			<File
-				RelativePath="httpsvr\httpserver.cpp" />
+				RelativePath="..\controls.extend\slistctrlex.cpp"
+				>
+			</File>
 			<File
-				RelativePath="magnet\magnetframe.cpp" />
+				RelativePath="smatrixwindow.cpp"
+				>
+			</File>
 			<File
-				RelativePath="memflash.cpp" />
+				RelativePath="..\controls.extend\SMcListViewEx\SMCListViewEx.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\reole\richeditole.cpp" />
+				RelativePath="SmileyCreateHook.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\scalendar2.cpp" />
+				RelativePath="SPathView.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\schatedit.cpp" />
+				RelativePath="..\controls.extend\sprogressring.cpp"
+				>
+			</File>
 			<File
-				RelativePath="clock\sclock.cpp" />
+				RelativePath="..\controls.extend\propgrid\spropertygrid.cpp"
+				>
+			</File>
 			<File
-				RelativePath="appledock\sdesktopdock.cpp" />
+				RelativePath="..\controls.extend\propgrid\propitem\spropertyitem-color.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\sfadeframe.cpp" />
+				RelativePath="..\controls.extend\propgrid\propitem\spropertyitem-option.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\siectrl.cpp" />
+				RelativePath="..\controls.extend\propgrid\propitem\spropertyitem-size.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\simagemaskwnd.cpp" />
+				RelativePath="..\controls.extend\propgrid\propitem\spropertyitem-text.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\sipaddressctrl.cpp" />
+				RelativePath="..\controls.extend\propgrid\spropertyitembase.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\slistctrlex.cpp" />
+				RelativePath="qrcode\SQrCtrl.cpp"
+				>
+			</File>
 			<File
-				RelativePath="smatrixwindow.cpp" />
+				RelativePath="..\controls.extend\sradiobox2.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\sprogressring.cpp" />
+				RelativePath="..\controls.extend\SRatingBar.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\propgrid\spropertygrid.cpp" />
+				RelativePath="..\controls.extend\sscrolltext.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\propgrid\propitem\spropertyitem-color.cpp" />
+				RelativePath="trayicon\SShellNofityHwnd2.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\propgrid\propitem\spropertyitem-option.cpp" />
+				RelativePath="trayicon\SShellNotifyIcon.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\propgrid\propitem\spropertyitem-size.cpp" />
+				RelativePath="..\controls.extend\gif\SSkinAPNG.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\propgrid\propitem\spropertyitem-text.cpp" />
+				RelativePath="..\controls.extend\gif\SSkinGif.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\propgrid\spropertyitembase.cpp" />
+				RelativePath="..\controls.extend\SSkinImgFrame3.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\sradiobox2.cpp" />
+				RelativePath="skin\SSkinLoader.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\sscrolltext.cpp" />
+				RelativePath="..\controls.extend\SMcListViewEx\STabCtrlHeaderBinder.cpp"
+				>
+			</File>
 			<File
-				RelativePath="threadObject.cpp" />
+				RelativePath="..\controls.extend\SWkeWebkit.cpp"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\tipwnd.cpp" />
+				RelativePath="threadObject.cpp"
+				>
+			</File>
 			<File
-				RelativePath="uianimation\uianimationwnd.cpp" />
+				RelativePath="..\controls.extend\tipwnd.cpp"
+				>
+			</File>
+			<File
+				RelativePath="uianimation\uianimationwnd.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
 			<File
-				RelativePath="..\controls.extend\FileHelper.h" />
+				RelativePath="adapter.h"
+				>
+			</File>
 			<File
-				RelativePath="FormatMsgDlg.h" />
+				RelativePath="..\controls.extend\reole\dataobject.h"
+				>
+			</File>
 			<File
-				RelativePath="MainDlg.h" />
+				RelativePath="..\controls.extend\FileHelper.h"
+				>
+			</File>
 			<File
-				RelativePath="qrcode\QR_Encode.h" />
+				RelativePath="httpsvr\filereader-i.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\gif\SAniImgFrame.h" />
+				RelativePath="FormatMsgDlg.h"
+				>
+			</File>
 			<File
-				RelativePath="SAniWindow.h" />
+				RelativePath="httpsvr\genericserver.h"
+				>
+			</File>
 			<File
-				RelativePath="SCheckBox2.h" />
+				RelativePath="httpsvr\httpserver.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SChromeTabCtrl.h" />
+				RelativePath="magnet\magnetframe.h"
+				>
+			</File>
 			<File
-				RelativePath="skin\SDemoSkin.h" />
+				RelativePath="MainDlg.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SDocHostUIHandler.h" />
+				RelativePath="memflash.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SFreeMoveWindow.h" />
+				RelativePath="qrcode\QR_Encode.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\gif\SGifPlayer.h" />
+				RelativePath="resource.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SMcListViewEx\SHeaderCtrlEx.h" />
+				RelativePath="..\controls.extend\reole\richeditole.h"
+				>
+			</File>
 			<File
-				RelativePath="SInterpolatorView.h" />
+				RelativePath="..\controls.extend\gif\SAniImgFrame.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SMcListViewEx\SMcListViewEx.h" />
+				RelativePath="..\controls.extend\SAniWindow.h"
+				>
+			</File>
 			<File
-				RelativePath="SPathView.h" />
+				RelativePath="..\controls.extend\scalendar2.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\propgrid\SPropertyGrid.h" />
+				RelativePath="..\controls.extend\schatedit.h"
+				>
+			</File>
 			<File
-				RelativePath="qrcode\SQrCtrl.h" />
+				RelativePath="SCheckBox2.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SRatingBar.h" />
+				RelativePath="..\controls.extend\SChromeTabCtrl.h"
+				>
+			</File>
 			<File
-				RelativePath="trayicon\SShellNofityHwnd2.h" />
+				RelativePath="clock\sclock.h"
+				>
+			</File>
 			<File
-				RelativePath="trayicon\SShellNotifyIcon.h" />
+				RelativePath="skin\SDemoSkin.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\gif\SSkinAPNG.h" />
+				RelativePath="appledock\sdesktopdock.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\gif\SSkinGif.h" />
+				RelativePath="..\controls.extend\SDocHostUIHandler.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SSkinImgFrame3.h" />
+				RelativePath="skin\SetSkinWnd2.h"
+				>
+			</File>
 			<File
-				RelativePath="skin\SSkinLoader.h" />
+				RelativePath="..\controls.extend\sfadeframe.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SSkinNewScrollbar.h" />
+				RelativePath="..\controls.extend\SFreeMoveWindow.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\smiley\SSmileyCtrl.h" />
+				RelativePath="..\controls.extend\gif\SGifPlayer.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SMcListViewEx\STabCtrlHeaderBinder.h" />
+				RelativePath="..\controls.extend\SGroupList.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SVscrollbar.h" />
+				RelativePath="..\controls.extend\SMcListViewEx\SHeaderCtrlEx.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\SWkeWebkit.h" />
+				RelativePath="..\controls.extend\siectrl.h"
+				>
+			</File>
 			<File
-				RelativePath="skin\SetSkinWnd2.h" />
+				RelativePath="..\controls.extend\simagemaskwnd.h"
+				>
+			</File>
 			<File
-				RelativePath="SmileyCreateHook.h" />
+				RelativePath="SInterpolatorView.h"
+				>
+			</File>
 			<File
-				RelativePath="adapter.h" />
+				RelativePath="..\controls.extend\sipaddressctrl.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\reole\dataobject.h" />
+				RelativePath="..\controls.extend\slistctrlex.h"
+				>
+			</File>
 			<File
-				RelativePath="httpsvr\filereader-i.h" />
+				RelativePath="smatrixwindow.h"
+				>
+			</File>
 			<File
-				RelativePath="httpsvr\genericserver.h" />
+				RelativePath="..\controls.extend\SMcListViewEx\SMcListViewEx.h"
+				>
+			</File>
 			<File
-				RelativePath="httpsvr\httpserver.h" />
+				RelativePath="SmileyCreateHook.h"
+				>
+			</File>
 			<File
-				RelativePath="magnet\magnetframe.h" />
+				RelativePath="SPathView.h"
+				>
+			</File>
 			<File
-				RelativePath="memflash.h" />
+				RelativePath="..\controls.extend\sprogressring.h"
+				>
+			</File>
 			<File
-				RelativePath="resource.h" />
+				RelativePath="..\controls.extend\propgrid\SPropertyGrid.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\reole\richeditole.h" />
+				RelativePath="qrcode\SQrCtrl.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\scalendar2.h" />
+				RelativePath="..\controls.extend\sradiobox2.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\schatedit.h" />
+				RelativePath="..\controls.extend\SRatingBar.h"
+				>
+			</File>
 			<File
-				RelativePath="clock\sclock.h" />
+				RelativePath="..\controls.extend\sscrolltext.h"
+				>
+			</File>
 			<File
-				RelativePath="appledock\sdesktopdock.h" />
+				RelativePath="trayicon\SShellNofityHwnd2.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\sfadeframe.h" />
+				RelativePath="trayicon\SShellNotifyIcon.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\siectrl.h" />
+				RelativePath="..\controls.extend\gif\SSkinAPNG.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\simagemaskwnd.h" />
+				RelativePath="..\controls.extend\gif\SSkinGif.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\sipaddressctrl.h" />
+				RelativePath="..\controls.extend\SSkinImgFrame3.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\slistctrlex.h" />
+				RelativePath="skin\SSkinLoader.h"
+				>
+			</File>
 			<File
-				RelativePath="smatrixwindow.h" />
+				RelativePath="..\controls.extend\SSkinNewScrollbar.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\sprogressring.h" />
+				RelativePath="..\controls.extend\smiley\SSmileyCtrl.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\sradiobox2.h" />
+				RelativePath="..\controls.extend\SMcListViewEx\STabCtrlHeaderBinder.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\sscrolltext.h" />
-			<File
-				RelativePath="stdafx.h">
+				RelativePath="stdafx.h"
+				>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="echo /*-------------------------------------------------------------------- >stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * Precompiled header source file used by Visual Studio.NET to generate>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * the .pch file.>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo *>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * Due to issues with the dependencies checker within the IDE, it>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * sometimes fails to recompile the PCH file, if we force the IDE to>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * create the PCH file directly from the header file.>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo *>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * specified, and is used as the common stdafx.cpp. The file is only>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * generated when creating .vcproj project files, and is not used for>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * command line compilations by nmake.>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo *>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * WARNING: All changes made in this file will be lost.>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo --------------------------------------------------------------------*/>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo #include &quot;stdafx.h&quot;>>stdafx.h.cpp"
 						Description="Generating precompiled header source file &apos;stdafx.h.cpp&apos; ..."
-						Outputs="stdafx.h.cpp" />
+						CommandLine="echo /*-------------------------------------------------------------------- &gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * Precompiled header source file used by Visual Studio.NET to generate&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * the .pch file.&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo *&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * Due to issues with the dependencies checker within the IDE, it&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * sometimes fails to recompile the PCH file, if we force the IDE to&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * create the PCH file directly from the header file.&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo *&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * specified, and is used as the common stdafx.cpp. The file is only&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * generated when creating .vcproj project files, and is not used for&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * command line compilations by nmake.&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo *&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * WARNING: All changes made in this file will be lost.&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo --------------------------------------------------------------------*/&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo #include &quot;stdafx.h&quot;&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;"
+						Outputs="stdafx.h.cpp"
+					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Win32"
+					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="echo /*-------------------------------------------------------------------- >stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * Precompiled header source file used by Visual Studio.NET to generate>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * the .pch file.>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo *>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * Due to issues with the dependencies checker within the IDE, it>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * sometimes fails to recompile the PCH file, if we force the IDE to>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * create the PCH file directly from the header file.>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo *>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * specified, and is used as the common stdafx.cpp. The file is only>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * generated when creating .vcproj project files, and is not used for>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * command line compilations by nmake.>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo *>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * WARNING: All changes made in this file will be lost.>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo --------------------------------------------------------------------*/>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo #include &quot;stdafx.h&quot;>>stdafx.h.cpp"
 						Description="Generating precompiled header source file &apos;stdafx.h.cpp&apos; ..."
-						Outputs="stdafx.h.cpp" />
+						CommandLine="echo /*-------------------------------------------------------------------- &gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * Precompiled header source file used by Visual Studio.NET to generate&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * the .pch file.&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo *&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * Due to issues with the dependencies checker within the IDE, it&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * sometimes fails to recompile the PCH file, if we force the IDE to&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * create the PCH file directly from the header file.&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo *&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * specified, and is used as the common stdafx.cpp. The file is only&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * generated when creating .vcproj project files, and is not used for&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * command line compilations by nmake.&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo *&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * WARNING: All changes made in this file will be lost.&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo --------------------------------------------------------------------*/&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo #include &quot;stdafx.h&quot;&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;"
+						Outputs="stdafx.h.cpp"
+					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="threadObject.h" />
+				RelativePath="..\controls.extend\SVscrollbar.h"
+				>
+			</File>
 			<File
-				RelativePath="..\controls.extend\tipwnd.h" />
+				RelativePath="..\controls.extend\SWkeWebkit.h"
+				>
+			</File>
 			<File
-				RelativePath="uianimation\uianimation.h" />
+				RelativePath="threadObject.h"
+				>
+			</File>
 			<File
-				RelativePath="uianimation\uianimationwnd.h" />
+				RelativePath="..\controls.extend\tipwnd.h"
+				>
+			</File>
 			<File
-				RelativePath="wtlhelper\whwindow.h" />
+				RelativePath="uianimation\uianimation.h"
+				>
+			</File>
+			<File
+				RelativePath="uianimation\uianimationwnd.h"
+				>
+			</File>
+			<File
+				RelativePath="wtlhelper\whwindow.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Generated Files"
 			Filter="cpp;c;cxx;moc;h;def;odl;idl;res;"
-			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}">
+			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
+			>
 			<File
-				RelativePath="stdafx.h.cpp">
+				RelativePath="stdafx.h.cpp"
+				>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Win32"
+					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ForcedIncludeFiles="$(NOINHERIT)"
+						UsePrecompiledHeader="1"
 						PrecompiledHeaderThrough="stdafx.h"
-						UsePrecompiledHeader="1" />
+						ForcedIncludeFiles="$(NOINHERIT)"
+					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Win32"
+					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ForcedIncludeFiles="$(NOINHERIT)"
+						UsePrecompiledHeader="1"
 						PrecompiledHeaderThrough="stdafx.h"
-						UsePrecompiledHeader="1" />
+						ForcedIncludeFiles="$(NOINHERIT)"
+					/>
 				</FileConfiguration>
 			</File>
 		</Filter>
 		<File
-			RelativePath="demo.rc" />
+			RelativePath="demo.rc"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
