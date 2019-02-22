@@ -523,7 +523,7 @@ namespace SOUI
             SWindow *pTarget = FindChildByName(pszName,nDeep);
             if(!pTarget || !pTarget->IsClass(T::GetClassName()))
             {
-                SLOGFMTW(_T("FindChildByName2 Failed, no window of class [%s] with name of [%s] was found within [%d] levels"),T::GetClassName(),pszName,nDeep);
+                SLOG_WARN("FindChildByName2 Failed, no window of class "<< T::GetClassName()<<" with name of ["<<pszName<<"] was found within ["<<nDeep<<"] levels");
                 return NULL;
             }
             return (T*)pTarget;

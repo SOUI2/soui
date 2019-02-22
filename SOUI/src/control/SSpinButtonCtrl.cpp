@@ -175,7 +175,7 @@ namespace SOUI
 		SWindow *pBuddy = GetBuddy();
 		if(pBuddy)
 		{
-			int nValue = _ttoi(pBuddy->GetWindowTextW());
+			int nValue = _ttoi(pBuddy->GetWindowText());
 			if (nValue <= m_nMax && nValue >= m_nMin)
 			{
 				m_nValue = nValue;
