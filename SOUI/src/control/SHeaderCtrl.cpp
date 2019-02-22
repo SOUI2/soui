@@ -246,6 +246,7 @@ namespace SOUI
 		{
 			if (!m_bDragging)
 			{
+				m_bDragging = TRUE;
 				if (IsItemHover(m_dwHitTest) && m_bItemSwapEnable)
 				{
 					m_dwDragTo = m_dwHitTest;
@@ -254,7 +255,6 @@ namespace SOUI
 					m_hDragImg = CreateDragImage(LOWORD(m_dwHitTest));
 					CPoint pt = m_ptClick - rcItem.TopLeft();
 					CDragWnd::BeginDrag(m_hDragImg, pt, 0, 128, LWA_ALPHA | LWA_COLORKEY);
-					m_bDragging = TRUE;
 				}
 			}
 			if (IsItemHover(m_dwHitTest))

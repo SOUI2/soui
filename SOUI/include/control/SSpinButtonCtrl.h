@@ -29,7 +29,6 @@ namespace SOUI
 		void OnMouseMove(UINT nFlags, CPoint point);
 		void OnPaint(IRenderTarget *pRT);
 		void OnTimer(char cTimerId);
-		bool OnBuddyChange(EventArgs * pEvt);
 		int OnCreate(void *);
 		void OnClick();
 		SOUI_MSG_MAP_BEGIN()
