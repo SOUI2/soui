@@ -69,7 +69,7 @@ namespace SOUI
 		virtual HRESULT Init(ULONG_PTR idSvr, IIpcSvrCallback * pCallback) override;
 		virtual void CheckConnectivity() override;
 		virtual LRESULT OnMessage(ULONG_PTR idLocal, UINT uMsg, WPARAM wp, LPARAM lp,BOOL &bHandled) override;
-
+		virtual void EnumClient(FunEnumConnection funEnum, ULONG_PTR data) override;
 	private:
 		LRESULT OnConnect(HWND hClient);
 		LRESULT OnDisconnect(HWND hClient);
@@ -79,6 +79,7 @@ namespace SOUI
 		IIpcSvrCallback * m_pCallback;
 		HWND			  m_hSvr;
 		std::map<HWND, IIpcConnection *> m_mapClients;
+
 	};
 
 	class SIpcFactory : public TObjRefImpl<IIpcFactory>

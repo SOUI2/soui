@@ -160,10 +160,31 @@ namespace SOUI
 		return it->second->HandleFun((UINT)wp, ps) ? 1 : 0;
 	}
 
+	void SIpcServer::EnumClient(FunEnumConnection funEnum, ULONG_PTR data)
+	{
+		std::map<HWND, IIpcConnection *> map2 = m_mapClients;
+		std::map<HWND, IIpcConnection *>::iterator it = map2.begin();
+		while (it != map2.end())
+		{
+			it->second->AddRef();
+			it++;
+		}
+
+		it = map2.begin();
+		while (it != map2.end())
+		{
+			funEnum(it->second, data);
+			it->second->Release();
+			it++;
+		}
+	}
+
 	LRESULT SIpcServer::OnConnect(HWND hClient)
 	{
-		if (m_mapClients.find(hClient) != m_mapClients.end()) return 0;
-
+		if (m_mapClients.find(hClient) != m_mapClients.end()) 
+			return 0; // existed.
+		if (hClient == m_hSvr)
+			return 0; // must be different hwnd.
 		CAutoRefPtr<IIpcHandle> pIpcHandle;
 		pIpcHandle.Attach(new SIpcHandle);
 
