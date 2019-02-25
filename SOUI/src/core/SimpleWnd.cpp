@@ -368,7 +368,7 @@ BOOL CSimpleWnd::CenterWindow(HWND hWndCenter /*= NULL*/)
 		// don't center against invisible or minimized windows
 		if(hWndCenter != NULL)
 		{
-			DWORD dwStyleCenter = ::GetWindowLong(hWndCenter, GWL_STYLE);
+			DWORD dwStyleCenter = ::GetWindowLongPtr(hWndCenter, GWL_STYLE);
 			if(!(dwStyleCenter & WS_VISIBLE) || (dwStyleCenter & WS_MINIMIZE))
 				hWndCenter = NULL;
 		}
@@ -437,12 +437,12 @@ BOOL CSimpleWnd::ModifyStyle(DWORD dwRemove, DWORD dwAdd, UINT nFlags /*= 0*/)
 {
 	SASSERT(::IsWindow(m_hWnd));
 
-	DWORD dwStyle = ::GetWindowLong(m_hWnd, GWL_STYLE);
+	DWORD dwStyle = ::GetWindowLongPtr(m_hWnd, GWL_STYLE);
 	DWORD dwNewStyle = (dwStyle & ~dwRemove) | dwAdd;
 	if(dwStyle == dwNewStyle)
 		return FALSE;
 
-	::SetWindowLong(m_hWnd, GWL_STYLE, dwNewStyle);
+	::SetWindowLongPtr(m_hWnd, GWL_STYLE, dwNewStyle);
 	if(nFlags != 0)
 	{
 		::SetWindowPos(m_hWnd, NULL, 0, 0, 0, 0,
@@ -456,12 +456,12 @@ BOOL CSimpleWnd::ModifyStyleEx(DWORD dwRemove, DWORD dwAdd, UINT nFlags /*= 0*/)
 {
 	SASSERT(::IsWindow(m_hWnd));
 
-	DWORD dwStyle = ::GetWindowLong(m_hWnd, GWL_EXSTYLE);
+	DWORD dwStyle = ::GetWindowLongPtr(m_hWnd, GWL_EXSTYLE);
 	DWORD dwNewStyle = (dwStyle & ~dwRemove) | dwAdd;
 	if(dwStyle == dwNewStyle)
 		return FALSE;
 
-	::SetWindowLong(m_hWnd, GWL_EXSTYLE, dwNewStyle);
+	::SetWindowLongPtr(m_hWnd, GWL_EXSTYLE, dwNewStyle);
 	if(nFlags != 0)
 	{
 		::SetWindowPos(m_hWnd, NULL, 0, 0, 0, 0,
