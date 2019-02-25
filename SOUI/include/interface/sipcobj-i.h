@@ -107,6 +107,8 @@ namespace SOUI
 	struct IIpcSvrCallback 
 	{
 		virtual void OnNewConnection(IIpcHandle * pIpcHandle, IIpcConnection ** ppConn) = 0;
+		virtual void OnConnected(IIpcConnection * pConn) =0;
+		virtual void OnDisconnected(IIpcConnection * pConn) =0;
 		virtual int GetBufSize() const = 0;
 		virtual void * GetSecurityAttr() const = 0;
 		virtual void ReleaseSecurityAttr(void* psa) const = 0;

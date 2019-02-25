@@ -203,6 +203,7 @@ namespace SOUI
 		m_pCallback->ReleaseSecurityAttr(pSa);
 
 		m_mapClients[hClient] = pConn;
+		m_pCallback->OnConnected(pConn);
 		return 1;
 	}
 
@@ -212,6 +213,8 @@ namespace SOUI
 			return 0;
 
 		IIpcConnection *pClient = m_mapClients[hClient];
+		m_pCallback->OnDisconnected(pClient);
+
 		pClient->Release();
 		m_mapClients.erase(hClient);
 		return 1;
