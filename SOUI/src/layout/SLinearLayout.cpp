@@ -372,7 +372,6 @@ namespace SOUI
 	CSize SLinearLayout::MeasureChildren(const SWindow * pParent,int nWidth,int nHeight) const
 	{
 		SIZE *pSize = new SIZE [pParent->GetChildrenCount()];
-		SWindow ** pChilds = new SWindow * [pParent->GetChildrenCount()];
 		memset(pSize,0,sizeof(SIZE)*pParent->GetChildrenCount());
 
         ILayoutParam * pParentLayoutParam = pParent->GetLayoutParam();
