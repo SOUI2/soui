@@ -270,7 +270,7 @@ public:
 #if(SCOM_MASK&scom_mask_ipcobject)
 	BOOL CreateIpcObject(IObjRef **ppObj)
 	{
-		return SOUI::IPC::CreateInstance(ppObj);
+		return SOUI::IPC::SCreateInstance(ppObj);
 	}
 #endif
 	SOUI::SStringT m_strImgDecoder;
