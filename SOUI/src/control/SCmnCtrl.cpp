@@ -110,6 +110,11 @@ void SStatic::DrawMultiLine(IRenderTarget *pRT,LPCTSTR pszBuf,int cchText,LPRECT
         pRT->MeasureText(p1,(int)(p2-p1),&szChar);
         if(pt.x+szChar.cx > nRight && pLineTail>pLineHead)
         {//检测到一行超过边界时还要保证当前行不为空
+            if (pt.y + nLineHei + m_nLineInter + szChar.cy > pRect->bottom)
+            {
+              pLineTail = pszBuf + (int)_tcslen(pszBuf);
+              break;
+            }
             if(!(uFormat & DT_CALCRECT))
             {
                 CRect rcText(pRect->left,pt.y,nRight, pt.y + nLineHei);
