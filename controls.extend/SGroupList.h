@@ -49,7 +49,8 @@ namespace SOUI{
 	protected:
 		bool OnGroupClick(EventArgs *e);
 		bool OnItemClick(EventArgs *e);
-		virtual void OnInitFinished(pugi::xml_node xmlNode);
+
+		virtual BOOL CreateChildren(pugi::xml_node xmlNode);
 		virtual void OnViewSizeChanged(CSize szOld, CSize szNew);
 
 	protected:

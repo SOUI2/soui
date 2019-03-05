@@ -153,7 +153,7 @@ namespace SOUI
         //************************************
 		bool UnregisterFactory(const SObjectInfo & objInfo);
 
-        IObject *CreateObject(const SObjectInfo & objInfo) const;
+        virtual IObject *CreateObject(const SObjectInfo & objInfo) const;
 
         void SetSwndDefAttr(IObject *pObject) const;
         
