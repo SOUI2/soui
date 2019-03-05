@@ -220,8 +220,8 @@
       <img pos="10,[10,@100,@100" skin="skin_page_icons" iconIndex="2" tip="img tip" msgTransparent="0"/>
       <text pos="10,[5" multiLines="1">the image show how to handle message in SImageWnd,\n you can do it by simply setting msgTransparent to 0</text>
       <window pos="10,[5,@100,@30" class="cls_edit" trackMouseEvent="1">
-        <edit pos="0,0,-16,-0" name="edit_spin" margin-x="0" margin-y="0"/>
-        <spinButton pos="[0,0,-0,-0" max="20" min="10" value="11" buddy="edit_spin"/>
+        <edit pos="0,0,-16,-0" name="edit_spin" notifyChange="1" margin-x="0" margin-y="0"/>
+        <spinButton pos="[0,0,-0,-0" max="100" min="1" value="31" buddy="edit_spin"/>
       </window>
       <button pos="[0,{0,@100,@30" name="btn_lrc">LRC</button>
       <button pos="[10,{0,@100,@30" name="btn_clock">clock</button>

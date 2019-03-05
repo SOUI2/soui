@@ -50,8 +50,7 @@ protected:
 protected:
     void onDataSetChanged();
     void onDataSetInvalidated();
-	void UpdateVisibleItem(int iItem);
-	void onItemDataChanged(int iItem);
+    void onItemDataChanged(int iItem);
 protected:
     bool OnItemClick(EventArgs *pEvt);
 

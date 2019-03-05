@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="render-skia"
-	ProjectGUID="{0D6D6208-1735-36E0-94B8-A64A6C80DD68}"
+	Name="SIpcObject"
+	ProjectGUID="{05BCE4A1-6B8B-386E-8962-D803F2977E82}"
 	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform
@@ -16,23 +16,23 @@
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
 			ConfigurationType="2"
-			IntermediateDirectory="..\..\obj\release\render-skia\"
+			IntermediateDirectory="..\..\obj\release\SIpcObject\"
 			UseOfMfc="0">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".,.,..\..\soui\include,..\..\utilities\include,..\..\third-part\skia,..\..\third-part\skia\include,..\..\third-part\skia\include\config,..\..\third-part\skia\include\core,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
+				AdditionalIncludeDirectories=".,.,..\..\utilities\include,..\..\soui\include,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
 				AdditionalOptions="/MP"
-				AssemblerListingLocation="..\..\obj\release\render-skia\"
+				AssemblerListingLocation="..\..\obj\release\SIpcObject\"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"
 				ExceptionHandling="1"
 				ForcedIncludeFiles="stdafx.h"
 				GeneratePreprocessedFile="0"
-				ObjectFile="..\..\obj\release\render-skia\"
+				ObjectFile="..\..\obj\release\SIpcObject\"
 				Optimization ="1"
-				PrecompiledHeaderFile="$(IntDir)\render-skia.pch"
+				PrecompiledHeaderFile="$(IntDir)\SIpcObject.pch"
 				PrecompiledHeaderThrough="stdafx.h"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,BUILD_SIPC,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
 				ProgramDataBaseFileName="$(IntDir)"
 				RuntimeLibrary="0"
 				SuppressStartupBanner="true"
@@ -43,7 +43,6 @@
 				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="utilities.lib skia.lib shlwapi.lib Usp10.lib opengl32.lib"
 				AdditionalLibraryDirectories="..\..\bin"
 				DataExecutionPrevention="true"
 				EnableCOMDATFolding="2"
@@ -52,7 +51,7 @@
 				LinkIncremental="1"
 				LinkTimeCodeGeneration="0"
 				OptimizeReferences="2"
-				OutputFile="$(OutDir)\render-skia.dll"
+				OutputFile="$(OutDir)\SIpcObject.dll"
 				ProgramDatabaseFile=""
 				RandomizedBaseAddress="true"
 				SubSystem="2"
@@ -73,7 +72,7 @@
 				Name="VCPreLinkEventTool" />
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST" />
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,BUILD_SIPC,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST" />
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
@@ -81,23 +80,23 @@
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
 			ConfigurationType="2"
-			IntermediateDirectory="..\..\obj\debug\render-skia\"
+			IntermediateDirectory="..\..\obj\debug\SIpcObject\"
 			UseOfMfc="0">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".,.,..\..\soui\include,..\..\utilities\include,..\..\third-part\skia,..\..\third-part\skia\include,..\..\third-part\skia\include\config,..\..\third-part\skia\include\core,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
+				AdditionalIncludeDirectories=".,.,..\..\utilities\include,..\..\soui\include,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
 				AdditionalOptions="/MP"
-				AssemblerListingLocation="..\..\obj\debug\render-skia\"
+				AssemblerListingLocation="..\..\obj\debug\SIpcObject\"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"
 				ExceptionHandling="1"
 				ForcedIncludeFiles="stdafx.h"
 				GeneratePreprocessedFile="0"
-				ObjectFile="..\..\obj\debug\render-skia\"
+				ObjectFile="..\..\obj\debug\SIpcObject\"
 				Optimization ="4"
-				PrecompiledHeaderFile="$(IntDir)\render-skiad.pch"
+				PrecompiledHeaderFile="$(IntDir)\SIpcObjectd.pch"
 				PrecompiledHeaderThrough="stdafx.h"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,BUILD_SIPC,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
 				ProgramDataBaseFileName="$(IntDir)"
 				RuntimeLibrary="1"
 				SuppressStartupBanner="true"
@@ -108,13 +107,12 @@
 				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="utilitiesd.lib skiad.lib shlwapi.lib Usp10.lib opengl32.lib"
 				AdditionalLibraryDirectories="..\..\bin"
 				DataExecutionPrevention="true"
 				GenerateDebugInformation="true"
 				IgnoreImportLibrary="true"
 				LinkTimeCodeGeneration="0"
-				OutputFile="$(OutDir)\render-skiad.dll"
+				OutputFile="$(OutDir)\SIpcObjectd.dll"
 				ProgramDatabaseFile=""
 				RandomizedBaseAddress="true"
 				SubSystem="2"
@@ -135,7 +133,7 @@
 				Name="VCPreLinkEventTool" />
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,_DEBUG" />
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,BUILD_SIPC,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,_DEBUG" />
 		</Configuration>
 	</Configurations>
 	<Files>
@@ -144,36 +142,18 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath="drawtext-skia.cpp" />
+				RelativePath="SIpcObject.cpp" />
 			<File
-				RelativePath="patheffect-skia.cpp" />
-			<File
-				RelativePath="pathmeasure-skia.cpp" />
-			<File
-				RelativePath="render-skia.cpp" />
-			<File
-				RelativePath="render-skia2.cpp" />
-			<File
-				RelativePath="skia2rop2.cpp" />
+				RelativePath="ShareMemBuffer.cpp" />
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
-				RelativePath="drawtext-skia.h" />
+				RelativePath="SIpcObject.h" />
 			<File
-				RelativePath="patheffect-skia.h" />
-			<File
-				RelativePath="pathmeasure-skia.h" />
-			<File
-				RelativePath="render-skia.h" />
-			<File
-				RelativePath="render-skia2-i.h" />
-			<File
-				RelativePath="render-skia2.h" />
-			<File
-				RelativePath="skia2rop2.h" />
+				RelativePath="ShareMemBuffer.h" />
 			<File
 				RelativePath="stdafx.h">
 				<FileConfiguration
@@ -219,7 +199,7 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath="render-skia.rc" />
+			RelativePath="SIpcObject.rc" />
 	</Files>
 	<Globals>
 	</Globals>

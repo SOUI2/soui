@@ -198,7 +198,6 @@ namespace SOUI
     protected:
         virtual void OnViewSizeChanged(CSize szOld,CSize szNew);
         virtual void OnViewOriginChanged(CPoint ptOld,CPoint ptNew);
-		virtual void UpdateChildrenPosition();
     protected:
         virtual CRect GetChildrenLayoutRect();
 
@@ -206,9 +205,11 @@ namespace SOUI
 
         virtual void UpdateScrollBar();
 
-		
+		virtual void UpdateChildrenPosition();
     protected:
     
+		void UpdateViewSize();
+
         HRESULT OnAttrViewSize(const SStringW & strValue,BOOL bLoading);
         
         SOUI_ATTRS_BEGIN()
@@ -221,11 +222,9 @@ namespace SOUI
             MSG_WM_SIZE(OnSize)
         SOUI_MSG_MAP_END()
     protected:
-        BOOL  m_bAutoViewSize;
-        CSize m_szView;
+		SLayoutSize m_viewSize[2];
         CPoint m_ptOrigin;
-		//保存view设置的尺寸
-		CSize m_szViewSetSize;
+		CSize  m_szView;
     };
 
 }//namespace SOUI

@@ -107,16 +107,21 @@ namespace SOUI
 	struct IIpcSvrCallback 
 	{
 		virtual void OnNewConnection(IIpcHandle * pIpcHandle, IIpcConnection ** ppConn) = 0;
+		virtual void OnConnected(IIpcConnection * pConn) =0;
+		virtual void OnDisconnected(IIpcConnection * pConn) =0;
 		virtual int GetBufSize() const = 0;
 		virtual void * GetSecurityAttr() const = 0;
 		virtual void ReleaseSecurityAttr(void* psa) const = 0;
 	};
+
+	typedef void(*FunEnumConnection)(IIpcConnection *pConn, ULONG_PTR data);
 
 	struct IIpcServer : IObjRef
 	{
 		virtual HRESULT Init(ULONG_PTR idSvr, IIpcSvrCallback * pCallback) =0;
 		virtual void CheckConnectivity() =0;
 		virtual LRESULT OnMessage(ULONG_PTR idLocal, UINT uMsg, WPARAM wp, LPARAM lp,BOOL &bHandled) =0;
+		virtual void EnumClient(FunEnumConnection funEnum,ULONG_PTR data) = 0;
 	};
 
 	struct IIpcFactory : IObjRef

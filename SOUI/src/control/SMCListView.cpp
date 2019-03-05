@@ -133,10 +133,10 @@ int SMCListView::InsertColumn(int nIndex, LPCTSTR pszText, int nWidth, LPARAM lP
 BOOL SMCListView::CreateChildren(pugi::xml_node xmlNode)
 {
     //  listctrl的子控件只能是一个header控件
-	pugi::xml_node xmlTemplate = xmlNode.child(L"template");
-	xmlTemplate.set_userdata(1);
-	if (!__super::CreateChildren(xmlNode))
+    if (!__super::CreateChildren(xmlNode))
         return FALSE;
+        
+    pugi::xml_node xmlTemplate = xmlNode.child(L"template");
     if(xmlTemplate)
     {
         m_xmlTemplate.append_copy(xmlTemplate);
