@@ -835,8 +835,8 @@ void STabCtrl::OnInitFinished( pugi::xml_node xmlNode )
     if(m_pSkinTab)
     {
         SIZE sz = m_pSkinTab->GetSkinSize();
-		if(SLayoutSize::fequal(m_szTab[0].fSize, -1.f)) m_szTab[0] = SLayoutSize((float)sz.cx, SLayoutSize::px);
-        if(SLayoutSize::fequal(m_szTab[1].fSize, -1.f)) m_szTab[1] = SLayoutSize((float)sz.cy, SLayoutSize::px);
+		if(SLayoutSize::fequal(m_szTab[0].fSize, -1.f)) m_szTab[0] = SLayoutSize((float)sz.cx, SLayoutSize::defUnit);
+        if(SLayoutSize::fequal(m_szTab[1].fSize, -1.f)) m_szTab[1] = SLayoutSize((float)sz.cy, SLayoutSize::defUnit);
     }
 }
 
@@ -918,10 +918,10 @@ void STabCtrl::OnColorize(COLORREF cr)
 void STabCtrl::OnScaleChanged(int nScale)
 {
     __super::OnScaleChanged(nScale);
-    if (m_pSkinIcon)
-    {
-        GetScaleSkin(m_pSkinIcon, nScale);
-    }
+    if (m_pSkinIcon) GetScaleSkin(m_pSkinIcon, nScale);
+    if (m_pSkinTab) GetScaleSkin(m_pSkinTab, nScale);
+    if (m_pSkinTabInter) GetScaleSkin(m_pSkinTabInter, nScale);
+    if (m_pSkinFrame) GetScaleSkin(m_pSkinFrame, nScale);
 }
 
 HRESULT STabCtrl::OnLanguageChanged()

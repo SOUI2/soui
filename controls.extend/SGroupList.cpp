@@ -18,9 +18,8 @@ namespace SOUI {
 	}
 
 
-	void SGroupList::OnInitFinished(pugi::xml_node xmlNode)
+	BOOL SGroupList::CreateChildren(pugi::xml_node xmlNode)
 	{
-		__super::OnInitFinished(xmlNode);
 		pugi::xml_node groupTemplate = xmlNode.child(L"groupTemplate");
 		pugi::xml_node itemTemplate = xmlNode.child(L"itemTemplate");
 		SASSERT(groupTemplate && itemTemplate);
@@ -35,21 +34,21 @@ namespace SOUI {
 			{
 				SStringT strText = S_CT2W(xmlGroup.attribute(L"text").as_string());
 				SStringT strName = xmlGroup.attribute(L"name").as_string();
-				SWindow *pGroup = InsertGroup(-1,strName, strText, xmlGroup.attribute(L"icon").as_int(), xmlGroup.attribute(L"id").as_int());
+				SWindow *pGroup = InsertGroup(-1, strName, strText, xmlGroup.attribute(L"icon").as_int(), xmlGroup.attribute(L"id").as_int());
 				pugi::xml_node xmlItem = xmlGroup.child(L"item");
 				while (xmlItem)
 				{
 					SStringT strText = S_CT2W(xmlItem.attribute(L"text").as_string());
 					SStringT strName = xmlItem.attribute(L"name").as_string();
-					InsertItem(pGroup, -1, strName,strText, xmlItem.attribute(L"icon").as_int(), xmlItem.attribute(L"id").as_int());
+					InsertItem(pGroup, -1, strName, strText, xmlItem.attribute(L"icon").as_int(), xmlItem.attribute(L"id").as_int());
 					xmlItem = xmlItem.next_sibling(L"item");
 				}
 				xmlGroup = xmlGroup.next_sibling(L"group");
 			}
 		}
-		RequestRelayout();
-
+		return TRUE;
 	}
+
 
 	void SGroupList::OnViewSizeChanged(CSize szOld, CSize szNew)
 	{
