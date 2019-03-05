@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9,00"
 	Name="render-gdi"
-	ProjectGUID="{248B087A-056E-3814-A3CE-903ADE86D60F}"
+	ProjectGUID="{891C9AA7-6441-3F38-B682-9477D3E18ED9}"
 	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform

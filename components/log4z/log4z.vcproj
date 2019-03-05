@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9,00"
 	Name="log4z"
-	ProjectGUID="{2FC2FC9D-9CE3-3909-AFDB-31FEA96AAEA6}"
+	ProjectGUID="{9686385C-47DA-37F7-A5B8-FBFFAA35BA2A}"
 	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform

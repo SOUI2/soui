@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9,00"
 	Name="png"
-	ProjectGUID="{362097EC-F69F-3C7C-BD38-51F5900E88D2}"
+	ProjectGUID="{2B5E5173-827E-3E25-8E85-C1F0FFCD58AF}"
 	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform

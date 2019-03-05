@@ -146,9 +146,12 @@ namespace SOUI
 	{
 		CRect    rcClient;
 		GetClientRect(&rcClient);
+		if(!m_arrItems[iItem].bVisible)
+			return CRect();
 		CRect rcItem(rcClient.left, rcClient.top, rcClient.left, rcClient.bottom);
 		for (UINT i = 0; i <= iItem && i < m_arrItems.GetCount(); i++)
 		{
+			if(!m_arrItems[i].bVisible) continue;
 			rcItem.left = rcItem.right;
 			rcItem.right = rcItem.left + m_arrItems[i].cx.toPixelSize(GetScale());
 		}

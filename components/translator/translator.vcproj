@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9,00"
 	Name="translator"
-	ProjectGUID="{4A11A1D3-B7D0-33EE-BF8A-EE13D1463D0E}"
+	ProjectGUID="{F8BE4C9A-5071-34A2-B1EE-7E264021A0A1}"
 	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform
