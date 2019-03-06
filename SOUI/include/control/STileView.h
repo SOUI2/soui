@@ -50,7 +50,6 @@ protected:
 protected:
     void onDataSetChanged();
     void onDataSetInvalidated();
-	void UpdateVisibleItem(int iItem);
     void onItemDataChanged(int iItem);
 protected:
     bool OnItemClick(EventArgs *pEvt);
@@ -74,7 +73,8 @@ protected:
     CRect CalcItemDrawRect(int iItem);//计算item实际绘制的位置
     
     void UpdateVisibleItems();
-    
+	void UpdateVisibleItem(int iItem);
+
     void OnPaint(IRenderTarget *pRT);
     void OnSize(UINT nType, CSize size);
     void OnDestroy();
