@@ -313,6 +313,7 @@ namespace SOUI
                     if(lstRecycle->IsEmpty())
                     {//创建一个新的列表项
                         ii.pItem = SItemPanel::Create(this,pugi::xml_node(),this);
+						SApplication::getSingleton().SetSwndDefAttr(ii.pItem);
                         ii.pItem->GetEventSet()->subscribeEvent(EventItemPanelClick::EventID,Subscriber(&SListView::OnItemClick,this));
                     }else
                     {
