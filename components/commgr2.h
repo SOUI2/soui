@@ -21,6 +21,7 @@
 #define COM_LOG4Z   _T("log4zd.dll")
 #define COM_7ZIPRESPROVIDER _T("resprovider-7zipd.dll")
 #define COM_TASKLOOP _T("taskloopd.dll")
+#define COM_IPCOBJ _T("sipcobjectd.dll")
 #else
 #define COM_RENDER_GDI  _T("render-gdi.dll")
 #define COM_RENDER_SKIA _T("render-skia.dll")
@@ -30,6 +31,7 @@
 #define COM_LOG4Z   _T("log4z.dll")
 #define COM_7ZIPRESPROVIDER _T("resprovider-7zip.dll")
 #define COM_TASKLOOP _T("taskloop.dll")
+#define COM_IPCOBJ _T("sipcobject.dll")
 #endif	// _DEBUG
 
 
@@ -77,6 +79,9 @@
 #if(SCOM_MASK&scom_mask_taskloop)
 	#pragma comment(lib,"taskloopd")
 #endif
+#if(SCOM_MASK&scom_mask_ipcobject)
+	#pragma comment(lib,"sipcobjectd")
+#endif
 #else//_DEBUG
 #if(SCOM_MASK&scom_mask_render_skia)
     #pragma comment(lib,"skia")
@@ -114,6 +119,9 @@
 #endif
 #if(SCOM_MASK&scom_mask_taskloop)
 	#pragma comment(lib,"taskloop")
+#endif
+#if(SCOM_MASK&scom_mask_ipcobject)
+	#pragma comment(lib,"sipcobject")
 #endif
 #endif//_DEBUG
 
@@ -165,6 +173,9 @@ namespace SOUI
         BOOL SCreateInstance(IObjRef **);
     }
 	namespace TASKLOOP {
+		BOOL SCreateInstance(IObjRef **);
+	}
+	namespace IPC {
 		BOOL SCreateInstance(IObjRef **);
 	}
 }//end of soui
@@ -256,6 +267,12 @@ public:
 		return SOUI::TASKLOOP::SCreateInstance(ppObj);
 	}
 #endif
+#if(SCOM_MASK&scom_mask_ipcobject)
+	BOOL CreateIpcObject(IObjRef **ppObj)
+	{
+		return SOUI::IPC::SCreateInstance(ppObj);
+	}
+#endif
 	SOUI::SStringT m_strImgDecoder;
 };
 
@@ -332,6 +349,11 @@ public:
 	{
 		return taskLoopLoader.CreateInstance(m_strDllPath + COM_TASKLOOP, ppObj);
 	}
+
+	BOOL CreateIpcObject(IObjRef **ppObj)
+	{
+		return ipcLoader.CreateInstance(m_strDllPath + COM_IPCOBJ, ppObj);
+	}
 protected:
     //SComLoader实现从DLL的指定函数创建符号SOUI要求的类COM组件。
     SComLoader imgDecLoader;
@@ -342,6 +364,7 @@ protected:
     SComLoader log4zLoader;
     SComLoader zip7ResLoader;
 	SComLoader taskLoopLoader;
+	SComLoader ipcLoader;
 
     SOUI::SStringT m_strImgDecoder;
 	SOUI::SStringT m_strDllPath;

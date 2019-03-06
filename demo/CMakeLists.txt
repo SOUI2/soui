@@ -45,6 +45,8 @@ set(EXTENDCOTROLS ${EXTENDCOTROLS}
 	${CMAKE_SOURCE_DIR}/controls.extend/SMcListViewEx/SHeaderCtrlEx.h
 	${CMAKE_SOURCE_DIR}/controls.extend/SMcListViewEx/SMCListViewEx.h
 	${CMAKE_SOURCE_DIR}/controls.extend/SProgressRing.h
+	${CMAKE_SOURCE_DIR}/controls.extend/SAniWindow.h
+	${CMAKE_SOURCE_DIR}/controls.extend/SGroupList.h
 )
 
 set(EXTENDCOTROLS ${EXTENDCOTROLS}
@@ -79,6 +81,8 @@ set(EXTENDCOTROLS ${EXTENDCOTROLS}
 	${CMAKE_SOURCE_DIR}/controls.extend/SMcListViewEx/SHeaderCtrlEx.cpp
 	${CMAKE_SOURCE_DIR}/controls.extend/SMcListViewEx/SMCListViewEx.cpp
 	${CMAKE_SOURCE_DIR}/controls.extend/SProgressRing.cpp
+	${CMAKE_SOURCE_DIR}/controls.extend/SAniWindow.cpp
+	${CMAKE_SOURCE_DIR}/controls.extend/SGroupList.cpp
 )
 source_group("Header Files" FILES ${CURRENT_HEADERS})
 source_group("Source Files" FILES ${CURRENT_SRCS})

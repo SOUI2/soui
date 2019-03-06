@@ -12,7 +12,7 @@ namespace SOUI
 #define WIDTH_MENU_MIN      100.f
 
 
-#define Y_MIDFLAG L"-1000"
+#define Y_MIDFLAG L"-1000px"
 #define Y_IMIDFLAG (-1000)
 
 

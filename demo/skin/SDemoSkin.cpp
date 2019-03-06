@@ -72,17 +72,17 @@ namespace SOUI
 		if (m_bIsColor)
 		{
 			saveInf.color = m_bkColor;
-			return m_ISetOrLoadSkinHandler->SaveSkin(SkinType::color, saveInf);
+			return m_ISetOrLoadSkinHandler->SaveSkin(color, saveInf);
 		}
 		else if(!m_FilePath.IsEmpty())
 		{
 			saveInf.margin = m_rcMargin;
 			saveInf.filepath = m_FilePath;
-			return m_ISetOrLoadSkinHandler->SaveSkin(SkinType::sys, saveInf);
+			return m_ISetOrLoadSkinHandler->SaveSkin(sys, saveInf);
 		}
 		else
 		{
-			return m_ISetOrLoadSkinHandler->SaveSkin(SkinType::builtin, saveInf);
+			return m_ISetOrLoadSkinHandler->SaveSkin(builtin, saveInf);
 		}
 		return false;
 	}
