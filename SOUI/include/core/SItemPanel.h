@@ -24,6 +24,7 @@ struct IItemContainer
 
 class SOUI_EXP SItemPanel : public SwndContainerImpl
 {
+	SOUI_CLASS_NAME(SItemPanel,L"itemPanel")
 public:
     static SItemPanel * Create(SWindow *pFrameHost,pugi::xml_node xmlNode,IItemContainer *pItemContainer);
     
