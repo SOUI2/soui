@@ -251,6 +251,7 @@ SButton::SButton()
 ,m_bAnimate(FALSE)
 ,m_byAlphaAni(0xFF)
 , m_nAniStep(25)
+, m_bDisableAccelIfInvisible(FALSE)
 {
     m_pBgSkin=GETBUILTINSKIN(SKIN_SYS_BTN_NORMAL);
     m_bFocusable=TRUE;
@@ -317,7 +318,10 @@ void SButton::OnKeyUp( UINT nChar, UINT nRepCnt, UINT nFlags )
 
 bool SButton::OnAcceleratorPressed( const CAccelerator& accelerator )
 {
-    if(IsDisabled(TRUE)) return false;
+    if(IsDisabled(TRUE)) 
+		return false;
+	if(m_bDisableAccelIfInvisible && !IsVisible(TRUE))
+		return false;
     FireCommand();
     return true;
 }
@@ -367,9 +371,8 @@ HRESULT SButton::OnAttrAccel( SStringW strAccel,BOOL bLoading )
     m_accel=CAccelerator::TranslateAccelKey(strAccelT);
     if(m_accel)
     {
-        CAccelerator acc(m_accel);
-        GetContainer()->GetAcceleratorMgr()->RegisterAccelerator(acc,this);
-        return S_OK;
+		CAccelerator acc(m_accel);
+		GetContainer()->GetAcceleratorMgr()->RegisterAccelerator(acc,this);
     }
     return S_FALSE;
 }
