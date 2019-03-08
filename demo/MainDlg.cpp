@@ -1039,3 +1039,19 @@ void CMainDlg::OnCtrlPageClick(EventArgs *e)
 
 }
 
+void CMainDlg::OnMcLvHeaderRelayout(EventArgs * e)
+{
+	SHeaderCtrl *pHeader = sobj_cast<SHeaderCtrl>(e->sender);
+	int nItems = pHeader->GetItemCount();
+	if (nItems > 1)
+	{
+		CRect rc = pHeader->GetItemRect(pHeader->GetOriItemIndex(0));
+		SWindow *pChk = pHeader->FindChildByName(L"chk_mclv_sel");
+		SASSERT(pChk);
+		CSize szChk = pChk->GetDesiredSize(NULL);
+		CRect rc2(CPoint(rc.left + 5, rc.top + (rc.Height()-szChk.cy)/2), szChk);
+		if (rc2.right >= rc.right - 5) rc2.right = rc.right - 5;
+		pChk->Move(rc2);
+	}
+}
+
