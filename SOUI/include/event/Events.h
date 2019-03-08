@@ -118,6 +118,7 @@ namespace SOUI
         EVT_HEADER_ITEMCHANGING,
         EVT_HEADER_ITEMCHANGED,
         EVT_HEADER_ITEMSWAP,
+		EVT_HEADER_RELAYOUT,
 
         EVT_CB_SELCHANGE=19000,
 		EVT_CB_DROPDOWN,
@@ -884,6 +885,10 @@ namespace SOUI
 		int   iOldIndex;
 		int   iNewIndex;
 	SEVENT_END()
+
+	SEVENT_BEGIN_EX(EventHeaderRelayout, EVT_HEADER_RELAYOUT,on_header_relayout,SOUI_EXP)
+	SEVENT_END()
+
     //class SOUI_EXP EventHeaderItemSwap : public TplEventArgs<EventHeaderItemSwap>
     //{
     //    SOUI_CLASS_NAME(EventHeaderItemSwap,L"on_header_item_swap")
