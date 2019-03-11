@@ -484,8 +484,16 @@ SStringW SApplication::tr(const SStringW & strSrc,const SStringW & strCtx) const
 }
 
 SWindow * SApplication::CreateWindowByName(LPCWSTR pszWndClass) const
-{
-	return (SWindow*)CreateObject(SObjectInfo(pszWndClass, Window));
+{//支持使用类似button.ok这样的控件名来创建控件，对于这种格式自动应用button.ok为class属性.
+	SStringW strClsName = pszWndClass;
+	int nPos = strClsName.ReverseFind(L'.');
+	if (nPos != -1) strClsName = strClsName.Left(nPos);
+	SWindow *pRet = (SWindow*)CreateObject(SObjectInfo(strClsName, Window));
+	if (pRet && nPos != -1)
+	{
+		pRet->SetAttribute(L"class", pszWndClass, TRUE);
+	}
+	return pRet;
 }
 
 ISkinObj * SApplication::CreateSkinByName(LPCWSTR pszSkinClass) const
