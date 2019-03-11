@@ -422,11 +422,11 @@ protected:
     SLayoutSize m_ptText[2]; /**< 文本坐标 */
 
     COLORREF m_crItemBg;    /**< 背景色 */
-    COLORREF m_crItemBg2;   /**< 背景色 */
+    COLORREF m_crItemBg2;   /**< 偶数行背景色 */
     COLORREF m_crItemSelBg; /**< 选中背景色 */
 	COLORREF m_crItemHotBg; /**< Hot背景色 */
-    COLORREF m_crText;      /**< 背景色 */
-    COLORREF m_crSelText;   /**< 选中背景色 */
+    COLORREF m_crText;      /**< 文字颜色 */
+    COLORREF m_crSelText;   /**< 选中文字颜色 */
     ISkinObj *m_pItemSkin, *m_pIconSkin;
 
 public:
