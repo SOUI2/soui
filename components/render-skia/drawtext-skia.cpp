@@ -237,6 +237,7 @@ SkRect SkTextLayoutEx::draw( SkCanvas* canvas )
         if(iLine<m_lines.count())
         {//draw the last visible line
             int iBegin=m_lines[iLine];
+            // modify by baozi 20190312 配合多行文本显示修改，不显示超出的文本内容
             int iEnd = iLine!=0&&iLine<(m_lines.count()-1)?m_lines[iLine+1]:m_text.count();
             SkScalar lineWid;
             if(m_uFormat & DT_ELLIPSIS)

@@ -110,10 +110,11 @@ void SStatic::DrawMultiLine(IRenderTarget *pRT,LPCTSTR pszBuf,int cchText,LPRECT
         pRT->MeasureText(p1,(int)(p2-p1),&szChar);
         if(pt.x+szChar.cx > nRight && pLineTail>pLineHead)
         {//检测到一行超过边界时还要保证当前行不为空
+            // modify by baozi 20190312 显示多行文本时，如果下一行文字的高度超过了文本框，则不再输出下一行文字内容。
             if (pt.y + nLineHei + m_nLineInter + szChar.cy > pRect->bottom)
             {
-              pLineTail = pszBuf + (int)_tcslen(pszBuf);
-              break;
+                pLineTail = pszBuf + (int)_tcslen(pszBuf);
+                break;
             }
             if(!(uFormat & DT_CALCRECT))
             {
