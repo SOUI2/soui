@@ -21,16 +21,19 @@ namespace SOUI
         
         xmlStyleRoot = m_xmlDoc.append_copy(xmlStyleRoot);
 
-        LPCWSTR lpszClassName = NULL;
+		for (pugi::xml_node xmlChild = xmlStyleRoot.first_child(); xmlChild; xmlChild = xmlChild.next_sibling())
+		{
+			SStringW strClsName = xmlChild.name();
+			if (strClsName.CompareNoCase(L"class") == 0)
+			{
+				strClsName = xmlChild.attribute(L"name").value();
+				if (strClsName.IsEmpty()) continue;
+				xmlChild.remove_attribute(L"name");//删除name属性，防止该属性被处理
+			}
+			SASSERT(!xmlChild.attribute(L"name"));
+			AddKeyObject(strClsName, xmlChild);
+		}
 
-        for (pugi::xml_node xmlChild=xmlStyleRoot.child(L"class",false); xmlChild; xmlChild=xmlChild.next_sibling(L"class",false))
-        {
-            lpszClassName = xmlChild.attribute(L"name").value();
-            if (!lpszClassName)
-                continue;
-            xmlChild.remove_attribute(L"name");//删除name属性，防止该属性被处理
-            AddKeyObject(lpszClassName,xmlChild);
-        }
         return TRUE;
     }
 
