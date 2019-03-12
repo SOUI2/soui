@@ -224,6 +224,7 @@ void SApplication::_CreateSingletons(HINSTANCE hInst,LPCTSTR pszHostClassName,BO
 	m_pSingletons[SFontPool::GetType()] = new SFontPool(m_RenderFactory);
 	m_pSingletons[SSkinPoolMgr::GetType()] =  new SSkinPoolMgr();
 	m_pSingletons[SStylePoolMgr::GetType()] =  new SStylePoolMgr();
+	m_pSingletons[STemplatePoolMgr::GetType()] = new STemplatePoolMgr();
 	m_pSingletons[SWindowFinder::GetType()] = new SWindowFinder();
 	m_pSingletons[STextServiceHelper::GetType()] = new STextServiceHelper();
 	m_pSingletons[SRicheditMenuDef::GetType()] = new SRicheditMenuDef();
@@ -241,6 +242,7 @@ void SApplication::_DestroySingletons()
 	DELETE_SINGLETON(STextServiceHelper);
 	DELETE_SINGLETON(SWindowFinder);
 	DELETE_SINGLETON(SStylePoolMgr);
+	DELETE_SINGLETON(STemplatePoolMgr);
 	DELETE_SINGLETON(SSkinPoolMgr);
 	DELETE_SINGLETON(SFontPool);
 	DELETE_SINGLETON(SScriptTimer);

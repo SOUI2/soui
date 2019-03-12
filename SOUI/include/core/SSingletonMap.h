@@ -22,7 +22,7 @@ public:
     {
         return m_mapNamedObj->Lookup(key)!=NULL;
     }
-    bool GetKeyObject(const TKey & key,TObj & obj)
+    bool GetKeyObject(const TKey & key,TObj & obj) const
     {
         if(!HasKey(key)) return false;
         obj=(*m_mapNamedObj)[key];

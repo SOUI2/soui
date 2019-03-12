@@ -33,7 +33,6 @@ namespace SOUI
     */
     class SOUI_EXP SStylePool :public SCmnMap<pugi::xml_node,SStringW> , public TObjRefImpl2<IObjRef,SStylePool>
     {
-		SINGLETON2_TYPE(SINGLETON_STYLEPOOLMGR)
     public:
         /**
          * GetStyle
@@ -100,4 +99,57 @@ namespace SOUI
     protected:
         SList<SStylePool *> m_lstStylePools;
     };
+
+	class SOUI_EXP STemplatePool :public SCmnMap<SStringW, SStringW>, public TObjRefImpl2<IObjRef, STemplatePool>
+	{
+	public:
+		/**
+		* Init
+		* @brief    Load temlpate table from xml node
+		* @param    pugi::xml_node xmlNode --  xml node that describe temlpate list
+		* @return   BOOL -- TRUE: loaded; FALSE:failed;
+		* Describe
+		*/
+		BOOL Init(pugi::xml_node xmlNode);
+
+		SStringW GetTemplateString(const SStringW &strName) const;
+	};
+
+
+	class SOUI_EXP STemplatePoolMgr : public SSingleton2<STemplatePoolMgr>
+	{
+		SINGLETON2_TYPE(SINGLETON_TEMPLATEPOOLMGR)
+	public:
+		~STemplatePoolMgr();
+
+		/**
+		* GetTemplateString
+		* @brief    Get style object from pool by class name
+		* @param    const SStringW & strName --  name of template
+		* @param [out]  SwndStyle & style --  style
+		* @return   BOOL -- TRUE: success; FALSE: not exist
+		* Describe
+		*/
+		SStringW GetTemplateString(const SStringW & strName);
+
+		/**
+		* PushTemplatePool
+		* @brief    push a new STemplatePool to the tail of style pool list
+		* @param    STemplatePool * pTemplatePool --  the target style pool
+		* @return   void
+		* Describe
+		*/
+		void PushTemplatePool(STemplatePool *pTemplatePool);
+
+		/**
+		* PopTemplatePool
+		* @brief    remove the target template pool from list
+		* @param    STemplatePool * pTemplatePool --  the target template pool
+		* @return   STemplatePool * -- the removed template pool
+		* Describe  if STemplatePool is null, it remove the last template pool from the list
+		*/
+		STemplatePool * PopTemplatePool(STemplatePool *pTemplatePool);
+	protected:
+		SList<STemplatePool *> m_lstTemplatePools;
+	};
 }//end of namespace SOUI

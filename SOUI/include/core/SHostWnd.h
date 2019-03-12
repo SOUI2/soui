@@ -148,6 +148,7 @@ protected:
     BOOL                    m_bResizing;        /**<执行WM_SIZE*/
     CAutoRefPtr<SStylePool> m_privateStylePool; /**<局部style pool*/
     CAutoRefPtr<SSkinPool>  m_privateSkinPool;  /**<局部skin pool*/
+	CAutoRefPtr<STemplatePool>  m_privateTemplatePool;/**< 局部template pool */
 
     SList<SWND>             m_lstUpdateSwnd;    /**<等待刷新的非背景混合窗口列表*/
     SList<RECT>             m_lstUpdatedRect;   /**<更新的脏矩形列表*/
