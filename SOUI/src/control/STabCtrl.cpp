@@ -371,7 +371,7 @@ CRect STabCtrl::GetChildrenLayoutRect()
 {
     CRect rcRet;
     GetClientRect(rcRet);
-
+	rcRet.DeflateRect(GetStyle().GetPadding());
     switch(m_nTabAlign)
     {
     case AlignLeft:

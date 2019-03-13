@@ -1397,5 +1397,5 @@ namespace SOUI
 #ifdef _DEBUG
         DWORD               m_nMainThreadId;    /**< 窗口宿线程ID */
 #endif
-    };
+	};
 }//namespace SOUI

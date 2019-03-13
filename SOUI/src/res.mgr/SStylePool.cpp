@@ -21,16 +21,19 @@ namespace SOUI
         
         xmlStyleRoot = m_xmlDoc.append_copy(xmlStyleRoot);
 
-        LPCWSTR lpszClassName = NULL;
+		for (pugi::xml_node xmlChild = xmlStyleRoot.first_child(); xmlChild; xmlChild = xmlChild.next_sibling())
+		{
+			SStringW strClsName = xmlChild.name();
+			if (strClsName.CompareNoCase(L"class") == 0)
+			{
+				strClsName = xmlChild.attribute(L"name").value();
+				if (strClsName.IsEmpty()) continue;
+				xmlChild.remove_attribute(L"name");//删除name属性，防止该属性被处理
+			}
+			SASSERT(!xmlChild.attribute(L"name"));
+			AddKeyObject(strClsName, xmlChild);
+		}
 
-        for (pugi::xml_node xmlChild=xmlStyleRoot.child(L"class",false); xmlChild; xmlChild=xmlChild.next_sibling(L"class",false))
-        {
-            lpszClassName = xmlChild.attribute(L"name").value();
-            if (!lpszClassName)
-                continue;
-            xmlChild.remove_attribute(L"name");//删除name属性，防止该属性被处理
-            AddKeyObject(lpszClassName,xmlChild);
-        }
         return TRUE;
     }
 
@@ -84,4 +87,77 @@ namespace SOUI
         m_lstStylePools.RemoveAll();
     }
 
+	/////////////////////////////////////////////////////////////////////
+	BOOL STemplatePool::Init(pugi::xml_node xmlNode)
+	{
+		if (!xmlNode) return FALSE;
+		for (pugi::xml_node xmlChild = xmlNode.first_child(); xmlChild; xmlChild = xmlChild.next_sibling())
+		{
+			SStringW strTempName = xmlChild.name();
+			pugi::xml_writer_buff writer;
+			xmlChild.first_child().print(writer, L"", pugi::format_default, pugi::encoding_utf16);
+			SStringW strValue = SStringW(writer.buffer(), writer.size());
+			AddKeyObject(strTempName, strValue);
+		}
+		return TRUE;
+	}
+
+	SStringW STemplatePool::GetTemplateString(const SStringW & strName) const
+	{
+		SStringW strRet;
+		GetKeyObject(strName, strRet);
+		return strRet;
+	}
+
+	/////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////
+	// STemplatePoolMgr
+	SStringW STemplatePoolMgr::GetTemplateString(const SStringW & strName)
+	{
+		SPOSITION pos = m_lstTemplatePools.GetTailPosition();
+		while (pos)
+		{
+			STemplatePool *pStylePool = m_lstTemplatePools.GetPrev(pos);
+			SStringW strRet = pStylePool->GetTemplateString(strName);
+			if (!strRet.IsEmpty()) return strRet;
+		}
+		return SStringW();
+	}
+
+	void STemplatePoolMgr::PushTemplatePool(STemplatePool *pStylePool)
+	{
+		m_lstTemplatePools.AddTail(pStylePool);
+		pStylePool->AddRef();
+	}
+
+	STemplatePool * STemplatePoolMgr::PopTemplatePool(STemplatePool *pStylePool)
+	{
+		STemplatePool * pRet = NULL;
+		if (pStylePool)
+		{
+			SPOSITION pos = m_lstTemplatePools.Find(pStylePool);
+			if (pos)
+			{
+				pRet = m_lstTemplatePools.GetAt(pos);
+				m_lstTemplatePools.RemoveAt(pos);
+			}
+		}
+		else
+		{
+			pRet = m_lstTemplatePools.RemoveTail();
+		}
+		if (pRet) pRet->Release();
+		return pRet;
+	}
+
+	STemplatePoolMgr::~STemplatePoolMgr()
+	{
+		SPOSITION pos = m_lstTemplatePools.GetHeadPosition();
+		while (pos)
+		{
+			STemplatePool *p = m_lstTemplatePools.GetNext(pos);
+			p->Release();
+		}
+		m_lstTemplatePools.RemoveAll();
+	}
 }//end of namespace SOUI
