@@ -171,8 +171,9 @@ public:
     void RemoveItem( SSplitPane * pane );
 
 protected:
-    
-    /**
+	virtual CRect GetChildrenLayoutRect();
+	
+	/**
      * SSplitWnd::UpdateChildrenPosition
      * @brief    更新子窗口位置
      *
