@@ -1055,3 +1055,14 @@ void CMainDlg::OnMcLvHeaderRelayout(EventArgs * e)
 	}
 }
 
+void CMainDlg::OnBtnCreateByTemp()
+{
+	SWindow *pContainer = FindChildByName(L"wnd_temp_host");
+	SWindow *pInput = FindChildByName(L"re_temp_input");
+	if(pContainer && pInput)
+	{
+		SStringT strInput = pInput->GetWindowText();
+		pContainer->CreateChildren(S_CT2W(strInput));
+	}
+}
+

@@ -770,8 +770,15 @@ namespace SOUI
 			if (!strText.IsEmpty())
 			{
 				m_strText.SetText(S_CW2T(GETSTRING(strText)));   //使用语言包翻译。
+			}else if(m_strText.GetText(TRUE).IsEmpty())
+			{//try to apply cdata as text
+				SStringW strCData = xmlNode.child_value();
+				strCData.TrimBlank();
+				if(!strCData.IsEmpty())
+				{
+					m_strText.SetText(S_CW2T(GETSTRING(strCData)));
+				}
 			}
-
 		}
 
 		//发送WM_CREATE消息
