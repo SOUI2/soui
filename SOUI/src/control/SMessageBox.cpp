@@ -201,7 +201,9 @@ namespace SOUI
 
 		SWindow * pTitle= FindChildByName(NAME_MSGBOX_TITLE);
         SASSERT(pTitle);
-        pTitle->SetWindowText(S_CW2T(TR(s_MsgBoxInfo.pszCaption?S_CT2W(s_MsgBoxInfo.pszCaption):L"prompt",GetTranslatorContext())));
+		SStringT strTitle = pTitle->GetWindowText();
+		if (s_MsgBoxInfo.pszCaption) strTitle = s_MsgBoxInfo.pszCaption;
+        pTitle->SetWindowText(S_CW2T(TR(S_CT2W(strTitle),GetTranslatorContext())));
 
         SWindow * pMsg= FindChildByName(NAME_MSGBOX_TEXT);
         SASSERT(pMsg);
