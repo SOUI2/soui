@@ -484,6 +484,8 @@ public:
     const E& operator[]( size_t iElement ) const;
     E& operator[]( size_t iElement );
 
+    SArray< E, ETraits > & operator = (const SArray< E, ETraits >& src);
+
     void InsertAt( size_t iElement, INARGTYPE element, size_t nCount = 1 );
     void InsertArrayAt( size_t iStart, const SArray< E, ETraits >* paNew );
     void RemoveAt( size_t iElement, size_t nCount = 1 );
@@ -510,6 +512,13 @@ public:
     ~SArray();
 
 };
+
+template< typename E, class ETraits /*= CElementTraits< E > */>
+SOUI::SArray< E, ETraits > & SOUI::SArray<E, ETraits>::operator=(const SArray< E, ETraits >& src)
+{
+    this->Copy(src);
+    return *this;
+}
 
 template< typename E, class ETraits >
 inline size_t SArray< E, ETraits >::GetCount() const
