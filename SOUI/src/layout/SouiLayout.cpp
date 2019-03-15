@@ -532,7 +532,7 @@ namespace SOUI{
 
     }
 
-    CSize SouiLayout::MeasureChildren(SWindow * pParent,int nWidth,int nHeight) const
+    CSize SouiLayout::MeasureChildren(const SWindow * pParent,int nWidth,int nHeight) const
     {
         SList<WndPos>       lstWndPos;
 

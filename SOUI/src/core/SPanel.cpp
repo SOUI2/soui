@@ -828,9 +828,12 @@ int SPanel::GetSbWidth()
 }
 
 //////////////////////////////////////////////////////////////////////////
-SScrollView::SScrollView():m_bAutoViewSize(FALSE)
+SScrollView::SScrollView()
 {
     m_bClipClient=TRUE;
+	m_viewSize[0].setInvalid();
+	m_viewSize[1].setInvalid();
+
     GetEventSet()->addEvent(EVENTID(EventScrollViewOriginChanged));
     GetEventSet()->addEvent(EVENTID(EventScrollViewSizeChanged));
     GetEventSet()->addEvent(EVENTID(EventScroll));
@@ -840,16 +843,7 @@ SScrollView::SScrollView():m_bAutoViewSize(FALSE)
 void SScrollView::OnSize(UINT nType,CSize size)
 {
     __super::OnSize(nType,size);
-    if(m_bAutoViewSize)
-    {//计算viewSize
-        CSize szOld = m_szView;
-		m_szView = GetLayout()->MeasureChildren(this,size.cx,size.cy);
-        if(szOld != m_szView)
-        {
-            OnViewSizeChanged(szOld,m_szView);
-        }
-    }
-    UpdateScrollBar();
+	UpdateScrollBar();
 }
 
 void SScrollView::OnViewOriginChanged( CPoint ptOld,CPoint ptNew )
@@ -1021,30 +1015,59 @@ BOOL SScrollView::OnScroll(BOOL bVertical,UINT uCode,int nPos)
     return bRet;
 }
 
+void SScrollView::UpdateViewSize()
+{
+	if(!(m_viewSize[0].isValid() && m_viewSize[1].isValid()))
+		return;
+	CRect rcWnd = SWindow::GetClientRect();
+
+	CSize szView;
+	if (m_viewSize[0].isMatchParent())
+		szView.cx = rcWnd.Width();
+	else if (m_viewSize[0].isWrapContent())
+		szView.cx = -1;
+	else
+		szView.cx = m_viewSize[0].toPixelSize(GetScale());
+
+	if (m_viewSize[1].isMatchParent())
+		szView.cy = rcWnd.Height();
+	else if (m_viewSize[1].isWrapContent())
+		szView.cy = -1;
+	else
+		szView.cy = m_viewSize[1].toPixelSize(GetScale());
+
+	if (m_viewSize[0].isWrapContent() || m_viewSize[1].isWrapContent())
+	{
+		CSize szCalc = GetLayout()->MeasureChildren(this, szView.cx, szView.cy);
+		CRect rcPadding = GetStyle().GetPadding();
+		if (m_viewSize[0].isWrapContent())
+			szView.cx = szCalc.cx + rcPadding.left + rcPadding.right;
+		if (m_viewSize[1].isWrapContent())
+			szView.cy = szCalc.cy + rcPadding.top + rcPadding.bottom;
+	}
+
+	if (szView.cy > rcWnd.Height() && m_viewSize[0].isMatchParent())
+	{
+		szView.cx -= GetSbWidth();
+	}
+	else if (szView.cx > rcWnd.Width() && m_viewSize[1].isMatchParent())
+	{
+		szView.cy -= GetSbWidth();
+	}
+	SetViewSize(szView);
+}
+
 HRESULT SScrollView::OnAttrViewSize(const SStringW & strValue,BOOL bLoading)
 {
-    CSize szView;
-    swscanf(strValue,L"%d,%d",&szView.cx,&szView.cy);
+	SStringWList values;									
+	if (SplitString(strValue, L',', values) != 2) return E_INVALIDARG;
+	m_viewSize[0] = GETLAYOUTSIZE(values[0]);
+	m_viewSize[1] = GETLAYOUTSIZE(values[1]);
     
-    m_bAutoViewSize = (szView.cx<=0 || szView.cy<=0) ;
-    
-    if(m_bAutoViewSize)
-    {
-        if(!bLoading)
-        {
-            CRect rcClient = SWindow::GetClientRect();
-            OnSize(0,rcClient.Size());
-        }
-    }else 
-    {
-        if(bLoading)
-        {
-            m_szView = szView;
-        }else
-        {
-            SetViewSize(szView);
-        }
-    }
+	if (!bLoading)
+	{
+		UpdateViewSize();
+	}
     return S_FALSE;
 }
 
@@ -1052,36 +1075,18 @@ HRESULT SScrollView::OnAttrViewSize(const SStringW & strValue,BOOL bLoading)
 CRect SScrollView::GetChildrenLayoutRect()
 {
 	CRect rcRet=__super::GetChildrenLayoutRect();
+	CRect rcPadding = GetStyle().GetPadding();
 	rcRet.OffsetRect(-m_ptOrigin);
-	rcRet.right=rcRet.left+m_szView.cx;
-	rcRet.bottom=rcRet.top+m_szView.cy;
+	rcRet.right=rcRet.left+m_szView.cx - rcPadding.left - rcPadding.right;
+	rcRet.bottom=rcRet.top+m_szView.cy -rcPadding.top - rcPadding.bottom;
 	return rcRet;
 }
 
 void SScrollView::UpdateChildrenPosition()
 {
-	if(!m_bAutoViewSize)
-	{
-		__super::UpdateChildrenPosition();
-	}
-	else{//计算viewSize
-		CSize szOld = m_szView;
-		CRect rcWnd = GetClientRect();
-		CRect rcMargin = GetStyle().GetMargin();
-		rcWnd.DeflateRect(rcMargin);
-		rcWnd.DeflateRect(GetStyle().GetPadding());
-		m_szView = GetLayout()->MeasureChildren(this,rcWnd.Width(),rcWnd.Height());
-		m_szView.cx += rcMargin.left + rcMargin.right;
-		m_szView.cy += rcMargin.top + rcMargin.bottom;
-
-		__super::UpdateChildrenPosition();
-		UpdateScrollBar();
-
-		if(szOld != m_szView)
-		{
-			OnViewSizeChanged(szOld,m_szView);
-		}
-	}
+	UpdateViewSize();
+	__super::UpdateChildrenPosition();
 }
+
 
 }//namespace SOUI

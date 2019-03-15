@@ -155,6 +155,17 @@ namespace SOUI
 
 	  bool IsItemVisible(int iItem) const;
 
+	  /**
+	  * SHeaderCtrl::GetItemRect
+	  * @brief    获取表头项得位置
+	  * @param    UINT iItem  --  索引
+	  *
+	  * Describe  获取表头项得位置
+	  */
+	  CRect GetItemRect(UINT iItem) const;
+
+	  int GetOriItemIndex(int iOrder) const;
+
       SOUI_ATTRS_BEGIN()
           ATTR_SKIN(L"itemSkin",m_pSkinItem,FALSE)
           ATTR_SKIN(L"sortSkin",m_pSkinSort,FALSE)
@@ -205,17 +216,8 @@ namespace SOUI
        
 	  virtual HRESULT OnLanguageChanged();
 
-
-      /**
-       * SHeaderCtrl::GetItemRect
-       * @brief    获取表头项得位置
-       * @param    UINT iItem  --  索引
-       *
-       * Describe  获取表头项得位置  
-       */            
-      CRect GetItemRect(UINT iItem);
-
-      /**
+	  virtual BOOL OnRelayout(const CRect &rcWnd);
+	  /**
        * SHeaderCtrl::HitTest
        * @brief    
        * @param    CPoint pt  --  坐标

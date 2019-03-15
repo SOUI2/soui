@@ -1,337 +1,225 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="render-skia"
-	ProjectGUID="{48746C6E-B8A6-39BC-9149-79FF3E32B718}"
-	Keyword="Qt4VSv1.0"
-	TargetFrameworkVersion="0"
-	>
+	ProjectGUID="{0D6D6208-1735-36E0-94B8-A64A6C80DD68}"
+	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform
-			Name="Win32"
-		/>
+			Name="Win32" />
 	</Platforms>
-	<ToolFiles>
-	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="..\..\bin\"
-			IntermediateDirectory="..\..\obj\release\render-skia\"
-			ConfigurationType="2"
-			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				WarningLevel="0"
-				DefaultCharType="0"
-				EnableErrorChecks="1"
-			/>
+			ConfigurationType="2"
+			IntermediateDirectory="..\..\obj\release\render-skia\"
+			UseOfMfc="0">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP -w34100 -w34189 -w44996"
-				Optimization="1"
 				AdditionalIncludeDirectories=".,.,..\..\soui\include,..\..\utilities\include,..\..\third-part\skia,..\..\third-part\skia\include,..\..\third-part\skia\include\config,..\..\third-part\skia\include\core,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
-				GeneratePreprocessedFile="0"
-				ExceptionHandling="1"
-				RuntimeLibrary="0"
-				TreatWChar_tAsBuiltInType="true"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile="$(IntDir)\render-skia.pch"
+				AdditionalOptions="/MP"
 				AssemblerListingLocation="..\..\obj\release\render-skia\"
-				ObjectFile="..\..\obj\release\render-skia\"
-				ProgramDataBaseFileName="$(IntDir)"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"
+				ExceptionHandling="1"
 				ForcedIncludeFiles="stdafx.h"
-			/>
+				GeneratePreprocessedFile="0"
+				ObjectFile="..\..\obj\release\render-skia\"
+				Optimization ="1"
+				PrecompiledHeaderFile="$(IntDir)\render-skia.pch"
+				PrecompiledHeaderThrough="stdafx.h"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
+				ProgramDataBaseFileName="$(IntDir)"
+				RuntimeLibrary="0"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="true"
+				UsePrecompiledHeader="2"
+				WarningLevel="3" />
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
 				AdditionalDependencies="utilities.lib skia.lib shlwapi.lib Usp10.lib opengl32.lib"
-				OutputFile="$(OutDir)\render-skia.dll"
-				LinkIncremental="1"
-				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="..\..\bin"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile=""
-				SubSystem="2"
-				OptimizeReferences="2"
+				DataExecutionPrevention="true"
 				EnableCOMDATFolding="2"
+				GenerateDebugInformation="true"
+				IgnoreImportLibrary="true"
+				LinkIncremental="1"
 				LinkTimeCodeGeneration="0"
-				TargetMachine="1"
-			/>
+				OptimizeReferences="2"
+				OutputFile="$(OutDir)\render-skia.dll"
+				ProgramDatabaseFile=""
+				RandomizedBaseAddress="true"
+				SubSystem="2"
+				SuppressStartupBanner="true"
+				TargetMachine="1" />
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCManifestTool" />
 			<Tool
-				Name="VCManifestTool"
-			/>
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCPostBuildEventTool" />
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCPreBuildEventTool" />
 			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCPreLinkEventTool" />
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST" />
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="..\..\bin\"
-			IntermediateDirectory="..\..\obj\debug\render-skia\"
-			ConfigurationType="2"
-			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				WarningLevel="0"
-				DefaultCharType="0"
-				EnableErrorChecks="1"
-			/>
+			ConfigurationType="2"
+			IntermediateDirectory="..\..\obj\debug\render-skia\"
+			UseOfMfc="0">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP -w34100 -w34189 -w44996"
-				Optimization="4"
 				AdditionalIncludeDirectories=".,.,..\..\soui\include,..\..\utilities\include,..\..\third-part\skia,..\..\third-part\skia\include,..\..\third-part\skia\include\config,..\..\third-part\skia\include\core,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
-				GeneratePreprocessedFile="0"
-				ExceptionHandling="1"
-				RuntimeLibrary="1"
-				TreatWChar_tAsBuiltInType="true"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile="$(IntDir)\render-skiad.pch"
+				AdditionalOptions="/MP"
 				AssemblerListingLocation="..\..\obj\debug\render-skia\"
-				ObjectFile="..\..\obj\debug\render-skia\"
-				ProgramDataBaseFileName="$(IntDir)"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"
+				ExceptionHandling="1"
 				ForcedIncludeFiles="stdafx.h"
-			/>
+				GeneratePreprocessedFile="0"
+				ObjectFile="..\..\obj\debug\render-skia\"
+				Optimization ="4"
+				PrecompiledHeaderFile="$(IntDir)\render-skiad.pch"
+				PrecompiledHeaderThrough="stdafx.h"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				ProgramDataBaseFileName="$(IntDir)"
+				RuntimeLibrary="1"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="true"
+				UsePrecompiledHeader="2"
+				WarningLevel="3" />
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,_DEBUG"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
 				AdditionalDependencies="utilitiesd.lib skiad.lib shlwapi.lib Usp10.lib opengl32.lib"
-				OutputFile="$(OutDir)\render-skiad.dll"
-				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="..\..\bin"
+				DataExecutionPrevention="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=""
-				SubSystem="2"
+				IgnoreImportLibrary="true"
 				LinkTimeCodeGeneration="0"
-				TargetMachine="1"
-			/>
+				OutputFile="$(OutDir)\render-skiad.dll"
+				ProgramDatabaseFile=""
+				RandomizedBaseAddress="true"
+				SubSystem="2"
+				SuppressStartupBanner="true"
+				TargetMachine="1" />
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCManifestTool" />
 			<Tool
-				Name="VCManifestTool"
-			/>
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCPostBuildEventTool" />
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCPreBuildEventTool" />
 			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCPreLinkEventTool" />
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,_DEBUG" />
 		</Configuration>
 	</Configurations>
-	<References>
-	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
-			>
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath="drawtext-skia.cpp"
-				>
-			</File>
+				RelativePath="drawtext-skia.cpp" />
 			<File
-				RelativePath=".\PathEffect-Skia.cpp"
-				>
-			</File>
+				RelativePath="patheffect-skia.cpp" />
 			<File
-				RelativePath=".\PathMeasure-Skia.cpp"
-				>
-			</File>
+				RelativePath="pathmeasure-skia.cpp" />
 			<File
-				RelativePath="render-skia.cpp"
-				>
-			</File>
+				RelativePath="render-skia.cpp" />
 			<File
-				RelativePath="render-skia2.cpp"
-				>
-			</File>
+				RelativePath="render-skia2.cpp" />
 			<File
-				RelativePath="skia2rop2.cpp"
-				>
-			</File>
+				RelativePath="skia2rop2.cpp" />
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
-				RelativePath="drawtext-skia.h"
-				>
-			</File>
+				RelativePath="drawtext-skia.h" />
 			<File
-				RelativePath=".\PathEffect-Skia.h"
-				>
-			</File>
+				RelativePath="patheffect-skia.h" />
 			<File
-				RelativePath=".\PathMeasure-Skia.h"
-				>
-			</File>
+				RelativePath="pathmeasure-skia.h" />
 			<File
-				RelativePath="render-skia.h"
-				>
-			</File>
+				RelativePath="render-skia.h" />
 			<File
-				RelativePath="render-skia2-i.h"
-				>
-			</File>
+				RelativePath="render-skia2-i.h" />
 			<File
-				RelativePath="render-skia2.h"
-				>
-			</File>
+				RelativePath="render-skia2.h" />
 			<File
-				RelativePath="skia2rop2.h"
-				>
-			</File>
+				RelativePath="skia2rop2.h" />
 			<File
-				RelativePath="stdafx.h"
-				>
+				RelativePath="stdafx.h">
 				<FileConfiguration
-					Name="Release|Win32"
-					>
+					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
+						CommandLine="echo /*-------------------------------------------------------------------- >stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * Precompiled header source file used by Visual Studio.NET to generate>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * the .pch file.>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo *>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * Due to issues with the dependencies checker within the IDE, it>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * sometimes fails to recompile the PCH file, if we force the IDE to>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * create the PCH file directly from the header file.>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo *>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * specified, and is used as the common stdafx.cpp. The file is only>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * generated when creating .vcproj project files, and is not used for>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * command line compilations by nmake.>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo *>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * WARNING: All changes made in this file will be lost.>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo --------------------------------------------------------------------*/>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo #include &quot;stdafx.h&quot;>>stdafx.h.cpp"
 						Description="Generating precompiled header source file &apos;stdafx.h.cpp&apos; ..."
-						CommandLine="echo /*-------------------------------------------------------------------- &gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * Precompiled header source file used by Visual Studio.NET to generate&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * the .pch file.&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo *&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * Due to issues with the dependencies checker within the IDE, it&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * sometimes fails to recompile the PCH file, if we force the IDE to&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * create the PCH file directly from the header file.&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo *&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * specified, and is used as the common stdafx.cpp. The file is only&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * generated when creating .vcproj project files, and is not used for&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * command line compilations by nmake.&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo *&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * WARNING: All changes made in this file will be lost.&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo --------------------------------------------------------------------*/&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo #include &quot;stdafx.h&quot;&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;"
-						Outputs="stdafx.h.cpp"
-					/>
+						Outputs="stdafx.h.cpp" />
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
+						CommandLine="echo /*-------------------------------------------------------------------- >stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * Precompiled header source file used by Visual Studio.NET to generate>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * the .pch file.>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo *>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * Due to issues with the dependencies checker within the IDE, it>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * sometimes fails to recompile the PCH file, if we force the IDE to>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * create the PCH file directly from the header file.>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo *>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * specified, and is used as the common stdafx.cpp. The file is only>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * generated when creating .vcproj project files, and is not used for>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * command line compilations by nmake.>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo *>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo * WARNING: All changes made in this file will be lost.>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo --------------------------------------------------------------------*/>>stdafx.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCReportError&#x000D;&#x000A;echo #include &quot;stdafx.h&quot;>>stdafx.h.cpp"
 						Description="Generating precompiled header source file &apos;stdafx.h.cpp&apos; ..."
-						CommandLine="echo /*-------------------------------------------------------------------- &gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * Precompiled header source file used by Visual Studio.NET to generate&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * the .pch file.&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo *&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * Due to issues with the dependencies checker within the IDE, it&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * sometimes fails to recompile the PCH file, if we force the IDE to&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * create the PCH file directly from the header file.&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo *&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * specified, and is used as the common stdafx.cpp. The file is only&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * generated when creating .vcproj project files, and is not used for&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * command line compilations by nmake.&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo *&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo * WARNING: All changes made in this file will be lost.&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo --------------------------------------------------------------------*/&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;if errorlevel 1 goto VCReportError&#x0D;&#x0A;echo #include &quot;stdafx.h&quot;&gt;&gt;stdafx.h.cpp&#x0D;&#x0A;"
-						Outputs="stdafx.h.cpp"
-					/>
+						Outputs="stdafx.h.cpp" />
 				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
 			Name="Generated Files"
 			Filter="cpp;c;cxx;moc;h;def;odl;idl;res;"
-			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
-			>
+			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}">
 			<File
-				RelativePath="stdafx.h.cpp"
-				>
+				RelativePath="stdafx.h.cpp">
 				<FileConfiguration
-					Name="Release|Win32"
-					>
+					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-						PrecompiledHeaderThrough="stdafx.h"
 						ForcedIncludeFiles="$(NOINHERIT)"
-					/>
+						PrecompiledHeaderThrough="stdafx.h"
+						UsePrecompiledHeader="1" />
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-						PrecompiledHeaderThrough="stdafx.h"
 						ForcedIncludeFiles="$(NOINHERIT)"
-					/>
+						PrecompiledHeaderThrough="stdafx.h"
+						UsePrecompiledHeader="1" />
 				</FileConfiguration>
 			</File>
 		</Filter>
 		<File
-			RelativePath="render-skia.rc"
-			>
-		</File>
+			RelativePath="render-skia.rc" />
 	</Files>
 	<Globals>
 	</Globals>

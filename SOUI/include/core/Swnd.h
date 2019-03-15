@@ -196,7 +196,7 @@ namespace SOUI
 		void accNotifyEvent(DWORD dwEvt);
 	public:
 
-		ILayout * GetLayout(){
+		ILayout * GetLayout() const{
 			return m_pLayout;
 		}
 
@@ -229,7 +229,7 @@ namespace SOUI
         *
         * Describe  
         */
-		SWindow * GetNextLayoutChild(SWindow *pCurChild);
+		SWindow * GetNextLayoutChild(SWindow *pCurChild) const;
 
     public://SWindow状态相关方法
         /**
@@ -523,7 +523,7 @@ namespace SOUI
             SWindow *pTarget = FindChildByName(pszName,nDeep);
             if(!pTarget || !pTarget->IsClass(T::GetClassName()))
             {
-                SLOGFMTW(_T("FindChildByName2 Failed, no window of class [%s] with name of [%s] was found within [%d] levels"),T::GetClassName(),pszName,nDeep);
+                SLOG_WARN("FindChildByName2 Failed, no window of class "<< T::GetClassName()<<" with name of ["<<pszName<<"] was found within ["<<nDeep<<"] levels");
                 return NULL;
             }
             return (T*)pTarget;
@@ -818,6 +818,8 @@ namespace SOUI
         
         virtual void UpdateLayout();
         
+		virtual void OnContentChanged();
+
         virtual SStringW tr(const SStringW &strSrc);
 
         virtual SWND SwndFromPoint(CPoint ptHitTest, BOOL bOnlyText);
@@ -1395,5 +1397,5 @@ namespace SOUI
 #ifdef _DEBUG
         DWORD               m_nMainThreadId;    /**< 窗口宿线程ID */
 #endif
-    };
+	};
 }//namespace SOUI

@@ -176,11 +176,20 @@ namespace SOUI
 	{
 		m_strText.SetText(lpszText);
 		accNotifyEvent(EVENT_OBJECT_NAMECHANGE);
+		OnContentChanged();
+	}
+
+
+	void SWindow::OnContentChanged()
+	{
 		if(IsVisible(TRUE)) Invalidate();
-		if (GetLayoutParam()->IsWrapContent(Horz) || GetLayoutParam()->IsWrapContent(Vert))
+		if (GetLayoutParam()->IsWrapContent(Any))
 		{
 			RequestRelayout();
 			if(IsVisible(TRUE)) Invalidate();
+		}else if(GetLayoutParam()->IsMatchParent(Any) && GetParent())
+		{
+			GetParent()->OnContentChanged();
 		}
 	}
 
@@ -628,7 +637,11 @@ namespace SOUI
 		return NULL;
 	}
 
-	const static wchar_t KLabelInclude[] = L"include";
+	const static wchar_t KLabelInclude[] = L"include";	//文件包含的标签
+	const static wchar_t KLabelTemplate[] = L"template";//模板标签
+	const static wchar_t KTempNamespace[] = L"t:";//模板识别ＮＳ
+	const static wchar_t KTempData[] = L"data";//模板参数
+	const static wchar_t KTempParamFmt[] = L"{{%s}}";//模板数据替换格式
 
 	BOOL SWindow::CreateChildren(pugi::xml_node xmlNode)
 	{
@@ -657,17 +670,61 @@ namespace SOUI
 				{
 					SASSERT(FALSE);
 				}
-			}else if(!xmlChild.get_userdata())//通过userdata来标记一个节点是否可以忽略
+			}
+			else if(!xmlChild.get_userdata())//通过userdata来标记一个节点是否可以忽略
 			{
-				SWindow *pChild = SApplication::getSingleton().CreateWindowByName(xmlChild.name());
-				if(pChild)
+				SStringW strName = xmlChild.name();
+				if (strName.StartsWith(KTempNamespace))
 				{
-					InsertChild(pChild);
-					pChild->InitFromXml(xmlChild);
+					strName = strName.Right(strName.GetLength() - 2);
+					SStringW strXml = GETTEMPLATEPOOLMR->GetTemplateString(strName);
+					SASSERT(!strXml.IsEmpty());
+					if (!strXml.IsEmpty())
+					{//create children by template.
+						pugi::xml_node xmlData = xmlChild.child(KTempData);
+						for (pugi::xml_attribute param = xmlData.first_attribute(); param; param = param.next_attribute())
+						{
+							SStringW strParam = SStringW().Format(KTempParamFmt, param.name());
+							strXml.Replace(strParam, param.value());//replace params to value.
+						}
+						pugi::xml_document xmlDoc;
+						if (xmlDoc.load_buffer_inplace(strXml.GetBuffer(strXml.GetLength()), strXml.GetLength() * sizeof(WCHAR), 116, pugi::encoding_utf16))
+						{
+							pugi::xml_node xmlTemp = xmlDoc.first_child();
+							SASSERT(xmlTemp);
+							//merger properties.
+							for (pugi::xml_attribute attr = xmlChild.first_attribute(); attr; attr = attr.next_attribute())
+							{
+								if (!xmlTemp.attribute(attr.name()))
+								{
+									xmlTemp.append_attribute(attr.name()).set_value(attr.value());
+								}else
+								{
+									xmlTemp.attribute(attr.name()).set_value(attr.value());
+								}
+							}
+							//create child.
+							SWindow *pChild = SApplication::getSingleton().CreateWindowByName(xmlTemp.name());
+							if (pChild)
+							{
+								InsertChild(pChild);
+								pChild->InitFromXml(xmlTemp);
+							}
+						}
+						strXml.ReleaseBuffer();
+					}
+				}
+				else
+				{
+					SWindow *pChild = SApplication::getSingleton().CreateWindowByName(xmlChild.name());
+					if (pChild)
+					{
+						InsertChild(pChild);
+						pChild->InitFromXml(xmlChild);
+					}
 				}
 			}
 		}
-
 		return TRUE;
 	}
 
@@ -713,8 +770,15 @@ namespace SOUI
 			if (!strText.IsEmpty())
 			{
 				m_strText.SetText(S_CW2T(GETSTRING(strText)));   //使用语言包翻译。
+			}else if(m_strText.GetText(TRUE).IsEmpty())
+			{//try to apply cdata as text
+				SStringW strCData = xmlNode.child_value();
+				strCData.TrimBlank();
+				if(!strCData.IsEmpty())
+				{
+					m_strText.SetText(S_CW2T(GETSTRING(strCData)));
+				}
 			}
-
 		}
 
 		//发送WM_CREATE消息
@@ -1376,10 +1440,22 @@ namespace SOUI
 		SStringT strText = GetWindowText(FALSE);
 		DrawText(pRT, strText, strText.GetLength(), rcTest4Text, nTestDrawMode | DT_CALCRECT);
 
+		CRect rcMargin = m_style.GetMargin();
 		//计算子窗口大小
+		if(rcContainer.Width()>0)
+		{
+			rcContainer.left += rcMargin.left + rcPadding.left;
+			rcContainer.right-=rcMargin.right + rcPadding.right;
+			if(rcContainer.Width()<0) rcContainer.right=rcContainer.left;
+		}
+		if(rcContainer.Height()>0)
+		{
+			rcContainer.top += rcMargin.top + rcPadding.top;
+			rcContainer.bottom -= rcMargin.bottom + rcPadding.bottom;
+			if(rcContainer.Height()<0) rcContainer.bottom = rcContainer.top;
+		}
 		CSize szChilds = GetLayout()->MeasureChildren(this,rcContainer.Width(),rcContainer.Height());
 
-		
 		CRect rcTest(0,0, smax(szChilds.cx,rcTest4Text.right),smax(szChilds.cy,rcTest4Text.bottom));
 
 		rcTest.InflateRect(m_style.GetMargin());
@@ -1398,9 +1474,6 @@ namespace SOUI
 	{
 		bool isParentHorzWrapContent = nParentWid<0;
 		bool isParentVertWrapContent = nParentHei<0;
-
-		nParentWid = abs(nParentWid);
-		nParentHei = abs(nParentHei);
 
 		ILayoutParam * pLayoutParam = GetLayoutParam();
 		bool bSaveHorz = isParentHorzWrapContent && pLayoutParam->IsMatchParent(Horz);
@@ -1681,7 +1754,7 @@ namespace SOUI
 	}
 
 
-	SWindow * SWindow::GetNextLayoutChild(SWindow *pCurChild)
+	SWindow * SWindow::GetNextLayoutChild(SWindow *pCurChild) const
 	{
 		SWindow *pRet = NULL;
 		if(pCurChild == NULL)

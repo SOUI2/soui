@@ -363,7 +363,9 @@ void SItemPanel::RequestRelayout(SWindow *pSource ,BOOL bSourceResizable)
 
 SItemPanel * SItemPanel::Create(SWindow *pFrameHost,pugi::xml_node xmlNode,IItemContainer *pItemContainer)
 {
-    return new SItemPanel(pFrameHost,xmlNode,pItemContainer);
+    SItemPanel * pItem =  new SItemPanel(pFrameHost,xmlNode,pItemContainer);
+	SApplication::getSingletonPtr()->SetSwndDefAttr(pItem);
+	return pItem;
 }
 
 //不继承宿主的字体，从指定的字体或者系统字体开始，避免在GetRenderTarget时还需要从宿主窗口到获取当前的文字属性。

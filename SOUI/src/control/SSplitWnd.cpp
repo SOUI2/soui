@@ -41,7 +41,7 @@ namespace SOUI
         if (iPane < 0 || iPane >= m_lstPane.GetCount()) return FALSE;
 
         m_lstPane[iPane]->SetVisible(TRUE);
-        Relayout(GetClientRect());
+        Relayout(GetChildrenLayoutRect());
         return TRUE;
     }
 
@@ -50,7 +50,7 @@ namespace SOUI
         if (iPane < 0 || iPane >= m_lstPane.GetCount()) return FALSE;
 
         m_lstPane[iPane]->SetVisible(FALSE);
-        Relayout(GetClientRect());
+        Relayout(GetChildrenLayoutRect());
         return TRUE;
     }
 
@@ -85,8 +85,7 @@ namespace SOUI
         if(!m_pSkinSep) 
             return;
 
-        CRect rcClient;
-        GetClientRect(&rcClient);
+        CRect rcClient = GetChildrenLayoutRect();
 
         CRect rcSep=rcClient;
         if(m_orintation == Vertical)
@@ -289,7 +288,7 @@ namespace SOUI
             diff *= -1;
         }
         //根据新分配的窗口大小重置窗口位置
-        CRect rcClient = GetClientRect();
+        CRect rcClient = GetChildrenLayoutRect();
         int nOffset = m_orintation == Vertical? rcClient.left: rcClient.top;
         nOffset = ResetPanesPostion(lstPane1,lstPriority1,lstPaneSize1,nOffset);
         ResetPanesPostion(lstPane2,lstPriority2,lstPaneSize2,nOffset);
@@ -314,7 +313,8 @@ namespace SOUI
 
     void SSplitWnd::UpdateChildrenPosition()
     {
-        Relayout(GetClientRect());
+		CRect rcClient = GetChildrenLayoutRect();
+        Relayout(rcClient);
     }
 
     void SSplitWnd::RemoveItem(SSplitPane * pane)
@@ -327,8 +327,15 @@ namespace SOUI
         index = ArrayFind(m_lstPriority,pane);
         m_lstPriority.RemoveAt(index);
 
-        Relayout(GetClientRect());
+        Relayout(GetChildrenLayoutRect());
     }
+
+	CRect SSplitWnd::GetChildrenLayoutRect()
+	{
+		CRect rc = GetClientRect();
+		rc.DeflateRect(GetStyle().GetPadding());
+		return rc;
+	}
 
     int SSplitWnd::InsertItem(SSplitPane* pane, int index /*= -1 */)
     {
@@ -348,8 +355,7 @@ namespace SOUI
         m_lstPriority.Add(pane);
         SortPriorityList(m_lstPriority);
 
-        CRect rcContainer;
-        GetClientRect(&rcContainer);        
+		CRect rcContainer = GetChildrenLayoutRect();
 
         if (!rcContainer.IsRectEmpty())
         {
@@ -465,8 +471,7 @@ namespace SOUI
 
     int SSplitWnd::ResetPanesPostion(SplitPaneList & lstPane, SplitPaneList & lstPanePriority, PANESIZELIST & lstPaneSize, int offset)
     {
-        CRect rc = GetClientRect();
-            
+        CRect rc = GetChildrenLayoutRect();
         for(int i=0;i< (int)lstPane.GetCount();i++)
         {
             int idx = ArrayFind(lstPanePriority,lstPane[i]);

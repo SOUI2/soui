@@ -57,7 +57,7 @@ namespace SOUI
         *
         * Describe  提示框
         */        
-        INT_PTR MessageBox( HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType, int nScale);
+        INT_PTR MessageBox( HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType, int nScale=100);
     protected:
         /**
          * OnInitDialog

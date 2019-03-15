@@ -224,6 +224,7 @@ void SApplication::_CreateSingletons(HINSTANCE hInst,LPCTSTR pszHostClassName,BO
 	m_pSingletons[SFontPool::GetType()] = new SFontPool(m_RenderFactory);
 	m_pSingletons[SSkinPoolMgr::GetType()] =  new SSkinPoolMgr();
 	m_pSingletons[SStylePoolMgr::GetType()] =  new SStylePoolMgr();
+	m_pSingletons[STemplatePoolMgr::GetType()] = new STemplatePoolMgr();
 	m_pSingletons[SWindowFinder::GetType()] = new SWindowFinder();
 	m_pSingletons[STextServiceHelper::GetType()] = new STextServiceHelper();
 	m_pSingletons[SRicheditMenuDef::GetType()] = new SRicheditMenuDef();
@@ -241,6 +242,7 @@ void SApplication::_DestroySingletons()
 	DELETE_SINGLETON(STextServiceHelper);
 	DELETE_SINGLETON(SWindowFinder);
 	DELETE_SINGLETON(SStylePoolMgr);
+	DELETE_SINGLETON(STemplatePoolMgr);
 	DELETE_SINGLETON(SSkinPoolMgr);
 	DELETE_SINGLETON(SFontPool);
 	DELETE_SINGLETON(SScriptTimer);
@@ -484,8 +486,16 @@ SStringW SApplication::tr(const SStringW & strSrc,const SStringW & strCtx) const
 }
 
 SWindow * SApplication::CreateWindowByName(LPCWSTR pszWndClass) const
-{
-	return (SWindow*)CreateObject(SObjectInfo(pszWndClass, Window));
+{//支持使用类似button.ok这样的控件名来创建控件，对于这种格式自动应用button.ok为class属性.
+	SStringW strClsName = pszWndClass;
+	int nPos = strClsName.ReverseFind(L'.');
+	if (nPos != -1) strClsName = strClsName.Left(nPos);
+	SWindow *pRet = (SWindow*)CreateObject(SObjectInfo(strClsName, Window));
+	if (pRet && nPos != -1)
+	{
+		pRet->SetAttribute(L"class", pszWndClass, TRUE);
+	}
+	return pRet;
 }
 
 ISkinObj * SApplication::CreateSkinByName(LPCWSTR pszSkinClass) const

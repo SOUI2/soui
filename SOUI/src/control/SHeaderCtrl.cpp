@@ -21,6 +21,7 @@ namespace SOUI
 		m_evtSet.addEvent(EVENTID(EventHeaderItemChanged));
 		m_evtSet.addEvent(EVENTID(EventHeaderItemChanging));
 		m_evtSet.addEvent(EVENTID(EventHeaderItemSwap));
+		m_evtSet.addEvent(EVENTID(EventHeaderRelayout));
 	}
 
 	SHeaderCtrl::~SHeaderCtrl(void)
@@ -54,6 +55,9 @@ namespace SOUI
 			if (m_arrItems[i].iOrder >= iItem)
 				m_arrItems[i].iOrder++;
 		}
+		EventHeaderRelayout e(this);
+		FireEvent(e);
+
 		Invalidate();
 		return iItem;
 	}
@@ -126,6 +130,9 @@ namespace SOUI
 			if (m_arrItems[i].iOrder > iOrder)
 				m_arrItems[i].iOrder--;
 		}
+		EventHeaderRelayout e(this);
+		FireEvent(e);
+
 		Invalidate();
 		return TRUE;
 	}
@@ -133,26 +140,43 @@ namespace SOUI
 	void SHeaderCtrl::DeleteAllItems()
 	{
 		m_arrItems.RemoveAll();
+		EventHeaderRelayout e(this);
+		FireEvent(e);
 		Invalidate();
 	}
 
 	void SHeaderCtrl::OnDestroy()
 	{
+		GetEventSet()->setMutedState(true);
 		DeleteAllItems();
+		GetEventSet()->setMutedState(false);
 		__super::OnDestroy();
 	}
 
-	CRect SHeaderCtrl::GetItemRect(UINT iItem)
+	CRect SHeaderCtrl::GetItemRect(UINT iItem) const
 	{
 		CRect    rcClient;
 		GetClientRect(&rcClient);
+		if(!m_arrItems[iItem].bVisible)
+			return CRect();
 		CRect rcItem(rcClient.left, rcClient.top, rcClient.left, rcClient.bottom);
 		for (UINT i = 0; i <= iItem && i < m_arrItems.GetCount(); i++)
 		{
+			if(!m_arrItems[i].bVisible) continue;
 			rcItem.left = rcItem.right;
 			rcItem.right = rcItem.left + m_arrItems[i].cx.toPixelSize(GetScale());
 		}
 		return rcItem;
+	}
+
+	int SHeaderCtrl::GetOriItemIndex(int iOrder) const
+	{
+		for (UINT i = 0; i < m_arrItems.GetCount(); i++)
+		{
+			if (m_arrItems[i].iOrder == iOrder)
+				return i;
+		}
+		return -1;
 	}
 
 	void SHeaderCtrl::RedrawItem(int iItem)
@@ -208,6 +232,9 @@ namespace SOUI
 						evt.iOldIndex = LOWORD(m_dwHitTest);
 						evt.iNewIndex = nPos;
 						FireEvent(evt);
+
+						EventHeaderRelayout e(this);
+						FireEvent(e);
 					}
 					m_dwHitTest = HitTest(pt);
 					m_dwDragTo = (DWORD)-1;
@@ -232,6 +259,9 @@ namespace SOUI
 			evt.iItem = LOWORD(m_dwHitTest);
 			evt.nWidth = m_arrItems[evt.iItem].cx.toPixelSize(GetScale());
 			FireEvent(evt);
+
+			EventHeaderRelayout e(this);
+			FireEvent(e);
 		}
 		m_bDragging = FALSE;
 		ReleaseCapture();
@@ -243,7 +273,6 @@ namespace SOUI
 		{
 			if (!m_bDragging)
 			{
-				m_bDragging = TRUE;
 				if (IsItemHover(m_dwHitTest) && m_bItemSwapEnable)
 				{
 					m_dwDragTo = m_dwHitTest;
@@ -252,6 +281,7 @@ namespace SOUI
 					m_hDragImg = CreateDragImage(LOWORD(m_dwHitTest));
 					CPoint pt = m_ptClick - rcItem.TopLeft();
 					CDragWnd::BeginDrag(m_hDragImg, pt, 0, 128, LWA_ALPHA | LWA_COLORKEY);
+					m_bDragging = TRUE;
 				}
 			}
 			if (IsItemHover(m_dwHitTest))
@@ -288,6 +318,9 @@ namespace SOUI
 					evt.iItem = LOWORD(m_dwHitTest);
 					evt.nWidth = cxNew;
 					FireEvent(evt);
+
+					EventHeaderRelayout e(this);
+					FireEvent(e);
 				}
 			}
 		}
@@ -333,6 +366,10 @@ namespace SOUI
 	BOOL SHeaderCtrl::CreateChildren(pugi::xml_node xmlNode)
 	{
 		pugi::xml_node xmlItems = xmlNode.child(L"items");
+		if(xmlItems)
+			xmlItems.set_userdata(1);
+		__super::CreateChildren(xmlNode);
+
 		if (!xmlItems) return FALSE;
 		pugi::xml_node xmlItem = xmlItems.child(L"item");
 		int iOrder = 0;
@@ -352,6 +389,7 @@ namespace SOUI
 			m_arrItems.InsertAt(m_arrItems.GetCount(), item);
 			xmlItem = xmlItem.next_sibling(L"item");
 		}
+		
 		return TRUE;
 	}
 
@@ -515,6 +553,17 @@ namespace SOUI
 			m_arrItems[i].strText.TranslateText();
 		}
 		return S_FALSE;
+	}
+
+	BOOL SHeaderCtrl::OnRelayout(const CRect & rcWnd)
+	{
+		BOOL bRet = __super::OnRelayout(rcWnd);
+		if (bRet)
+		{
+			EventHeaderRelayout e(this);
+			FireEvent(e);
+		}
+		return bRet;
 	}
 
 	void SHeaderCtrl::SetItemVisible(int iItem, bool visible)

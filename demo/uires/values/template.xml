@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+  <g.block>
+    <window name="{{name}}" layout="hbox" gravity="center">
+      <window size="-1,-1" layout="hbox">
+        <text text="name:" colorText="{{color}}" />
+        <link.web text="{{text}}" href="{{text}}"/>
+      </window>
+      <img skin="skin_avatar"/>
+    </window>
+  </g.block>
+</template>

@@ -256,7 +256,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SAniWindow.cpp"
+				RelativePath="..\controls.extend\SAniWindow.cpp"
 				>
 			</File>
 			<File
@@ -268,7 +268,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SCheckBox2.cpp"
+				RelativePath="SCheckBox2.cpp"
 				>
 			</File>
 			<File
@@ -305,6 +305,10 @@
 			</File>
 			<File
 				RelativePath="..\controls.extend\gif\SGifPlayer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\controls.extend\SGroupList.cpp"
 				>
 			</File>
 			<File
@@ -348,7 +352,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\controls.extend\SProgressRing.cpp"
+				RelativePath="..\controls.extend\sprogressring.cpp"
 				>
 			</File>
 			<File
@@ -498,7 +502,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SAniWindow.h"
+				RelativePath="..\controls.extend\SAniWindow.h"
 				>
 			</File>
 			<File
@@ -510,7 +514,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SCheckBox2.h"
+				RelativePath="SCheckBox2.h"
 				>
 			</File>
 			<File
@@ -547,6 +551,10 @@
 			</File>
 			<File
 				RelativePath="..\controls.extend\gif\SGifPlayer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\controls.extend\SGroupList.h"
 				>
 			</File>
 			<File
@@ -590,7 +598,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\controls.extend\SProgressRing.h"
+				RelativePath="..\controls.extend\sprogressring.h"
 				>
 			</File>
 			<File
@@ -734,6 +742,10 @@
 		</Filter>
 		<File
 			RelativePath="demo.rc"
+			>
+		</File>
+		<File
+			RelativePath=".\uires\values\template.xml"
 			>
 		</File>
 	</Files>

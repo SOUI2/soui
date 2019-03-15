@@ -10,7 +10,9 @@
   <color src="values:color"/>
   <!--定义全局skin对象-->
   <skin src="values:skin"/>
-
+  <!--定义全局template对象-->
+  <template src="values:template"/>
+  
   <style>
     <!--全局style对象-->
     <class name="cls_dlg_frame" skin="_skin.sys.wnd.bkgnd" font="" colorText="#000000" margin-x="0"/>
@@ -36,7 +38,9 @@
 
     <class name="linkimage" cursor="hand"/>
     <class name="cls_border" margin="2,2,2,2" ncSkin="_skin.sys.border"/>
-
+    <!--演示使用新的style定义方式，在布局里可以直接引用button.link来创建一个button控件，并且使用下面button.link定义的style-->
+    <button.link cursor="hand" colorText="#1e78d5" colorTextHover="#1e78d5" fontHover="underline:1,italic:1"/>
+    <link.web cursor="hand" colorText="#1e78d5" colorTextHover="#1e78d5" fontHover="underline:1,italic:1"/>
   </style>
 
   <objattr>

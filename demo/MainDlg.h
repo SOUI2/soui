@@ -53,9 +53,6 @@ public:
 
 
 
-#define PAGE_INDEX_ID_START 100
-#define PAGE_INDEX_ID_END   119
-
 /**
 * @class      CMainDlg
 * @brief      主窗口实现
@@ -207,8 +204,16 @@ protected:
 
 	HRESULT OnSkinChangeMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bHandled);
 
-	void OnCtrlGroupClick(int nID);
-	void OnCtrlPageClick(int nID);
+	void OnInitGroup(EventArgs *e);
+	void OnInitItem(EventArgs *e);
+	void OnGroupStateChanged(EventArgs *e);
+	void OnCtrlPageClick(EventArgs *e);
+
+	void OnMcLvHeaderRelayout(EventArgs *e);
+
+	//从模板创建子窗口demo
+	void OnBtnCreateByTemp();
+
     //UI控件的事件及响应函数映射表
 	EVENT_MAP_BEGIN()
 		EVENT_HANDLER(EventPath::EventID,OnEventPath)
@@ -239,7 +244,7 @@ protected:
 		EVENT_ID_HANDLER(SENDER_ID,EventThreadStop::EventID,OnEventThreadStop)
 		EVENT_ID_HANDLER(SENDER_ID,EventThread::EventID,OnEventThread)
 		//-->
-
+		EVENT_NAME_COMMAND(L"btn_create_by_temp",OnBtnCreateByTemp)
         EVENT_NAME_COMMAND(L"btn_webkit_back",OnBtnWebkitBackward)
         EVENT_NAME_COMMAND(L"btn_webkit_fore",OnBtnWebkitForeward)
         EVENT_NAME_COMMAND(L"btn_webkit_refresh",OnBtnWebkitRefresh)
@@ -260,12 +265,11 @@ protected:
         EVENT_NAME_HANDLER(L"edit_translate",EVT_RE_NOTIFY,OnMatrixWindowReNotify)
         
         EVENT_NAME_HANDLER(L"menu_slider",EventSliderPos::EventID,OnMenuSliderPos)
-		EVENT_ID_COMMAND_RANGE(PAGE_INDEX_ID_START,PAGE_INDEX_ID_END,OnCtrlPageClick)
-		EVENT_ID_COMMAND_RANGE(R.id.group_listctrls,R.id.group_listctrls,OnCtrlGroupClick)
-		EVENT_ID_COMMAND_RANGE(R.id.group_trees,R.id.group_trees,OnCtrlGroupClick)
-		EVENT_ID_COMMAND_RANGE(R.id.group_edits,R.id.group_edits,OnCtrlGroupClick)
-		EVENT_ID_COMMAND_RANGE(R.id.group_buttons,R.id.group_buttons,OnCtrlGroupClick)
-		EVENT_ID_COMMAND_RANGE(R.id.group_others,R.id.group_others,OnCtrlGroupClick)
+		EVENT_ID_HANDLER(R.id.gl_catalog,EventGroupListInitGroup::EventID,OnInitGroup)
+		EVENT_ID_HANDLER(R.id.gl_catalog,EventGroupListInitItem::EventID,OnInitItem)
+		EVENT_ID_HANDLER(R.id.gl_catalog,EventGroupStateChanged::EventID,OnGroupStateChanged)
+		EVENT_ID_HANDLER(R.id.gl_catalog,EventGroupListItemCheck::EventID,OnCtrlPageClick)
+		EVENT_NAME_HANDLER(L"mclv_test_header",EventHeaderRelayout::EventID,OnMcLvHeaderRelayout)
 	EVENT_MAP_END()	
 
     //HOST消息及响应函数映射表
@@ -296,5 +300,4 @@ private:
 	STabCtrlHeaderBinder* m_pTabBinder;
 	STabCtrlHeaderBinder* m_pTabBinder2;
 
-	int				m_iCtrlPage;	//当前选择的控件页面ID，范围: [100,119]
 };

@@ -33,49 +33,8 @@ namespace SOUI{
 			return TRUE;
 		}
 
-		// 	//-------------------------------------------------------------------------
-		// 	// 函数    : GetNtVersionNumbers
-		// 	// 功能    : 调用RtlGetNtVersionNumbers获取系统版本信息
-		// 	// 返回值  : BOOL
-		// 	// 参数    : DWORD& dwMajorVer 主版本
-		// 	// 参数    : DWORD& dwMinorVer 次版本
-		// 	// 参数    : DWORD& dwBuildNumber build号
-		// 	// 附注    :
-		// 	//-------------------------------------------------------------------------
-		static BOOL GetNtVersionNumbers(DWORD&dwMajorVer, DWORD& dwMinorVer, DWORD& dwBuildNumber)
-		{
-			BOOL bRet = FALSE;
-			HMODULE hModNtdll = NULL;
-			if (hModNtdll = ::LoadLibraryW(L"ntdll.dll"))
-			{
-				typedef void (WINAPI *pfRTLGETNTVERSIONNUMBERS)(DWORD*, DWORD*, DWORD*);
-				pfRTLGETNTVERSIONNUMBERS pfRtlGetNtVersionNumbers;
-				pfRtlGetNtVersionNumbers = (pfRTLGETNTVERSIONNUMBERS)::GetProcAddress(hModNtdll, "RtlGetNtVersionNumbers");
-				if (pfRtlGetNtVersionNumbers)
-				{
-					pfRtlGetNtVersionNumbers(&dwMajorVer, &dwMinorVer, &dwBuildNumber);
-					dwBuildNumber &= 0x0ffff;
-					bRet = TRUE;
-				}
 
-				::FreeLibrary(hModNtdll);
-				hModNtdll = NULL;
-			}
-
-			return bRet;
-		}
-
-
-		static int getScaleOld(HWND hWnd = NULL)
-		{
-			HDC screen = ::GetDC(hWnd);
-			int nScale = 100;
-			nScale = GetDeviceCaps(screen, LOGPIXELSX) * 100 / 96;
-			ReleaseDC(hWnd, screen);
-			return nScale;
-		}
-
-		static BOOL IsVerOrGreater(WORD wVers[4], WORD wMajor, WORD wMinor, WORD wSpBuild=0)
+		static BOOL IsVerOrGreater(WORD wVers[4], WORD wMajor, WORD wMinor, WORD wSpBuild = 0)
 		{
 			if (wVers[0] < wMajor)
 				return FALSE;
@@ -88,13 +47,13 @@ namespace SOUI{
 
 			return wVers[2] >= wSpBuild;
 		}
-	public:
+
 		static int getScale(HWND hWnd)
 		{
 			WORD wVers[4];
 			PEVersion(_T("ntdll.dll"), wVers[0], wVers[1], wVers[2], wVers[3]);
 			//win7
-			if (!IsVerOrGreater(wVers,6,1,7600))
+			if (!IsVerOrGreater(wVers, 6, 1, 7600))
 				return 100;
 			int nScale = 100;
 			//For Win10 1607
@@ -148,6 +107,15 @@ namespace SOUI{
 			{
 				nScale = getScaleOld(hWnd);
 			}
+			return nScale;
+		}
+	private:
+		static int getScaleOld(HWND hWnd = NULL)
+		{
+			HDC screen = ::GetDC(hWnd);
+			int nScale = 100;
+			nScale = GetDeviceCaps(screen, LOGPIXELSX) * 100 / 96;
+			ReleaseDC(hWnd, screen);
 			return nScale;
 		}
 	};

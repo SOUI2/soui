@@ -115,6 +115,7 @@ SHostWnd::SHostWnd( LPCTSTR pszResName /*= NULL*/ )
     m_msgMouse.message = 0;
     m_privateStylePool.Attach(new SStylePool);
     m_privateSkinPool.Attach(new SSkinPool);
+	m_privateTemplatePool.Attach(new STemplatePool);
     SetContainer(this);
 
     m_evtSet.addEvent(EVENTID(EventInit));
@@ -125,6 +126,7 @@ SHostWnd::~SHostWnd()
 {
     GETSTYLEPOOLMGR->PopStylePool(m_privateStylePool);
     GETSKINPOOLMGR->PopSkinPool(m_privateSkinPool);
+	GETTEMPLATEPOOLMR->PopTemplatePool(m_privateTemplatePool);
 }
 
 HWND SHostWnd::Create(HWND hWndParent,DWORD dwStyle,DWORD dwExStyle, int x, int y, int nWidth, int nHeight)
@@ -206,6 +208,16 @@ BOOL SHostWnd::_InitFromXml(pugi::xml_node xmlNode,int nWidth,int nHeight)
         GETSKINPOOLMGR->PushSkinPool(m_privateSkinPool);
     }
 
+	if(m_privateTemplatePool->GetCount())
+	{
+		m_privateTemplatePool->RemoveAll();
+		GETTEMPLATEPOOLMR->PopTemplatePool(m_privateTemplatePool);
+	}
+	m_privateTemplatePool->Init(xmlNode.child(L"template"));
+	if(m_privateTemplatePool->GetCount())
+	{
+		GETTEMPLATEPOOLMR->PushTemplatePool(m_privateTemplatePool);
+	}
     //加载脚本数据
     pugi::xml_node xmlScript = xmlNode.child(L"script");
     if(m_pScriptModule && xmlScript)

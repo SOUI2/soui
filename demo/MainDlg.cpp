@@ -275,8 +275,7 @@ HRESULT CMainDlg::OnSkinChangeMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 LRESULT CMainDlg::OnInitDialog( HWND hWnd, LPARAM lParam )
 {
     m_bLayoutInited=TRUE;
-	m_iCtrlPage = PAGE_INDEX_ID_START;	//默认选择第一个页面，需要和tab_ctrl配合。
-	FindChildByID(m_iCtrlPage)->SetCheck(TRUE);
+	FindChildByID2<SGroupList>(R.id.gl_catalog)->SelectPage(R.id.page_listctrl);
 
 	STabCtrl *pTabCtrl = FindChildByName2<STabCtrl>(L"tab_radio2");
 	{
@@ -1007,52 +1006,63 @@ void CMainDlg::OnEventPath(EventArgs *e)
 	FindChildByID(R.id.txt_path_length)->SetWindowText(strLen);
 }
 
-
-void CMainDlg::OnCtrlGroupClick(int nID)
+void CMainDlg::OnInitGroup(EventArgs *e)
 {
-	switch(nID)
+	EventGroupListInitGroup *e2 = sobj_cast<EventGroupListInitGroup>(e);
+	SToggle *pTgl = e2->pItem->FindChildByID2<SToggle>(R.id.tgl_switch);
+	pTgl->SetToggle(!e2->pGroupInfo->bCollapsed);
+	e2->pItem->FindChildByID(R.id.txt_label)->SetWindowText(e2->pGroupInfo->strText);
+}
+
+void CMainDlg::OnInitItem(EventArgs *e)
+{
+	EventGroupListInitItem *e2 = sobj_cast<EventGroupListInitItem>(e);
+	e2->pItem->FindChildByID(R.id.txt_label)->SetWindowText(e2->pItemInfo->strText);
+	e2->pItem->FindChildByID2<SImageWnd>(R.id.img_indicator)->SetIcon(e2->pItemInfo->iIcon);
+}
+
+void CMainDlg::OnGroupStateChanged(EventArgs *e)
+{
+	EventGroupStateChanged *e2 = sobj_cast<EventGroupStateChanged>(e);
+	SToggle *pTgl = e2->pItem->FindChildByID2<SToggle>(R.id.tgl_switch);
+	pTgl->SetToggle(!e2->pGroupInfo->bCollapsed);
+
+}
+
+
+void CMainDlg::OnCtrlPageClick(EventArgs *e)
+{
+	EventGroupListItemCheck *e2=sobj_cast<EventGroupListItemCheck>(e);
+	STabCtrl *pTabOp = FindChildByID2<STabCtrl>(R.id.tab_ctrls);
+	int nIndex = e2->pItemInfo->id - R.id.page_listctrl;
+	pTabOp->SetCurSel(nIndex);
+
+}
+
+void CMainDlg::OnMcLvHeaderRelayout(EventArgs * e)
+{
+	SHeaderCtrl *pHeader = sobj_cast<SHeaderCtrl>(e->sender);
+	int nItems = pHeader->GetItemCount();
+	if (nItems > 1)
 	{
-	case R.id.group_listctrls:
-		{
-			SToggle *pTgl = FindChildByID2<SToggle>(R.id.tgl_listctrls);
-			pTgl->SetToggle(!pTgl->GetToggle());
-			FindChildByID(R.id.panel_listctrls)->SetVisible(pTgl->GetToggle(),TRUE);
-		}
-		break;
-	case R.id.group_trees:
-		{
-			SToggle *pTgl = FindChildByID2<SToggle>(R.id.tgl_trees);
-			pTgl->SetToggle(!pTgl->GetToggle());
-			FindChildByID(R.id.panel_trees)->SetVisible(pTgl->GetToggle(),TRUE);
-		}
-		break;
-	case R.id.group_edits:
-		{
-			SToggle *pTgl = FindChildByID2<SToggle>(R.id.tgl_edits);
-			pTgl->SetToggle(!pTgl->GetToggle());
-			FindChildByID(R.id.panel_edits)->SetVisible(pTgl->GetToggle(),TRUE);
-		}
-		break;
-	case R.id.group_buttons:
-		{
-			SToggle *pTgl = FindChildByID2<SToggle>(R.id.tgl_buttons);
-			pTgl->SetToggle(!pTgl->GetToggle());
-			FindChildByID(R.id.panel_buttons)->SetVisible(pTgl->GetToggle(),TRUE);
-		}
-		break;
-	case R.id.group_others:
-		{
-			SToggle *pTgl = FindChildByID2<SToggle>(R.id.tgl_others);
-			pTgl->SetToggle(!pTgl->GetToggle());
-			FindChildByID(R.id.panel_others)->SetVisible(pTgl->GetToggle(),TRUE);
-		}
-		break;
+		CRect rc = pHeader->GetItemRect(pHeader->GetOriItemIndex(0));
+		SWindow *pChk = pHeader->FindChildByName(L"chk_mclv_sel");
+		SASSERT(pChk);
+		CSize szChk = pChk->GetDesiredSize(NULL);
+		CRect rc2(CPoint(rc.left + 5, rc.top + (rc.Height()-szChk.cy)/2), szChk);
+		if (rc2.right >= rc.right - 5) rc2.right = rc.right - 5;
+		pChk->Move(rc2);
 	}
 }
 
-void CMainDlg::OnCtrlPageClick(int nID)
+void CMainDlg::OnBtnCreateByTemp()
 {
-	FindChildByID(m_iCtrlPage)->SetCheck(FALSE);
-	m_iCtrlPage = nID;
-	FindChildByID2<STabCtrl>(R.id.tab_ctrls)->SetCurSel(m_iCtrlPage - PAGE_INDEX_ID_START);
+	SWindow *pContainer = FindChildByName(L"wnd_temp_host");
+	SWindow *pInput = FindChildByName(L"re_temp_input");
+	if(pContainer && pInput)
+	{
+		SStringT strInput = pInput->GetWindowText();
+		pContainer->CreateChildren(S_CT2W(strInput));
+	}
 }
+
