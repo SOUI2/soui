@@ -217,7 +217,7 @@
     <page title="buttons" >
       <imgbtn name="btn_msgbox" pos="10,40" width="200" height="40" accel="ctrl+alt+f9" font="bold:1" skin="win10btn" animate="1">show msg box</imgbtn>
       <text pos="10,[5">press "ctrl+alt+f9" to activate the msgbox button</text>
-      <link pos="10,130" maxWidth="100" class="cls_btn_weblink" dotted="1" href="www.setoutsoft.cn">www.setoutsoft.cn</link>
+      <link pos="10,130" maxWidth="100" class="cls_btn_weblink" dotted="1" href="www.ui520.cn">www.ui520.cn</link>
       <img pos="10,[10,@100,@100" skin="skin_page_icons" iconIndex="2" tip="img tip" msgTransparent="0"/>
       <text pos="10,[5" multiLines="1">the image show how to handle message in SImageWnd,\n you can do it by simply setting msgTransparent to 0</text>
       <window pos="10,[5,@100,@30" class="cls_edit" trackMouseEvent="1">
