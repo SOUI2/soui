@@ -115,11 +115,20 @@ void SStatic::DrawMultiLine(IRenderTarget *pRT,LPCTSTR pszBuf,int cchText,LPRECT
                 CRect rcText(pRect->left,pt.y,nRight, pt.y + nLineHei);
 				OnDrawLine(pRT, pszBuf, (int)(pLineHead - pszBuf), (int)(pLineTail - pLineHead), &rcText, uFormat);
 			}
+
+			// modify by baozi 20190312 显示多行文本时，如果下一行文字的高度超过了文本框，则不再输出下一行文字内容。
+			if(pt.y+nLineHei + m_nLineInter>pRect->bottom)
+			{//将绘制限制在有效区。
+				pLineHead = pLineTail;
+				break;
+			}
+
             pLineHead = p1;
             
             pt.y+=nLineHei+m_nLineInter;
             pt.x=pRect->left;
             nLine++;
+
             continue;
         }
         pt.x+=szChar.cx;
@@ -130,7 +139,9 @@ void SStatic::DrawMultiLine(IRenderTarget *pRT,LPCTSTR pszBuf,int cchText,LPRECT
 
     if(uFormat & DT_CALCRECT)
     {
-        pRect->bottom=pt.y+nLineHei;
+		if(pRect->bottom>pt.y+nLineHei)
+			pRect->bottom=pt.y+nLineHei;
+
     }else if(pLineTail > pLineHead )
     {
         CRect rcText(pRect->left,pt.y,nRight, pt.y + nLineHei);
