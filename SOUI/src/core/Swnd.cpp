@@ -2884,7 +2884,9 @@ namespace SOUI
 
 	void SWindow::accNotifyEvent(DWORD dwEvt)
 	{
+#ifdef SOUI_ENABLE_ACC
 		NotifyWinEvent(dwEvt, GetContainer()->GetHostHwnd(), GetSwnd(), CHILDID_SELF);
+#endif
 	}
 
 	bool SWindow::SetLayoutParam(ILayoutParam * pLayoutParam)
