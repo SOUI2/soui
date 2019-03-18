@@ -439,8 +439,6 @@ private:
 
     //! thread status.
     bool        _runing;
-    //! wait thread started.
-    SemHelper        _semaphore;
 
     //! hot change name or path for one logger
     LockHelper _hotLock;
@@ -1353,9 +1351,7 @@ bool LogerManager::start()
     {
         return false;
     }
-    _semaphore.create(0);
-    bool ret = ThreadHelper::start();
-    return ret && _semaphore.wait(3000);
+    return ThreadHelper::start();
 }
 bool LogerManager::stop()
 {
@@ -1726,8 +1722,6 @@ void LogerManager::run()
             pushLog(0, LOG_LEVEL_ALARM, "logger", ss.str().c_str(), __FILE__, __LINE__ , __FUNCTION__,_ReturnAddress());
         }
     }
-
-    _semaphore.post();
 
 
 	char *pszBuf = new char[LOG4Z_LOG_BUF_SIZE];
