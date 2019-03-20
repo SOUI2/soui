@@ -59,7 +59,7 @@ namespace SOUI{
 			//For Win10 1607
 			if (IsVerOrGreater(wVers, 10, 0, 14955))
 			{
-				HMODULE hModule = LoadLibrary(L"User32.dll");
+				HMODULE hModule = LoadLibrary(_T("User32.dll"));
 				if (hModule)
 				{
 					typedef UINT(WINAPI *FunGetDpiForWindow)(HWND);
