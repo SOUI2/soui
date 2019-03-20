@@ -10,6 +10,10 @@ SOUI是目前为数不多的轻量级可快速开发window桌面程序开源Dire
 
 - [国外Git下载站点](https://github.com/SOUI2/soui)
 
+### DEMO仓库：
+- https://github.com/soui-demo
+* 每一个Demo一个单独的仓库，自己分别clone就好了。如果想一次拉取所有demo,可以直接运行SOUI仓库代码下的clone_demos.bat来clone，当然前提是已经安装了git命令行工具。
+
 ### 原仓库Git下载地址
 
 - [国内Git下载站点](https://gitee.com/setoutsoft/soui.backup)
