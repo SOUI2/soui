@@ -2,15 +2,10 @@
 # 1394020320@qq.com
 #
 
+#option(OUTPATH_WITHOUT_TYPE "Put All generation in same Path" ON)
+set(OUTPATH_WITHOUT_TYPE 1)
 
-option(ENABLE_SOUI_CORE_LIB "Enable compile 'core' as static lib" OFF)
-#
-#
-option(ENABLE_SOUI_COM_LIB "Enable compile 'components' as static lib" OFF)
-
-option(OUTPATH_WITHOUT_TYPE "Put All generation in same Path" ON)
-
-option(DOWNLOAD_COMPILE_DEMOS "下载并编译Soui-demo中的demo" OFF)
+#option(DOWNLOAD_COMPILE_DEMOS "下载并编译Soui-demo中的demo" OFF)
 #
 #
 #

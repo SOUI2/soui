@@ -85,7 +85,12 @@ option(SHARED_CRT "Use shared crt runtime library." ON)
 # When other libraries are using a shared version of runtime libraries,
 # Google Test also has to use one.
 option(WCHAR_AS_DEFAULT "Use wchar_t as internal type" ON)
-
+#
+#
+option(ENABLE_SOUI_CORE_LIB "Enable compile 'core' as static lib" OFF)
+#
+#
+option(ENABLE_SOUI_COM_LIB "Enable compile 'components' as static lib" OFF)
 #
 #
 option(XP_TOOLSET "" ON)
