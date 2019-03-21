@@ -76,8 +76,22 @@ include(__cmake/global.cmake)
 include(__cmake/soui-demo.cmake)
 
 
+option(USE_UNICODE "Use Unicode" ON)
+
+# When other libraries are using a shared version of runtime libraries,
+# Google Test also has to use one.
+option(SHARED_CRT "Use shared crt runtime library." ON)
+
+# When other libraries are using a shared version of runtime libraries,
+# Google Test also has to use one.
+option(WCHAR_AS_DEFAULT "Use wchar_t as internal type" ON)
+
 #
 #
+option(XP_TOOLSET "" ON)
+
+config_compiler_and_linker()
+
 configure_file("config/core-def.h.in" "${PROJECT_SOURCE_DIR}/config/core-def.h" @ONLY)
 configure_file("config/com-def.h.in" "${PROJECT_SOURCE_DIR}/config/com-def.h" @ONLY)
 configure_file("config/build.cfg.in" "${PROJECT_SOURCE_DIR}/config/build.cfg" @ONLY)

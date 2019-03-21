@@ -1,20 +1,8 @@
-
-option(USE_UNICODE "Use Unicode" ON)
-
-# When other libraries are using a shared version of runtime libraries,
-# Google Test also has to use one.
-option(SHARED_CRT "Use shared crt runtime library." ON)
-
-# When other libraries are using a shared version of runtime libraries,
-# Google Test also has to use one.
-option(WCHAR_AS_DEFAULT "Use wchar_t as internal type" ON)
-
 #
+# 1394020320@qq.com
 #
-option(XP_TOOLSET "" ON)
 
-#
-#
+
 option(ENABLE_SOUI_CORE_LIB "Enable compile 'core' as static lib" OFF)
 #
 #
@@ -60,8 +48,6 @@ set(CMAKE_DEBUG_POSTFIX "d")
 set(CMAKE_RELEASE_POSTFIX "")
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "possible configurations" FORCE)
 
-config_compiler_and_linker()
-
 if (ENABLE_SOUI_CORE_LIB)
     message("---Building [soui] with LIB_CORE")
 else()
@@ -72,6 +58,33 @@ if (ENABLE_SOUI_COM_LIB)
 else()
     message("---Building [soui components] with DLL_SOUI_COM")
 endif()
+
+macro( readSettingFile KEY DEFAULT_RESULT STRING_RESULT_OUT)
+
+    unset(STRING_RESULT)
+
+    file (TO_CMAKE_PATH "$ENV{SOUIPATH}" SOUIROOTPATH)
+    file(STRINGS "${SOUIROOTPATH}/config/build.cfg" CONFIGSTRING )
+
+    foreach(LINE ${CONFIGSTRING})
+        if("${LINE}" MATCHES "${KEY}=.*")
+            string(REPLACE "${KEY}=" "" STRING_RESULT ${LINE})
+        endif()
+    endforeach()
+
+    if("${STRING_RESULT}" STREQUAL "")
+        set(STRING_RESULT ${DEFAULT_RESULT} )
+    endif()
+
+    set(${STRING_RESULT_OUT} ${STRING_RESULT})
+    if ("${KEY}" STREQUAL "MT")
+        if (${STRING_RESULT_OUT} STREQUAL "1")
+            set(${STRING_RESULT_OUT} "0")
+        else()
+            set(${STRING_RESULT_OUT} "1")
+        endif()
+    endif()
+endmacro()
 
 set(CORE_LIBS CACHE INTERNAL "core_lib")
 set(COM_LIBS CACHE INTERNAL "com_lib")
