@@ -3,7 +3,9 @@
 #
 
 #option(OUTPATH_WITHOUT_TYPE "Put All generation in same Path" ON)
-set(OUTPATH_WITHOUT_TYPE 1)
+if ("${OUTPATH_WITHOUT_TYPE}" STREQUAL "")
+	set(OUTPATH_WITHOUT_TYPE 1)
+endif()
 
 #option(DOWNLOAD_COMPILE_DEMOS "下载并编译Soui-demo中的demo" OFF)
 #
