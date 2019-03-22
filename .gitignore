@@ -44,5 +44,7 @@ Ankh.NoLoad
 #Visual Studio Code files
 .vscode/
 
+Build
+
 #Soui
 demos
