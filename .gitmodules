@@ -1,0 +1,6 @@
+[submodule "soui-demo/QQLogin"]
+	path = soui-demo/QQLogin
+	url = ../QQLogin.git
+[submodule "soui-demo/SouiEditor"]
+	path = soui-demo/SouiEditor
+	url = ../SouiEditor.git

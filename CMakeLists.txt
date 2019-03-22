@@ -176,6 +176,9 @@ add_subdirectory(components)
 add_subdirectory(demo)
 include(__cmake/soui-demo.cmake)
 
+# Add SOUI Demos
+add_subdirectory(soui-demo)
+
 message(STATUS "COM_LIBS: ${COM_LIBS}")
 message(STATUS "CORE_LIBS: ${CORE_LIBS}")
 ##
