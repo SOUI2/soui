@@ -7,6 +7,7 @@
 		<file name="string" path="values\string.xml" />
 		<file name="color" path="values\color.xml" />
 		<file name="skin" path="values\skin.xml" />
+    <file name="template" path="values\template.xml"/>
 	</values>
 	<ICON>
 		<file name="ICON_0" path="image\img_logo.ico" />

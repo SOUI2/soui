@@ -172,6 +172,15 @@ public:
         return std::string();
     }
     inline const std::string readContent();
+
+	inline size_t size() const{
+		if(!_file) return 0;
+		size_t pos = ftell(_file);
+		fseek(_file,0,SEEK_END);
+		size_t ret = ftell(_file);
+		fseek(_file,pos,SEEK_SET);
+		return ret;
+	}
 public:
     FILE *_file;
 };
@@ -332,12 +341,8 @@ struct LoggerInfo
 
     //! runtime info
     time_t _curFileCreateTime;    //file create time
-    unsigned int _curFileIndex; //rolling file index
     unsigned int _curWriteLen;  //current file length
     Log4zFileHandler    _handle;        //file handle.
-
-    //! hot update name or path for the logger 
-    bool _hotChange;
     
     LoggerInfo()
     {
@@ -351,10 +356,7 @@ struct LoggerInfo
         _fileLine = LOG4Z_DEFAULT_SHOWSUFFIX;
 
         _curFileCreateTime = 0;
-        _curFileIndex = 0;
         _curWriteLen = 0;
-
-        _hotChange = false;
     }
 };
 
@@ -437,8 +439,6 @@ private:
 
     //! thread status.
     bool        _runing;
-    //! wait thread started.
-    SemHelper        _semaphore;
 
     //! hot change name or path for one logger
     LockHelper _hotLock;
@@ -1351,9 +1351,7 @@ bool LogerManager::start()
     {
         return false;
     }
-    _semaphore.create(0);
-    bool ret = ThreadHelper::start();
-    return ret && _semaphore.wait(3000);
+    return ThreadHelper::start();
 }
 bool LogerManager::stop()
 {
@@ -1475,10 +1473,6 @@ bool LogerManager::enableLogger(LoggerId id, bool enable)
 {
     if (id <0 || id > _lastId) return false;
     _loggers[id]._enable = enable;
-    if (enable)
-    {
-        _loggers[id]._hotChange = true;
-    }
     return true;
 }
 bool LogerManager::setLoggerLevel(LoggerId id, int level)
@@ -1534,7 +1528,6 @@ bool LogerManager::setLoggerName(LoggerId id, const char * name)
     if (_loggers[id]._name != name)
     {
         _loggers[id]._name = name;
-        _loggers[id]._hotChange = true;
     }
     return true;
 }
@@ -1564,7 +1557,6 @@ bool LogerManager::setLoggerPath(LoggerId id, const char * path)
     if (copyPath != _loggers[id]._path)
     {
         _loggers[id]._path = copyPath;
-        _loggers[id]._hotChange = true;
     }
     return true;
 }
@@ -1627,22 +1619,30 @@ bool LogerManager::openLogger(LogData * pLog)
         return false;
     }
 
-    bool sameday = isSameDay(pLog->_time, pLogger->_curFileCreateTime);
     bool needChangeFile = pLogger->_curWriteLen > pLogger->_limitsize * 1024 * 1024;
-    if ((!sameday && m_pOutputFileBuilder->dayLog()) || needChangeFile || pLogger->_hotChange)
+    if ( needChangeFile)
     {
-        if (!sameday || pLogger->_hotChange)
-        {
-            pLogger->_curFileIndex = 0;
-        }
-        else
-        {
-            pLogger->_curFileIndex++;
-        }
         if (pLogger->_handle.isOpen())
         {
             pLogger->_handle.close();
         }
+
+		std::string name = pLogger->_name;
+		char buf[MAX_PATH];
+		tm t = timeToTm(pLogger->_curFileCreateTime);
+
+		const int KMaxLogIndex = 5;
+		m_pOutputFileBuilder->buildOutputFile(buf,100,t,name.c_str(),_pid,KMaxLogIndex);        		
+		std::string path = pLogger->_path+buf;
+		remove(path.c_str());
+		for(int i=KMaxLogIndex;i>0;i--)//max to 5 log index.
+		{
+			m_pOutputFileBuilder->buildOutputFile(buf,100,t,name.c_str(),_pid,i-1);        		
+			std::string pathOld = pLogger->_path+buf;
+			m_pOutputFileBuilder->buildOutputFile(buf,100,t,name.c_str(),_pid,i);        		
+			std::string pathNew = pLogger->_path+buf;
+			rename(pathOld.c_str(),pathNew.c_str());
+		}
     }
     if (!pLogger->_handle.isOpen())
     {
@@ -1655,30 +1655,24 @@ bool LogerManager::openLogger(LogData * pLog)
         _hotLock.lock();
         name = pLogger->_name;
         path = pLogger->_path;
-        pLogger->_hotChange = false;
         _hotLock.unLock();
         
         char buf[100] = { 0 };
-        if (m_pOutputFileBuilder->monthDir())
-        {
-            sprintf(buf, "%04d_%02d/", t.tm_year + 1900, t.tm_mon + 1);
-            path += buf;
-        }
-
         if (!isDirectory(path))
         {
             createRecursionDir(path);
         }
         
-        m_pOutputFileBuilder->buildOutputFile(buf,100,t,name.c_str(),_pid,pLogger->_curFileIndex);
-        
+        m_pOutputFileBuilder->buildOutputFile(buf,100,t,name.c_str(),_pid,0);        
         path += buf;
+
         pLogger->_handle.open(path.c_str(), "ab");
         if (!pLogger->_handle.isOpen())
         {
             pLogger->_outfile = false;
             return false;
         }
+		pLogger->_curWriteLen = pLogger->_handle.size();
         return true;
     }
     return true;
@@ -1687,7 +1681,7 @@ bool LogerManager::closeLogger(LoggerId id)
 {
     if (id < 0 || id >_lastId)
     {
-        showColorText("log4z: closeLogger can not close, invalide logger id! \r\n", LOG_LEVEL_FATAL);
+        showColorText("log4z: closeLogger can not close, invalid logger id! \r\n", LOG_LEVEL_FATAL);
         return false;
     }
     LoggerInfo * pLogger = &_loggers[id];
@@ -1728,8 +1722,6 @@ void LogerManager::run()
             pushLog(0, LOG_LEVEL_ALARM, "logger", ss.str().c_str(), __FILE__, __LINE__ , __FUNCTION__,_ReturnAddress());
         }
     }
-
-    _semaphore.post();
 
 
 	char *pszBuf = new char[LOG4Z_LOG_BUF_SIZE];
@@ -1907,7 +1899,7 @@ void LogerManager::run()
             closeLogger(i);
         }
     }
-	delete pszBuf;
+	delete []pszBuf;
 }
 
 void LogerManager::setOutputListener(IOutputListener *pListener){
