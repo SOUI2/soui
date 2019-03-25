@@ -12,13 +12,12 @@ namespace SOUI
 		FUN_ID_START,
 	};
 
-	enum SEEK {
-		seek_set= 0,            /* seek to an absolute position */
-		seek_cur,               /* seek relative to current position */
-		seek_end                /* seek relative to end of file */
-	};
-
 	struct IShareBuffer {
+		enum SEEK {
+			seek_set= 0,            /* seek to an absolute position */
+			seek_cur,               /* seek relative to current position */
+			seek_end                /* seek relative to end of file */
+		};
 		virtual int Write(const void * data, UINT nLen) = 0;
 		virtual int Read(void * buf, UINT nLen) = 0;
 		virtual UINT Tell() const = 0;
@@ -30,7 +29,7 @@ namespace SOUI
 	class SParamStream
 	{
 	public:
-		SParamStream(IShareBuffer *pBuf, bool bOutStream) :m_pBuffer(pBuf)
+		SParamStream(IShareBuffer *pBuf) :m_pBuffer(pBuf)
 		{
 		}
 
@@ -100,6 +99,14 @@ namespace SOUI
 		virtual IShareBuffer * GetRecvBuffer()  = 0;
 
 		virtual BOOL InitShareBuf(ULONG_PTR idLocal, ULONG_PTR idRemote, UINT nBufSize, void* pSa) = 0;
+
+		virtual BOOL ToStream4Input(IFunParams * pParams,IShareBuffer * pBuf)  const = 0;
+
+		virtual BOOL FromStream4Input(IFunParams * pParams,IShareBuffer * pBuf)  const = 0;
+
+		virtual BOOL ToStream4Output(IFunParams * pParams,IShareBuffer * pBuf)  const = 0;
+
+		virtual BOOL FromStream4Output(IFunParams * pParams,IShareBuffer * pBuf)  const = 0;
 	};
 
 	struct IIpcConnection : IObjRef
