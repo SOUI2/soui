@@ -1,12 +1,8 @@
-include_directories(${PROJECT_SOURCE_DIR}/config)
-include_directories(${PROJECT_SOURCE_DIR}/utilities/include)
-include_directories(${PROJECT_SOURCE_DIR}/SOUI/include)
-
 set(imgdecoder-gdip_header
     imgdecoder-gdip.h
 )
 
-set(imgdecoder-gdip_src 
+set(imgdecoder-gdip_src
     imgdecoder-gdip.cpp
 )
 
@@ -18,7 +14,20 @@ if (NOT ENABLE_SOUI_COM_LIB)
     add_library(imgdecoder-gdip SHARED ${imgdecoder-gdip_src} ${imgdecoder-gdip_header})
 else()
     add_library(imgdecoder-gdip STATIC ${imgdecoder-gdip_src} ${imgdecoder-gdip_header})
+    target_compile_definitions(imgdecoder-gdip
+      PUBLIC SOUI_IMAGE_DECODER_USE_GDIPLUS_STATIC
+    )
 endif()
+
+target_compile_definitions(imgdecoder-gdip
+  PUBLIC SOUI_IMAGE_DECODER_USE_GDIPLUS
+)
+target_include_directories(imgdecoder-gdip
+  PRIVATE ${PROJECT_SOURCE_DIR}/config
+  PRIVATE ${PROJECT_SOURCE_DIR}/utilities/include
+  PRIVATE ${PROJECT_SOURCE_DIR}/SOUI/include
+  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 set(COM_LIBS ${COM_LIBS} imgdecoder-gdip CACHE INTERNAL "com_lib")
 set_target_properties (imgdecoder-gdip PROPERTIES
