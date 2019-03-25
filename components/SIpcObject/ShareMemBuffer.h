@@ -16,40 +16,38 @@ namespace SOUI
 
 class CShareMemBuffer : public IShareBuffer
 {
+#pragma pack(push,4)
+	struct BufHeader {
+		DWORD dwSize;	   //buf size.
+		DWORD dwTailPos;   //data tail pos
+		DWORD dwPos;	   //current pos for read and write.
+	};
+#pragma pack(pop)
 public:
 	CShareMemBuffer();
 	virtual ~CShareMemBuffer();
 	BOOL OpenMemFile(LPCTSTR pszName,DWORD dwMaximumSize, void * pSecurityAttr= NULL);
 	void Close();
 
-	DWORD GetBufferSize() const { return *(DWORD*)m_pBuffer; }
-	DWORD &GetBufferSizeRef() const { return *(DWORD*)m_pBuffer; }
-	DWORD GetUsedSize() const { return *(DWORD*)(m_pBuffer+sizeof(DWORD)); }
-	DWORD &GetUsedSizeRef() const { return *(DWORD*)(m_pBuffer + sizeof(DWORD)); }
+protected:
+	BufHeader *GetHeader() { return m_pHeader; }
+	BYTE * GetBuffer() { return m_pBuffer; }
 
-
-	BYTE * GetBuffer() {return m_pBuffer+ sizeof(DWORD)*2;}
-	const BYTE * GetBuffer() const{return m_pBuffer+ sizeof(DWORD)*2;}
-
-
+	const BufHeader* GetHeader() const { return m_pHeader; }
+	const BYTE * GetBuffer() const { return m_pBuffer; }
 public:
-	void StartWrite() {
-		DWORD & dwWritePos = GetUsedSizeRef();
-		dwWritePos = 0;
-	}
+	// Í¨¹ý IShareBuffer ¼Ì³Ð
+	virtual int Write(const void * pBuf, UINT nLen) override;
+	virtual int Read(void *pBuf, UINT nLen) override;
+	virtual UINT Tell() const override;
+	virtual UINT Seek(SEEK mode, int nOffset) override;
+	virtual void SetTail(UINT uPos) override;
 
-	void StartRead() {
-		m_dwReadPos = 0;
-	}
-
-	int Write(const void * pBuf, UINT nLen);
-	int Read(void *pBuf, UINT nLen);
 protected:
 	HANDLE m_hMap;
-	
-	DWORD  m_dwReadPos;
-	BYTE  *m_pBuffer;
-
+	void * m_pMemBuf;
+	BufHeader * m_pHeader;
+	BYTE      * m_pBuffer;
 };
 
 }

@@ -14,8 +14,10 @@ bool HandleFun(UINT uMsg, SOUI::SParamStream &ps){ \
 		x param; \
 		param.FromStream4Input(ps);\
 		fun(param); \
+		UINT pos=ps.GetBuffer()->Tell();\
 		SOUI::SParamStream psOut(ps.GetBuffer(),true);\
 		param.ToStream4Output(psOut);\
+		ps.GetBuffer()->Seek(SOUI::seek_set,pos); \
 		bHandled = true;\
 	}
 

@@ -18,6 +18,8 @@ namespace SOUI
 
 CShareMemBuffer::CShareMemBuffer()
 {
+	m_pMemBuf = NULL;
+	m_pHeader = NULL;
 	m_pBuffer=NULL;
 	m_hMap=NULL;
 }
@@ -37,54 +39,103 @@ BOOL CShareMemBuffer::OpenMemFile(LPCTSTR pszName,DWORD dwMaximumSize , void * p
 	else
 	{
 		SECURITY_ATTRIBUTES *psa = (SECURITY_ATTRIBUTES*)pSecurityAttr;
-		m_hMap = ::CreateFileMapping(INVALID_HANDLE_VALUE, psa, PAGE_READWRITE, 0, dwMaximumSize + sizeof(DWORD) * 2, pszName);
+		m_hMap = ::CreateFileMapping(INVALID_HANDLE_VALUE, psa, PAGE_READWRITE, 0, dwMaximumSize + sizeof(BufHeader), pszName);
 	}
 	if (!m_hMap)	return FALSE;
-	m_pBuffer=(LPBYTE)::MapViewOfFile(m_hMap, FILE_MAP_READ | FILE_MAP_WRITE,0,0,0);//map whole file
-	if(!m_pBuffer)
+	m_pMemBuf=::MapViewOfFile(m_hMap, FILE_MAP_READ | FILE_MAP_WRITE,0,0,0);//map whole file
+	if(!m_pMemBuf)
 	{
 		::CloseHandle(m_hMap);
 		m_hMap=0;
 		return FALSE;
 	}
+	m_pHeader = (BufHeader*)m_pMemBuf;
+	m_pBuffer = (LPBYTE)(m_pHeader + 1);
 	if (dwMaximumSize != 0)
-	{
-		GetBufferSizeRef() = dwMaximumSize;
-		StartWrite();
+	{//init header.
+		BufHeader *pHeader = GetHeader();
+		pHeader->dwSize = dwMaximumSize;
+		pHeader->dwTailPos = 0;
+		pHeader->dwPos = 0;
 	}
 	return TRUE;
 
 }
 
 void CShareMemBuffer::Close(){
-	if(m_pBuffer)
+	if(m_pMemBuf)
 	{
-		::UnmapViewOfFile(m_pBuffer);
+		::UnmapViewOfFile(m_pMemBuf);
 		::CloseHandle(m_hMap);
 		m_pBuffer = NULL;
-		m_hMap=0;
+		m_pHeader = NULL;
+		m_pMemBuf = NULL;
+		m_hMap = 0;
 	}
 }
 
 int CShareMemBuffer::Write(const void * pBuf, UINT nLen)
 {
-	assert(m_pBuffer);
-	DWORD & dwWritePos = GetUsedSizeRef();
-	UINT nRemain = GetBufferSize() - dwWritePos;
+	assert(GetBuffer());
+	BufHeader * pHeader = GetHeader();
+
+	UINT nRemain = pHeader->dwSize - pHeader->dwPos;
 	if (nLen > nRemain) nLen = nRemain;
-	memcpy(GetBuffer() + dwWritePos, pBuf, nLen);
-	dwWritePos += nLen;
+	memcpy(GetBuffer() + pHeader->dwTailPos, pBuf, nLen);
+	pHeader->dwPos += nLen;
+	if (pHeader->dwTailPos < pHeader->dwPos)
+		pHeader->dwTailPos = pHeader->dwPos;
 	return nLen;
 }
 
 int CShareMemBuffer::Read(void * pBuf, UINT nLen)
 {
-	DWORD & dwWritePos = GetUsedSizeRef();
-	UINT nRemain = (dwWritePos - m_dwReadPos);
+	assert(GetBuffer());
+	BufHeader * pHeader = GetHeader();
+	UINT nRemain = (pHeader->dwTailPos - pHeader->dwPos);
 	if (nLen > nRemain) nLen = nRemain;
-	memcpy(pBuf, GetBuffer() + m_dwReadPos, nLen);
-	m_dwReadPos += nLen;
+	memcpy(pBuf, GetBuffer() + pHeader->dwPos, nLen);
+	pHeader->dwPos += nLen;
 	return nLen;
+}
+
+UINT CShareMemBuffer::Tell() const
+{
+	return GetHeader()->dwPos;
+}
+
+UINT CShareMemBuffer::Seek(SEEK mode, int nOffset)
+{
+	BufHeader *pHeader = GetHeader();
+	switch (mode)
+	{
+	case seek_cur:
+		nOffset += pHeader->dwPos;
+		break;
+	case seek_end:
+		nOffset += pHeader->dwTailPos;
+		break;
+	case seek_set:
+	default:
+		break;
+	}
+	assert(nOffset >= 0 && nOffset <= (int)pHeader->dwTailPos);
+	pHeader->dwPos = nOffset;
+	return pHeader->dwPos;
+}
+
+void CShareMemBuffer::SetTail(UINT uPos)
+{
+	BufHeader *pHeader = GetHeader();
+	assert(uPos <= pHeader->dwSize);
+#ifdef _DEBUG
+	if(uPos<pHeader->dwTailPos)//
+		memset(GetBuffer() + uPos,0, pHeader->dwTailPos-uPos);
+	else
+		memset(GetBuffer() + pHeader->dwTailPos, 0, uPos - pHeader->dwTailPos);
+#endif
+	pHeader->dwTailPos = uPos;
+	if (pHeader->dwPos > uPos) pHeader->dwPos = uPos;
 }
 
 }

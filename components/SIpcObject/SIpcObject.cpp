@@ -18,16 +18,16 @@ namespace SOUI
 		
 		GetIpcConnection()->BuildShareBufferName(idLocal, idRemote, szName);
 
-		if (!m_SendBuf.OpenMemFile(szName, uBufSize, pSa))
+		if (!m_sendBuf.OpenMemFile(szName, uBufSize, pSa))
 		{
 			return FALSE;
 		}
 
 		GetIpcConnection()->BuildShareBufferName(idRemote, idLocal, szName);
 
-		if (!m_RecvBuf.OpenMemFile(szName, uBufSize, pSa))
+		if (!m_recvBuf.OpenMemFile(szName, uBufSize, pSa))
 		{
-			m_SendBuf.Close();
+			m_sendBuf.Close();
 			return FALSE;
 		}
 
@@ -46,6 +46,7 @@ namespace SOUI
 		if (UM_CALL_FUN != uMsg)
 			return 0;
 		bHandled = TRUE;
+		//from current pos to read params.
 		SParamStream ps(GetRecvBuffer(), false);
 		return m_pConn->HandleFun((UINT)wp, ps)?1:0;
 	}
@@ -76,9 +77,9 @@ namespace SOUI
 			return E_UNEXPECTED;
 		::SendMessage(m_hRemoteId, UM_CALL_FUN, FUN_ID_DISCONNECT, (LPARAM)m_hLocalId);
 		m_hRemoteId = NULL;
-		m_RecvBuf.Close();
+		m_recvBuf.Close();
 		m_hLocalId = NULL;
-		m_SendBuf.Close();
+		m_sendBuf.Close();
 		return S_OK;
 	}
 
@@ -87,14 +88,22 @@ namespace SOUI
 		if (m_hRemoteId == NULL)
 			return false;
 
-		SParamStream ps(&m_SendBuf, true);
+		UINT dwPos = m_sendBuf.Tell();
+		//write params to share buf, and set pos to begin of params.
+		SParamStream ps(&m_sendBuf, true);
 		pParam->ToStream4Input(ps);
+		m_sendBuf.Seek(seek_set, dwPos);//tell receiver to read params from begining.
+
 		LRESULT lRet = SendMessage(m_hRemoteId, UM_CALL_FUN, pParam->GetID(), (LPARAM)m_hLocalId);
 		if (lRet != 0)
 		{
-			SParamStream ps2(&m_SendBuf, false);
+			//read output params from current pos of buf.
+			SParamStream ps2(&m_sendBuf, false);
 			pParam->FromStream4Output(ps2);
 		}
+		//clear params.
+		m_sendBuf.Seek(seek_set, dwPos);
+		m_sendBuf.SetTail(dwPos);
 		return lRet!=0;
 	}
 
@@ -120,12 +129,12 @@ namespace SOUI
 
 	IShareBuffer * SIpcHandle::GetSendBuffer()
 	{
-		return &m_SendBuf;
+		return &m_sendBuf;
 	}
 
 	IShareBuffer * SIpcHandle::GetRecvBuffer()
 	{
-		return &m_RecvBuf;
+		return &m_recvBuf;
 	}
 
 

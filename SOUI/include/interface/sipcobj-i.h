@@ -12,11 +12,18 @@ namespace SOUI
 		FUN_ID_START,
 	};
 
+	enum SEEK {
+		seek_set= 0,            /* seek to an absolute position */
+		seek_cur,               /* seek relative to current position */
+		seek_end                /* seek relative to end of file */
+	};
+
 	struct IShareBuffer {
-		virtual void StartRead() = 0;
-		virtual void StartWrite() = 0;
 		virtual int Write(const void * data, UINT nLen) = 0;
 		virtual int Read(void * buf, UINT nLen) = 0;
+		virtual UINT Tell() const = 0;
+		virtual UINT Seek(SEEK mode, int nOffset) = 0;
+		virtual void SetTail(UINT uPos) = 0;
 	};
 
 
@@ -25,8 +32,6 @@ namespace SOUI
 	public:
 		SParamStream(IShareBuffer *pBuf, bool bOutStream) :m_pBuffer(pBuf)
 		{
-			m_pBuffer->StartRead();
-			if (bOutStream) m_pBuffer->StartWrite();
 		}
 
 		IShareBuffer * GetBuffer() {

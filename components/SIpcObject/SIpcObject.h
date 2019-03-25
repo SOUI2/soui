@@ -50,9 +50,9 @@ namespace SOUI
 		virtual BOOL InitShareBuf(ULONG_PTR idLocal, ULONG_PTR idRemote, UINT nBufSize, void* pSa);
 	protected:
 		HWND	m_hLocalId;
-		mutable CShareMemBuffer	m_SendBuf;
+		mutable CShareMemBuffer	m_sendBuf;
 		HWND	m_hRemoteId;
-		CShareMemBuffer	m_RecvBuf;
+		CShareMemBuffer	m_recvBuf;
 
 		IIpcConnection * m_pConn;
 	};
