@@ -1,7 +1,7 @@
 include_directories(..)
 
 SET (SMILEY_HEADERS
-	${CMAKE_SOURCE_DIR}/controls.extend/smiley/SSmileyCtrl.h
+	${PROJECT_SOURCE_DIR}/controls.extend/smiley/SSmileyCtrl.h
 )
 
 SET (SMILEY_SRCS
