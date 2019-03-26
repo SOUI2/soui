@@ -1,7 +1,3 @@
-include_directories(${PROJECT_SOURCE_DIR}/config)
-include_directories(${PROJECT_SOURCE_DIR}/utilities/include)
-include_directories(${PROJECT_SOURCE_DIR}/SOUI/include)
-
 set(imgdecoder-wic_header
 	stdafx.h
 	imgdecoder-wic.h
@@ -19,7 +15,20 @@ if (NOT ENABLE_SOUI_COM_LIB)
     add_library(imgdecoder-wic SHARED ${imgdecoder-wic_src} ${imgdecoder-wic_header})
 else()
     add_library(imgdecoder-wic STATIC ${imgdecoder-wic_src} ${imgdecoder-wic_header})
+    target_compile_definitions(imgdecoder-wic
+      PUBLIC SOUI_IMAGE_DECODER_USE_WIC_STATIC
+    )
 endif()
+
+target_compile_definitions(imgdecoder-wic
+  PUBLIC SOUI_IMAGE_DECODER_USE_WIC
+)
+target_include_directories(imgdecoder-wic
+  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+  PRIVATE ${PROJECT_SOURCE_DIR}/config
+  PRIVATE ${PROJECT_SOURCE_DIR}/utilities/include
+  PRIVATE ${PROJECT_SOURCE_DIR}/SOUI/include
+)
 
 set(COM_LIBS ${COM_LIBS} imgdecoder-wic CACHE INTERNAL "com_lib")
 set_target_properties (imgdecoder-wic PROPERTIES
