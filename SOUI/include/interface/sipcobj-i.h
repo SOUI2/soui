@@ -23,8 +23,6 @@ namespace SOUI
 		virtual UINT Tell() const = 0;
 		virtual UINT Seek(SEEK mode, int nOffset) = 0;
 		virtual void SetTail(UINT uPos) = 0;
-		virtual BOOL Lock() = 0;
-		virtual void Unlock() = 0;
 	};
 
 

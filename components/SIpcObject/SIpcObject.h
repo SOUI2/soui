@@ -64,6 +64,7 @@ namespace SOUI
 		CShareMemBuffer	m_recvBuf;
 
 		IIpcConnection * m_pConn;
+		mutable UINT	m_uCallSeq;
 	};
 
 

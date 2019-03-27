@@ -42,15 +42,11 @@ public:
 	virtual UINT Tell() const override;
 	virtual UINT Seek(SEEK mode, int nOffset) override;
 	virtual void SetTail(UINT uPos) override;
-	virtual BOOL Lock() override;
-	virtual void Unlock() override;
 protected:
 	HANDLE m_hMap;
 	void * m_pMemBuf;
 	BufHeader * m_pHeader;
 	BYTE      * m_pBuffer;
-	HANDLE	    m_hMutex;
-
 };
 
 }
