@@ -22,6 +22,7 @@ CShareMemBuffer::CShareMemBuffer()
 	m_pHeader = NULL;
 	m_pBuffer=NULL;
 	m_hMap=NULL;
+	m_hMutex = NULL;
 }
 
 CShareMemBuffer::~CShareMemBuffer()
@@ -32,23 +33,21 @@ CShareMemBuffer::~CShareMemBuffer()
 BOOL CShareMemBuffer::OpenMemFile(LPCTSTR pszName,DWORD dwMaximumSize , void * pSecurityAttr)
 {
 	if(m_hMap) return FALSE;
+	SECURITY_ATTRIBUTES *psa = (SECURITY_ATTRIBUTES*)pSecurityAttr;
 	if (dwMaximumSize == 0)
 	{
 		m_hMap = ::OpenFileMapping(FILE_MAP_READ | FILE_MAP_WRITE, FALSE, pszName);
+		m_hMutex = ::OpenMutex(SYNCHRONIZE, FALSE, pszName);
 	}
 	else
 	{
-		SECURITY_ATTRIBUTES *psa = (SECURITY_ATTRIBUTES*)pSecurityAttr;
 		m_hMap = ::CreateFileMapping(INVALID_HANDLE_VALUE, psa, PAGE_READWRITE, 0, dwMaximumSize + sizeof(BufHeader), pszName);
+		m_hMutex = ::CreateMutex(psa, FALSE, pszName);
 	}
-	if (!m_hMap)	return FALSE;
+	if (!m_hMap)	goto error;
 	m_pMemBuf=::MapViewOfFile(m_hMap, FILE_MAP_READ | FILE_MAP_WRITE,0,0,0);//map whole file
-	if(!m_pMemBuf)
-	{
-		::CloseHandle(m_hMap);
-		m_hMap=0;
-		return FALSE;
-	}
+	if (!m_pMemBuf) goto error;
+
 	m_pHeader = (BufHeader*)m_pMemBuf;
 	m_pBuffer = (LPBYTE)(m_pHeader + 1);
 	if (dwMaximumSize != 0)
@@ -59,18 +58,31 @@ BOOL CShareMemBuffer::OpenMemFile(LPCTSTR pszName,DWORD dwMaximumSize , void * p
 		pHeader->dwPos = 0;
 	}
 	return TRUE;
-
+error:
+	if (m_hMap)
+	{
+		::CloseHandle(m_hMap);
+		m_hMap = 0;
+	}
+	if (m_hMutex)
+	{
+		::CloseHandle(m_hMutex);
+		m_hMutex = 0;
+	}
+	return FALSE;
 }
 
 void CShareMemBuffer::Close(){
 	if(m_pMemBuf)
 	{
 		::UnmapViewOfFile(m_pMemBuf);
-		::CloseHandle(m_hMap);
 		m_pBuffer = NULL;
 		m_pHeader = NULL;
 		m_pMemBuf = NULL;
+		::CloseHandle(m_hMap);
 		m_hMap = 0;
+		::CloseHandle(m_hMutex);
+		m_hMutex = 0;
 	}
 }
 
@@ -136,6 +148,16 @@ void CShareMemBuffer::SetTail(UINT uPos)
 #endif
 	pHeader->dwTailPos = uPos;
 	if (pHeader->dwPos > uPos) pHeader->dwPos = uPos;
+}
+
+BOOL CShareMemBuffer::Lock()
+{
+	return WAIT_OBJECT_0 == WaitForSingleObject(m_hMutex, INFINITE);
+}
+
+void CShareMemBuffer::Unlock()
+{
+	::ReleaseMutex(m_hMutex);
 }
 
 }

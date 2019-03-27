@@ -48,6 +48,15 @@ namespace SOUI
 		virtual IShareBuffer * GetRecvBuffer() ;
 
 		virtual BOOL InitShareBuf(ULONG_PTR idLocal, ULONG_PTR idRemote, UINT nBufSize, void* pSa);
+
+		virtual BOOL ToStream4Input(IFunParams * pParams,IShareBuffer * pBuf) const;
+
+		virtual BOOL FromStream4Input(IFunParams * pParams,IShareBuffer * pBuf) const;
+
+		virtual BOOL ToStream4Output(IFunParams * pParams,IShareBuffer * pBuf) const;
+
+		virtual BOOL FromStream4Output(IFunParams * pParams,IShareBuffer * pBuf) const;
+
 	protected:
 		HWND	m_hLocalId;
 		mutable CShareMemBuffer	m_sendBuf;
