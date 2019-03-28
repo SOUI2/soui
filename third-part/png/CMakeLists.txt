@@ -62,6 +62,7 @@ source_group("Header Files" FILES ${libpng_headers})
 source_group("Source Files" FILES ${libpng_sources})
 
 add_library(png STATIC ${libpng_sources} ${libpng_headers})
+target_link_libraries(png zlib)
 set(COM_LIBS ${COM_LIBS} png CACHE INTERNAL "com_lib")
 set_target_properties (png PROPERTIES
     FOLDER third-part

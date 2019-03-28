@@ -1,4 +1,4 @@
-﻿// dui-demo.cpp : main source file
+// dui-demo.cpp : main source file
 //
 
 #include "stdafx.h"
@@ -242,8 +242,12 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
         
         //将程序的运行路径修改到demo所在的目录
 #ifdef _DEBUG
+#   ifdef DEMO_DEBUG_UI_RESOURCES_SEARCH_PATH
+        SStringT strResDir = _T(DEMO_DEBUG_UI_RESOURCES_SEARCH_PATH);
+#   else
         SStringT strResDir = theApp->GetAppDir();
         strResDir += _T("\\..\\demo");
+#   endif
         SetCurrentDirectory(strResDir);
         //SOUI系统总是从appdir去查找资源
         theApp->SetAppDir(strResDir);

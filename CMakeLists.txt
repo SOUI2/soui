@@ -4,17 +4,17 @@
 # 使用帮助
 #
 # 使用cmake 3.4.3 或以上版本
-# 
+#
 #
 # 目前支持编译的库/可执行程序:
-# 
+#
 # ---third-part
 # third-part/png
 # third-part/zlib
 # third-part/skia
 # third-part/png
 # third-part/lua
-# 
+#
 # ---core---
 # SOUI
 # utilities
@@ -37,65 +37,32 @@
 # demos/360Preview
 # demos/PCManager
 #
-# __cmake/cotire.cmake
-# @ https://github.com/sakra/cotire
-# 预处理头文件支持
-#
-# __cmake/internal_utils.cmake 
-# 内置工具模块
-#
 #
 # mkdir build
-# cd build 
+# cd build
 # cmake .. -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release
 # nmake
 #
-# or 
+# or
 # cmake .. -G"Visual Studio 14 2015"
-# 
+#
 # 生成SOUI.sln工程文件
-#   
-# options:
-#   SHARED_CRT             ON 
-#   USE_UNICODE            ON
-#   WCHAR_AS_DEFAULT       ON 
-#   XP_TOOLSET             ON   # visual studio 2012
-#   ENABLE_SOUI_CORE_LIB   OFF 
-#   ENABLE_SOUI_COM_LIB    OFF
-# 
+#
 # 1394020320@qq.com
 #
 
 cmake_minimum_required(VERSION 3.4.3)
 project(SOUI)
 
-set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/__cmake/")
-include(__cmake/cotire.cmake)
-include(__cmake/internal_utils.cmake)
-include(__cmake/global.cmake)
-include(__cmake/soui-demo.cmake)
+set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
+include(cotire)
+include(MSVCMultipleProcessCompile)
+include(SOUIOptions)
 
-option(USE_UNICODE "Use Unicode" ON)
+include(cmake/soui-demo.cmake)
 
-# When other libraries are using a shared version of runtime libraries,
-# Google Test also has to use one.
-option(SHARED_CRT "Use shared crt runtime library." ON)
-
-# When other libraries are using a shared version of runtime libraries,
-# Google Test also has to use one.
-option(WCHAR_AS_DEFAULT "Use wchar_t as internal type" ON)
-#
-#
-option(ENABLE_SOUI_CORE_LIB "Enable compile 'core' as static lib" OFF)
-#
-#
-option(ENABLE_SOUI_COM_LIB "Enable compile 'components' as static lib" OFF)
-#
-#
-option(XP_TOOLSET "" ON)
-
-config_compiler_and_linker()
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 configure_file("config/core-def.h.in" "${PROJECT_SOURCE_DIR}/config/core-def.h" @ONLY)
 configure_file("config/com-def.h.in" "${PROJECT_SOURCE_DIR}/config/com-def.h" @ONLY)
@@ -114,12 +81,8 @@ add_subdirectory(soui-sys-resource)
 
 #
 #
-# 
+#
 add_subdirectory(components)
-
-#
-#
-add_subdirectory(demo)
 
 message(STATUS "COM_LIBS: ${COM_LIBS}")
 message(STATUS "CORE_LIBS: ${CORE_LIBS}")
