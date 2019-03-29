@@ -14,7 +14,7 @@ SMenuAttr::SMenuAttr()
     ,m_pSepSkin(GETBUILTINSKIN(SKIN_SYS_MENU_SEP))
     ,m_pCheckSkin(GETBUILTINSKIN(SKIN_SYS_MENU_CHECK))
     ,m_pIconSkin(NULL)
-    ,m_hFont(0)
+    ,m_hFont(0), m_scale(100)
 {
 	m_nMaxWidth.setInvalid();
 	m_nItemHei.setInvalid();
