@@ -2,11 +2,6 @@ include_directories(${PROJECT_SOURCE_DIR}/config)
 include_directories(${PROJECT_SOURCE_DIR}/utilities/include)
 include_directories(${PROJECT_SOURCE_DIR}/SOUI/include)
 
-include_directories(${PROJECT_SOURCE_DIR}/third-part/skia)
-include_directories(${PROJECT_SOURCE_DIR}/third-part/skia/include)
-include_directories(${PROJECT_SOURCE_DIR}/third-part/skia/include/config)
-include_directories(${PROJECT_SOURCE_DIR}/third-part/skia/include/core)
-
 set(render-skia_header
 	stdafx.h
 	drawtext-skia.h
@@ -17,7 +12,7 @@ set(render-skia_header
 	patheffect-skia.h
 	pathmeasure-skia.h
 )
-set(render-skia_src 
+set(render-skia_src
 	drawtext-skia.cpp
 	render-skia.cpp
 	render-skia2.cpp
@@ -36,6 +31,20 @@ if (NOT ENABLE_SOUI_COM_LIB)
 else()
     add_library(render-skia STATIC ${render-skia_src} ${render-skia_header})
 endif()
+
+target_compile_definitions(render-skia
+  PUBLIC SOUI_RENDER_USE_SKIA
+)
+target_include_directories(render-skia
+  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+  PRIVATE ${PROJECT_SOURCE_DIR}/config
+  PRIVATE ${PROJECT_SOURCE_DIR}/utilities/include
+  PRIVATE ${PROJECT_SOURCE_DIR}/SOUI/include
+  PRIVATE ${PROJECT_SOURCE_DIR}/third-part/skia
+  PRIVATE ${PROJECT_SOURCE_DIR}/third-part/skia/include
+  PRIVATE ${PROJECT_SOURCE_DIR}/third-part/skia/include/config
+  PRIVATE ${PROJECT_SOURCE_DIR}/third-part/skia/include/core
+)
 
 set(COM_LIBS ${COM_LIBS} render-skia CACHE INTERNAL "com_lib")
 set_target_properties (render-skia PROPERTIES

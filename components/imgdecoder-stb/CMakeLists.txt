@@ -1,9 +1,5 @@
 #add_definitions(-D_CRT_SECURE_NO_WARNINGS) // stb_image.h:4577 don't define _CRT_SECURE_NO_WARNINGS (affects user code)
 
-include_directories(${PROJECT_SOURCE_DIR}/config)
-include_directories(${PROJECT_SOURCE_DIR}/utilities/include)
-include_directories(${PROJECT_SOURCE_DIR}/SOUI/include)
-
 set(imgdecoder-stb_header
 	imgdecoder-stb.h
 	stb_image.h
@@ -21,7 +17,20 @@ if (NOT ENABLE_SOUI_COM_LIB)
     add_library(imgdecoder-stb SHARED ${imgdecoder-stb_src} ${imgdecoder-stb_header})
 else()
     add_library(imgdecoder-stb STATIC ${imgdecoder-stb_src} ${imgdecoder-stb_header})
+    target_compile_definitions(imgdecoder-stb
+      PUBLIC SOUI_IMAGE_DECODER_USE_STB_STATIC
+    )
 endif()
+
+target_compile_definitions(imgdecoder-stb
+  PUBLIC SOUI_IMAGE_DECODER_USE_STB
+)
+target_include_directories(imgdecoder-stb
+  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+  PRIVATE ${PROJECT_SOURCE_DIR}/config
+  PRIVATE ${PROJECT_SOURCE_DIR}/utilities/include
+  PRIVATE ${PROJECT_SOURCE_DIR}/SOUI/include
+)
 
 set(COM_LIBS ${COM_LIBS} imgdecoder-stb CACHE INTERNAL "com_lib")
 set_target_properties (imgdecoder-stb PROPERTIES
