@@ -15,12 +15,16 @@ SMenuAttr::SMenuAttr()
     ,m_pCheckSkin(GETBUILTINSKIN(SKIN_SYS_MENU_CHECK))
     ,m_pIconSkin(NULL)
     ,m_hFont(0)
-    ,m_nItemHei(0)
-    ,m_nIconMargin(2)
-    ,m_nTextMargin(5)
-    ,m_szIcon(CX_ICON,CY_ICON)
-    ,m_nMaxWidth(-1)
 {
+	m_nMaxWidth.setInvalid();
+	m_nItemHei.setInvalid();
+
+	m_nIconMargin.setSize(2,SLayoutSize::defUnit);
+	m_nTextMargin.setSize(5, SLayoutSize::defUnit);
+
+	m_szIcon[0].setSize( CX_ICON, SLayoutSize::defUnit);
+	m_szIcon[1].setSize( CY_ICON, SLayoutSize::defUnit);
+
     m_crTxtNormal=GetSysColor(COLOR_MENUTEXT)|0xff000000;
     m_crTxtSel=GetSysColor(COLOR_HIGHLIGHTTEXT)|0xff000000;
     m_crTxtGray=GetSysColor(COLOR_GRAYTEXT)|0xff000000;
@@ -30,11 +34,53 @@ SMenuAttr::~SMenuAttr()
 {
 }
 
+int SMenuAttr::GetTextMargin()
+{
+	return m_nTextMargin.toPixelSize(m_scale);
+}
+
+int SMenuAttr::GetIconMargin()
+{
+	return m_nIconMargin.toPixelSize(m_scale);
+}
+
+CSize SMenuAttr::GetIconSize()
+{
+	return CSize(m_szIcon[0].toPixelSize(m_scale), m_szIcon[1].toPixelSize(m_scale));
+}
+
+int SMenuAttr::GetItemHeight()
+{
+	return m_nItemHei.toPixelSize(m_scale);
+}
+
+int SMenuAttr::GetMaxWidth()
+{
+	if (m_nMaxWidth.isValid())
+		return m_nMaxWidth.toPixelSize(m_scale);
+	return -1;
+}
+
 void SMenuAttr::OnInitFinished( pugi::xml_node xmlNode )
 {
     SASSERT(m_pItemSkin);
-    if(m_nItemHei==0) m_nItemHei=m_pItemSkin->GetSkinSize().cy;
+	if (!m_nItemHei.isValid())
+		m_nItemHei.setSize(m_pItemSkin->GetSkinSize().cy, SLayoutSize::dp);
     if(!m_hFont) m_hFont=SFontPool::getSingleton().GetFont(FF_DEFAULTFONT,100);
+}
+
+void SMenuAttr::SetScale(int scale)
+{
+	m_scale = scale;
+	m_hFont = SFontPool::getSingleton().GetFont(FF_DEFAULTFONT, m_scale);
+	if (m_pIconSkin)
+		m_pIconSkin = GETSKIN(m_pIconSkin->GetName(), m_scale);
+	if (m_pItemSkin)
+		m_pItemSkin = GETSKIN(m_pItemSkin->GetName(), m_scale);
+	if (m_pSepSkin)
+		m_pSepSkin = GETSKIN(m_pSepSkin->GetName(), m_scale);
+	if (m_pCheckSkin)
+		m_pCheckSkin = GETSKIN(m_pCheckSkin->GetName(), m_scale);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -82,10 +128,13 @@ void SMenuODWnd::DrawItem( LPDRAWITEMSTRUCT lpDrawItemStruct )
 
         //draw icon
         CRect rcIcon;
-        rcIcon.left=rcItem.left+m_attr->m_nIconMargin;
-        rcIcon.right=rcIcon.left+m_attr->m_szIcon.cx;
-        rcIcon.top=rcItem.top+(rcItem.Height()-m_attr->m_szIcon.cy)/2;
-        rcIcon.bottom=rcIcon.top+m_attr->m_szIcon.cy;
+		int iconOffset=m_attr->GetIconMargin();
+
+        rcIcon.left=rcItem.left+ iconOffset;
+		CSize szIcon = m_attr->GetIconSize();
+        rcIcon.right=rcIcon.left+ szIcon.cx;
+        rcIcon.top=rcItem.top+(rcItem.Height()- szIcon.cy)/2;
+        rcIcon.bottom=rcIcon.top+ szIcon.cy;
         if(bChecked)
         {
             if(m_attr->m_pCheckSkin)
@@ -97,11 +146,11 @@ void SMenuODWnd::DrawItem( LPDRAWITEMSTRUCT lpDrawItemStruct )
         {
             m_attr->m_pIconSkin->Draw(pRT,rcIcon,pdmmi->iIcon);
         }
-        rcItem.left=rcIcon.right+m_attr->m_nIconMargin;
+        rcItem.left=rcIcon.right+ iconOffset;
 
         //draw text
         CRect rcTxt=rcItem;
-        rcTxt.DeflateRect(m_attr->m_nTextMargin,0);
+        rcTxt.DeflateRect(m_attr->GetTextMargin(),0);
 
         COLORREF crOld=pRT->SetTextColor(bDisabled?m_attr->m_crTxtGray:(bSelected?m_attr->m_crTxtSel:m_attr->m_crTxtNormal));
 
@@ -141,8 +190,8 @@ void SMenuODWnd::MeasureItem( LPMEASUREITEMSTRUCT lpMeasureItemStruct )
     if(pdmmi)
     {
         //menu item
-        lpMeasureItemStruct->itemHeight = m_attr->m_nItemHei;
-        lpMeasureItemStruct->itemWidth = m_attr->m_szIcon.cx+m_attr->m_nIconMargin*2;
+        lpMeasureItemStruct->itemHeight = m_attr->GetItemHeight();
+        lpMeasureItemStruct->itemWidth = m_attr->GetIconSize().cx + m_attr->GetIconMargin() * 2;
 
         CAutoRefPtr<IRenderTarget> pRT;
         GETRENDERFACTORY->CreateRenderTarget(&pRT,0,0);
@@ -150,9 +199,10 @@ void SMenuODWnd::MeasureItem( LPMEASUREITEMSTRUCT lpMeasureItemStruct )
         pRT->SelectObject(m_attr->m_hFont,(IRenderObj**)&oldFont);
         SIZE szTxt;
         pRT->MeasureText(pdmmi->strText,pdmmi->strText.GetLength(),&szTxt);
-        lpMeasureItemStruct->itemWidth += szTxt.cx+m_attr->m_nTextMargin*2;
-        if(m_attr->m_nMaxWidth!=-1 && (int)lpMeasureItemStruct->itemWidth>m_attr->m_nMaxWidth)
-            lpMeasureItemStruct->itemWidth=m_attr->m_nMaxWidth;
+        lpMeasureItemStruct->itemWidth += szTxt.cx+m_attr->GetTextMargin()*2;
+		int itemMaxWidth = m_attr->GetMaxWidth();
+        if(itemMaxWidth !=-1 && (int)lpMeasureItemStruct->itemWidth> itemMaxWidth)
+            lpMeasureItemStruct->itemWidth= itemMaxWidth;
         pRT->SelectObject(oldFont);
     }
     else
@@ -294,15 +344,74 @@ BOOL SMenu::InsertMenu(UINT nPosition, UINT nFlags, UINT_PTR nIDNewItem,LPCTSTR 
     return TRUE;
 }
 
+
+BOOL SMenu::BroadcastScale(HMENU hMenu,int nScale)
+{
+#define BUFSIZE 128
+
+	SMenuAttr *pMenuAttr = GetMenuAttr(m_hMenu);
+	SASSERT(pMenuAttr);
+	pMenuAttr->SetScale(nScale);
+
+	int i, c;
+	BOOL res;
+	TCHAR s[BUFSIZE];
+
+	MENUINFO mi = { sizeof(mi),MIM_MENUDATA,0 };
+	GetMenuInfo(hMenu, &mi);
+
+	MENUITEMINFO mii;
+	mii.cbSize = sizeof(MENUITEMINFO);
+	mii.fMask = MIIM_DATA | MIIM_ID | MIIM_SUBMENU | MIIM_TYPE | MIIM_STATE | MIIM_CHECKMARKS;
+	mii.dwTypeData = s;
+	c = GetMenuItemCount(hMenu);//获取当前菜单所有的菜单项数目
+	for (i = 0; i < c; i++)
+	{
+		mii.cch = BUFSIZE;//注意哦!
+		res = GetMenuItemInfo(hMenu, i, true, &mii);
+		if (res == 0)
+		{ 
+			return -1; 
+		}
+		if (mii.hSubMenu == NULL)
+		{
+			continue;
+		}
+		else
+		{
+			//若该菜单项为子菜单，则如此处理
+			res = BroadcastScale(mii.hSubMenu,nScale);//直接递归调用
+			if (res == -1)
+			{
+				return -1; 
+			}
+		}
+	}
+	return 0;
+}
+
+void SMenu::UndataScale(int nScale)
+{
+	SASSERT(IsMenu(m_hMenu));
+
+	if (nScale != 100)
+	{
+		BroadcastScale(m_hMenu,nScale);
+	}
+}
+
 UINT SMenu::TrackPopupMenu(
     UINT uFlags,
     int x,
     int y,
     HWND hWnd,
+	int nScale, 
     LPCRECT prcRect
 )
 {
     SASSERT(IsMenu(m_hMenu));
+
+	UndataScale(nScale);
 
     SMenuODWnd menuOwner(hWnd,GetMenuAttr(m_hMenu));
     menuOwner.Create(NULL,WS_POPUP,WS_EX_NOACTIVATE,0,0,0,0,NULL,NULL);
@@ -433,7 +542,6 @@ BOOL SMenu::DeleteMenu(UINT uPosition, UINT uFlags)
 	}
 	return FALSE;
 }
-
 
 BOOL SMenu::AppendMenu(UINT uFlags,UINT_PTR uIDNewItem, LPCTSTR lpNewItem,int iIcon)
 {

@@ -18,43 +18,51 @@ class SMenuAttr:public SObject, public TObjRefImpl<IObjRef>
 public:
     SMenuAttr();
 	~SMenuAttr();
-    virtual void OnInitFinished(pugi::xml_node xmlNode);
+	
+
+	void SetScale(int scale);
 
     SOUI_ATTRS_BEGIN()
         ATTR_SKIN(L"itemSkin",m_pItemSkin,FALSE)
         ATTR_SKIN(L"iconSkin",m_pIconSkin,FALSE)
         ATTR_SKIN(L"sepSkin",m_pSepSkin,FALSE)
         ATTR_SKIN(L"checkSkin",m_pCheckSkin,FALSE)
-        ATTR_INT(L"itemHeight",m_nItemHei,FALSE)
-        ATTR_INT(L"iconMargin",m_nIconMargin,FALSE)
-        ATTR_INT(L"textMargin",m_nTextMargin,FALSE)
-        ATTR_INT(L"maxWidth",m_nMaxWidth,FALSE)
-        ATTR_SIZE(L"iconSize",m_szIcon,FALSE)
+		ATTR_LAYOUTSIZE(L"itemHeight",m_nItemHei,FALSE)
+		ATTR_LAYOUTSIZE(L"iconMargin",m_nIconMargin,FALSE)
+		ATTR_LAYOUTSIZE(L"textMargin",m_nTextMargin,FALSE)
+		ATTR_LAYOUTSIZE(L"maxWidth",m_nMaxWidth,FALSE)
+		ATTR_LAYOUTSIZE2(L"iconSize",m_szIcon,FALSE)
         ATTR_FONT2(L"font",m_hFont,FALSE)
         ATTR_COLOR(L"colorText",m_crTxtNormal,FALSE)
         ATTR_COLOR(L"colorTextSel",m_crTxtSel,FALSE)
         ATTR_COLOR(L"cororTextGray",m_crTxtGray,FALSE)
         ATTR_STRINGW(L"trCtx",m_strTrCtx,FALSE)
-    SOUI_ATTRS_END()
-    
+    SOUI_ATTRS_END()    
 
 protected:
-	int GetScale() const{return 100;}
+	int GetTextMargin();
+	int GetIconMargin();
+	CSize GetIconSize();
+	int GetItemHeight();
+	int GetMaxWidth();
+    virtual void OnInitFinished(pugi::xml_node xmlNode);
+	int GetScale() const{return m_scale;}
 
-    ISkinObj *m_pItemSkin;    //菜单项皮肤，包含2种状态：正常状态+选中状态
-    ISkinObj *m_pIconSkin;    //菜单图标
-    ISkinObj *m_pSepSkin;    //分割栏皮肤
-    ISkinObj *m_pCheckSkin;    //选中状态,包含两种状态:勾选+圈选
-    int              m_nItemHei;    //菜单项高度
-    int              m_nIconMargin;//图标边缘空间
-    int              m_nTextMargin;//文本边缘空间
-    COLORREF      m_crTxtNormal;//正常文本颜色
-    COLORREF      m_crTxtSel;    //选中文本颜色
-    COLORREF      m_crTxtGray;    //灰文本颜色
-    CSize          m_szIcon;        //图标尺寸
+    ISkinObj			*m_pItemSkin;    //菜单项皮肤，包含2种状态：正常状态+选中状态
+    ISkinObj			*m_pIconSkin;    //菜单图标
+    ISkinObj			*m_pSepSkin;    //分割栏皮肤
+    ISkinObj			*m_pCheckSkin;    //选中状态,包含两种状态:勾选+圈选
+	SLayoutSize			m_nItemHei;    //菜单项高度
+	SLayoutSize			m_nIconMargin;//图标边缘空间
+	SLayoutSize			m_nTextMargin;//文本边缘空间
+    COLORREF			m_crTxtNormal;//正常文本颜色
+    COLORREF			m_crTxtSel;    //选中文本颜色
+    COLORREF			m_crTxtGray;    //灰文本颜色
+	SLayoutSize			m_szIcon[2];        //图标尺寸
     CAutoRefPtr<IFont>  m_hFont;
-    SStringW      m_strTrCtx;   //翻译上下文
-    int          m_nMaxWidth;   //菜单项最大宽度
+    SStringW			m_strTrCtx;   //翻译上下文
+	SLayoutSize			m_nMaxWidth;   //菜单项最大宽度
+	int					m_scale;
 };
 
 struct SMenuItemData
@@ -231,7 +239,7 @@ public:
 
 	BOOL DeleteMenu(UINT uPosition, UINT uFlags);
 
-    UINT TrackPopupMenu( UINT uFlags, int x, int y, HWND hWnd, LPCRECT prcRect=NULL);
+    UINT TrackPopupMenu( UINT uFlags, int x, int y, HWND hWnd, int nScale = 100, LPCRECT prcRect=NULL);
 
     void DestroyMenu();
 
@@ -244,7 +252,8 @@ public:
     HMENU m_hMenu;
 
 protected:
-
+	int BroadcastScale(HMENU hMenu, int nScale);
+	void UndataScale(int nScale);
     void BuildMenu(HMENU menuPopup,pugi::xml_node xmlNode);
     void InitMenuItemData(SMenuItemData * itemInfo, const SStringW & strText);
 	void FreeMenuItemData(HMENU hMemu);
