@@ -239,7 +239,7 @@ public:
 
 	BOOL DeleteMenu(UINT uPosition, UINT uFlags);
 
-    UINT TrackPopupMenu( UINT uFlags, int x, int y, HWND hWnd, int nScale = 100, LPCRECT prcRect=NULL);
+    UINT TrackPopupMenu( UINT uFlags, int x, int y, HWND hWnd, LPCRECT prcRect=NULL, int nScale = 100);
 
     void DestroyMenu();
 

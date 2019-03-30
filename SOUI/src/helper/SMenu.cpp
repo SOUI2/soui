@@ -65,7 +65,7 @@ void SMenuAttr::OnInitFinished( pugi::xml_node xmlNode )
 {
     SASSERT(m_pItemSkin);
 	if (!m_nItemHei.isValid())
-		m_nItemHei.setSize(m_pItemSkin->GetSkinSize().cy, SLayoutSize::dp);
+		m_nItemHei.setSize((float)m_pItemSkin->GetSkinSize().cy, SLayoutSize::dp);
     if(!m_hFont) m_hFont=SFontPool::getSingleton().GetFont(FF_DEFAULTFONT,100);
 }
 
@@ -405,8 +405,8 @@ UINT SMenu::TrackPopupMenu(
     int x,
     int y,
     HWND hWnd,
-	int nScale, 
-    LPCRECT prcRect
+    LPCRECT prcRect,
+	int nScale
 )
 {
     SASSERT(IsMenu(m_hMenu));
