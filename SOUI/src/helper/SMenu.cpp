@@ -14,7 +14,7 @@ SMenuAttr::SMenuAttr()
     ,m_pSepSkin(GETBUILTINSKIN(SKIN_SYS_MENU_SEP))
     ,m_pCheckSkin(GETBUILTINSKIN(SKIN_SYS_MENU_CHECK))
     ,m_pIconSkin(NULL)
-    ,m_hFont(0), m_scale(100)
+    ,m_scale(100)
 {
 	m_nMaxWidth.setInvalid();
 	m_nItemHei.setInvalid();
@@ -66,13 +66,21 @@ void SMenuAttr::OnInitFinished( pugi::xml_node xmlNode )
     SASSERT(m_pItemSkin);
 	if (!m_nItemHei.isValid())
 		m_nItemHei.setSize((float)m_pItemSkin->GetSkinSize().cy, SLayoutSize::dp);
-    if(!m_hFont) m_hFont=SFontPool::getSingleton().GetFont(FF_DEFAULTFONT,100);
+}
+
+
+CAutoRefPtr<IFont> SMenuAttr::GetFontPtr()
+{
+	CAutoRefPtr<IFont> font = m_dpiFont.GetFontPtr();
+	if(font) return font;
+	return SFontPool::getSingleton().GetFont(L"",m_scale);
 }
 
 void SMenuAttr::SetScale(int scale)
 {
+	if(m_scale == scale) return;
 	m_scale = scale;
-	m_hFont = SFontPool::getSingleton().GetFont(FF_DEFAULTFONT, m_scale);
+	m_dpiFont.SetScale(m_scale);
 	if (m_pIconSkin)
 		m_pIconSkin = GETSKIN(m_pIconSkin->GetName(), m_scale);
 	if (m_pItemSkin)
@@ -156,7 +164,7 @@ void SMenuODWnd::DrawItem( LPDRAWITEMSTRUCT lpDrawItemStruct )
 
 
         CAutoRefPtr<IFont> oldFont;
-        pRT->SelectObject(m_attr->m_hFont,(IRenderObj**)&oldFont);
+        pRT->SelectObject(m_attr->GetFontPtr(),(IRenderObj**)&oldFont);
         pRT->DrawText(pdmmi->strText,pdmmi->strText.GetLength(),&rcTxt,DT_SINGLELINE|DT_VCENTER|DT_LEFT|DT_END_ELLIPSIS);
         pRT->SelectObject(oldFont);
 
@@ -196,7 +204,7 @@ void SMenuODWnd::MeasureItem( LPMEASUREITEMSTRUCT lpMeasureItemStruct )
         CAutoRefPtr<IRenderTarget> pRT;
         GETRENDERFACTORY->CreateRenderTarget(&pRT,0,0);
         CAutoRefPtr<IFont> oldFont;
-        pRT->SelectObject(m_attr->m_hFont,(IRenderObj**)&oldFont);
+        pRT->SelectObject(m_attr->GetFontPtr(),(IRenderObj**)&oldFont);
         SIZE szTxt;
         pRT->MeasureText(pdmmi->strText,pdmmi->strText.GetLength(),&szTxt);
         lpMeasureItemStruct->itemWidth += szTxt.cx+m_attr->GetTextMargin()*2;
@@ -345,59 +353,12 @@ BOOL SMenu::InsertMenu(UINT nPosition, UINT nFlags, UINT_PTR nIDNewItem,LPCTSTR 
 }
 
 
-BOOL SMenu::BroadcastScale(HMENU hMenu,int nScale)
+void SMenu::UpdateScale(int nScale)
 {
-#define BUFSIZE 128
-
+	SASSERT(IsMenu(m_hMenu));
 	SMenuAttr *pMenuAttr = GetMenuAttr(m_hMenu);
 	SASSERT(pMenuAttr);
 	pMenuAttr->SetScale(nScale);
-
-	int i, c;
-	BOOL res;
-	TCHAR s[BUFSIZE];
-
-	MENUINFO mi = { sizeof(mi),MIM_MENUDATA,0 };
-	GetMenuInfo(hMenu, &mi);
-
-	MENUITEMINFO mii;
-	mii.cbSize = sizeof(MENUITEMINFO);
-	mii.fMask = MIIM_DATA | MIIM_ID | MIIM_SUBMENU | MIIM_TYPE | MIIM_STATE | MIIM_CHECKMARKS;
-	mii.dwTypeData = s;
-	c = GetMenuItemCount(hMenu);//获取当前菜单所有的菜单项数目
-	for (i = 0; i < c; i++)
-	{
-		mii.cch = BUFSIZE;//注意哦!
-		res = GetMenuItemInfo(hMenu, i, true, &mii);
-		if (res == 0)
-		{ 
-			return -1; 
-		}
-		if (mii.hSubMenu == NULL)
-		{
-			continue;
-		}
-		else
-		{
-			//若该菜单项为子菜单，则如此处理
-			res = BroadcastScale(mii.hSubMenu,nScale);//直接递归调用
-			if (res == -1)
-			{
-				return -1; 
-			}
-		}
-	}
-	return 0;
-}
-
-void SMenu::UndataScale(int nScale)
-{
-	SASSERT(IsMenu(m_hMenu));
-
-	if (nScale != 100)
-	{
-		BroadcastScale(m_hMenu,nScale);
-	}
 }
 
 UINT SMenu::TrackPopupMenu(
@@ -411,7 +372,7 @@ UINT SMenu::TrackPopupMenu(
 {
     SASSERT(IsMenu(m_hMenu));
 
-	UndataScale(nScale);
+	UpdateScale(nScale);
 
     SMenuODWnd menuOwner(hWnd,GetMenuAttr(m_hMenu));
     menuOwner.Create(NULL,WS_POPUP,WS_EX_NOACTIVATE,0,0,0,0,NULL,NULL);

@@ -32,7 +32,7 @@ public:
 		ATTR_LAYOUTSIZE(L"textMargin",m_nTextMargin,FALSE)
 		ATTR_LAYOUTSIZE(L"maxWidth",m_nMaxWidth,FALSE)
 		ATTR_LAYOUTSIZE2(L"iconSize",m_szIcon,FALSE)
-        ATTR_FONT2(L"font",m_hFont,FALSE)
+        ATTR_FONT(L"font",m_dpiFont,FALSE)
         ATTR_COLOR(L"colorText",m_crTxtNormal,FALSE)
         ATTR_COLOR(L"colorTextSel",m_crTxtSel,FALSE)
         ATTR_COLOR(L"cororTextGray",m_crTxtGray,FALSE)
@@ -45,8 +45,11 @@ protected:
 	CSize GetIconSize();
 	int GetItemHeight();
 	int GetMaxWidth();
-    virtual void OnInitFinished(pugi::xml_node xmlNode);
 	int GetScale() const{return m_scale;}
+
+	CAutoRefPtr<IFont> GetFontPtr();
+protected:
+	virtual void OnInitFinished(pugi::xml_node xmlNode);
 
     ISkinObj			*m_pItemSkin;    //菜单项皮肤，包含2种状态：正常状态+选中状态
     ISkinObj			*m_pIconSkin;    //菜单图标
@@ -59,7 +62,7 @@ protected:
     COLORREF			m_crTxtSel;    //选中文本颜色
     COLORREF			m_crTxtGray;    //灰文本颜色
 	SLayoutSize			m_szIcon[2];        //图标尺寸
-    CAutoRefPtr<IFont>  m_hFont;
+    SDpiAwareFont		m_dpiFont;
     SStringW			m_strTrCtx;   //翻译上下文
 	SLayoutSize			m_nMaxWidth;   //菜单项最大宽度
 	int					m_scale;
@@ -252,8 +255,7 @@ public:
     HMENU m_hMenu;
 
 protected:
-	int BroadcastScale(HMENU hMenu, int nScale);
-	void UndataScale(int nScale);
+	void UpdateScale(int nScale);
     void BuildMenu(HMENU menuPopup,pugi::xml_node xmlNode);
     void InitMenuItemData(SMenuItemData * itemInfo, const SStringW & strText);
 	void FreeMenuItemData(HMENU hMemu);

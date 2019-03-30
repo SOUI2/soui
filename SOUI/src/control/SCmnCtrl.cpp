@@ -802,6 +802,13 @@ void SProgress::OnColorize(COLORREF cr)
     if(m_pSkinPos) m_pSkinPos->OnColorize(cr);
 }
 
+void SProgress::OnScaleChanged(int scale)
+{
+	__super::OnScaleChanged(scale);
+	GetScaleSkin(m_pSkinBg,scale);
+	GetScaleSkin(m_pSkinPos,scale);
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Line Control
 // Simple HTML "HR" tag

@@ -554,7 +554,8 @@ protected:
      */
     virtual CSize GetDesiredSize(LPCRECT pRcContainer);
     virtual void OnColorize(COLORREF cr);
-    
+	virtual void OnScaleChanged(int scale);
+
     void OnPaint(IRenderTarget *pRT);
     int  OnCreate(void*);
 
