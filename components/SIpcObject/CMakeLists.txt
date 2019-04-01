@@ -1,4 +1,4 @@
-# 
+#
 # SOUI cmake配置文件
 #
 
@@ -14,7 +14,7 @@ set(SIpcObject_header
 	ShareMemBuffer.h
 )
 
-set(SIpcObject_src 
+set(SIpcObject_src
 	SIpcObject.cpp
 	ShareMemBuffer.cpp
 )
@@ -35,3 +35,5 @@ set_target_properties (SIpcObject PROPERTIES
     FOLDER components
 )
 cotire(SIpcObject)
+
+SOUI_INSTALL_TARGETS(SIpcObject)

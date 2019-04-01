@@ -11,7 +11,7 @@ set(resprovider-7zip_header
 	Zip7Archive.h
 )
 
-set(resprovider-7zip_src 
+set(resprovider-7zip_src
     cursoricon.cpp
 	SResProvider7Zip.cpp
 	zip7Archive.cpp
@@ -30,10 +30,12 @@ else()
     add_library(resprovider-7zip STATIC ${resprovider-7zip_src} ${resprovider-7zip_header})
 endif()
 
-add_dependencies(resprovider-7zip 7z)
-set_target_properties(resprovider-7zip PROPERTIES LINK_FLAGS "/SAFESEH:NO") 
+target_link_libraries(resprovider-7zip 7z)
+set_target_properties(resprovider-7zip PROPERTIES LINK_FLAGS "/SAFESEH:NO")
 set(COM_LIBS ${COM_LIBS} resprovider-7zip CACHE INTERNAL "com_lib")
 set_target_properties (resprovider-7zip PROPERTIES
     FOLDER components
 )
 cotire(resprovider-7zip)
+
+SOUI_INSTALL_TARGETS(resprovider-7zip)

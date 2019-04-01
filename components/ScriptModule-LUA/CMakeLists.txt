@@ -57,3 +57,5 @@ set_target_properties (ScriptModule-Lua PROPERTIES
     FOLDER components
 )
 cotire(ScriptModule-Lua)
+
+SOUI_INSTALL_TARGETS(ScriptModule-Lua)

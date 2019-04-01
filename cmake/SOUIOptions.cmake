@@ -18,14 +18,6 @@ option(SOUI_WITH_STATIC_RUNTIME "Build SOUI with static runtime" OFF)
 option(SOUI_WITH_XP_TOOLSET "Build for Windows XP" ON)
 option(SOUI_WITH_BUILTIN_WCHAR "Treat wchar_t as built-in integral type" ON)
 
-
-function(dump_variables)
-  message("SOUI build arguments:")
-  foreach(_variable ${ARGN})
-    message("- ${_variable}: ${${_variable}}")
-  endforeach(_variable ${ARGN})
-endfunction(dump_variables)
-
 dump_variables(
   SOUI_OUTPUT_DIR
   SOUI_BUILD_CORE_STATIC

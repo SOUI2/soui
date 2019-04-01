@@ -47,3 +47,5 @@ set_target_properties (imgdecoder-png PROPERTIES
     FOLDER components/imgdecoder
 )
 cotire(imgdecoder-png)
+
+SOUI_INSTALL_TARGETS(imgdecoder-png)

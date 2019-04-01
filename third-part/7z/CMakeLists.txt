@@ -18,7 +18,7 @@ set (7ZLIB_HEADERS
 	SevenZip/ArchiveExtractCallbackMemory.h
 	SevenZip/OutStreamWrapperMemory.h
 	SevenZip/BlobBuffer.h
-	SevenZip/ErpExcept.h	
+	SevenZip/ErpExcept.h
 	SevenZip/FileStream.h
 	C/DllSecur.h
 	C/7zCrc.h
@@ -482,3 +482,5 @@ set(COM_LIBS ${COM_LIBS} 7z CACHE INTERNAL "com_lib")
 set_target_properties (7z PROPERTIES
     FOLDER third-part
 )
+
+SOUI_INSTALL_TARGETS(7z)

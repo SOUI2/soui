@@ -11,7 +11,7 @@ set(resprovider-zip_header
 	ZipArchive.h
 )
 
-set(resprovider-zip_src 
+set(resprovider-zip_src
     cursoricon.cpp
     SResProviderZip.cpp
     zipArchive.cpp
@@ -33,3 +33,5 @@ set_target_properties (resprovider-zip PROPERTIES
     FOLDER components
 )
 cotire(resprovider-zip)
+
+SOUI_INSTALL_TARGETS(resprovider-zip)

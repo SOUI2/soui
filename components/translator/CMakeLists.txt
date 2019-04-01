@@ -1,4 +1,4 @@
-# 
+#
 # SOUI cmake配置文件
 #
 
@@ -14,7 +14,7 @@ set(translator_header
 	targetver.h
 )
 
-set(translator_src 
+set(translator_src
     dllmain.cpp
     translator.cpp)
 
@@ -34,3 +34,5 @@ set_target_properties (translator PROPERTIES
     FOLDER components
 )
 cotire(translator)
+
+SOUI_INSTALL_TARGETS(translator)

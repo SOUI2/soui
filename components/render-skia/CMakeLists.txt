@@ -54,3 +54,5 @@ set_target_properties (render-skia PROPERTIES
     FOLDER components/render
 )
 cotire(render-skia)
+
+SOUI_INSTALL_TARGETS(render-skia)

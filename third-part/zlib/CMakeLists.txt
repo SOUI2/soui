@@ -44,3 +44,5 @@ set_target_properties (zlib PROPERTIES
     FOLDER third-part
 )
 cotire(zlib)
+
+SOUI_INSTALL_TARGETS(zlib)

@@ -68,3 +68,5 @@ set_target_properties (png PROPERTIES
     FOLDER third-part
 )
 cotire(png)
+
+SOUI_INSTALL_TARGETS(png)

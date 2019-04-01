@@ -37,3 +37,5 @@ set_target_properties (render-gdi PROPERTIES
     FOLDER components/render
 )
 cotire(render-gdi)
+
+SOUI_INSTALL_TARGETS(render-gdi)

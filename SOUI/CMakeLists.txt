@@ -40,3 +40,5 @@ set_target_properties(soui PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT "include/sou
 cotire(soui)
 
 set(CORE_LIBS ${CORE_LIBS} soui CACHE INTERNAL "core_lib")
+
+SOUI_INSTALL_TARGETS(soui)
