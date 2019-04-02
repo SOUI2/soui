@@ -14,6 +14,9 @@ source_group("Source Files" FILES ${CURRENT_SRCS})
 source_group("Resource Files" FILES ${CURRENT_RC})
 
 add_library(Scintilla STATIC ${CURRENT_HEADERS} ${CURRENT_SRCS} ${CURRENT_RC})
+target_compile_definitions(Scintilla
+  PRIVATE STATIC_BUILD
+)
 target_include_directories(Scintilla
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
