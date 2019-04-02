@@ -4,7 +4,7 @@
 
 #
 # 1394020320@qq.com
-#
+# k000<AtaLuZiK@gmail.com>
 
 add_definitions(-DSOUI_EXPORTS -D_CRT_SECURE_NO_WARNINGS)
 
@@ -26,6 +26,15 @@ if (NOT ENABLE_SOUI_CORE_LIB)
 else()
     add_library(soui STATIC ${source})
 endif()
+
+# 正常情况不应该在暴露UNICODE/_UNICODE定义，但SOUI作为基础库，所有接口依赖
+# UNICODE/_UNICODE定义，上层项目自身实现无意义，故统一由SOUI填充。
+if(SOUI_WITH_UNICODE)
+  target_compile_definitions(soui
+    PUBLIC UNICODE
+    PUBLIC _UNICODE
+  )
+endif(SOUI_WITH_UNICODE)
 
 target_include_directories(soui
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
