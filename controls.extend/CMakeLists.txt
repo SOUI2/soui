@@ -1,0 +1,29 @@
+file(GLOB_RECURSE SOUI_EXTENSIONS_SOURCES "*.h" "*.hpp" "*.cpp")
+
+# 移除不可用的文件
+list(FILTER SOUI_EXTENSIONS_SOURCES EXCLUDE REGEX "/SAnimImg\\.*")
+list(FILTER SOUI_EXTENSIONS_SOURCES EXCLUDE REGEX "/SItembox\\.*")
+list(FILTER SOUI_EXTENSIONS_SOURCES EXCLUDE REGEX "/SImagePlayer\\.*")
+list(FILTER SOUI_EXTENSIONS_SOURCES EXCLUDE REGEX "/SSplitBar\\.*")
+list(FILTER SOUI_EXTENSIONS_SOURCES EXCLUDE REGEX "/SComboBoxEx\\.*")
+list(FILTER SOUI_EXTENSIONS_SOURCES EXCLUDE REGEX "/STreeBox\\.*")
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/stdafx.h.in ${CMAKE_CURRENT_BINARY_DIR}/stdafx.h)
+
+add_library(SOUIExtensions STATIC ${SOUI_EXTENSIONS_SOURCES})
+target_include_directories(SOUIExtensions
+  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+  PUBLIC ${PROJECT_SOURCE_DIR}/third-part/wke/include
+)
+target_link_libraries(SOUIExtensions
+  soui
+  Scintilla
+)
+set_target_properties(SOUIExtensions PROPERTIES
+  COTIRE_CXX_PREFIX_HEADER_INIT "${CMAKE_CURRENT_BINARY_DIR}/stdafx.h"
+)
+
+cotire(SOUIExtensions)
+
+SOUI_INSTALL_TARGETS(SOUIExtensions)

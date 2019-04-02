@@ -85,6 +85,7 @@ add_subdirectory(soui-sys-resource)
 #
 #
 add_subdirectory(components)
+add_subdirectory(controls.extend)
 
 
 # 此处不使用 CMakePackageConfigHelpers 导出包，仅生成相关的目标导入文件。
