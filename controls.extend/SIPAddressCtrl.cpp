@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "SIPAddressCtrl.h"
 
+#include <winsock2.h>
+
 #define SEP_EDIT    2
 
 namespace SOUI
