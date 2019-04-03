@@ -26,7 +26,7 @@
 #include "SmileyCreateHook.h"
 #include "clock/sclock.h"
 
-//<--å®šä¸€ä¸ªfilter="demo"çš„slogè¾“å‡º
+//<--¶¨Ò»¸öfilter="demo"µÄslogÊä³ö
 #undef LOG_FILTER
 #define LOG_FILTER "demo"
 #include <helper/slog-def.h>
@@ -35,12 +35,12 @@
 #include "MainDlg.h"
 
 #ifdef _DEBUG
-#define RES_TYPE 0      //ä»æ–‡ä»¶ä¸­åŠ è½½èµ„æºï¼ŒåŠ è½½å¤±è´¥å†ä»PEåŠ è½½
+#define RES_TYPE 0      //´ÓÎÄ¼şÖĞ¼ÓÔØ×ÊÔ´£¬¼ÓÔØÊ§°ÜÔÙ´ÓPE¼ÓÔØ
 #else
-#define RES_TYPE 1		//ä»PEèµ„æºä¸­åŠ è½½UIèµ„æº
+#define RES_TYPE 1		//´ÓPE×ÊÔ´ÖĞ¼ÓÔØUI×ÊÔ´
 #endif
-// #define RES_TYPE 1   //ä»PEèµ„æºä¸­åŠ è½½UIèµ„æº
-// #define RES_TYPE 2   //ä»zipåŒ…ä¸­åŠ è½½èµ„æº
+// #define RES_TYPE 1   //´ÓPE×ÊÔ´ÖĞ¼ÓÔØUI×ÊÔ´
+// #define RES_TYPE 2   //´Ózip°üÖĞ¼ÓÔØ×ÊÔ´
 
 #include "../components/resprovider-zip/zipresprovider-param.h"
 
@@ -66,7 +66,7 @@
 
 ROBJ_IN_CPP
 
-//æ¼”ç¤ºå¼‚æ­¥ä»»åŠ¡ã€‚
+//ÑİÊ¾Òì²½ÈÎÎñ¡£
 class CAsyncTaskObj
 {
 public:
@@ -84,14 +84,14 @@ public:
 int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*lpstrCmdLine*/, int /*nCmdShow*/)
 {
     
-    //å¿…é¡»è¦è°ƒç”¨OleInitializeæ¥åˆå§‹åŒ–è¿è¡Œç¯å¢ƒ
+    //±ØĞëÒªµ÷ÓÃOleInitializeÀ´³õÊ¼»¯ÔËĞĞ»·¾³
     HRESULT hRes = OleInitialize(NULL);
     SASSERT(SUCCEEDED(hRes));
 
 
     //LoadLibrary(L"E:\\soui.taobao\\richedit\\Debug\\riched20.dll");
     
-    /* XMLé¢„ç¼–è¯‘å‰é¢åŠ è½½æ•ˆç‡æ¯”è¾ƒ
+    /* XMLÔ¤±àÒëÇ°Ãæ¼ÓÔØĞ§ÂÊ±È½Ï
     pugi::xml_document doc;
     
     LARGE_INTEGER perf;
@@ -121,14 +121,14 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
     */
     int nRet = 0; 
 
-    //ä½¿ç”¨imgdecoder-pngå›¾ç‰‡è§£ç æ¨¡å—æ¼”ç¤ºapngåŠ¨ç”»
+    //Ê¹ÓÃimgdecoder-pngÍ¼Æ¬½âÂëÄ£¿éÑİÊ¾apng¶¯»­
     SComMgr2 *pComMgr = new SComMgr2(_T("imgdecoder-png"));
     
 
 
     {
 
-        int nType=MessageBox(GetActiveWindow(),_T("é€‰æ‹©æ¸²æŸ“ç±»å‹ï¼š\n[yes]: Skia\n[no]:GDI\n[cancel]:Quit"),_T("select a render"),MB_ICONQUESTION|MB_YESNOCANCEL);
+        int nType=MessageBox(GetActiveWindow(),_T("Ñ¡ÔñäÖÈ¾ÀàĞÍ£º\n[yes]: Skia\n[no]:GDI\n[cancel]:Quit"),_T("select a render"),MB_ICONQUESTION|MB_YESNOCANCEL);
         if(nType == IDCANCEL)
         {
             nRet = -1;
@@ -136,15 +136,15 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
         }
 
 
-        //å®šä¹‰ä¸€ç»„ç±»SOUIç³»ç»Ÿä¸­ä½¿ç”¨çš„ç±»COMç»„ä»¶
-        //CAutoRefPtræ˜¯ä¸€ä¸ªSOUIç³»ç»Ÿä¸­ä½¿ç”¨çš„æ™ºèƒ½æŒ‡é’ˆç±»
-        CAutoRefPtr<IImgDecoderFactory> pImgDecoderFactory; //å›¾ç‰‡è§£ç å™¨ï¼Œç”±imagedecoder-wid.dllæ¨¡å—æä¾›
-        CAutoRefPtr<IRenderFactory> pRenderFactory;         //UIæ¸²æŸ“æ¨¡å—ï¼Œç”±render-gdi.dllæˆ–è€…render-skia.dllæä¾›
-        CAutoRefPtr<ITranslatorMgr> trans;                  //å¤šè¯­è¨€ç¿»è¯‘æ¨¡å—ï¼Œç”±translator.dllæä¾›
-        CAutoRefPtr<IScriptFactory> pScriptLua;              //luaè„šæœ¬æ¨¡å—ï¼Œç”±scriptmodule-lua.dllæä¾›
-        CAutoRefPtr<ILog4zManager>  pLogMgr;                //log4zå¯¹è±¡
+        //¶¨ÒåÒ»×éÀàSOUIÏµÍ³ÖĞÊ¹ÓÃµÄÀàCOM×é¼ş
+        //CAutoRefPtrÊÇÒ»¸öSOUIÏµÍ³ÖĞÊ¹ÓÃµÄÖÇÄÜÖ¸ÕëÀà
+        CAutoRefPtr<IImgDecoderFactory> pImgDecoderFactory; //Í¼Æ¬½âÂëÆ÷£¬ÓÉimagedecoder-wid.dllÄ£¿éÌá¹©
+        CAutoRefPtr<IRenderFactory> pRenderFactory;         //UIäÖÈ¾Ä£¿é£¬ÓÉrender-gdi.dll»òÕßrender-skia.dllÌá¹©
+        CAutoRefPtr<ITranslatorMgr> trans;                  //¶àÓïÑÔ·­ÒëÄ£¿é£¬ÓÉtranslator.dllÌá¹©
+        CAutoRefPtr<IScriptFactory> pScriptLua;              //lua½Å±¾Ä£¿é£¬ÓÉscriptmodule-lua.dllÌá¹©
+        CAutoRefPtr<ILog4zManager>  pLogMgr;                //log4z¶ÔÏó
         
-		//æ¼”ç¤ºå¼‚æ­¥ä»»åŠ¡ã€‚
+		//ÑİÊ¾Òì²½ÈÎÎñ¡£
 		CAutoRefPtr<ITaskLoop>  pTaskLoop;
 		if (pComMgr->CreateTaskLoop((IObjRef**)&pTaskLoop))
 		{
@@ -157,7 +157,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
 		}
 
 		BOOL bLoaded = FALSE;
-		//ä»å„ç»„ä»¶ä¸­æ˜¾å¼åˆ›å»ºä¸Šè¿°ç»„ä»¶å¯¹è±¡
+		//´Ó¸÷×é¼şÖĞÏÔÊ½´´½¨ÉÏÊö×é¼ş¶ÔÏó
 		if (nType == IDYES)
 		{
 			bLoaded = pComMgr->CreateRender_Skia((IObjRef**)&pRenderFactory);			
@@ -176,47 +176,47 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
             pLogMgr->start();
         }
         
-        //ä¸ºæ¸²æŸ“æ¨¡å—è®¾ç½®å®ƒéœ€è¦å¼•ç”¨çš„å›¾ç‰‡è§£ç æ¨¡å—
+        //ÎªäÖÈ¾Ä£¿éÉèÖÃËüĞèÒªÒıÓÃµÄÍ¼Æ¬½âÂëÄ£¿é
         pRenderFactory->SetImgDecoderFactory(pImgDecoderFactory);
 
-        //å®šä¹‰ä¸€ä¸ªå”¯ä¸€çš„SApplicationå¯¹è±¡ï¼ŒSApplicationç®¡ç†æ•´ä¸ªåº”ç”¨ç¨‹åºçš„èµ„æº
+        //¶¨ÒåÒ»¸öÎ¨Ò»µÄSApplication¶ÔÏó£¬SApplication¹ÜÀíÕû¸öÓ¦ÓÃ³ÌĞòµÄ×ÊÔ´
         SApplication *theApp=new SApplication(pRenderFactory,hInstance);
         
         theApp->SetLogManager(pLogMgr);
         SLOG_INFO("test="<<200);
         SLOGFMTE("log output using ansi format,str=%s, tick=%u","test",GetTickCount());
-        SLOGFMTE(L"log output using unicode format,str=%s, tick=%u",L"ä¸­æ–‡",GetTickCount());
+        SLOGFMTE(L"log output using unicode format,str=%s, tick=%u",L"ÖĞÎÄ",GetTickCount());
         
-        //æ§ä»¶æ³¨å†Œè¦æ”¾åˆ°AddResProviderå‰ï¼š 2016å¹´3æœˆ8æ—¥
+        //¿Ø¼ş×¢²áÒª·Åµ½AddResProviderÇ°£º 2016Äê3ÔÂ8ÈÕ
         
-        //å‘SApplicationç³»ç»Ÿä¸­æ³¨å†Œç”±å¤–éƒ¨æ‰©å±•çš„æ§ä»¶åŠSkinObjç±»
+        //ÏòSApplicationÏµÍ³ÖĞ×¢²áÓÉÍâ²¿À©Õ¹µÄ¿Ø¼ş¼°SkinObjÀà
         SWkeLoader wkeLoader;
         if(wkeLoader.Init(_T("wke.dll")))        
         {
-            theApp->RegisterWindowClass<SWkeWebkit>();//æ³¨å†ŒWKEæµè§ˆå™¨
+            theApp->RegisterWindowClass<SWkeWebkit>();//×¢²áWKEä¯ÀÀÆ÷
         }
         theApp->RegisterWindowClass<SMatrixWindow>();//
         theApp->RegisterWindowClass<SFreeMoveWindow>();//
         theApp->RegisterWindowClass<SClock>();//
-        theApp->RegisterWindowClass<SGifPlayer>();//theAppä¸­å¢åŠ æ–¹æ³•ï¼šRegisterWindowClass,æ›¿æ¢RegisterWndFactory(TplSWindowFactory<SGifPlayer>())
-        theApp->RegisterSkinClass<SSkinGif>();//æ³¨å†ŒSkinGif
-        theApp->RegisterSkinClass<SSkinAPNG>();//æ³¨å†ŒSSkinAPNG
-        theApp->RegisterSkinClass<SSkinVScrollbar>();//æ³¨å†Œçºµå‘æ»šåŠ¨æ¡çš®è‚¤
-        theApp->RegisterSkinClass<SSkinNewScrollbar>();//æ³¨å†Œçºµå‘æ»šåŠ¨æ¡çš®è‚¤
+        theApp->RegisterWindowClass<SGifPlayer>();//theAppÖĞÔö¼Ó·½·¨£ºRegisterWindowClass,Ìæ»»RegisterWndFactory(TplSWindowFactory<SGifPlayer>())
+        theApp->RegisterSkinClass<SSkinGif>();//×¢²áSkinGif
+        theApp->RegisterSkinClass<SSkinAPNG>();//×¢²áSSkinAPNG
+        theApp->RegisterSkinClass<SSkinVScrollbar>();//×¢²á×İÏò¹ö¶¯ÌõÆ¤·ô
+        theApp->RegisterSkinClass<SSkinNewScrollbar>();//×¢²á×İÏò¹ö¶¯ÌõÆ¤·ô
 		theApp->RegisterSkinClass<SDemoSkin>();
 
 		theApp->RegisterWindowClass<SMCListViewEx>();
 		theApp->RegisterWindowClass<SHeaderCtrlEx>();
 
-        theApp->RegisterWindowClass<SIPAddressCtrl>();//æ³¨å†ŒIPæ§ä»¶
-        theApp->RegisterWindowClass<SPropertyGrid>();//æ³¨å†Œå±æ€§è¡¨æ§ä»¶
-        theApp->RegisterWindowClass<SChromeTabCtrl>();//æ³¨å†ŒChromeTabCtrl
-        theApp->RegisterWindowClass<SIECtrl>();//æ³¨å†ŒIECtrl
-        theApp->RegisterWindowClass<SChatEdit>();//æ³¨å†ŒChatEdit
-        theApp->RegisterWindowClass<SScrollText>();//æ³¨å†ŒSScrollText
-        theApp->RegisterWindowClass<SDesktopDock>();//æ³¨å†ŒSDesktopDock
-        theApp->RegisterWindowClass<SImageMaskWnd>();//æ³¨å†ŒSImageMaskWnd
-        theApp->RegisterWindowClass<SRatingBar>();//æ³¨å†ŒSRatingBar
+        theApp->RegisterWindowClass<SIPAddressCtrl>();//×¢²áIP¿Ø¼ş
+        theApp->RegisterWindowClass<SPropertyGrid>();//×¢²áÊôĞÔ±í¿Ø¼ş
+        theApp->RegisterWindowClass<SChromeTabCtrl>();//×¢²áChromeTabCtrl
+        theApp->RegisterWindowClass<SIECtrl>();//×¢²áIECtrl
+        theApp->RegisterWindowClass<SChatEdit>();//×¢²áChatEdit
+        theApp->RegisterWindowClass<SScrollText>();//×¢²áSScrollText
+        theApp->RegisterWindowClass<SDesktopDock>();//×¢²áSDesktopDock
+        theApp->RegisterWindowClass<SImageMaskWnd>();//×¢²áSImageMaskWnd
+        theApp->RegisterWindowClass<SRatingBar>();//×¢²áSRatingBar
 		theApp->RegisterWindowClass<SInterpolatorView>();
 		theApp->RegisterWindowClass<SPathView>();
 		theApp->RegisterWindowClass<SQrCtrl>();
@@ -227,20 +227,20 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
 
         if(SUCCEEDED(CUiAnimation::Init()))
         {
-            theApp->RegisterWindowClass<SUiAnimationWnd>();//æ³¨å†ŒåŠ¨ç”»æ§ä»¶
+            theApp->RegisterWindowClass<SUiAnimationWnd>();//×¢²á¶¯»­¿Ø¼ş
         }
-        theApp->RegisterWindowClass<SFadeFrame>();//æ³¨å†Œæ¸æ˜¾éšåŠ¨ç”»æ§ä»¶
-        theApp->RegisterWindowClass<SRadioBox2>();//æ³¨å†ŒRadioBox2
-        theApp->RegisterWindowClass<SCalendar2>();//æ³¨å†ŒSCalendar2
+        theApp->RegisterWindowClass<SFadeFrame>();//×¢²á½¥ÏÔÒş¶¯»­¿Ø¼ş
+        theApp->RegisterWindowClass<SRadioBox2>();//×¢²áRadioBox2
+        theApp->RegisterWindowClass<SCalendar2>();//×¢²áSCalendar2
 
 		theApp->RegisterWindowClass<SShellNotifyIcon>();
 
         SSkinGif::Gdiplus_Startup();
         
-        //å¦‚æœéœ€è¦åœ¨ä»£ç ä¸­ä½¿ç”¨R::id::namedidè¿™ç§æ–¹å¼æ¥ä½¿ç”¨æ§ä»¶å¿…é¡»è¦è¿™ä¸€è¡Œä»£ç ï¼š2016å¹´2æœˆ2æ—¥ï¼ŒR::id::namedXmlIDæ˜¯ç”±uiresbuilder å¢åŠ -h .\res\resource.h idtable è¿™3ä¸ªå‚æ•°åç”Ÿæˆçš„ã€‚
+        //Èç¹ûĞèÒªÔÚ´úÂëÖĞÊ¹ÓÃR::id::namedidÕâÖÖ·½Ê½À´Ê¹ÓÃ¿Ø¼ş±ØĞëÒªÕâÒ»ĞĞ´úÂë£º2016Äê2ÔÂ2ÈÕ£¬R::id::namedXmlIDÊÇÓÉuiresbuilder Ôö¼Ó-h .\res\resource.h idtable Õâ3¸ö²ÎÊıºóÉú³ÉµÄ¡£
         theApp->InitXmlNamedID(namedXmlID,ARRAYSIZE(namedXmlID),TRUE);
         
-        //å°†ç¨‹åºçš„è¿è¡Œè·¯å¾„ä¿®æ”¹åˆ°demoæ‰€åœ¨çš„ç›®å½•
+        //½«³ÌĞòµÄÔËĞĞÂ·¾¶ĞŞ¸Äµ½demoËùÔÚµÄÄ¿Â¼
 #ifdef _DEBUG
 #   ifdef DEMO_DEBUG_UI_RESOURCES_SEARCH_PATH
         SStringT strResDir = _T(DEMO_DEBUG_UI_RESOURCES_SEARCH_PATH);
@@ -249,13 +249,13 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
         strResDir += _T("\\..\\demo");
 #   endif
         SetCurrentDirectory(strResDir);
-        //SOUIç³»ç»Ÿæ€»æ˜¯ä»appdirå»æŸ¥æ‰¾èµ„æº
+        //SOUIÏµÍ³×ÜÊÇ´ÓappdirÈ¥²éÕÒ×ÊÔ´
         theApp->SetAppDir(strResDir);
 #endif
 
-        //å®šä¹‰ä¸€äººä¸ªèµ„æºæä¾›å¯¹è±¡,SOUIç³»ç»Ÿä¸­å®ç°äº†3ç§èµ„æºåŠ è½½æ–¹å¼ï¼Œåˆ†åˆ«æ˜¯ä»æ–‡ä»¶åŠ è½½ï¼Œä»EXEçš„èµ„æºåŠ è½½åŠä»ZIPå‹ç¼©åŒ…åŠ è½½
+        //¶¨ÒåÒ»ÈË¸ö×ÊÔ´Ìá¹©¶ÔÏó,SOUIÏµÍ³ÖĞÊµÏÖÁË3ÖÖ×ÊÔ´¼ÓÔØ·½Ê½£¬·Ö±ğÊÇ´ÓÎÄ¼ş¼ÓÔØ£¬´ÓEXEµÄ×ÊÔ´¼ÓÔØ¼°´ÓZIPÑ¹Ëõ°ü¼ÓÔØ
         CAutoRefPtr<IResProvider>   pResProvider;
-#if (RES_TYPE == 0)//ä»æ–‡ä»¶åŠ è½½
+#if (RES_TYPE == 0)//´ÓÎÄ¼ş¼ÓÔØ
         CreateResProvider(RES_FILE,(IObjRef**)&pResProvider);
         if(!pResProvider->Init((LPARAM)_T("uires"),0))
         {
@@ -268,10 +268,10 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
                 goto exit;
             }
         }
-#elif (RES_TYPE==1)//ä»EXEèµ„æºåŠ è½½
+#elif (RES_TYPE==1)//´ÓEXE×ÊÔ´¼ÓÔØ
         CreateResProvider(RES_PE,(IObjRef**)&pResProvider);
         pResProvider->Init((WPARAM)hInstance,0);
-#elif (RES_TYPE==2)//ä»ZIPåŒ…åŠ è½½
+#elif (RES_TYPE==2)//´ÓZIP°ü¼ÓÔØ
         bLoaded=pComMgr->CreateResProvider_ZIP((IObjRef**)&pResProvider);
         SASSERT_FMT(bLoaded,_T("load interface [%s] failed!"),_T("resprovider_zip"));
 
@@ -280,20 +280,20 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
         bLoaded = pResProvider->Init((WPARAM)&param,0);
         SASSERT(bLoaded);
 #endif
-        //å°†åˆ›å»ºçš„IResProvideräº¤ç»™SApplicationå¯¹è±¡
+        //½«´´½¨µÄIResProvider½»¸øSApplication¶ÔÏó
         theApp->AddResProvider(pResProvider);
 
 		SSkinLoader *SkinLoader = new SSkinLoader(theApp);
 		SkinLoader->LoadSkin(_T("themes\\skin1"));
 
-        //åˆ›å»ºä¸€ä¸ªhttpæœåŠ¡å™¨ï¼Œç”¨æ¥ä»èµ„æºä¸­åŠ è½½flash
+        //´´½¨Ò»¸öhttp·şÎñÆ÷£¬ÓÃÀ´´Ó×ÊÔ´ÖĞ¼ÓÔØflash
         CMemFlash   memFlash;
 
         CHTTPServer flashSvr(&memFlash);
         flashSvr.Start(CMemFlash::HomeDir(),"",82,0);
 
         if(trans)
-        {//åŠ è½½è¯­è¨€ç¿»è¯‘åŒ…
+        {//¼ÓÔØÓïÑÔ·­Òë°ü
             theApp->SetTranslator(trans);
             pugi::xml_document xmlLang;
             if(theApp->LoadXmlDocment(xmlLang,_T("lang_cn"),_T("translator")))
@@ -305,14 +305,14 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
             }
         }
 #if (defined(DLL_CORE) || defined(LIB_ALL)) && !defined(_WIN64)
-        //åŠ è½½LUAè„šæœ¬æ¨¡å—ï¼Œæ³¨æ„ï¼Œè„šæœ¬æ¨¡å—åªæœ‰åœ¨SOUIå†…æ ¸æ˜¯ä»¥DLLæ–¹å¼ç¼–è¯‘æ—¶æ‰èƒ½ä½¿ç”¨ã€‚
+        //¼ÓÔØLUA½Å±¾Ä£¿é£¬×¢Òâ£¬½Å±¾Ä£¿éÖ»ÓĞÔÚSOUIÄÚºËÊÇÒÔDLL·½Ê½±àÒëÊ±²ÅÄÜÊ¹ÓÃ¡£
         bLoaded=pComMgr->CreateScrpit_Lua((IObjRef**)&pScriptLua);
         SASSERT_FMT(bLoaded,_T("load interface [%s] failed!"),_T("scirpt_lua"));
         theApp->SetScriptFactory(pScriptLua);
 #endif//DLL_CORE
 
         
-        //åŠ è½½ç³»ç»Ÿèµ„æº
+        //¼ÓÔØÏµÍ³×ÊÔ´
         HMODULE hSysResource=LoadLibrary(SYS_NAMED_RESOURCE);
         if(hSysResource)
         {
@@ -321,22 +321,22 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
             sysSesProvider->Init((WPARAM)hSysResource,0);
             theApp->LoadSystemNamedResource(sysSesProvider);
         }
-        //é‡‡ç”¨hookç»˜åˆ¶èœå•çš„è¾¹æ¡†
+        //²ÉÓÃhook»æÖÆ²Ëµ¥µÄ±ß¿ò
         CMenuWndHook::InstallHook(hInstance,L"_skin.sys.menu.border");
         
-        //åŠ è½½å…¨å±€èµ„æºæè¿°XML
-        //theApp->Init(_T("xml_init")); ä¸å†éœ€è¦è¿™å¥ï¼Œåœ¨AddResProvideræ—¶è‡ªåŠ¨æ‰§è¡Œåˆå§‹åŒ–
+        //¼ÓÔØÈ«¾Ö×ÊÔ´ÃèÊöXML
+        //theApp->Init(_T("xml_init")); ²»ÔÙĞèÒªÕâ¾ä£¬ÔÚAddResProviderÊ±×Ô¶¯Ö´ĞĞ³õÊ¼»¯
         
-        //æ¼”ç¤ºR.color.xxx,R.string.xxxåœ¨ä»£ç ä¸­çš„ä½¿ç”¨ã€‚
+        //ÑİÊ¾R.color.xxx,R.string.xxxÔÚ´úÂëÖĞµÄÊ¹ÓÃ¡£
         COLORREF crRed = GETCOLOR(R.color.red);
         SStringW strTitle = GETSTRING(R.string.title);
         
 		SNotifyCenter *pNotifyCenter = new SNotifyCenter;
         {
-			//è®¾ç½®æç¤ºçª—å£å¸ƒå±€
+			//ÉèÖÃÌáÊ¾´°¿Ú²¼¾Ö
 			CTipWnd::SetLayout(_T("layout:dlg_tip"));
 
-            //åˆ›å»ºå¹¶æ˜¾ç¤ºä½¿ç”¨SOUIå¸ƒå±€åº”ç”¨ç¨‹åºçª—å£,ä¸ºäº†ä¿å­˜çª—å£å¯¹è±¡çš„ææ„å…ˆäºå…¶å®ƒå¯¹è±¡ï¼ŒæŠŠå®ƒä»¬ç¼©è¿›ä¸€å±‚ã€‚
+            //´´½¨²¢ÏÔÊ¾Ê¹ÓÃSOUI²¼¾ÖÓ¦ÓÃ³ÌĞò´°¿Ú,ÎªÁË±£´æ´°¿Ú¶ÔÏóµÄÎö¹¹ÏÈÓÚÆäËü¶ÔÏó£¬°ÑËüÃÇËõ½øÒ»²ã¡£
             CMainDlg dlgMain;  
             dlgMain.Create(GetActiveWindow(), 0,0,888,650);
 
@@ -344,13 +344,13 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
             dlgMain.CenterWindow();
             dlgMain.ShowWindow(SW_SHOWNORMAL);
 
-            SmileyCreateHook  smileyHook; //ä¸çŸ¥é“MainDlgé‡Œå“ªå—å’Œmhookå†²çªäº†ï¼Œåœ¨win10ä¸­ï¼Œå¦‚æœhookæ”¾åˆ°dlgmain.createå‰ä¼šå¯¼è‡´hookå¤±è´¥ã€‚
+            SmileyCreateHook  smileyHook; //²»ÖªµÀMainDlgÀïÄÄ¿éºÍmhook³åÍ»ÁË£¬ÔÚwin10ÖĞ£¬Èç¹ûhook·Åµ½dlgmain.createÇ°»áµ¼ÖÂhookÊ§°Ü¡£
             nRet=theApp->Run(dlgMain.m_hWnd);
         }
 		delete pNotifyCenter;
 
         theApp->UnregisterWindowClass<SGifPlayer>();
-        //åº”ç”¨ç¨‹åºé€€å‡º
+        //Ó¦ÓÃ³ÌĞòÍË³ö
         delete theApp; 
 		delete SkinLoader;
         if(pLogMgr)
@@ -360,7 +360,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
         
         flashSvr.Shutdown();
 
-        //å¸è½½èœå•è¾¹æ¡†ç»˜åˆ¶hook
+        //Ğ¶ÔØ²Ëµ¥±ß¿ò»æÖÆhook
         CMenuWndHook::UnInstallHook();
         CUiAnimation::Free();
                 
