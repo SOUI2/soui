@@ -112,6 +112,7 @@ target_link_libraries(demo
   render-skia
   log4z
   translator
+  ScriptModule-Lua
 )
 set_target_properties (demo PROPERTIES
     FOLDER demos
