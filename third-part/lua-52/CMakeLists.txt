@@ -76,3 +76,5 @@ set_target_properties(lua PROPERTIES OUTPUT_NAME lua-52)
 set_target_properties (lua PROPERTIES
     FOLDER third-part
 )
+
+SOUI_INSTALL_TARGETS(lua)
