@@ -181,9 +181,9 @@ if "%selected%" == "o" (
 ) else if "%selected%" == "c" (
   call devenv %buildDir%\SOUI.sln /build Debug
   if %buildWithDebInfo%==1 (
-    call devenv %buildDir%\SOUI.sln /build Release
-  ) else (
     call devenv %buildDir%\SOUI.sln /build RelWithDebInfo
+  ) else (
+    call devenv %buildDir%\SOUI.sln /build Release
   )
 ) else (
 	goto final
