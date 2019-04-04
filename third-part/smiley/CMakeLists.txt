@@ -16,3 +16,5 @@ set_target_properties (smiley PROPERTIES
     FOLDER third-part
 )
 cotire(smiley)
+
+SOUI_INSTALL_TARGETS(smiley)

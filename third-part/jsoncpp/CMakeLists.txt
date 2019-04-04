@@ -38,3 +38,5 @@ set_target_properties (jsoncpp PROPERTIES
     FOLDER third-part
 )
 cotire(jsoncpp)
+
+SOUI_INSTALL_TARGETS(jsoncpp)
