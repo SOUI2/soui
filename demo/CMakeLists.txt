@@ -116,5 +116,6 @@ target_link_libraries(demo
 )
 set_target_properties (demo PROPERTIES
     FOLDER demos
+    DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX}
 )
 cotire(demo)
