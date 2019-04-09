@@ -152,11 +152,23 @@ namespace SOUI{
 	public:
 		BOOL ProcessWindowMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lResult, DWORD dwMsgMapID = 0)
 		{
-			BOOL bHandled = TRUE;
-
 			switch (dwMsgMapID)
 			{
 			case 0:
+				if (uMsg == WM_INITDIALOG)
+				{
+					int nScale = SDpiHelper::getScale(hWnd);
+					nScale = SDpiScale::NormalizeScale(nScale);
+					CRect rc;
+					::GetWindowRect(hWnd,&rc);
+					CSize sz = rc.Size();
+					sz.cx *= nScale / 100;
+					sz.cy *= nScale / 100;
+					rc = CRect(rc.TopLeft(), sz);
+					HandleScaleChange(nScale, &rc);
+
+					lResult = 0;
+				}
 				if (uMsg == WM_DPICHANGED)
 				{
 					OnDpiChanged((WORD)HIWORD(wParam), (RECT* const)lParam);
