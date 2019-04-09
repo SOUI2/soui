@@ -162,8 +162,8 @@ namespace SOUI{
 					CRect rc;
 					::GetWindowRect(hWnd,&rc);
 					CSize sz = rc.Size();
-					sz.cx *= nScale / 100;
-					sz.cy *= nScale / 100;
+					sz.cx = sz.cx * nScale / 100;
+					sz.cy = sz.cy * nScale / 100;
 					rc = CRect(rc.TopLeft(), sz);
 					HandleScaleChange(nScale, &rc);
 
