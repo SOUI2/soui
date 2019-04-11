@@ -8,7 +8,7 @@ namespace SOUI
 #define DEF_SEPSIZE    5
 
 
-    SSplitPane::SSplitPane():m_nPriority(0),m_nSizeIdeal(20),m_nSizeMin(0),m_nSizeMax(10000)
+    SSplitPane::SSplitPane():m_nPriority(0),m_nSizeIdeal(20, SLayoutSize::Unit::dp),m_nSizeMin(0, SLayoutSize::Unit::dp),m_nSizeMax(10000, SLayoutSize::Unit::dp)
     {
         GetEventSet()->addEvent(EVENTID(EventSplitPaneMoved));
     }
@@ -514,9 +514,9 @@ namespace SOUI
                 continue;
             }
 
-            lstPaneSize[i].preferred = lstPane[i]->m_nSizeIdeal;
-            lstPaneSize[i].minimum = lstPane[i]->m_nSizeMin;
-            lstPaneSize[i].maximum = lstPane[i]->m_nSizeMax;
+            lstPaneSize[i].preferred = lstPane[i]->m_nSizeIdeal.toPixelSize(GetScale());
+            lstPaneSize[i].minimum = lstPane[i]->m_nSizeMin.toPixelSize(GetScale());
+            lstPaneSize[i].maximum = lstPane[i]->m_nSizeMax.toPixelSize(GetScale());
 
             CRect rcItem;
             lstPane[i]->GetWindowRect(&rcItem);
@@ -529,7 +529,7 @@ namespace SOUI
                 lstPaneSize[i].actural = rcItem.Height();
             }
             if(lstPaneSize[i].actural==0)
-                lstPaneSize[i].actural = lstPane[i]->m_nSizeMin;
+                lstPaneSize[i].actural = lstPane[i]->m_nSizeMin.toPixelSize(GetScale());
         }
     }
     

@@ -164,7 +164,9 @@ namespace SOUI{
 					CSize sz = rc.Size();
 					sz.cx = sz.cx * nScale / 100;
 					sz.cy = sz.cy * nScale / 100;
-					rc = CRect(rc.TopLeft(), sz);
+					CPoint ntl = rc.CenterPoint();
+					ntl.Offset(-sz.cx / 2, -sz.cy / 2);
+					rc = CRect(ntl, sz);
 					HandleScaleChange(nScale, &rc);
 
 					lResult = 0;
