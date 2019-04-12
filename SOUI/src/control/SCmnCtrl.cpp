@@ -513,6 +513,7 @@ BOOL SImageWnd::SetSkin(ISkinObj *pSkin,int iFrame/*=0*/,BOOL bAutoFree/*=TRUE*/
     if(m_bManaged && m_pSkin)
     {
         m_pSkin->Release();
+		m_pSkin=nullptr;
         m_bManaged=FALSE;
     }
     if(!pSkin) return FALSE;
