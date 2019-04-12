@@ -8,7 +8,7 @@ namespace SOUI
 #define DEF_SEPSIZE    5
 
 
-    SSplitPane::SSplitPane():m_nPriority(0),m_nSizeIdeal(20, SLayoutSize::Unit::dp),m_nSizeMin(0, SLayoutSize::Unit::dp),m_nSizeMax(10000, SLayoutSize::Unit::dp)
+    SSplitPane::SSplitPane():m_nPriority(0),m_nSizeIdeal(20, SLayoutSize::dp),m_nSizeMin(0, SLayoutSize::dp),m_nSizeMax(10000, SLayoutSize::dp)
     {
         GetEventSet()->addEvent(EVENTID(EventSplitPaneMoved));
     }
