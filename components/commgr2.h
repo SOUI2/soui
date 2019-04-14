@@ -54,6 +54,7 @@
 #endif
 #if(SCOM_MASK&scom_mask_imgdecoder_png)
     #pragma comment(lib,"pngd")
+	#pragma comment(lib,"zlibd")
     #pragma comment(lib,"imgdecoder-pngd")
 #endif
 #if(SCOM_MASK&scom_mask_imgdecoder_stb)
@@ -95,6 +96,7 @@
 #endif
 #if(SCOM_MASK&scom_mask_imgdecoder_png)
     #pragma comment(lib,"png")
+	#pragma comment(lib,"zlib")
     #pragma comment(lib,"imgdecoder-png")
 #endif
 #if(SCOM_MASK&scom_mask_imgdecoder_stb)

@@ -26,7 +26,7 @@ public:\
 	enum {\
 		EventID = id\
 	};\
-	evt(SObject *pSender) :EventArgs(pSender){}\
+	evt(SOUI::SObject *pSender) :EventArgs(pSender){}\
 
 #define EVT_EXP
 #define SEVENT_BEGIN(evt,id) \
