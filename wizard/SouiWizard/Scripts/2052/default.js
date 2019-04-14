@@ -41,6 +41,8 @@ function CreateCustomProject(strProjectName, strProjectPath) {
                 strProjTemplatePath += '\\2015';
             else if (WizardVersion == 15.0)
                 strProjTemplatePath += '\\2017';
+	else if (WizardVersion == 16.0)
+                strProjTemplatePath += '\\2019';
         }
         if (supportXp == 1 && WizardVersion > 10.0) {
             strProjTemplatePath = wizard.FindSymbol('TEMPLATES_PATH');
@@ -56,6 +58,8 @@ function CreateCustomProject(strProjectName, strProjectPath) {
                 strProjTemplatePath += '\\2015';
             else if (WizardVersion == 15.0)
                 strProjTemplatePath += '\\2017';
+  else if (WizardVersion == 16.0)
+                strProjTemplatePath += '\\2019';
         }
 
         var strProjTemplate = '';
