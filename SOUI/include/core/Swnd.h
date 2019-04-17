@@ -1351,6 +1351,7 @@ namespace SOUI
 		SStringW			m_strTrCtx;			/**< translate context. empty than use container's tr ctx*/
         int                 m_nID;              /**< 窗口ID */
         UINT                m_uZorder;          /**< 窗口Zorder */
+		int                 m_nUpdateLockCnt;   /**< 暂时锁定更新Count，锁定后，不向宿主发送Invalidate */
 
         DWORD               m_dwState;          /**< 窗口在渲染过程中的状态 */
         DWORD               m_bVisible:1;       /**< 窗口可见状态 */
@@ -1360,7 +1361,6 @@ namespace SOUI
         DWORD               m_bMsgTransparent:1;/**< 接收消息标志 TRUE-不处理消息 */
         DWORD               m_bFocusable:1;     /**< 窗口可获得焦点标志 */
         DWORD               m_bDrawFocusRect:1; /**< 绘制默认的焦点虚框 */
-        DWORD               m_bUpdateLocked:1;  /**< 暂时锁定更新，锁定后，不向宿主发送Invalidate */
         DWORD               m_bCacheDraw:1;     /**< 支持窗口内容的Cache标志 */
         DWORD               m_bCacheDirty:1;    /**< 缓存窗口脏标志 */
         DWORD               m_bLayeredWindow:1; /**< 指示是否是一个分层窗口 */

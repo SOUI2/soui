@@ -85,13 +85,13 @@ public:
     BOOL RemoveItem(HSTREEITEM hItem);
     void RemoveAllItems();
 
-    HSTREEITEM GetRootItem();
-    HSTREEITEM GetNextSiblingItem(HSTREEITEM hItem);
-    HSTREEITEM GetPrevSiblingItem(HSTREEITEM hItem);
-    HSTREEITEM GetChildItem(HSTREEITEM hItem,BOOL bFirst =TRUE);
-    HSTREEITEM GetParentItem(HSTREEITEM hItem);
-    HSTREEITEM GetSelectedItem();
-    HSTREEITEM GetNextItem(HSTREEITEM hItem){return CSTree<LPTVITEM>::GetNextItem(hItem);}
+    HSTREEITEM GetRootItem() const;
+    HSTREEITEM GetNextSiblingItem(HSTREEITEM hItem) const;
+    HSTREEITEM GetPrevSiblingItem(HSTREEITEM hItem) const;
+    HSTREEITEM GetChildItem(HSTREEITEM hItem,BOOL bFirst =TRUE) const;
+    HSTREEITEM GetParentItem(HSTREEITEM hItem) const;
+    HSTREEITEM GetSelectedItem() const;
+    HSTREEITEM GetNextItem(HSTREEITEM hItem) const{return CSTree<LPTVITEM>::GetNextItem(hItem);}
     
     typedef int (__cdecl *FunSortCallback)(void * pCtx,const void * phItem1,const void * phItem2);
     void SortChildren(HSTREEITEM hItem,FunSortCallback sortFunc,void *pCtx);
@@ -127,6 +127,7 @@ protected:
     HSTREEITEM InsertItem(pugi::xml_node xmlNode,HSTREEITEM hParent=STVI_ROOT, HSTREEITEM hInsertAfter=STVI_LAST,BOOL bEnsureVisible=FALSE);
     
     BOOL IsAncestor(HSTREEITEM hItem1,HSTREEITEM hItem2);
+	BOOL VerifyItem(HSTREEITEM hItem) const;
 
     void SetChildrenVisible(HSTREEITEM hItem,BOOL bVisible);
 

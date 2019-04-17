@@ -53,7 +53,7 @@ namespace SOUI
 		, m_bVisible(TRUE)
 		, m_bDisplay(TRUE)
 		, m_bDisable(FALSE)
-		, m_bUpdateLocked(FALSE)
+		, m_nUpdateLockCnt(0)
 		, m_bClipClient(FALSE)
 		, m_bFocusable(FALSE)
 		, m_bDrawFocusRect(TRUE)
@@ -1148,17 +1148,18 @@ namespace SOUI
 
 	void SWindow::LockUpdate()
 	{
-		m_bUpdateLocked=TRUE;
+		m_nUpdateLockCnt ++;
 	}
 
 	void SWindow::UnlockUpdate()
 	{
-		m_bUpdateLocked=FALSE;
+		m_nUpdateLockCnt --;
+		SASSERT(m_nUpdateLockCnt >= 0);
 	}
 
 	BOOL SWindow::IsUpdateLocked()
 	{
-		return m_bUpdateLocked;
+		return m_nUpdateLockCnt>0;
 	}
 
 	void SWindow::BringWindowToTop()
@@ -1847,6 +1848,13 @@ namespace SOUI
 
 	IRenderTarget * SWindow::GetRenderTarget( DWORD gdcFlags,IRegion *pRgn )
 	{
+		if (IsUpdateLocked())
+		{//return a empty render target
+			IRenderTarget *pRT = NULL;
+			GETRENDERFACTORY->CreateRenderTarget(&pRT, 0, 0);
+			return pRT;
+		}
+
 		CRect rcClip;
 		pRgn->GetRgnBox(&rcClip);
 		SWindow *pParent = GetParent();
@@ -1867,6 +1875,11 @@ namespace SOUI
 
 	void SWindow::ReleaseRenderTarget(IRenderTarget *pRT)
 	{
+		if (IsUpdateLocked())
+		{
+			pRT->Release();
+			return;
+		}
 		SASSERT(m_pGetRTData);
 		_ReleaseRenderTarget(pRT);        
 	}
