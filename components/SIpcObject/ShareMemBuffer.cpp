@@ -78,7 +78,11 @@ int CShareMemBuffer::Write(const void * pBuf, UINT nLen)
 	BufHeader * pHeader = GetHeader();
 
 	UINT nRemain = pHeader->dwSize - pHeader->dwPos;
-	if (nLen > nRemain) nLen = nRemain;
+	if (nLen > nRemain)
+	{
+		assert(false);
+		nLen = nRemain;
+	}
 	memcpy(GetBuffer() + pHeader->dwTailPos, pBuf, nLen);
 	pHeader->dwPos += nLen;
 	if (pHeader->dwTailPos < pHeader->dwPos)
@@ -91,7 +95,11 @@ int CShareMemBuffer::Read(void * pBuf, UINT nLen)
 	assert(GetBuffer());
 	BufHeader * pHeader = GetHeader();
 	UINT nRemain = (pHeader->dwTailPos - pHeader->dwPos);
-	if (nLen > nRemain) nLen = nRemain;
+	if (nLen > nRemain)
+	{
+		assert(false);
+		nLen = nRemain;
+	}
 	memcpy(pBuf, GetBuffer() + pHeader->dwPos, nLen);
 	pHeader->dwPos += nLen;
 	return nLen;
