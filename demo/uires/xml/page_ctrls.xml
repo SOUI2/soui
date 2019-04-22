@@ -58,7 +58,7 @@
     </page>
     <page title="mclistview">
       <mclistview name="mclv_test" colorBkgnd="@color/white" pos="10,10,-10,-10" headerHeight="30">
-        <header align="center"  sortSkin="skin_lcex_header_arrow" itemSkin="skin_lcex_header" itemSwapEnable="1" fixWidth="0" font="underline:0,adding:-3" sortHeader="1" colorBkgnd="#ffffff" >
+        <header align="center" name="mclv_test_header"  sortSkin="skin_lcex_header_arrow" itemSkin="skin_lcex_header" itemSwapEnable="1" fixWidth="0" font="underline:0,adding:-3" sortHeader="1" colorBkgnd="#ffffff" >
           <items>
             <item width="480">@string/mccol_1</item>
             <item width="95">@string/mccol_2</item>
@@ -67,6 +67,7 @@
             <item width="100">@string/mccol_5</item>
             <item width="100">@string/mccol_6</item>
           </items>
+          <check name="chk_mclv_sel" text="select all"/>
         </header>
         <template itemHeight="80" colorHover="#cccccc" colorSelected="#0000ff">
           <window name="col1" clipClient="1">
@@ -216,7 +217,7 @@
     <page title="buttons" >
       <imgbtn name="btn_msgbox" pos="10,40" width="200" height="40" accel="ctrl+alt+f9" font="bold:1" skin="win10btn" animate="1">show msg box</imgbtn>
       <text pos="10,[5">press "ctrl+alt+f9" to activate the msgbox button</text>
-      <link pos="10,130" maxWidth="100" class="cls_btn_weblink" dotted="1" href="www.setoutsoft.cn">www.setoutsoft.cn</link>
+      <link pos="10,130" maxWidth="100" class="cls_btn_weblink" dotted="1" href="www.ui520.cn">www.ui520.cn</link>
       <img pos="10,[10,@100,@100" skin="skin_page_icons" iconIndex="2" tip="img tip" msgTransparent="0"/>
       <text pos="10,[5" multiLines="1">the image show how to handle message in SImageWnd,\n you can do it by simply setting msgTransparent to 0</text>
       <window pos="10,[5,@100,@30" class="cls_edit" trackMouseEvent="1">
@@ -226,7 +227,7 @@
       <button pos="[0,{0,@100,@30" name="btn_lrc">LRC</button>
       <button pos="[10,{0,@100,@30" name="btn_clock">clock</button>
 
-      <button pos="[10,{0,@-1,@30" name="btn_tip">提示窗口演示</button>
+      <button.link pos="[10,{0,@-1,@30" name="btn_tip">提示窗口演示</button.link>
       <hr pos="10,[20,-10,@1" lineStyle="dashdotdot" mode="horizontal" lineColor="#ff0000"/>
       <hr pos="10,{0,-10,-10" lineStyle="dash" mode="tilt" lineColor="#00ff00"/>
       <hr pos="10,{0,@2,-10" lineStyle="solid" mode="vertical" lineColor="#0000ff" lineSize="2"/>

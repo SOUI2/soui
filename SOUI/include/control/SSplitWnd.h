@@ -13,6 +13,7 @@
 #pragma once
 #include <core/swnd.h>
 #include <helper/copylist.hpp>
+#include <layout/slayoutsize.h>
 
 namespace SOUI
 {
@@ -49,16 +50,16 @@ public:
     void Move(CRect rc);
     
     SOUI_ATTRS_BEGIN()
-        ATTR_INT(L"idealSize", m_nSizeIdeal, FALSE)
-        ATTR_INT(L"minSize", m_nSizeMin, FALSE)
-        ATTR_INT(L"maxSize", m_nSizeMax,FALSE)
+		ATTR_LAYOUTSIZE(L"idealSize", m_nSizeIdeal, FALSE)
+		ATTR_LAYOUTSIZE(L"minSize", m_nSizeMin, FALSE)
+		ATTR_LAYOUTSIZE(L"maxSize", m_nSizeMax,FALSE)
         ATTR_INT(L"priority", m_nPriority, FALSE)
     SOUI_ATTRS_END()
     
 protected:
-    int m_nSizeIdeal;  /**< 理想大小 */
-    int m_nSizeMin;    /**< 最小大小 */
-    int m_nSizeMax;    /**< 最大大小 */
+	SLayoutSize m_nSizeIdeal;  /**< 理想大小 */
+	SLayoutSize m_nSizeMin;    /**< 最小大小 */
+	SLayoutSize m_nSizeMax;    /**< 最大大小 */
     int m_nPriority;   /**< 优先级,值越大优先级越高,优先级越高，窗格越先到达idealSize  */
 };
 
@@ -171,8 +172,9 @@ public:
     void RemoveItem( SSplitPane * pane );
 
 protected:
-    
-    /**
+	virtual CRect GetChildrenLayoutRect();
+	
+	/**
      * SSplitWnd::UpdateChildrenPosition
      * @brief    更新子窗口位置
      *

@@ -248,11 +248,13 @@ protected:
     BOOL   m_bAnimate;    /**< 动画标志 */
     WORD   m_byAlphaAni;  /**< 动画状态 */
 	BYTE   m_nAniStep;	  /**< alpha for an animate step */
+	BOOL   m_bDisableAccelIfInvisible; /**< disable accel if invisible */
 public:
     SOUI_ATTRS_BEGIN()
         ATTR_CUSTOM(L"accel",OnAttrAccel)
         ATTR_INT(L"animate", m_bAnimate, FALSE)
 		ATTR_INT(L"animateStep",m_nAniStep,FALSE)
+		ATTR_BOOL(L"disableAccelIfInvisible",m_bDisableAccelIfInvisible,FALSE)
     SOUI_ATTRS_END()
 
     SOUI_MSG_MAP_BEGIN()
@@ -552,7 +554,8 @@ protected:
      */
     virtual CSize GetDesiredSize(LPCRECT pRcContainer);
     virtual void OnColorize(COLORREF cr);
-    
+	virtual void OnScaleChanged(int scale);
+
     void OnPaint(IRenderTarget *pRT);
     int  OnCreate(void*);
 

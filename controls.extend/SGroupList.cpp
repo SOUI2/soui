@@ -32,14 +32,14 @@ namespace SOUI {
 			pugi::xml_node xmlGroup = xmlData.child(L"group");
 			while (xmlGroup)
 			{
-				SStringT strText = S_CT2W(xmlGroup.attribute(L"text").as_string());
-				SStringT strName = xmlGroup.attribute(L"name").as_string();
+				SStringT strText = S_CW2T(xmlGroup.attribute(L"text").as_string());
+				SStringW strName = xmlGroup.attribute(L"name").as_string();
 				SWindow *pGroup = InsertGroup(-1, strName, strText, xmlGroup.attribute(L"icon").as_int(), xmlGroup.attribute(L"id").as_int());
 				pugi::xml_node xmlItem = xmlGroup.child(L"item");
 				while (xmlItem)
 				{
-					SStringT strText = S_CT2W(xmlItem.attribute(L"text").as_string());
-					SStringT strName = xmlItem.attribute(L"name").as_string();
+					SStringT strText = S_CW2T(xmlItem.attribute(L"text").as_string());
+					SStringW strName = xmlItem.attribute(L"name").as_string();
 					InsertItem(pGroup, -1, strName, strText, xmlItem.attribute(L"icon").as_int(), xmlItem.attribute(L"id").as_int());
 					xmlItem = xmlItem.next_sibling(L"item");
 				}

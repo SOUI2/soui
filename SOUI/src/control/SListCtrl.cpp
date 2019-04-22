@@ -109,7 +109,7 @@ int SListCtrl::InsertItem(int nItem, LPCTSTR pszText, int nImage)
 
 BOOL SListCtrl::SetItemData(int nItem, LPARAM dwData)
 {
-    if (nItem >= GetItemCount())
+    if (nItem >= GetItemCount() || nItem<0)
         return FALSE;
 
     m_arrItems[nItem].dwData = dwData;
@@ -119,7 +119,7 @@ BOOL SListCtrl::SetItemData(int nItem, LPARAM dwData)
 
 LPARAM SListCtrl::GetItemData(int nItem)
 {
-    if (nItem >= GetItemCount())
+    if (nItem >= GetItemCount() || nItem<0)
         return 0;
 
     DXLVITEM& lvi = m_arrItems[nItem];
@@ -129,7 +129,7 @@ LPARAM SListCtrl::GetItemData(int nItem)
 
 BOOL SListCtrl::SetSubItem(int nItem, int nSubItem, const DXLVSUBITEM* plv)
 {
-    if (nItem>=GetItemCount() || nSubItem>=GetColumnCount())
+    if (nItem>=GetItemCount() || nSubItem>=GetColumnCount() || nItem<0)
         return FALSE;
     DXLVSUBITEM & lvsi_dst=m_arrItems[nItem].arSubItems->GetAt(nSubItem);
     if(plv->mask & S_LVIF_TEXT)
@@ -148,7 +148,7 @@ BOOL SListCtrl::SetSubItem(int nItem, int nSubItem, const DXLVSUBITEM* plv)
 
 BOOL SListCtrl::GetSubItem(int nItem, int nSubItem, DXLVSUBITEM* plv) const
 {
-    if (nItem>=GetItemCount() || nSubItem>=GetColumnCount())
+    if (nItem>=GetItemCount() || nSubItem>=GetColumnCount() || nItem<0)
         return FALSE;
 
     const DXLVSUBITEM & lvsi_src=m_arrItems[nItem].arSubItems->GetAt(nSubItem);
@@ -187,7 +187,7 @@ BOOL SListCtrl::SetSubItemText(int nItem, int nSubItem, LPCTSTR pszText)
 
 SStringT SListCtrl::GetSubItemText( int nItem, int nSubItem ) const
 {
-    if (nItem>=GetItemCount() || nSubItem>=GetColumnCount())
+    if (nItem>=GetItemCount() || nSubItem>=GetColumnCount() || nItem<0)
         return _T("");
 
     const DXLVSUBITEM & lvsi_src=m_arrItems[nItem].arSubItems->GetAt(nSubItem);

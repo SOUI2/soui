@@ -14,13 +14,17 @@ SMenuAttr::SMenuAttr()
     ,m_pSepSkin(GETBUILTINSKIN(SKIN_SYS_MENU_SEP))
     ,m_pCheckSkin(GETBUILTINSKIN(SKIN_SYS_MENU_CHECK))
     ,m_pIconSkin(NULL)
-    ,m_hFont(0)
-    ,m_nItemHei(0)
-    ,m_nIconMargin(2)
-    ,m_nTextMargin(5)
-    ,m_szIcon(CX_ICON,CY_ICON)
-    ,m_nMaxWidth(-1)
+    ,m_scale(100)
 {
+	m_nMaxWidth.setInvalid();
+	m_nItemHei.setInvalid();
+
+	m_nIconMargin.setSize(2,SLayoutSize::defUnit);
+	m_nTextMargin.setSize(5, SLayoutSize::defUnit);
+
+	m_szIcon[0].setSize( CX_ICON, SLayoutSize::defUnit);
+	m_szIcon[1].setSize( CY_ICON, SLayoutSize::defUnit);
+
     m_crTxtNormal=GetSysColor(COLOR_MENUTEXT)|0xff000000;
     m_crTxtSel=GetSysColor(COLOR_HIGHLIGHTTEXT)|0xff000000;
     m_crTxtGray=GetSysColor(COLOR_GRAYTEXT)|0xff000000;
@@ -30,11 +34,61 @@ SMenuAttr::~SMenuAttr()
 {
 }
 
+int SMenuAttr::GetTextMargin()
+{
+	return m_nTextMargin.toPixelSize(m_scale);
+}
+
+int SMenuAttr::GetIconMargin()
+{
+	return m_nIconMargin.toPixelSize(m_scale);
+}
+
+CSize SMenuAttr::GetIconSize()
+{
+	return CSize(m_szIcon[0].toPixelSize(m_scale), m_szIcon[1].toPixelSize(m_scale));
+}
+
+int SMenuAttr::GetItemHeight()
+{
+	return m_nItemHei.toPixelSize(m_scale);
+}
+
+int SMenuAttr::GetMaxWidth()
+{
+	if (m_nMaxWidth.isValid())
+		return m_nMaxWidth.toPixelSize(m_scale);
+	return -1;
+}
+
 void SMenuAttr::OnInitFinished( pugi::xml_node xmlNode )
 {
     SASSERT(m_pItemSkin);
-    if(m_nItemHei==0) m_nItemHei=m_pItemSkin->GetSkinSize().cy;
-    if(!m_hFont) m_hFont=SFontPool::getSingleton().GetFont(FF_DEFAULTFONT,100);
+	if (!m_nItemHei.isValid())
+		m_nItemHei.setSize((float)m_pItemSkin->GetSkinSize().cy, SLayoutSize::dp);
+}
+
+
+CAutoRefPtr<IFont> SMenuAttr::GetFontPtr()
+{
+	CAutoRefPtr<IFont> font = m_dpiFont.GetFontPtr();
+	if(font) return font;
+	return SFontPool::getSingleton().GetFont(L"",m_scale);
+}
+
+void SMenuAttr::SetScale(int scale)
+{
+	if(m_scale == scale) return;
+	m_scale = scale;
+	m_dpiFont.SetScale(m_scale);
+	if (m_pIconSkin)
+		m_pIconSkin = GETSKIN(m_pIconSkin->GetName(), m_scale);
+	if (m_pItemSkin)
+		m_pItemSkin = GETSKIN(m_pItemSkin->GetName(), m_scale);
+	if (m_pSepSkin)
+		m_pSepSkin = GETSKIN(m_pSepSkin->GetName(), m_scale);
+	if (m_pCheckSkin)
+		m_pCheckSkin = GETSKIN(m_pCheckSkin->GetName(), m_scale);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -82,10 +136,13 @@ void SMenuODWnd::DrawItem( LPDRAWITEMSTRUCT lpDrawItemStruct )
 
         //draw icon
         CRect rcIcon;
-        rcIcon.left=rcItem.left+m_attr->m_nIconMargin;
-        rcIcon.right=rcIcon.left+m_attr->m_szIcon.cx;
-        rcIcon.top=rcItem.top+(rcItem.Height()-m_attr->m_szIcon.cy)/2;
-        rcIcon.bottom=rcIcon.top+m_attr->m_szIcon.cy;
+		int iconOffset=m_attr->GetIconMargin();
+
+        rcIcon.left=rcItem.left+ iconOffset;
+		CSize szIcon = m_attr->GetIconSize();
+        rcIcon.right=rcIcon.left+ szIcon.cx;
+        rcIcon.top=rcItem.top+(rcItem.Height()- szIcon.cy)/2;
+        rcIcon.bottom=rcIcon.top+ szIcon.cy;
         if(bChecked)
         {
             if(m_attr->m_pCheckSkin)
@@ -97,17 +154,17 @@ void SMenuODWnd::DrawItem( LPDRAWITEMSTRUCT lpDrawItemStruct )
         {
             m_attr->m_pIconSkin->Draw(pRT,rcIcon,pdmmi->iIcon);
         }
-        rcItem.left=rcIcon.right+m_attr->m_nIconMargin;
+        rcItem.left=rcIcon.right+ iconOffset;
 
         //draw text
         CRect rcTxt=rcItem;
-        rcTxt.DeflateRect(m_attr->m_nTextMargin,0);
+        rcTxt.DeflateRect(m_attr->GetTextMargin(),0);
 
         COLORREF crOld=pRT->SetTextColor(bDisabled?m_attr->m_crTxtGray:(bSelected?m_attr->m_crTxtSel:m_attr->m_crTxtNormal));
 
 
         CAutoRefPtr<IFont> oldFont;
-        pRT->SelectObject(m_attr->m_hFont,(IRenderObj**)&oldFont);
+        pRT->SelectObject(m_attr->GetFontPtr(),(IRenderObj**)&oldFont);
         pRT->DrawText(pdmmi->strText,pdmmi->strText.GetLength(),&rcTxt,DT_SINGLELINE|DT_VCENTER|DT_LEFT|DT_END_ELLIPSIS);
         pRT->SelectObject(oldFont);
 
@@ -141,18 +198,19 @@ void SMenuODWnd::MeasureItem( LPMEASUREITEMSTRUCT lpMeasureItemStruct )
     if(pdmmi)
     {
         //menu item
-        lpMeasureItemStruct->itemHeight = m_attr->m_nItemHei;
-        lpMeasureItemStruct->itemWidth = m_attr->m_szIcon.cx+m_attr->m_nIconMargin*2;
+        lpMeasureItemStruct->itemHeight = m_attr->GetItemHeight();
+        lpMeasureItemStruct->itemWidth = m_attr->GetIconSize().cx + m_attr->GetIconMargin() * 2;
 
         CAutoRefPtr<IRenderTarget> pRT;
         GETRENDERFACTORY->CreateRenderTarget(&pRT,0,0);
         CAutoRefPtr<IFont> oldFont;
-        pRT->SelectObject(m_attr->m_hFont,(IRenderObj**)&oldFont);
+        pRT->SelectObject(m_attr->GetFontPtr(),(IRenderObj**)&oldFont);
         SIZE szTxt;
         pRT->MeasureText(pdmmi->strText,pdmmi->strText.GetLength(),&szTxt);
-        lpMeasureItemStruct->itemWidth += szTxt.cx+m_attr->m_nTextMargin*2;
-        if(m_attr->m_nMaxWidth!=-1 && (int)lpMeasureItemStruct->itemWidth>m_attr->m_nMaxWidth)
-            lpMeasureItemStruct->itemWidth=m_attr->m_nMaxWidth;
+        lpMeasureItemStruct->itemWidth += szTxt.cx+m_attr->GetTextMargin()*2;
+		int itemMaxWidth = m_attr->GetMaxWidth();
+        if(itemMaxWidth !=-1 && (int)lpMeasureItemStruct->itemWidth> itemMaxWidth)
+            lpMeasureItemStruct->itemWidth= itemMaxWidth;
         pRT->SelectObject(oldFont);
     }
     else
@@ -294,15 +352,27 @@ BOOL SMenu::InsertMenu(UINT nPosition, UINT nFlags, UINT_PTR nIDNewItem,LPCTSTR 
     return TRUE;
 }
 
+
+void SMenu::UpdateScale(int nScale)
+{
+	SASSERT(IsMenu(m_hMenu));
+	SMenuAttr *pMenuAttr = GetMenuAttr(m_hMenu);
+	SASSERT(pMenuAttr);
+	pMenuAttr->SetScale(nScale);
+}
+
 UINT SMenu::TrackPopupMenu(
     UINT uFlags,
     int x,
     int y,
     HWND hWnd,
-    LPCRECT prcRect
+    LPCRECT prcRect,
+	int nScale
 )
 {
     SASSERT(IsMenu(m_hMenu));
+
+	UpdateScale(nScale);
 
     SMenuODWnd menuOwner(hWnd,GetMenuAttr(m_hMenu));
     menuOwner.Create(NULL,WS_POPUP,WS_EX_NOACTIVATE,0,0,0,0,NULL,NULL);
@@ -433,7 +503,6 @@ BOOL SMenu::DeleteMenu(UINT uPosition, UINT uFlags)
 	}
 	return FALSE;
 }
-
 
 BOOL SMenu::AppendMenu(UINT uFlags,UINT_PTR uIDNewItem, LPCTSTR lpNewItem,int iIcon)
 {

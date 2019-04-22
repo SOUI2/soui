@@ -98,6 +98,8 @@ protected:
     
     virtual void OnColorize(COLORREF cr);
 
+	virtual void OnScaleChanged(int scale);
+
     /**
      * SSliderBar::GetPartRect
      * @brief    

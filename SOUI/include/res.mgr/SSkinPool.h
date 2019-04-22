@@ -20,7 +20,7 @@
 #define GETBUILTINSKIN(p1) SOUI::SSkinPoolMgr::getSingleton().GetBuiltinSkin(p1,100)
 #define GETBUILTINSKIN2(p1,scale) SOUI::SSkinPoolMgr::getSingleton().GetBuiltinSkin(p1,scale)
 #define GETSKINPOOLMGR SOUI::SSkinPoolMgr::getSingletonPtr()
-
+#define GETTEMPLATEPOOLMR SOUI::STemplatePoolMgr::getSingletonPtr()
 namespace SOUI
 {
     //系统内置皮肤名称

@@ -11,6 +11,7 @@ namespace SOUI{
 	const static WCHAR KNodeDim[]       = L"dim";
 	const static WCHAR KNodeSkin[]      = L"skin";
 	const static WCHAR KNodeStyle[]     = L"style";
+	const static WCHAR KNodeTemplate[] = L"template";
 	const static WCHAR KNodeObjAttr[]   = L"objattr";
 	const static TCHAR KDefFontFace[]   = _T("宋体");
 
@@ -47,32 +48,25 @@ namespace SOUI{
 
 		BOOL Init(IResProvider *pResProvide,LPCTSTR pszUidef);
 
-		virtual SSkinPool * GetSkinPool() {return pSkinPool;}
-		virtual SStylePool * GetStylePool(){return pStylePool;}
-		virtual SNamedColor & GetNamedColor() {return namedColor;}
-		virtual SNamedString & GetNamedString() {return namedString;}
-		virtual SNamedDimension & GetNamedDimension() { return namedDim; }
-		virtual SObjDefAttr * GetObjDefAttr(){return objDefAttr;}
-		virtual FontInfo & GetDefFontInfo() { return defFontInfo;}
+		virtual SSkinPool * GetSkinPool()  override;
+		virtual SStylePool * GetStylePool() override;
+		virtual SNamedColor & GetNamedColor()  override;
+		virtual SNamedString & GetNamedString()  override;
+		virtual SNamedDimension & GetNamedDimension() override;
+		virtual SObjDefAttr * GetObjDefAttr() override;
+		virtual FontInfo & GetDefFontInfo()  override;
 
-		virtual void SetSkinPool(SSkinPool * pSkinPool) 
-		{
-			this->pSkinPool = pSkinPool;
-		}
-		virtual void SetStylePool(SStylePool * pStylePool)
-		{
-			this->pStylePool = pStylePool;
-		}
-		virtual void SetObjDefAttr(SObjDefAttr * pObjDefAttr)
-		{
-			this->objDefAttr = pObjDefAttr;
-		}
-
+		virtual void SetSkinPool(SSkinPool * pSkinPool)  override;
+		virtual void SetStylePool(SStylePool * pStylePool) override;
+		virtual void SetObjDefAttr(SObjDefAttr * pObjDefAttr) override;
+		virtual STemplatePool * GetTemplatePool() override;
+		virtual void SetTemplatePool(STemplatePool * pPool) override;
 	protected:
 
 		CAutoRefPtr<SSkinPool>    pSkinPool;
 		CAutoRefPtr<SStylePool>   pStylePool;
 		CAutoRefPtr<SObjDefAttr>  objDefAttr;
+		CAutoRefPtr<STemplatePool> templatePool;
 
 		SNamedColor   namedColor;
 		SNamedString  namedString;
@@ -207,6 +201,16 @@ namespace SOUI{
 							pStylePool->Init(nodeData);
 						}
 					}
+					//load named template
+					{
+						pugi::xml_document docData;
+						pugi::xml_node     nodeData = GetSourceXmlNode(root, docData, pResProvider, KNodeTemplate);
+						if (nodeData)
+						{
+							templatePool.Attach(new STemplatePool);
+							templatePool->Init(nodeData);
+						}
+					}
 					//load SWindow default attribute
 					{
 						pugi::xml_document docData;
@@ -224,9 +228,35 @@ namespace SOUI{
 		return bRet;
 	}
 
-	//////////////////////////////////////////////////////////////////////////
+	SSkinPool * SUiDefInfo::GetSkinPool()   { return pSkinPool; }
+	SStylePool * SUiDefInfo::GetStylePool()  { return pStylePool; }
+	SNamedColor & SUiDefInfo::GetNamedColor()   { return namedColor; }
+	SNamedString & SUiDefInfo::GetNamedString()   { return namedString; }
+	SNamedDimension & SUiDefInfo::GetNamedDimension()   { return namedDim; }
+	SObjDefAttr * SUiDefInfo::GetObjDefAttr()  { return objDefAttr; }
+	FontInfo & SUiDefInfo::GetDefFontInfo()   { return defFontInfo; }
 
-	template<> SUiDef * SSingleton<SUiDef>::ms_Singleton = NULL;
+	void SUiDefInfo::SetSkinPool(SSkinPool * pSkinPool)
+	{
+		this->pSkinPool = pSkinPool;
+	}
+	void SUiDefInfo::SetStylePool(SStylePool * pStylePool)
+	{
+		this->pStylePool = pStylePool;
+	}
+	void SUiDefInfo::SetObjDefAttr(SObjDefAttr * pObjDefAttr)
+	{
+		this->objDefAttr = pObjDefAttr;
+	}
+	STemplatePool * SUiDefInfo::GetTemplatePool()
+	{
+		return templatePool;
+	}
+	void SUiDefInfo::SetTemplatePool(STemplatePool * pPool)
+	{
+		templatePool = pPool;
+	}
+	//////////////////////////////////////////////////////////////////////////
 
 	#define HASFONT 2
 	int CALLBACK DefFontsEnumProc(  CONST LOGFONT *lplf,     // logical-font data
@@ -268,6 +298,10 @@ namespace SOUI{
 		if (pUiDefInfo->GetStylePool())
 		{
 			SStylePoolMgr::getSingletonPtr()->PushStylePool(pUiDefInfo->GetStylePool());
+		}
+		if(pUiDefInfo->GetTemplatePool())
+		{
+			STemplatePoolMgr::getSingletonPtr()->PushTemplatePool(pUiDefInfo->GetTemplatePool());
 		}
 		return pUiDefInfo;
 	}

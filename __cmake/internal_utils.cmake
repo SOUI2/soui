@@ -71,5 +71,8 @@ macro(config_compiler_and_linker)
         if (MSVC_VERSION GREATER 1700) # 1700 is Visual Studio 2012.
             add_definitions(-D_USING_V110_SDK71_)
         endif()
+        set(BUILD_CONF_XP_TOOLSET "1")
+    else(XP_TOOLSET)
+        set(BUILD_CONF_XP_TOOLSET "0")
     endif()
 endmacro()

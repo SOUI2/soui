@@ -754,6 +754,7 @@ void STileView::SetItemLocator(STileViewItemLocator *pItemLocator)
     if(m_tvItemLocator)
     {
         m_tvItemLocator->SetAdapter(GetAdapter());
+		m_tvItemLocator->SetScale(GetScale());
     }
     onDataSetChanged();
 }

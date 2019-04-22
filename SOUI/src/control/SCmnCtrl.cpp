@@ -115,11 +115,20 @@ void SStatic::DrawMultiLine(IRenderTarget *pRT,LPCTSTR pszBuf,int cchText,LPRECT
                 CRect rcText(pRect->left,pt.y,nRight, pt.y + nLineHei);
 				OnDrawLine(pRT, pszBuf, (int)(pLineHead - pszBuf), (int)(pLineTail - pLineHead), &rcText, uFormat);
 			}
+
+			// modify by baozi 20190312 显示多行文本时，如果下一行文字的高度超过了文本框，则不再输出下一行文字内容。
+			if(pt.y+nLineHei + m_nLineInter>pRect->bottom)
+			{//将绘制限制在有效区。
+				pLineHead = pLineTail;
+				break;
+			}
+
             pLineHead = p1;
             
             pt.y+=nLineHei+m_nLineInter;
             pt.x=pRect->left;
             nLine++;
+
             continue;
         }
         pt.x+=szChar.cx;
@@ -130,7 +139,9 @@ void SStatic::DrawMultiLine(IRenderTarget *pRT,LPCTSTR pszBuf,int cchText,LPRECT
 
     if(uFormat & DT_CALCRECT)
     {
-        pRect->bottom=pt.y+nLineHei;
+		if(pRect->bottom>pt.y+nLineHei)
+			pRect->bottom=pt.y+nLineHei;
+
     }else if(pLineTail > pLineHead )
     {
         CRect rcText(pRect->left,pt.y,nRight, pt.y + nLineHei);
@@ -251,6 +262,7 @@ SButton::SButton()
 ,m_bAnimate(FALSE)
 ,m_byAlphaAni(0xFF)
 , m_nAniStep(25)
+, m_bDisableAccelIfInvisible(FALSE)
 {
     m_pBgSkin=GETBUILTINSKIN(SKIN_SYS_BTN_NORMAL);
     m_bFocusable=TRUE;
@@ -317,7 +329,10 @@ void SButton::OnKeyUp( UINT nChar, UINT nRepCnt, UINT nFlags )
 
 bool SButton::OnAcceleratorPressed( const CAccelerator& accelerator )
 {
-    if(IsDisabled(TRUE)) return false;
+    if(IsDisabled(TRUE)) 
+		return false;
+	if(m_bDisableAccelIfInvisible && !IsVisible(TRUE))
+		return false;
     FireCommand();
     return true;
 }
@@ -367,9 +382,8 @@ HRESULT SButton::OnAttrAccel( SStringW strAccel,BOOL bLoading )
     m_accel=CAccelerator::TranslateAccelKey(strAccelT);
     if(m_accel)
     {
-        CAccelerator acc(m_accel);
-        GetContainer()->GetAcceleratorMgr()->RegisterAccelerator(acc,this);
-        return S_OK;
+		CAccelerator acc(m_accel);
+		GetContainer()->GetAcceleratorMgr()->RegisterAccelerator(acc,this);
     }
     return S_FALSE;
 }
@@ -499,6 +513,7 @@ BOOL SImageWnd::SetSkin(ISkinObj *pSkin,int iFrame/*=0*/,BOOL bAutoFree/*=TRUE*/
     if(m_bManaged && m_pSkin)
     {
         m_pSkin->Release();
+		m_pSkin=NULL;
         m_bManaged=FALSE;
     }
     if(!pSkin) return FALSE;
@@ -786,6 +801,13 @@ void SProgress::OnColorize(COLORREF cr)
     __super::OnColorize(cr);
     if(m_pSkinBg) m_pSkinBg->OnColorize(cr);
     if(m_pSkinPos) m_pSkinPos->OnColorize(cr);
+}
+
+void SProgress::OnScaleChanged(int scale)
+{
+	__super::OnScaleChanged(scale);
+	GetScaleSkin(m_pSkinBg,scale);
+	GetScaleSkin(m_pSkinPos,scale);
 }
 
 //////////////////////////////////////////////////////////////////////////

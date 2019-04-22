@@ -53,7 +53,7 @@ namespace SOUI
 		, m_bVisible(TRUE)
 		, m_bDisplay(TRUE)
 		, m_bDisable(FALSE)
-		, m_bUpdateLocked(FALSE)
+		, m_nUpdateLockCnt(0)
 		, m_bClipClient(FALSE)
 		, m_bFocusable(FALSE)
 		, m_bDrawFocusRect(TRUE)
@@ -637,7 +637,11 @@ namespace SOUI
 		return NULL;
 	}
 
-	const static wchar_t KLabelInclude[] = L"include";
+	const static wchar_t KLabelInclude[] = L"include";	//文件包含的标签
+	const static wchar_t KLabelTemplate[] = L"template";//模板标签
+	const static wchar_t KTempNamespace[] = L"t:";//模板识别ＮＳ
+	const static wchar_t KTempData[] = L"data";//模板参数
+	const static wchar_t KTempParamFmt[] = L"{{%s}}";//模板数据替换格式
 
 	BOOL SWindow::CreateChildren(pugi::xml_node xmlNode)
 	{
@@ -666,17 +670,61 @@ namespace SOUI
 				{
 					SASSERT(FALSE);
 				}
-			}else if(!xmlChild.get_userdata())//通过userdata来标记一个节点是否可以忽略
+			}
+			else if(!xmlChild.get_userdata())//通过userdata来标记一个节点是否可以忽略
 			{
-				SWindow *pChild = SApplication::getSingleton().CreateWindowByName(xmlChild.name());
-				if(pChild)
+				SStringW strName = xmlChild.name();
+				if (strName.StartsWith(KTempNamespace))
 				{
-					InsertChild(pChild);
-					pChild->InitFromXml(xmlChild);
+					strName = strName.Right(strName.GetLength() - 2);
+					SStringW strXml = GETTEMPLATEPOOLMR->GetTemplateString(strName);
+					SASSERT(!strXml.IsEmpty());
+					if (!strXml.IsEmpty())
+					{//create children by template.
+						pugi::xml_node xmlData = xmlChild.child(KTempData);
+						for (pugi::xml_attribute param = xmlData.first_attribute(); param; param = param.next_attribute())
+						{
+							SStringW strParam = SStringW().Format(KTempParamFmt, param.name());
+							strXml.Replace(strParam, param.value());//replace params to value.
+						}
+						pugi::xml_document xmlDoc;
+						if (xmlDoc.load_buffer_inplace(strXml.GetBuffer(strXml.GetLength()), strXml.GetLength() * sizeof(WCHAR), 116, pugi::encoding_utf16))
+						{
+							pugi::xml_node xmlTemp = xmlDoc.first_child();
+							SASSERT(xmlTemp);
+							//merger properties.
+							for (pugi::xml_attribute attr = xmlChild.first_attribute(); attr; attr = attr.next_attribute())
+							{
+								if (!xmlTemp.attribute(attr.name()))
+								{
+									xmlTemp.append_attribute(attr.name()).set_value(attr.value());
+								}else
+								{
+									xmlTemp.attribute(attr.name()).set_value(attr.value());
+								}
+							}
+							//create child.
+							SWindow *pChild = SApplication::getSingleton().CreateWindowByName(xmlTemp.name());
+							if (pChild)
+							{
+								InsertChild(pChild);
+								pChild->InitFromXml(xmlTemp);
+							}
+						}
+						strXml.ReleaseBuffer();
+					}
+				}
+				else
+				{
+					SWindow *pChild = SApplication::getSingleton().CreateWindowByName(xmlChild.name());
+					if (pChild)
+					{
+						InsertChild(pChild);
+						pChild->InitFromXml(xmlChild);
+					}
 				}
 			}
 		}
-
 		return TRUE;
 	}
 
@@ -722,8 +770,15 @@ namespace SOUI
 			if (!strText.IsEmpty())
 			{
 				m_strText.SetText(S_CW2T(GETSTRING(strText)));   //使用语言包翻译。
+			}else if(m_strText.GetText(TRUE).IsEmpty())
+			{//try to apply cdata as text
+				SStringW strCData = xmlNode.child_value();
+				strCData.TrimBlank();
+				if(!strCData.IsEmpty())
+				{
+					m_strText.SetText(S_CW2T(GETSTRING(strCData)));
+				}
 			}
-
 		}
 
 		//发送WM_CREATE消息
@@ -1093,17 +1148,18 @@ namespace SOUI
 
 	void SWindow::LockUpdate()
 	{
-		m_bUpdateLocked=TRUE;
+		m_nUpdateLockCnt ++;
 	}
 
 	void SWindow::UnlockUpdate()
 	{
-		m_bUpdateLocked=FALSE;
+		m_nUpdateLockCnt --;
+		SASSERT(m_nUpdateLockCnt >= 0);
 	}
 
 	BOOL SWindow::IsUpdateLocked()
 	{
-		return m_bUpdateLocked;
+		return m_nUpdateLockCnt>0;
 	}
 
 	void SWindow::BringWindowToTop()
@@ -1792,6 +1848,13 @@ namespace SOUI
 
 	IRenderTarget * SWindow::GetRenderTarget( DWORD gdcFlags,IRegion *pRgn )
 	{
+		if (IsUpdateLocked())
+		{//return a empty render target
+			IRenderTarget *pRT = NULL;
+			GETRENDERFACTORY->CreateRenderTarget(&pRT, 0, 0);
+			return pRT;
+		}
+
 		CRect rcClip;
 		pRgn->GetRgnBox(&rcClip);
 		SWindow *pParent = GetParent();
@@ -1812,6 +1875,11 @@ namespace SOUI
 
 	void SWindow::ReleaseRenderTarget(IRenderTarget *pRT)
 	{
+		if (IsUpdateLocked())
+		{
+			pRT->Release();
+			return;
+		}
 		SASSERT(m_pGetRTData);
 		_ReleaseRenderTarget(pRT);        
 	}
@@ -2829,7 +2897,9 @@ namespace SOUI
 
 	void SWindow::accNotifyEvent(DWORD dwEvt)
 	{
+#ifdef SOUI_ENABLE_ACC
 		NotifyWinEvent(dwEvt, GetContainer()->GetHostHwnd(), GetSwnd(), CHILDID_SELF);
+#endif
 	}
 
 	bool SWindow::SetLayoutParam(ILayoutParam * pLayoutParam)

@@ -744,6 +744,10 @@
 			RelativePath="demo.rc"
 			>
 		</File>
+		<File
+			RelativePath=".\uires\values\template.xml"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

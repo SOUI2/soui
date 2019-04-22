@@ -40,6 +40,8 @@ call :update_repo nsisdemo
 call :update_repo SouiWallPaper
 call :update_repo TczKline
 call :update_repo SIpcDemo
+call :update_repo wxdemo
+call :update_repo sinstar3
 
 SET /p selected=1.是否生成soui_demo.sln工程[1=YES;Other=No]:
 if %selected% neq 1 (
@@ -66,9 +68,10 @@ if(%all%=="2") (
 goto inipro
 
 :inputfilelist
-for /f "tokens=* eol=." %%a in ('dir /ad /b') do (   
-  Echo SUBDIRS += %%a>>soui-demo.pro
- )
+for /f "tokens=* eol=." %%a in ('dir /ad /b') do (  
+if exist %%a\%%a.pro  Echo SUBDIRS += %%a>>soui-demo.pro
+)
+
 goto :createbat
 :error
 Echo "error 有一些错误请检查前面的输出"

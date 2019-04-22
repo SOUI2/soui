@@ -209,6 +209,11 @@ protected:
 	void OnGroupStateChanged(EventArgs *e);
 	void OnCtrlPageClick(EventArgs *e);
 
+	void OnMcLvHeaderRelayout(EventArgs *e);
+
+	//从模板创建子窗口demo
+	void OnBtnCreateByTemp();
+
     //UI控件的事件及响应函数映射表
 	EVENT_MAP_BEGIN()
 		EVENT_HANDLER(EventPath::EventID,OnEventPath)
@@ -239,7 +244,7 @@ protected:
 		EVENT_ID_HANDLER(SENDER_ID,EventThreadStop::EventID,OnEventThreadStop)
 		EVENT_ID_HANDLER(SENDER_ID,EventThread::EventID,OnEventThread)
 		//-->
-
+		EVENT_NAME_COMMAND(L"btn_create_by_temp",OnBtnCreateByTemp)
         EVENT_NAME_COMMAND(L"btn_webkit_back",OnBtnWebkitBackward)
         EVENT_NAME_COMMAND(L"btn_webkit_fore",OnBtnWebkitForeward)
         EVENT_NAME_COMMAND(L"btn_webkit_refresh",OnBtnWebkitRefresh)
@@ -264,6 +269,7 @@ protected:
 		EVENT_ID_HANDLER(R.id.gl_catalog,EventGroupListInitItem::EventID,OnInitItem)
 		EVENT_ID_HANDLER(R.id.gl_catalog,EventGroupStateChanged::EventID,OnGroupStateChanged)
 		EVENT_ID_HANDLER(R.id.gl_catalog,EventGroupListItemCheck::EventID,OnCtrlPageClick)
+		EVENT_NAME_HANDLER(L"mclv_test_header",EventHeaderRelayout::EventID,OnMcLvHeaderRelayout)
 	EVENT_MAP_END()	
 
     //HOST消息及响应函数映射表

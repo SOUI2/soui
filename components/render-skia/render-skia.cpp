@@ -1709,9 +1709,13 @@ namespace SOUI
 		BYTE style=SkTypeface::kNormal;
 		if(plf->lfItalic) style |= SkTypeface::kItalic;
 		if(plf->lfWeight == FW_BOLD) style |= SkTypeface::kBold;
-
 		m_skFont->unref();
 		m_skFont=SkTypeface::CreateFromName(strFace,(SkTypeface::Style)style);
+
+		m_skPaint.setTextSize(SkIntToScalar(abs(plf->lfHeight)));
+		m_skPaint.setUnderlineText(!!plf->lfUnderline);
+		m_skPaint.setStrikeThruText(!!plf->lfStrikeOut);
+
 		return TRUE;
 	}
 

@@ -12,10 +12,10 @@ bool HandleFun(UINT uMsg, SOUI::SParamStream &ps){ \
 	if(!bHandled && uMsg == x::FUN_ID) \
 	{\
 		x param; \
-		param.FromStream4Input(ps);\
+		GetIpcHandle()->FromStream4Input(&param,ps.GetBuffer());\
+		ps.GetBuffer()->Seek(SOUI::IShareBuffer::seek_cur,sizeof(int));\
 		fun(param); \
-		SOUI::SParamStream psOut(ps.GetBuffer(),true);\
-		param.ToStream4Output(psOut);\
+		GetIpcHandle()->ToStream4Output(&param,ps.GetBuffer());\
 		bHandled = true;\
 	}
 

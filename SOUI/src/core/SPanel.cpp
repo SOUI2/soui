@@ -94,15 +94,19 @@ BOOL SPanel::SetScrollPos(BOOL bVertical, int nNewPos,BOOL bRedraw)
     if(nNewPos<psi->nMin) nNewPos=psi->nMin;
     if(nNewPos>psi->nMax - (int)psi->nPage+1) nNewPos=psi->nMax-psi->nPage+1;
 
-    psi->nPos=nNewPos;
-
-    if(bRedraw)
-    {
-        CRect rcSb=GetScrollBarRect(bVertical);
-        InvalidateRect(rcSb);
-    }
-    OnScroll(bVertical,SB_THUMBPOSITION,nNewPos);
-    return TRUE;
+	LockUpdate();
+	BOOL bRet = OnScroll(bVertical,SB_THUMBPOSITION,nNewPos);
+	UnlockUpdate();
+	if (bRet)
+	{
+		if (bRedraw)
+		{
+			CRect rcSb = GetScrollBarRect(bVertical);
+			InvalidateRect(rcSb);
+		}
+		Invalidate();
+	}
+	return bRet;
 }
 
 int SPanel::GetScrollPos(BOOL bVertical)
@@ -683,31 +687,30 @@ BOOL SPanel::OnScroll(BOOL bVertical,UINT uCode,int nPos)
     if(nNewPos>psi->nMax - (int)psi->nPage+1) nNewPos=psi->nMax-psi->nPage+1;
     if(psi->nPage==0) nNewPos=0;
 
-    if(nNewPos!=psi->nPos)
-    {
-        psi->nPos=nNewPos;
-        if(uCode!=SB_THUMBTRACK && IsVisible(TRUE)&& IsScrollBarEnable(bVertical))
-        {
-            CRect rcRail=GetScrollBarRect(bVertical);
-            if(bVertical)
-			{
-				rcRail.DeflateRect(0,GetSbArrowSize());
-			}
-			else
-			{
-				rcRail.DeflateRect(GetSbArrowSize(),0);
-			}
-            CAutoRefPtr<IRenderTarget> pRT=GetRenderTarget(&rcRail,OLEDC_PAINTBKGND,FALSE);
-            m_pSkinSb->Draw(pRT,rcRail,MAKESBSTATE(SB_PAGEDOWN,SBST_NORMAL,bVertical));
-            psi->nTrackPos=-1;
-            CRect rcSlide=GetSbPartRect(bVertical,SB_THUMBTRACK);
-            m_pSkinSb->Draw(pRT,rcSlide,MAKESBSTATE(SB_THUMBTRACK,SBST_NORMAL,bVertical));
-            ReleaseRenderTarget(pRT);
-        }
-        Invalidate();
-        return TRUE;
-    }
-    return FALSE;
+	if (nNewPos == psi->nPos)
+		return FALSE;
+
+	psi->nPos = nNewPos;
+	if (uCode != SB_THUMBTRACK && IsVisible(TRUE) && IsScrollBarEnable(bVertical))
+	{
+		CRect rcRail = GetScrollBarRect(bVertical);
+		if (bVertical)
+		{
+			rcRail.DeflateRect(0, GetSbArrowSize());
+		}
+		else
+		{
+			rcRail.DeflateRect(GetSbArrowSize(), 0);
+		}
+		CAutoRefPtr<IRenderTarget> pRT = GetRenderTarget(&rcRail, OLEDC_PAINTBKGND, FALSE);
+		m_pSkinSb->Draw(pRT, rcRail, MAKESBSTATE(SB_PAGEDOWN, SBST_NORMAL, bVertical));
+		psi->nTrackPos = -1;
+		CRect rcSlide = GetSbPartRect(bVertical, SB_THUMBTRACK);
+		m_pSkinSb->Draw(pRT, rcSlide, MAKESBSTATE(SB_THUMBTRACK, SBST_NORMAL, bVertical));
+		ReleaseRenderTarget(pRT);
+	}
+	Invalidate();
+	return TRUE;
 }
 
 int SPanel::GetSbSlideLength(BOOL bVertical)

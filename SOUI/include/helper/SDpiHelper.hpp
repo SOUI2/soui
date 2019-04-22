@@ -59,7 +59,7 @@ namespace SOUI{
 			//For Win10 1607
 			if (IsVerOrGreater(wVers, 10, 0, 14955))
 			{
-				HMODULE hModule = LoadLibrary(L"User32.dll");
+				HMODULE hModule = LoadLibrary(_T("User32.dll"));
 				if (hModule)
 				{
 					typedef UINT(WINAPI *FunGetDpiForWindow)(HWND);
@@ -152,11 +152,25 @@ namespace SOUI{
 	public:
 		BOOL ProcessWindowMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lResult, DWORD dwMsgMapID = 0)
 		{
-			BOOL bHandled = TRUE;
-
 			switch (dwMsgMapID)
 			{
 			case 0:
+				if (uMsg == WM_INITDIALOG)
+				{
+					int nScale = SDpiHelper::getScale(hWnd);
+					nScale = SDpiScale::NormalizeScale(nScale);
+					CRect rc;
+					::GetWindowRect(hWnd,&rc);
+					CSize sz = rc.Size();
+					sz.cx = sz.cx * nScale / 100;
+					sz.cy = sz.cy * nScale / 100;
+					CPoint ntl = rc.CenterPoint();
+					ntl.Offset(-sz.cx / 2, -sz.cy / 2);
+					rc = CRect(ntl, sz);
+					HandleScaleChange(nScale, &rc);
+
+					lResult = 0;
+				}
 				if (uMsg == WM_DPICHANGED)
 				{
 					OnDpiChanged((WORD)HIWORD(wParam), (RECT* const)lParam);

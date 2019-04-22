@@ -91,7 +91,10 @@ namespace SOUI
                 *pDst++ = ((*pDst) * byAlpha)>>8;//×öpremultiply
                 *pDst++ = ((*pDst) * byAlpha)>>8;//×öpremultiply
                 *pDst++ = byAlpha;
-            }
+            }else
+			{
+				*pDst+=4;
+			}
         }
         m_bmpCache->UnlockPixelBits(pBitCache);
         m_bmpMask->UnlockPixelBits(pBitMask);

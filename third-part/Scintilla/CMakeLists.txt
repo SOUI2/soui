@@ -16,7 +16,7 @@ source_group("Resource Files" FILES ${CURRENT_RC})
 
 add_library(Scintilla STATIC ${CURRENT_HEADERS} ${CURRENT_SRCS} ${CURRENT_RC})
 
-#set(COM_LIBS ${COM_LIBS} Scintilla CACHE INTERNAL "com_lib")
+set(COM_LIBS ${COM_LIBS} Scintilla CACHE INTERNAL "com_lib")
 set_target_properties (Scintilla PROPERTIES
     FOLDER third-part
 )
