@@ -389,6 +389,7 @@ namespace SOUI
 
 		virtual HRESULT DrawPath(const IPath * path,IPathEffect * pathEffect=NULL);
 
+		virtual HRESULT FillPath(const IPath * path);
 	protected:
         HDC               m_hdc;
         SColor            m_curColor;

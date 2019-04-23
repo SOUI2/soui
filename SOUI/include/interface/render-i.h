@@ -930,6 +930,8 @@ namespace SOUI
 		*/
 		virtual void setLastPt(float x, float y) PURE;
 
+		virtual void addString(LPCTSTR pszText,int nLen, float x,float y, const IFont *pFont) PURE;
+
 	};
     
 	struct IPathMeasure : IObjRef
@@ -1120,11 +1122,15 @@ namespace SOUI
 		 */
 		virtual HRESULT ClipPath(const IPath * path, UINT mode, bool doAntiAlias = false) = 0;
 
-		/** Draw the specified path using the specified paint. The path will be
-		filled or framed based on the Style in the paint.
+		/** Draw the specified path frame using current selected pen
 		@param path     The path to be drawn
 		*/
 		virtual HRESULT DrawPath(const IPath * path,IPathEffect * pathEffect=NULL) = 0;
+
+		/** Fill the specified path frame using current selected brush
+		@param path     The path to be drawn
+		*/
+		virtual HRESULT FillPath(const IPath * path) = 0;
 
 	};
 

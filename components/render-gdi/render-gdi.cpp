@@ -1154,6 +1154,11 @@ namespace SOUI
 		return E_NOTIMPL;
 	}
 
+	HRESULT SRenderTarget_GDI::FillPath(const IPath * path)
+	{
+		return E_NOTIMPL;
+	}
+
 
     //////////////////////////////////////////////////////////////////////////
     namespace RENDER_GDI

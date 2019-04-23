@@ -1332,6 +1332,31 @@ namespace SOUI
 		return S_OK;
 	}
 
+	HRESULT SRenderTarget_Skia::FillPath(const IPath * path)
+	{
+		const SPath_Skia * path2 = (const SPath_Skia *)path;
+
+		SkPaint paint;
+		paint.setAntiAlias(m_bAntiAlias);
+
+		if(m_curBrush->IsBitmap())
+		{
+			paint.setFilterBitmap(true);
+			paint.setShader(SkShader::CreateBitmapShader(m_curBrush->GetBitmap(),SkShader::kRepeat_TileMode,SkShader::kRepeat_TileMode))->unref();
+		}else
+		{
+			paint.setFilterBitmap(false);
+			paint.setColor(m_curBrush->GetColor());
+		}
+		paint.setStyle(SkPaint::kFill_Style);
+
+		SkPath skPath;
+		path2->m_skPath.offset(m_ptOrg.fX,m_ptOrg.fY,&skPath);
+		m_SkCanvas->drawPath(skPath,paint);
+
+		return S_OK;
+	}
+
 
     //////////////////////////////////////////////////////////////////////////
 	// SBitmap_Skia
@@ -2039,6 +2064,28 @@ namespace SOUI
 	void SPath_Skia::setLastPt(float x, float y)
 	{
 		m_skPath.setLastPt(x,y);
+	}
+
+	void SPath_Skia::addString(LPCTSTR pszText,int nLen, float x,float y, const IFont *pFont)
+	{
+		const SFont_Skia *pFontSkia = (const SFont_Skia *)pFont;
+		if(nLen < 0) nLen = _tcslen(pszText);
+		SkPaint paint;
+		paint.setTextEncoding(SkPaint::kUTF16_TextEncoding);
+		paint.setTypeface(pFontSkia->GetFont());
+		const LOGFONT *plf = pFont->LogFont();
+		paint.setTextSize(SkIntToScalar(abs(plf->lfHeight)));
+		paint.setUnderlineText(!!plf->lfUnderline);
+		paint.setStrikeThruText(!!plf->lfStrikeOut);
+
+		SkPath path;
+#ifdef _UNICODE
+		paint.getTextPath(pszText,nLen,0.0f,0.0f,&path);
+#else
+		SStringW str=S_CT2W(SStringT(pszText,nLen));
+		paint.getTextPath((LPCWSTR)str,str.GetLength(),0.0f,0.0f,&path);
+#endif
+		m_skPath.addPath(path,x,y,SkPath::kAppend_AddPathMode);
 	}
 
 
