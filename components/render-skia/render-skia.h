@@ -476,6 +476,10 @@ namespace SOUI
 
 		virtual HRESULT FillPath(const IPath * path);
 
+		virtual HRESULT PushLayer(const RECT * pRect,BYTE byAlpha) ;
+
+		virtual HRESULT PopLayer() ;
+
     public:
         SkCanvas *GetCanvas(){return m_SkCanvas;}
 
@@ -513,6 +517,7 @@ namespace SOUI
         UINT m_uGetDCFlag;
 
 		bool			m_bAntiAlias;
+		SList<int>		m_lstLayerId;	//list to save layer ids
 	};
 	
 	namespace RENDER_SKIA

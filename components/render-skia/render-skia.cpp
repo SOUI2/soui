@@ -1357,6 +1357,27 @@ namespace SOUI
 		return S_OK;
 	}
 
+	HRESULT SRenderTarget_Skia::PushLayer(const RECT * pRect,BYTE byAlpha)
+	{
+		int nLayerId = -1;
+		SkRect skBound = toSkRect(pRect);
+		if(byAlpha==0xFF)
+			nLayerId = m_SkCanvas->saveLayer(&skBound,NULL);
+		else
+			nLayerId = m_SkCanvas->saveLayerAlpha(&skBound,byAlpha);
+		m_lstLayerId.AddTail(nLayerId);
+		return S_OK;
+	}
+
+	HRESULT SRenderTarget_Skia::PopLayer()
+	{
+		if(m_lstLayerId.IsEmpty())
+			return E_INVALIDARG;
+		int nLayerID = m_lstLayerId.RemoveTail();
+		m_SkCanvas->restoreToCount(nLayerID);
+		return S_OK;
+	}
+
 
     //////////////////////////////////////////////////////////////////////////
 	// SBitmap_Skia

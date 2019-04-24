@@ -1159,6 +1159,16 @@ namespace SOUI
 		return E_NOTIMPL;
 	}
 
+	HRESULT SRenderTarget_GDI::PushLayer(const RECT * pRect,BYTE byAlpha)
+	{
+		return E_NOTIMPL;
+	}
+
+	HRESULT SRenderTarget_GDI::PopLayer()
+	{
+		return E_NOTIMPL;
+	}
+
 
     //////////////////////////////////////////////////////////////////////////
     namespace RENDER_GDI

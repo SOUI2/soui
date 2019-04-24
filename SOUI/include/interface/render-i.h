@@ -1118,7 +1118,7 @@ namespace SOUI
 		 *  Modify the current clip with the specified path.
 		 *  @param path The path to combine with the current clip
 		 *  @param mode The region op to apply to the current clip
-		 *  @param doAntiAlias true if the clip should be antialiased
+		 *  @param doAntiAlias true if the clip should be anti aliased
 		 */
 		virtual HRESULT ClipPath(const IPath * path, UINT mode, bool doAntiAlias = false) = 0;
 
@@ -1132,6 +1132,20 @@ namespace SOUI
 		*/
 		virtual HRESULT FillPath(const IPath * path) = 0;
 
+		/** This behaves the same as save(), but in addition it allocates an
+		offscreen bitmap. All drawing calls are directed there, and only when
+		the balancing call to restore() is made is that offscreen transfered to
+		the canvas (or the previous layer).
+		@param pRect (may be null) This rect, if non-null, is used as a hint to
+		limit the size of the offscreen, and thus drawing may be
+		clipped to it, though that clipping is not guaranteed to
+		happen. If exact clipping is desired, use clipRect().
+		@param byAlpha  This is applied to the offscreen when restore() is called.
+		@return The value to pass to restoreToCount() to balance this save() 
+		*/
+		virtual HRESULT PushLayer(const RECT * pRect,BYTE byAlpha=0xff) = 0;
+
+		virtual HRESULT PopLayer() = 0;
 	};
 
 
