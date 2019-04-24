@@ -330,25 +330,24 @@ namespace SOUI
 	{
         SkPaint paint;
         paint.setStyle(SkPaint::kFill_Style);
-        dwRop = dwRop & 0x7fffffff;
-        switch(dwRop)
-        {
-        case SRCCOPY:
-            paint.setXfermodeMode(SkXfermode::kSrc_Mode);
-            break;
-        case DSTINVERT:
-            paint.setXfermode(new ProcXfermode(ProcXfermode::Rop2_Invert));
-            break;
-        case SRCINVERT:
-            paint.setXfermode(new ProcXfermode(ProcXfermode::Rop2_Xor));
-            break;
-        case SRCAND:
-            paint.setXfermode(new ProcXfermode(ProcXfermode::Rop2_And));
-            break;
-        default:
-            SASSERT(FALSE);
-            break;
-        }
+		switch(dwRop)
+		{
+		case kSrcCopy:
+			paint.setXfermodeMode(SkXfermode::kSrc_Mode);
+			break;
+		case kDstInvert:
+			paint.setXfermode(new ProcXfermode(ProcXfermode::Rop2_Invert));
+			break;
+		case kSrcInvert:
+			paint.setXfermode(new ProcXfermode(ProcXfermode::Rop2_Xor));
+			break;
+		case kSrcAnd:
+			paint.setXfermode(new ProcXfermode(ProcXfermode::Rop2_And));
+			break;
+		default:
+			paint.setXfermodeMode((SkXfermode::Mode)dwRop);
+			break;
+		}
 
         SRenderTarget_Skia *pRtSourSkia=(SRenderTarget_Skia*)pRTSour;
         SkBitmap    bmpSrc=pRtSourSkia->m_curBmp->GetSkBitmap();

@@ -518,7 +518,18 @@ namespace SOUI
 
     HRESULT SRenderTarget_GDI::BitBlt( LPCRECT pRcDest,IRenderTarget *pRTSour,int xSrc,int ySrc,DWORD dwRop/*=SRCCOPY*/)
     {
+		switch(dwRop)
+		{
+		case kSrcCopy:
+		case kDstInvert:
+		case kSrcInvert:
+		case kSrcAnd:
+			break;
+		default:
+			return E_INVALIDARG;
+		}
         SRenderTarget_GDI *pRTSrc_GDI=(SRenderTarget_GDI*)pRTSour;
+
         ALPHAINFO ai;
         if(dwRop!=SRCCOPY)
             CGdiAlpha::AlphaBackup(m_hdc,pRcDest,ai);
