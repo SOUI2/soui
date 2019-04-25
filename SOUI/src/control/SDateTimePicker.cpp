@@ -904,7 +904,7 @@ namespace SOUI
 
 	void SDateTimePicker::OnLButtonDown(UINT nFlags, CPoint pt)
 	{
-		SetFocus();
+		__super::OnLButtonDown(nFlags,pt);
 		if(WndState_PushDown == m_dwBtnState) return;
 
 		m_wCharNum = 0;
@@ -1104,29 +1104,10 @@ namespace SOUI
 			m_wCharNum = nNum;
 		}
 
-		//SYSTEMTIME oldTime = m_sysTime;
-
 		switch(m_eSelDateType)
 		{
 		case eDT_Year :
-			if (m_wCharNum < 10)
-			{
-				m_sysTime.wYear = m_sysTime.wYear / 10 * 10 + m_wCharNum;
-			}
-			else if(m_wCharNum < 100)
-			{
-				m_sysTime.wYear = m_sysTime.wYear / 100 * 100 + m_wCharNum;
-			}
-			else if(m_wCharNum < 1000)
-			{
-				m_sysTime.wYear = m_sysTime.wYear / 100 * 100 + m_wCharNum;
-			}
-			else if(m_wCharNum < 1601 || m_wCharNum > 9999)
-			{
-				return;
-			}
-			else
-				m_sysTime.wYear = m_wCharNum;
+			m_sysTime.wYear = m_wCharNum;
 			break;
 		case eDT_Month :
 			if (m_wCharNum <= 0)
@@ -1177,13 +1158,6 @@ namespace SOUI
 		__super::OnDestroy();
 	}
 
-	BOOL SDateTimePicker::IsFocusable()
-	{
-		if (m_bDropdown && m_bFocusable)
-			return TRUE;
-		return FALSE;
-	}
-
 	void SDateTimePicker::OnSetFocus(SWND wndOld)
 	{
 		__super::OnSetFocus(wndOld);
@@ -1193,14 +1167,12 @@ namespace SOUI
 	{
 		__super::OnKillFocus(wndFocus);
 		CloseUp();
-		return;
 		m_wCharNum = 0;
 		if (eDT_NULL != m_eSelDateType)
 		{
 			m_eSelDateType = eDT_NULL;
 			Invalidate();
 		}
-		
 	}
 
 	void SDateTimePicker::DrawFocus(IRenderTarget *pRT)
