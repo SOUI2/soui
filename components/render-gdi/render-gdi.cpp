@@ -1180,6 +1180,23 @@ namespace SOUI
 		return E_NOTIMPL;
 	}
 
+	HRESULT SRenderTarget_GDI::SetRopMode(int mode,int *pOldMode)
+	{
+		switch (mode)
+		{
+		case kSrcCopy:
+		case kDstInvert:
+		case kSrcInvert:
+		case kSrcAnd:
+			break;
+		default:
+			return E_INVALIDARG;
+		}
+		int nOldMode = ::SetROP2(m_hdc,mode);
+		if(pOldMode) *pOldMode = nOldMode;
+		return S_OK;
+	}
+
 
     //////////////////////////////////////////////////////////////////////////
     namespace RENDER_GDI

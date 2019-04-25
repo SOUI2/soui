@@ -1192,6 +1192,8 @@ namespace SOUI
 		virtual HRESULT PushLayer(const RECT * pRect,BYTE byAlpha=0xff) = 0;
 
 		virtual HRESULT PopLayer() = 0;
+
+		virtual HRESULT SetRopMode(int mode,int *pOldMode=NULL) = 0;
 	};
 
 
