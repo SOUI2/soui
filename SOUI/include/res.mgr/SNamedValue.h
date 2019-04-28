@@ -107,7 +107,7 @@ namespace SOUI
         void Init2(const NAMEDVALUE *pValue,int nCount,BOOL bSorted);
     }; 
     
-    class SColorParser
+    class SOUI_EXP SColorParser
     {
     public:
         static bool ParseValue(const SStringW & strValue, COLORREF & value);
