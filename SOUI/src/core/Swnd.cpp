@@ -1219,13 +1219,19 @@ namespace SOUI
 			SSendMessage(WM_NCCALCSIZE);//计算非客户区大小
 		}
 
-
-		UpdateChildrenPosition();   //更新子窗口位置
+		//only if window is visible now, we do relayout.
+		if (IsVisible(FALSE))
+		{
+			UpdateLayout();   //更新子窗口位置
+		}
+		else
+		{//mark layout to self dirty.
+			m_layoutDirty = dirty_self;
+		}
 
 		CRect rcClient;
 		GetClientRect(&rcClient);
 		SSendMessage(WM_SIZE,0,MAKELPARAM(rcClient.Width(),rcClient.Height()));
-		m_layoutDirty = dirty_clean;
 		return TRUE;
 	}
 
@@ -1548,7 +1554,10 @@ namespace SOUI
 		{
 			bShow=m_pParent->IsVisible(TRUE);
 		}
-
+		if (bShow)
+		{//delay reflesh layout of children.
+			UpdateLayout();
+		}
 		if (bShow)
 		{
 			ModifyState(0, WndState_Invisible);
@@ -1726,12 +1735,12 @@ namespace SOUI
 
 	void SWindow::RequestRelayout()
 	{
-		RequestRelayout(this,TRUE);//此处bSourceResizable可以为任意值
+		RequestRelayout(m_swnd,TRUE);//此处bSourceResizable可以为任意值
 	}
 
-	void SWindow::RequestRelayout(SWindow *pSource,BOOL bSourceResizable)
+	void SWindow::RequestRelayout(SWND hSource,BOOL bSourceResizable)
 	{
-		SASSERT(pSource);
+		SASSERT(SWindowMgr::IsWindow(hSource));
 
 		if(bSourceResizable)
 		{//源窗口大小发生变化,当前窗口的所有子窗口全部重新布局
@@ -1740,11 +1749,14 @@ namespace SOUI
 
 		if(m_layoutDirty != dirty_self)
 		{//需要检测当前窗口是不是内容自适应
-			m_layoutDirty = (pSource == this || GetLayoutParam()->IsWrapContent(Any)) ? dirty_self:dirty_child;
+			m_layoutDirty = (hSource == m_swnd || GetLayoutParam()->IsWrapContent(Any)) ? dirty_self:dirty_child;
 		}
 
 		SWindow *pParent = GetParent();
-		if(pParent) pParent->RequestRelayout(pSource,GetLayoutParam()->IsWrapContent(Any) || !IsDisplay());
+		if (pParent && pParent->IsVisible())
+		{
+			pParent->RequestRelayout(hSource, GetLayoutParam()->IsWrapContent(Any) || !IsDisplay());
+		}
 	}
 
 	void SWindow::UpdateLayout()
@@ -1800,7 +1812,7 @@ namespace SOUI
 		if(hr == S_FALSE)
 			Invalidate();
 		else if(hr == S_OK)
-			RequestRelayout(this,TRUE);
+			RequestRelayout(m_swnd,TRUE);
 		return 0;
 	}
 

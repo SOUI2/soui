@@ -814,7 +814,7 @@ namespace SOUI
         * Describe  
         */
 		void RequestRelayout();
-        virtual void RequestRelayout(SWindow *pSource,BOOL bSourceResizable);
+        virtual void RequestRelayout(SWND hSource,BOOL bSourceResizable);
         
         virtual void UpdateLayout();
         
@@ -1364,8 +1364,8 @@ namespace SOUI
         DWORD               m_bCacheDraw:1;     /**< 支持窗口内容的Cache标志 */
         DWORD               m_bCacheDirty:1;    /**< 缓存窗口脏标志 */
         DWORD               m_bLayeredWindow:1; /**< 指示是否是一个分层窗口 */
-		DWORD               m_layoutDirty:2;    /**< 布局脏标志 参见LayoutDirtyType */
 
+		LayoutDirtyType     m_layoutDirty;      /**< 布局脏标志 参见LayoutDirtyType */
         CAutoRefPtr<IRenderTarget> m_cachedRT;  /**< 缓存窗口绘制的RT */
         CAutoRefPtr<IRenderTarget> m_layeredRT; /**< 分层窗口绘制的RT */
         CAutoRefPtr<IRegion>       m_rgnWnd;    /**< 窗口Region */

@@ -875,6 +875,7 @@ void SScrollView::SetViewOrigin(CPoint pt)
     SetScrollPos(TRUE,m_ptOrigin.y,TRUE);
 
 	m_layoutDirty = dirty_self;
+
     OnViewOriginChanged(ptOld,pt);
 
     Invalidate();

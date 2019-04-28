@@ -45,7 +45,6 @@ namespace SOUI
 						pt.x = pt.y = 0;
 						m_nFrom = 0;
 						m_nTo = rcPage.Height();
-						//m_nAniRange = rcPage.Height();
 					}
 					else
 					{// move down
@@ -53,7 +52,6 @@ namespace SOUI
 						m_ptOffset.y = rcPage.Height();
 						m_nFrom = rcPage.Height();
 						m_nTo = 0;
-//						m_nAniRange = -rcPage.Height();
 					}
 				}
 				else
@@ -63,7 +61,6 @@ namespace SOUI
 						pt.x = pt.y = 0;
 						m_nFrom = 0;
 						m_nTo = rcPage.Width();
-						//m_nAniRange = rcPage.Width();
 					}
 					else
 					{
@@ -71,7 +68,6 @@ namespace SOUI
 						m_ptOffset.x = rcPage.Width();
 						m_nFrom = rcPage.Width();
 						m_nTo = 0;
-						//m_nAniRange = -rcPage.Width();
 					}
 				}
 				pt -= rcPage.TopLeft();

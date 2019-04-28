@@ -355,9 +355,9 @@ void SItemPanel::FrameToHost(RECT & rc)
     ::OffsetRect(&rc,rcItem.left,rcItem.top);
 }
 
-void SItemPanel::RequestRelayout(SWindow *pSource ,BOOL bSourceResizable)
+void SItemPanel::RequestRelayout(SWND hSource ,BOOL bSourceResizable)
 {
-	__super::RequestRelayout(pSource,bSourceResizable);
+	__super::RequestRelayout(hSource,bSourceResizable);
     m_pItemContainer->OnItemRequestRelayout(this);
 }
 

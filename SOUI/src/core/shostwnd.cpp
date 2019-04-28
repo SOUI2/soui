@@ -1482,15 +1482,13 @@ void SHostWnd::clearTimer( UINT uID )
     SScriptTimer::getSingleton().ClearTimer(uID);
 }
 
-void SHostWnd::RequestRelayout(SWindow *pSource ,BOOL bSourceResizable)
+void SHostWnd::RequestRelayout(SWND hSource,BOOL bSourceResizable)
 {
+	SWindow *pSource = SWindowMgr::GetWindow(hSource);
 	SASSERT(pSource);
 
 	if(m_layoutDirty != dirty_self)
-		m_layoutDirty = (pSource == this || bSourceResizable ) ? dirty_self:dirty_child;
-
-	if(!pSource->IsVisible(TRUE))
-		return;
+		m_layoutDirty = (hSource == m_swnd || bSourceResizable ) ? dirty_self:dirty_child;
 
 	CRect rcSour = pSource->GetWindowRect();
     while(rcSour.IsRectEmpty())
