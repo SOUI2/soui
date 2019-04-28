@@ -150,7 +150,6 @@ protected:
 	void OnKeyDown( TCHAR nChar, UINT nRepCnt, UINT nFlags );
 	void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 	void OnDestroy();
-	BOOL IsFocusable();
 	void OnSetFocus(SWND wndOld);
 	void OnKillFocus(SWND wndFocus);
 	void DrawFocus(IRenderTarget *pRT);
@@ -180,7 +179,6 @@ protected:
 	
 	DWORD								m_dwBtnState;  /**< 按钮状态      */
 	ISkinObj*							m_pSkinBtn;    /**< 按钮资源      */
-	bool									m_bDropdown;        /**< 是否按下   */
 	SDropDownWnd*				m_pDropDownWnd;  /**< DropDown指针 */
 	EnDateType						m_eSelDateType;
 	int										m_nNumWidth;

@@ -87,7 +87,7 @@ public://SWindow
     virtual BOOL NeedRedrawWhenStateChange();
     virtual BOOL OnUpdateToolTip(CPoint pt, SwndToolTipInfo &tipInfo);
     virtual BOOL IsLayeredWindow() const {return FALSE;}
-    virtual void RequestRelayout(SWindow *pSource ,BOOL bSourceResizable);
+    virtual void RequestRelayout(SWND hSource ,BOOL bSourceResizable);
     
     CRect GetItemRect();
     void SetItemCapture(BOOL bCapture);

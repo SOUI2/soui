@@ -17,4 +17,4 @@
 #define SOUI_VER1   2
 #define SOUI_VER2   8
 #define SOUI_VER3   0
-#define SOUI_VER4   4
+#define SOUI_VER4   6

@@ -389,6 +389,13 @@ namespace SOUI
 
 		virtual HRESULT DrawPath(const IPath * path,IPathEffect * pathEffect=NULL);
 
+		virtual HRESULT FillPath(const IPath * path);
+
+		virtual HRESULT PushLayer(const RECT * pRect,BYTE byAlpha);
+
+		virtual HRESULT PopLayer();
+
+		virtual HRESULT SetRopMode(int mode,int *pOldMode);
 	protected:
         HDC               m_hdc;
         SColor            m_curColor;

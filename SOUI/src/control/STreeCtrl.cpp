@@ -145,32 +145,32 @@ void STreeCtrl::RemoveAllItems()
     SetViewOrigin(CPoint(0,0));
 }
 
-HSTREEITEM STreeCtrl::GetRootItem()
+HSTREEITEM STreeCtrl::GetRootItem() const
 {
     return GetChildItem(STVI_ROOT);
 }
 
-HSTREEITEM STreeCtrl::GetNextSiblingItem(HSTREEITEM hItem)
+HSTREEITEM STreeCtrl::GetNextSiblingItem(HSTREEITEM hItem) const
 {
     return CSTree<LPTVITEM>::GetNextSiblingItem(hItem);
 }
 
-HSTREEITEM STreeCtrl::GetPrevSiblingItem(HSTREEITEM hItem)
+HSTREEITEM STreeCtrl::GetPrevSiblingItem(HSTREEITEM hItem) const
 {
     return CSTree<LPTVITEM>::GetPrevSiblingItem(hItem);
 }
 
-HSTREEITEM STreeCtrl::GetChildItem(HSTREEITEM hItem,BOOL bFirst/* =TRUE*/)
+HSTREEITEM STreeCtrl::GetChildItem(HSTREEITEM hItem,BOOL bFirst/* =TRUE*/) const
 {
     return CSTree<LPTVITEM>::GetChildItem(hItem,bFirst);
 }
 
-HSTREEITEM STreeCtrl::GetParentItem(HSTREEITEM hItem)
+HSTREEITEM STreeCtrl::GetParentItem(HSTREEITEM hItem) const
 {
     return CSTree<LPTVITEM>::GetParentItem(hItem);
 }
 
-HSTREEITEM STreeCtrl::GetSelectedItem()
+HSTREEITEM STreeCtrl::GetSelectedItem() const
 {
     return m_hSelItem;
 }
@@ -341,8 +341,9 @@ BOOL STreeCtrl::Expand(HSTREEITEM hItem , UINT nCode)
 
 BOOL STreeCtrl::EnsureVisible(HSTREEITEM hItem)
 {
-    if(CSTree<LPTVITEM>::GetRootItem(hItem) != GetRootItem()) return FALSE;
-    LPTVITEM pItem=GetItem(hItem);
+	if(!VerifyItem(hItem)) return FALSE;
+
+	LPTVITEM pItem=GetItem(hItem);
     if(!pItem->bVisible)
     {
         HSTREEITEM hParent=GetParentItem(hItem);
@@ -1185,13 +1186,7 @@ void STreeCtrl::OnMouseLeave()
 
 BOOL STreeCtrl::SelectItem( HSTREEITEM hItem,BOOL bEnsureVisible/*=TRUE*/ )
 {
-    if(!hItem) return FALSE;
-    HSTREEITEM hRoot = CSTree<LPTVITEM>::GetRootItem(hItem);
-    while(CSTree<LPTVITEM>::GetPrevSiblingItem(hRoot))
-    {
-        hRoot = CSTree<LPTVITEM>::GetPrevSiblingItem(hRoot);
-    }
-    if(hRoot != GetRootItem()) return FALSE;
+    if(!VerifyItem(hItem)) return FALSE;
 
     EventTCSelChanging evt1(this);
 	evt1.bCancel = FALSE;
@@ -1234,6 +1229,20 @@ void STreeCtrl::SortChildren(HSTREEITEM hItem,FunSortCallback sortFunc,void *pCt
     m_hHoverItem = NULL;
     m_hCaptureItem = NULL;
     CSTree<LPTVITEM>::SortChildren(hItem,sortFunc,pCtx);
+}
+
+BOOL STreeCtrl::VerifyItem(HSTREEITEM hItem) const
+{
+	if(!hItem) return FALSE;
+#ifdef _DEBUG
+	HSTREEITEM hRoot = CSTree<LPTVITEM>::GetRootItem(hItem);
+	while(CSTree<LPTVITEM>::GetPrevSiblingItem(hRoot))
+	{
+		hRoot = CSTree<LPTVITEM>::GetPrevSiblingItem(hRoot);
+	}
+	return hRoot == GetRootItem();
+#endif
+	return TRUE;
 }
 
 }//namespace SOUI

@@ -537,7 +537,7 @@ public:
      * 否则如果有向下的兄弟结点，则返回自己向下兄弟结点、
      * 否则搜索自己的父结点的向下兄弟结点
      */
-    HSTREEITEM GetNextItem(HSTREEITEM hItem)
+    HSTREEITEM GetNextItem(HSTREEITEM hItem) const
     {
         if(hItem==STVI_ROOT) return (HSTREEITEM)m_hRootFirst;
 
@@ -566,7 +566,7 @@ public:
      *           否则如果有向下的兄弟结点，则返回自己向下兄弟结点、
      *           否则搜索自己的父结点的向下兄弟结点
      */
-    HSTREEITEM GetNextItem(HSTREEITEM hItem,int &nLevel)
+    HSTREEITEM GetNextItem(HSTREEITEM hItem,int &nLevel) const
     {
         if(hItem==STVI_ROOT)
         {

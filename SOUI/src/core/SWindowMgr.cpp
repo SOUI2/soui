@@ -7,7 +7,7 @@ namespace SOUI
 
 //////////////////////////////////////////////////////////////////////////
 SWindowMgr::SWindowMgr()
-    : m_hNextWnd(NULL)
+    : m_hNextWnd(SWND_INVALID)
 {
     ::InitializeCriticalSection(&m_lockWndMap);
 }
@@ -27,6 +27,11 @@ SWindow* SWindowMgr::GetWindow(SWND swnd)
     getSingleton().GetKeyObject(swnd,pRet);
     ::LeaveCriticalSection(&getSingleton().m_lockWndMap);
     return pRet;
+}
+
+bool SWindowMgr::IsWindow(SWND swnd)
+{
+	return GetWindow(swnd)!=NULL;
 }
 
 // Specify a handle to a SWindow

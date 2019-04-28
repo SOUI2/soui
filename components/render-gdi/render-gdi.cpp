@@ -518,7 +518,18 @@ namespace SOUI
 
     HRESULT SRenderTarget_GDI::BitBlt( LPCRECT pRcDest,IRenderTarget *pRTSour,int xSrc,int ySrc,DWORD dwRop/*=SRCCOPY*/)
     {
+		switch(dwRop)
+		{
+		case kSrcCopy:
+		case kDstInvert:
+		case kSrcInvert:
+		case kSrcAnd:
+			break;
+		default:
+			return E_INVALIDARG;
+		}
         SRenderTarget_GDI *pRTSrc_GDI=(SRenderTarget_GDI*)pRTSour;
+
         ALPHAINFO ai;
         if(dwRop!=SRCCOPY)
             CGdiAlpha::AlphaBackup(m_hdc,pRcDest,ai);
@@ -1152,6 +1163,38 @@ namespace SOUI
 	HRESULT SRenderTarget_GDI::DrawPath(const IPath * path,IPathEffect * pathEffect)
 	{
 		return E_NOTIMPL;
+	}
+
+	HRESULT SRenderTarget_GDI::FillPath(const IPath * path)
+	{
+		return E_NOTIMPL;
+	}
+
+	HRESULT SRenderTarget_GDI::PushLayer(const RECT * pRect,BYTE byAlpha)
+	{
+		return E_NOTIMPL;
+	}
+
+	HRESULT SRenderTarget_GDI::PopLayer()
+	{
+		return E_NOTIMPL;
+	}
+
+	HRESULT SRenderTarget_GDI::SetRopMode(int mode,int *pOldMode)
+	{
+		switch (mode)
+		{
+		case kSrcCopy:
+		case kDstInvert:
+		case kSrcInvert:
+		case kSrcAnd:
+			break;
+		default:
+			return E_INVALIDARG;
+		}
+		int nOldMode = ::SetROP2(m_hdc,mode);
+		if(pOldMode) *pOldMode = nOldMode;
+		return S_OK;
 	}
 
 

@@ -358,6 +358,7 @@ namespace SOUI
 
 		virtual void setLastPt(float x, float y);
 
+		virtual void addString(LPCTSTR pszText,int nLen, float x,float y, const IFont *pFont);
 	protected:
 		SkPath      m_skPath;
 	};
@@ -473,6 +474,13 @@ namespace SOUI
 
 		virtual HRESULT DrawPath(const IPath * path, IPathEffect * pathEffect=NULL);
 
+		virtual HRESULT FillPath(const IPath * path);
+
+		virtual HRESULT PushLayer(const RECT * pRect,BYTE byAlpha) ;
+
+		virtual HRESULT PopLayer() ;
+
+		virtual HRESULT SetRopMode(int mode,int *pOldMode/* =NULL */);
     public:
         SkCanvas *GetCanvas(){return m_SkCanvas;}
 
@@ -486,7 +494,9 @@ namespace SOUI
 		SOUI_ATTRS_BEGIN()
 			ATTR_BOOL(L"antiAlias",m_bAntiAlias,FALSE)
 		SOUI_ATTRS_END()
-
+	
+	protected:
+		bool SetPaintXferMode(SkPaint & paint,int nRopMode);
 
     protected:
 		SkCanvas *m_SkCanvas;
@@ -510,6 +520,8 @@ namespace SOUI
         UINT m_uGetDCFlag;
 
 		bool			m_bAntiAlias;
+		SList<int>		m_lstLayerId;	//list to save layer ids
+		int				m_nRopMode;
 	};
 	
 	namespace RENDER_SKIA
