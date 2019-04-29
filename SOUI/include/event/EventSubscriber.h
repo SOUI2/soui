@@ -1,12 +1,15 @@
 ﻿#pragma once
 
 #include "Events.h"
+#if _MSC_VER >= 1700	//VS2012
+#include <functional>
+#endif
 
 // Start of SOUI namespace section
 namespace SOUI
 {
 
-enum _SLOTTYPE{SLOT_FUN,SLOT_MEMBER,SLOT_USER};
+enum _SLOTTYPE{SLOT_FUN,SLOT_MEMBER,SLOT_STDFUNCTOR,SLOT_USER};
 /*!
 \brief
     Defines abstract interface which will be used when constructing various
@@ -22,12 +25,13 @@ struct SOUI_EXP ISlotFunctor
     virtual UINT GetSlotType() const  =0;
 };
 
+
 /*!
 \brief
     Slot functor class that calls back via a free function pointer.
 */
 template<typename A = EventArgs>
-class SOUI_EXP FreeFunctionSlot : public ISlotFunctor
+class FreeFunctionSlot : public ISlotFunctor
 {
 public:
     //! Slot function type.
@@ -60,6 +64,39 @@ public:
 private:
     SlotFunction* d_function;
 };
+
+#if _MSC_VER >= 1700	//VS2012
+typedef std::function<bool(EventArgs*)> EventCallback;
+class StdFunctionSlot : public ISlotFunctor
+{
+public:
+	//! Slot function type.
+
+	StdFunctionSlot(const EventCallback & fun) :
+		d_function(fun)
+	{}
+
+	virtual bool operator()(EventArgs *pArg)
+	{
+		return d_function(pArg);
+	}
+
+	virtual ISlotFunctor* Clone() const
+	{
+		return new StdFunctionSlot(d_function);
+	}
+
+	virtual bool Equal(const ISlotFunctor & sour)const
+	{
+		return false;
+	}
+
+	virtual UINT GetSlotType() const { return SLOT_STDFUNCTOR; }
+
+private:
+	EventCallback d_function;
+};
+#endif
 
 /*!
 \brief
@@ -144,11 +181,7 @@ private:
     MemberFunctionType d_function;
     T* d_object;
 };
-// template <class T>
-// MemberFunctionSlot<T> Subscriber( bool (T::* pFn)(EventArgs *), T* pObject)
-// {
-//     return MemberFunctionSlot<T>(pFn,pObject);
-// }
+
 template <class T, class A>
 MemberFunctionSlot<T,A> Subscriber(bool (T::* pFn)(A *), T* pObject)
 {

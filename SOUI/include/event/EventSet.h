@@ -93,21 +93,21 @@ namespace SOUI
         bool    setEventScriptHandler(const SStringW &  strEventName,const SStringA strScriptHandler);
 
         SStringA getEventScriptHandler(const SStringW &  strEventName) const;
+
         /*!
         \brief
             Subscribes a handler to Event. .
-
         \param dwEventID
             Event ID to subscribe to.
-
-        \param SlotFunctorBase
+        \param ISlotFunctor
             Function or object that is to be subscribed to the Event.
-
-        \return
+        \return bool
         */
+        bool subscribeEvent(DWORD dwEventID, const ISlotFunctor & subscriber);
 
-        bool subscribeEvent(const DWORD dwEventID, const ISlotFunctor & subscriber);
-
+#if _MSC_VER >= 1700	//VS2012
+		bool subscribeEvent(DWORD dwEventID, const EventCallback & eventCallback);
+#endif
         template<typename T, typename A>
         bool subscribeEvent(bool (T::* pFn)(A *), T* pObject) {
             return subscribeEvent(A::EventID, Subscriber(pFn, pObject));
