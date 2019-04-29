@@ -274,7 +274,9 @@ HRESULT CMainDlg::OnSkinChangeMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 
 LRESULT CMainDlg::OnInitDialog( HWND hWnd, LPARAM lParam )
 {
-    m_bLayoutInited=TRUE;
+	SLOG_INFO("OnInitDialog");
+
+	m_bLayoutInited=TRUE;
 	FindChildByID2<SGroupList>(R.id.gl_catalog)->SelectPage(R.id.page_listctrl);
 
 	STabCtrl *pTabCtrl = FindChildByName2<STabCtrl>(L"tab_radio2");
@@ -398,8 +400,8 @@ LRESULT CMainDlg::OnInitDialog( HWND hWnd, LPARAM lParam )
 		POINT pts[10];
 		for(int i=0;i<ARRAYSIZE(pts);i++)
 		{
-			pts[i].x = rand()%rc.Width();
-			pts[i].y = rand()%rc.Height();
+			pts[i].x = rand()%500;
+			pts[i].y = rand()%300;
 		}
 		pPathView->AddPoint(pts,ARRAYSIZE(pts));
 	}

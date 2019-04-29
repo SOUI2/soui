@@ -1222,7 +1222,12 @@ namespace SOUI
 		//only if window is visible now, we do relayout.
 		if (IsVisible(FALSE))
 		{
-			UpdateLayout();   //更新子窗口位置
+			//don't call UpdateLayout, otherwise will result in dead cycle.
+			if (m_layoutDirty != dirty_clean && GetChildrenCount())
+			{
+				UpdateChildrenPosition();//更新子窗口位置
+			}
+			m_layoutDirty = dirty_clean;
 		}
 		else
 		{//mark layout to self dirty.
@@ -1762,7 +1767,7 @@ namespace SOUI
 	void SWindow::UpdateLayout()
 	{
 		if(m_layoutDirty == dirty_clean) return;
-		UpdateChildrenPosition();
+		if(GetChildrenCount()) UpdateChildrenPosition();
 		m_layoutDirty = dirty_clean;
 	}
 
