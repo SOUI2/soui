@@ -51,7 +51,6 @@ namespace SOUI{
 		bool OnItemClick(EventArgs *e);
 
 		virtual BOOL CreateChildren(pugi::xml_node xmlNode);
-		virtual void OnViewSizeChanged(CSize szOld, CSize szNew);
 
 	protected:
 		void OnDestroy();

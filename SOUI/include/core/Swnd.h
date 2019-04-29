@@ -495,17 +495,17 @@ namespace SOUI
         /**
         * FindChildByName
         * @brief    通过名字查找子窗口
-        * @param    LPCWSTR pszName --  窗口name属性
+        * @param    const SStringW & pszName --  窗口name属性
         * @param    int nDeep --  搜索深度,-1代表无限度
         * @return   SWindow* 
         *
         * Describe  
         */
-        SWindow* FindChildByName(LPCWSTR pszName , int nDeep =-1);
+        SWindow* FindChildByName(const SStringW & strName , int nDeep =-1);
 
-        SWindow* FindChildByName(LPCSTR pszName , int nDeep =-1)
+        SWindow* FindChildByName(const SStringA & strName , int nDeep =-1)
         {
-            return FindChildByName(S_CA2W(pszName),nDeep);
+            return FindChildByName(S_CA2W(strName),nDeep);
         }
 
         /**
@@ -1122,6 +1122,9 @@ namespace SOUI
         IRenderTarget * GetLayerRenderTarget();
 
     protected://helper functions
+
+		SWindow* _FindChildByID(int nID, int nDeep);
+		SWindow* _FindChildByName(const SStringW & strName, int nDeep);
 
         void _Update();
         

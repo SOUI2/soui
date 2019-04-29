@@ -4,6 +4,8 @@
 #include "helper/SplitString.h"
 #include "layout/SouiLayout.h"
 #include "interface/sacchelper-i.h"
+#include "helper/SwndFinder.h"
+
 namespace SOUI
 {
 
@@ -583,12 +585,9 @@ namespace SOUI
 		return m_style;
 	}
 
-	//改用广度优先算法搜索控件,便于逐级查找 2014年12月8日
-	SWindow* SWindow::FindChildByID(int id, int nDeep/* =-1*/)
+
+	SWindow* SWindow::_FindChildByID(int id, int nDeep)
 	{
-		if(id == 0 || nDeep ==0) return NULL;
-
-
 		SWindow *pChild = GetWindow(GSW_FIRSTCHILD);
 		while(pChild)
 		{
@@ -603,7 +602,7 @@ namespace SOUI
 		pChild = GetWindow(GSW_FIRSTCHILD);
 		while(pChild)
 		{
-			SWindow *pChildFind=pChild->FindChildByID(id,nDeep);
+			SWindow *pChildFind=pChild->_FindChildByID(id,nDeep);
 			if(pChildFind) return pChildFind;
 			pChild = pChild->GetWindow(GSW_NEXTSIBLING);
 		}
@@ -611,14 +610,12 @@ namespace SOUI
 		return NULL;
 	}
 
-	SWindow* SWindow::FindChildByName( LPCWSTR pszName , int nDeep)
+	SWindow* SWindow::_FindChildByName(const SStringW & strName, int nDeep)
 	{
-		if(!pszName || nDeep ==0) return NULL;
-
 		SWindow *pChild = GetWindow(GSW_FIRSTCHILD);
 		while(pChild)
 		{
-			if (pChild->m_strName == pszName)
+			if (pChild->m_strName == strName)
 				return pChild;
 			pChild = pChild->GetWindow(GSW_NEXTSIBLING);
 		}
@@ -629,12 +626,36 @@ namespace SOUI
 		pChild = GetWindow(GSW_FIRSTCHILD);
 		while(pChild)
 		{
-			SWindow *pChildFind=pChild->FindChildByName(pszName,nDeep);
+			SWindow *pChildFind=pChild->_FindChildByName(strName,nDeep);
 			if(pChildFind) return pChildFind;
 			pChild = pChild->GetWindow(GSW_NEXTSIBLING);
 		}
 
 		return NULL;
+	}
+
+	//改用广度优先算法搜索控件,便于逐级查找 2014年12月8日
+	SWindow* SWindow::FindChildByID(int id, int nDeep/* =-1*/)
+	{
+		if(id == SWindowMgr::SWND_INVALID || nDeep ==0) return NULL;
+		SWindow *pRet = SWindowFinder::getSingletonPtr()->FindChildByID(this,id,nDeep);
+		if(pRet) return pRet;
+
+		pRet = _FindChildByID(id,nDeep);
+		if(pRet) SWindowFinder::getSingletonPtr()->CacheResultForID(this,id,nDeep,pRet);
+		return pRet;
+	}
+
+	SWindow* SWindow::FindChildByName( const SStringW & strName , int nDeep)
+	{
+		if(strName.IsEmpty() || nDeep ==0) return NULL;
+
+		SWindow *pRet = SWindowFinder::getSingletonPtr()->FindChildByName(this,strName,nDeep);
+		if(pRet) return pRet;
+
+		pRet = _FindChildByName(strName,nDeep);
+		if(pRet) SWindowFinder::getSingletonPtr()->CacheResultForName(this,strName,nDeep,pRet);
+		return pRet;
 	}
 
 	const static wchar_t KLabelInclude[] = L"include";	//文件包含的标签
@@ -2927,5 +2948,6 @@ namespace SOUI
 		m_pLayoutParam = pLayoutParam;
 		return true;
 	}
+
 
 }//namespace SOUI
