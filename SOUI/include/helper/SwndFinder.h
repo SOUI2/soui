@@ -27,7 +27,7 @@ namespace SOUI
 			if(fi.findByName)
 				lRet =SStringElementTraits<SStringW>::Hash(fi.strName);
 			else
-				lRet = fi.nID;
+				lRet = fi.nID<<16;
 
 			union KEY{
 				LONG key;
@@ -42,7 +42,7 @@ namespace SOUI
 			key.sep.nDeep = fi.nDeep;
 			key.sep.findByName=fi.findByName;
 
-			lRet += key.key^0x12345678;
+			lRet += key.key;
 			return lRet;
 		}
 
