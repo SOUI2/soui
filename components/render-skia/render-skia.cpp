@@ -1237,7 +1237,10 @@ namespace SOUI
         SASSERT(pXForm);
         if(pOldXFrom) GetTransform(pOldXFrom);
         SkMatrix m;
-        m.setAll(pXForm->eM11,pXForm->eM21,pXForm->eDx,pXForm->eM12,pXForm->eM22,pXForm->eDy,0.0f,0.0f,1.0f);
+		m.setAll(pXForm->GetScaleX(),pXForm->GetSkewX(),pXForm->GetTranslateX(),
+			pXForm->GetSkewY(),pXForm->GetScaleY(),pXForm->GetTranslateY(),
+			pXForm->GetPerspX(),pXForm->GetPerspY(),pXForm->GetPersp2()
+			);
         m_SkCanvas->setMatrix(m);
         return S_OK;
     }
@@ -1246,13 +1249,17 @@ namespace SOUI
     {
         SASSERT(pXForm);
         const SkMatrix m = m_SkCanvas->getTotalMatrix();
-        pXForm->eM11 = m.getScaleX();
-        pXForm->eM21 = m.getSkewX();
-        pXForm->eDx  = m.getTranslateX();
+        pXForm->SetScaleX(m.getScaleX()); 
+        pXForm->SetSkewX(m.getSkewX());
+        pXForm->SetTranslateX(m.getTranslateX());
         
-        pXForm->eM12 = m.getSkewY();
-        pXForm->eM22 = m.getScaleY();
-        pXForm->eDy  = m.getTranslateY();
+        pXForm->SetSkewY(m.getSkewY());
+        pXForm->SetScaleY(m.getScaleY());
+        pXForm->SetTranslateY(m.getTranslateY());
+
+		pXForm->SetPerspX(m.getPerspX());
+		pXForm->SetPerspY(m.getPerspY());
+		pXForm->SetPersp2(m.get(SkMatrix::kMPersp2));
         return S_OK;
     }
 

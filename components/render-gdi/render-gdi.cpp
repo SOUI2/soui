@@ -1095,19 +1095,34 @@ namespace SOUI
 
     HRESULT SRenderTarget_GDI::SetTransform(const IxForm * pXForm,IxForm *pOldXFrom/*=NULL*/)
     {
-        const XFORM * pXFormGDI = (const XFORM*)pXForm;
+		XFORM xForm = {pXForm->GetScaleX(),pXForm->GetSkewY(),pXForm->GetSkewX(),pXForm->GetScaleY(),pXForm->GetTranslateX(),pXForm->GetTranslateY()};
         if(pOldXFrom)
         {
-            GetTransform(pOldXFrom);
+			GetTransform(pOldXFrom);
         }
-        return ::SetWorldTransform(m_hdc,pXFormGDI)?S_OK:E_FAIL;
+        return ::SetWorldTransform(m_hdc,&xForm)?S_OK:E_FAIL;
     }
 
     HRESULT SRenderTarget_GDI::GetTransform(IxForm * pXForm) const
     {
-        XFORM * pXFormGDI = (XFORM*)pXForm;
-        return ::GetWorldTransform(m_hdc,pXFormGDI)?S_OK:E_FAIL;
-    }
+		SASSERT(pXForm);
+		XFORM xForm;
+		if(!::GetWorldTransform(m_hdc,&xForm))
+			return E_FAIL;
+
+		pXForm->SetScaleX(xForm.eM11); 
+		pXForm->SetSkewX(xForm.eM21);
+		pXForm->SetTranslateX(xForm.eDx);
+
+		pXForm->SetSkewY(xForm.eM12);
+		pXForm->SetScaleY(xForm.eM22);
+		pXForm->SetTranslateY(xForm.eDy);
+
+		pXForm->SetPerspX(0.0f);
+		pXForm->SetPerspY(0.0f);
+		pXForm->SetPersp2(1.0f);
+		return S_OK;
+	}
 
 	COLORREF SRenderTarget_GDI::GetPixel( int x, int y )
 	{

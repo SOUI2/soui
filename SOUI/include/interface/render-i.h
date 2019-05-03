@@ -1023,12 +1023,26 @@ namespace SOUI
 
     struct IxForm
     {
-        FLOAT eM11; 
-        FLOAT eM12; 
-        FLOAT eM21; 
-        FLOAT eM22; 
-        FLOAT eDx; 
-        FLOAT eDy; 
+		virtual float GetScaleX() const = 0;
+		virtual float GetScaleY() const = 0;
+		virtual float GetSkewX() const = 0;
+		virtual float GetSkewY() const = 0;
+		virtual float GetTranslateX() const = 0;
+		virtual float GetTranslateY() const = 0;
+		virtual float GetPerspX() const = 0;
+		virtual float GetPerspY() const = 0;
+		virtual float GetPersp2() const = 0;
+
+		virtual void SetScaleX(float v) = 0;
+		virtual void SetScaleY(float v) = 0;
+		virtual void SetSkewX(float v) = 0;
+		virtual void SetSkewY(float v) = 0;
+		virtual void SetTranslateX(float v) = 0;
+		virtual void SetTranslateY(float v) = 0;
+		virtual void SetPerspX(float v) = 0;
+		virtual void SetPerspY(float v) = 0;
+		virtual void SetPersp2(float v) = 0;
+
     };
 
 
@@ -1108,7 +1122,7 @@ namespace SOUI
         /**
          * SetTransform
          * @brief    设置坐标变换矩阵
-         * @param    const IxForm * pXForm --  2*3变换矩阵
+         * @param    const IxForm * pXForm --  3*3变换矩阵
          * @param    IxForm * pOldXFrom --  原变换矩阵
          * @return   HRESULT -- 成功返回S_OK
          *
