@@ -812,7 +812,10 @@ void CMainDlg::OnMatrixWindowReNotify(EventArgs *pEvt)
     }else if(SStringW(L"edit_translate") == pEvt->nameFrom)
     {
         pMatrixWnd->SetAttribute(L"translate",strValue);
-    }
+    }else if(SStringW(L"edit_perspective") == pEvt->nameFrom)
+	{
+		pMatrixWnd->SetAttribute(L"perspective",strValue);
+	}
 }
 
 //演示从XML字符串动态创建子窗口，使用subscribeEvent来响应创建出来的控件的事件，这里不做演示

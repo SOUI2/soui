@@ -8,6 +8,7 @@ SMatrixWindow::SMatrixWindow(void)
 ,m_fScaleX(1.0F),m_fScaleY(1.0f)
 ,m_fSkewX(.0f),m_fSkewY(.0f)
 ,m_fTransX(.0f),m_fTransY(.0f)
+,m_fPerspX(0.0f),m_fPerspY(0.0f)
 {
 }
 
@@ -50,6 +51,16 @@ HRESULT SMatrixWindow::OnAttrTranslate(const SStringW & strValue,BOOL bLoading)
     return bLoading?S_FALSE:S_OK;
 }
 
+HRESULT SMatrixWindow::OnAttrPersp(const SStringW & strValue,BOOL bLoading)
+{
+	float fPerspX=0.0f,fPerspY=0.0f;
+	if(2!=swscanf(strValue,L"%f,%f",&fPerspX,&fPerspY)) return E_FAIL;
+	m_fPerspX = fPerspX;
+	m_fPerspY = fPerspY;
+	return bLoading?S_FALSE:S_OK;
+
+}
+
 void SMatrixWindow::OnPaint(IRenderTarget *pRT)
 {
     SPainter painter;
@@ -64,7 +75,8 @@ void SMatrixWindow::OnPaint(IRenderTarget *pRT)
         m.rotate(m_fRotate)
         .scale(m_fScaleX,m_fScaleY)
         .shear(m_fSkewX,m_fSkewY)
-        .translate(m_fTransX,m_fTransY);
+        .translate(m_fTransX,m_fTransY)
+		.perspective(m_fPerspX,m_fPerspY);
         
         pRT->SetTransform(&m,&m2);
         m_pBgSkin->Draw(pRT,rc,0);
@@ -72,4 +84,6 @@ void SMatrixWindow::OnPaint(IRenderTarget *pRT)
     }
     AfterPaint(pRT,painter);
 }
+
+
 }

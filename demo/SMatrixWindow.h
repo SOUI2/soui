@@ -22,18 +22,21 @@ protected:
     HRESULT OnAttrScale(const SStringW & strValue,BOOL bLoading);
     HRESULT OnAttrSkew(const SStringW & strValue,BOOL bLoading);
     HRESULT OnAttrTranslate(const SStringW & strValue,BOOL bLoading);
-    
+	HRESULT OnAttrPersp(const SStringW & strValue,BOOL bLoading);
+
     SOUI_ATTRS_BEGIN()
         ATTR_CUSTOM(L"rotate",OnAttrRotate)
         ATTR_CUSTOM(L"scale",OnAttrScale)
         ATTR_CUSTOM(L"skew",OnAttrSkew)
         ATTR_CUSTOM(L"translate",OnAttrTranslate)
+		ATTR_CUSTOM(L"perspective",OnAttrPersp)
     SOUI_ATTRS_END()
     
     float m_fRotate;
     float m_fScaleX,m_fScaleY;
     float m_fSkewX, m_fSkewY;
     float m_fTransX, m_fTransY;
+	float m_fPerspX, m_fPerspY;
 };
 
 }

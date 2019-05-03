@@ -60,6 +60,9 @@
         <edit pos="100,{0,@100,@30" name="edit_skew" notifyChange="1">0,0</edit>
         <text pos="5,[5">translate:</text>
         <edit pos="100,{0,@100,@30" name="edit_translate" notifyChange="1">0,0</edit>
+        <text pos="5,[5">perspective:</text>
+        <edit pos="100,{0,@100,@30" name="edit_perspective" notifyChange="1">0,0</edit>
+
       </matrixWindow>
     </page>
     <page title="free move" colorBkgnd="@color/gray" clipClient="1">
