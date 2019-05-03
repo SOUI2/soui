@@ -501,9 +501,9 @@ namespace SOUI
         *
         * Describe  
         */
-        SWindow* FindChildByName(const SStringW & strName , int nDeep =-1);
+        SWindow* FindChildByName(LPCWSTR strName , int nDeep =-1);
 
-        SWindow* FindChildByName(const SStringA & strName , int nDeep =-1)
+        SWindow* FindChildByName(LPCSTR strName , int nDeep =-1)
         {
             return FindChildByName(S_CA2W(strName),nDeep);
         }
