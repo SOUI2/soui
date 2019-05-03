@@ -21,8 +21,8 @@ BOOL ExpLua_Window(lua_State *L)
 		lua_tinker::class_def<SWindow>(L,"DestroyChild",&SWindow::DestroyChild);
 		lua_tinker::class_def<SWindow>(L,"GetChildrenCount",&SWindow::GetChildrenCount);
 		lua_tinker::class_def<SWindow>(L,"FindChildByID",&SWindow::FindChildByID);
-        lua_tinker::class_def<SWindow>(L,"FindChildByNameA",(SWindow* (SWindow::*)(const SStringA &,int))&SWindow::FindChildByName);
-        lua_tinker::class_def<SWindow>(L,"FindChildByNameW",(SWindow* (SWindow::*)(const SStringW &,int ))&SWindow::FindChildByName);
+        lua_tinker::class_def<SWindow>(L,"FindChildByNameA",(SWindow* (SWindow::*)(LPCSTR,int))&SWindow::FindChildByName);
+        lua_tinker::class_def<SWindow>(L,"FindChildByNameW",(SWindow* (SWindow::*)(LPCWSTR,int ))&SWindow::FindChildByName);
  		lua_tinker::class_def<SWindow>(L,"CreateChildrenFromString",(SWindow* (SWindow::*)(LPCWSTR))&SWindow::CreateChildren);
 		lua_tinker::class_def<SWindow>(L,"GetTextAlign",&SWindow::GetTextAlign);
 		lua_tinker::class_def<SWindow>(L,"GetWindowRect",(void (SWindow::*)(LPRECT))&SWindow::GetWindowRect);

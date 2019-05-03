@@ -646,9 +646,11 @@ namespace SOUI
 		return pRet;
 	}
 
-	SWindow* SWindow::FindChildByName( const SStringW & strName , int nDeep)
+	SWindow* SWindow::FindChildByName( LPCWSTR pszName , int nDeep)
 	{
-		if(strName.IsEmpty() || nDeep ==0) return NULL;
+		if(pszName==NULL || nDeep ==0) return NULL;
+		SStringW strName(pszName);
+		if(strName.IsEmpty()) return NULL;
 
 		SWindow *pRet = SWindowFinder::getSingletonPtr()->FindChildByName(this,strName,nDeep);
 		if(pRet) return pRet;
