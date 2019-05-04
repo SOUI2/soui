@@ -13,7 +13,8 @@ SUBDIRS += utilities
 SUBDIRS += soui-sys-resource
 SUBDIRS += soui
 SUBDIRS += components
+SUBDIRS += matrix
 SUBDIRS += demo
 
 soui.depends += utilities soui-sys-resource
-demo.depends += soui
+demo.depends += soui matrix
