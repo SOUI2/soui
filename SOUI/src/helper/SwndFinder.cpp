@@ -1,27 +1,33 @@
 ﻿#include "souistd.h"
 #include <helper/swndfinder.h>
+#include <core/Swnd.h>
 
 namespace SOUI
 {
     SWindowFinder * SSingleton<SWindowFinder>::ms_Singleton = NULL;
     
-    SWindow * SWindowFinder::FindChildByName(SWindow *pParent,SStringW strName,int nDeep)
+	SFindInfo::SFindInfo(SWindow *pParent,const SStringW & _strName,int _nDeep)
+		:hParent(pParent->GetSwnd()),strName(_strName),nDeep(_nDeep),findByName(true)
+	{
+
+	}
+
+	SFindInfo::SFindInfo(SWindow *pParent,int _nID,int _nDeep)
+		:hParent(pParent->GetSwnd()),nID(_nID),nDeep(_nDeep),findByName(false)
+	{
+
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+    SWindow * SWindowFinder::FindChildByName(SWindow *pParent,const SStringW &  strName,int nDeep)
     {
-        SFindInfo fi;
-        fi.hParent = pParent->GetSwnd();
-        fi.findByName = true;
-        fi.strName = strName;
-        fi.nDeep = nDeep;
+        SFindInfo fi(pParent,strName,nDeep);
         return FindChildByKey(pParent,fi);
     }
 
     SWindow * SWindowFinder::FindChildByID(SWindow *pParent,int nID,int nDeep)
     {
-        SFindInfo fi;
-        fi.hParent = pParent->GetSwnd();
-        fi.findByName = false;
-        fi.nID = nID;
-        fi.nDeep = nDeep;
+        SFindInfo fi(pParent,nID,nDeep);
         return FindChildByKey(pParent,fi);
     }
 
@@ -30,48 +36,37 @@ namespace SOUI
         FINDCACHE::CPair *pFind = m_findCache.Lookup(fi);
         if(!pFind)
         {
-            SWindow *pRet = NULL;
-            if(fi.findByName) pRet=pParent->FindChildByName(fi.strName,fi.nDeep);
-            else pRet=pParent->FindChildByID(fi.nID,fi.nDeep);
-            m_findCache[fi]=pRet?pRet->GetSwnd():0;
-            return pRet;
+			return NULL;
         }else
         {
-            SWindow *pRet = pFind->m_value!=0?SWindowMgr::GetWindow(pFind->m_value):NULL;
-            if(pRet)
-            {
-                pFind->m_value = pRet->GetSwnd();
-            }
-            return pRet;
+			SWindow *pRet = SWindowMgr::GetWindow(pFind->m_value);
+			if(!pRet) 
+			{
+				m_findCache.RemoveKey(fi);
+			}
+			SLOG_INFO("findChildByKey: hParent:"<<fi.hParent<<" nDeep:"<<fi.nDeep<<" hId:"<<fi.nID<<" name:"<<fi.strName<<" result:"<<(pRet?pRet->GetSwnd():0));
+			return pRet;
         }
 
     }
 
+	void SWindowFinder::CacheResultForName(SWindow *pParent,const SStringW & strName,int nDeep,SWindow *pResult)
+	{
+		SFindInfo fi(pParent,strName,nDeep);
+		SASSERT(m_findCache.Lookup(fi)==NULL);
+		SASSERT(pResult);
+		m_findCache[fi]=pResult->GetSwnd();
+		SLOG_INFO("CacheResultForID,parent:"<<pParent->GetSwnd()<<" name:"<<strName<<" nDeep"<<nDeep<<" result:"<<pResult->GetSwnd());
+	}
 
-    SWindowFinder::SFindInfo::operator ULONG_PTR() const
-    {
-        ULONG_PTR lRet = 0;
-        if(findByName)
-            lRet =SStringElementTraits<SStringW>::Hash(strName);
-        else
-            lRet = nID;
+	void SWindowFinder::CacheResultForID(SWindow *pParent,int nID,int nDeep,SWindow *pResult)
+	{
+		SFindInfo fi(pParent,nID,nDeep);
+		SASSERT(m_findCache.Lookup(fi)==NULL);
+		SASSERT(pResult);
+		m_findCache[fi]=pResult->GetSwnd();
+		SLOG_INFO("CacheResultForID,parent:"<<pParent->GetSwnd()<<" nId:"<<nID<<" nDeep"<<nDeep<<" result:"<<pResult->GetSwnd());
+	}
 
-        union KEY{
-            LONG key;
-            struct long_sep
-            {
-                LONG hParent:24;
-                LONG nDeep:7;
-                LONG findByName:1;
-            }sep;
-        }key;
-        key.sep.hParent=hParent;
-        key.sep.nDeep = nDeep;
-        key.sep.findByName=findByName;
-        
-        lRet += key.key;
-        
-        return lRet;
-    }
 
 }

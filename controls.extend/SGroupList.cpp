@@ -49,12 +49,6 @@ namespace SOUI {
 		return TRUE;
 	}
 
-
-	void SGroupList::OnViewSizeChanged(CSize szOld, CSize szNew)
-	{
-		__super::OnViewSizeChanged(szOld, szNew);
-	}
-
 	void SGroupList::OnDestroy()
 	{
 		SWindow *pGroup = GetWindow(GSW_FIRSTCHILD);
