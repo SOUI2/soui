@@ -1,4 +1,4 @@
-# 
+#
 # SOUI cmake配置文件
 #
 
@@ -14,7 +14,7 @@ set(translator_header
 	targetver.h
 )
 
-set(translator_src 
+set(translator_src
     dllmain.cpp
     translator.cpp)
 
@@ -26,6 +26,7 @@ if (NOT ENABLE_SOUI_COM_LIB)
     add_library(translator SHARED ${translator_src} ${translator_header})
     target_link_libraries(translator utilities soui)
 else()
+    list(REMOVE_ITEM translator_src "dllmain.cpp")
     add_library(translator STATIC ${translator_src} ${translator_header})
 endif()
 
@@ -34,3 +35,5 @@ set_target_properties (translator PROPERTIES
     FOLDER components
 )
 cotire(translator)
+
+SOUI_INSTALL_TARGETS(translator)

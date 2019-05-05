@@ -40,9 +40,12 @@ target_include_directories(imgdecoder-png
   PRIVATE ${PROJECT_SOURCE_DIR}/third-part/png
   PRIVATE ${PROJECT_SOURCE_DIR}/third-part/zlib
 )
+target_link_libraries(imgdecoder-png png)
 
 set(COM_LIBS ${COM_LIBS} imgdecoder-png CACHE INTERNAL "com_lib")
 set_target_properties (imgdecoder-png PROPERTIES
     FOLDER components/imgdecoder
 )
 cotire(imgdecoder-png)
+
+SOUI_INSTALL_TARGETS(imgdecoder-png)

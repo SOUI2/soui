@@ -1,4 +1,4 @@
-# 
+#
 # SOUI cmake配置文件
 #
 
@@ -14,7 +14,7 @@ set(TaskLoop_header
 	thread.h
 )
 
-set(TaskLoop_src 
+set(TaskLoop_src
 	semaphore.cpp
 	TaskLoop.cpp
 	thread.cpp
@@ -36,3 +36,5 @@ set_target_properties (TaskLoop PROPERTIES
     FOLDER components
 )
 cotire(TaskLoop)
+
+SOUI_INSTALL_TARGETS(TaskLoop)

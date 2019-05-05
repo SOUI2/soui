@@ -27,3 +27,5 @@ set_target_properties (log4z PROPERTIES
     FOLDER components
 )
 cotire(log4z)
+
+SOUI_INSTALL_TARGETS(log4z)

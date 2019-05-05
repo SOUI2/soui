@@ -93,10 +93,29 @@ source_group("Extend Cotrols" FILES ${EXTENDCOTROLS})
 link_directories(${PROJECT_SOURCE_DIR}/bin)
 add_executable(demo WIN32 ${CURRENT_HEADERS} ${CURRENT_SRCS} ${CURRENT_SOUIS} ${CURRENT_RC} ${EXTENDCOTROLS})
 
-set_target_properties(demo PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
 add_dependencies(demo soui-sys-resource ${COM_LIBS})
-target_link_libraries(demo soui utilities mhook smiley)
+target_compile_definitions(demo
+  PRIVATE DEMO_DEBUG_UI_RESOURCES_SEARCH_PATH="${CMAKE_CURRENT_SOURCE_DIR}"
+)
+target_link_libraries(demo
+  soui
+  utilities
+  mhook
+  smiley
+  resprovider-7zip
+  TaskLoop
+  imgdecoder-gdip
+  imgdecoder-png
+  imgdecoder-stb
+  imgdecoder-wic
+  render-gdi
+  render-skia
+  log4z
+  translator
+  ScriptModule-Lua
+)
 set_target_properties (demo PROPERTIES
     FOLDER demos
+    DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX}
 )
 cotire(demo)

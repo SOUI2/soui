@@ -37,3 +37,5 @@ set_target_properties (imgdecoder-stb PROPERTIES
     FOLDER components/imgdecoder
 )
 cotire(imgdecoder-stb)
+
+SOUI_INSTALL_TARGETS(imgdecoder-stb)

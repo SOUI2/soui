@@ -1,4 +1,4 @@
-# 
+#
 # SOUI cmake配置文件
 #
 
@@ -28,3 +28,5 @@ endif()
 set_target_properties(utilities PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT "stdafx.h")
 
 set(CORE_LIBS ${CORE_LIBS} utilities CACHE INTERNAL "core_lib")
+
+SOUI_INSTALL_TARGETS(utilities)

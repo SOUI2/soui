@@ -35,3 +35,5 @@ set_target_properties (imgdecoder-wic PROPERTIES
     FOLDER components/imgdecoder
 )
 cotire(imgdecoder-wic)
+
+SOUI_INSTALL_TARGETS(imgdecoder-wic)

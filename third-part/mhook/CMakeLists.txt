@@ -22,3 +22,5 @@ set_target_properties (mhook PROPERTIES
     FOLDER third-part
 )
 cotire(mhook)
+
+SOUI_INSTALL_TARGETS(mhook)

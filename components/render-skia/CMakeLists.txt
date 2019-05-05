@@ -45,9 +45,14 @@ target_include_directories(render-skia
   PRIVATE ${PROJECT_SOURCE_DIR}/third-part/skia/include/config
   PRIVATE ${PROJECT_SOURCE_DIR}/third-part/skia/include/core
 )
+target_link_libraries(render-skia
+  skia
+)
 
 set(COM_LIBS ${COM_LIBS} render-skia CACHE INTERNAL "com_lib")
 set_target_properties (render-skia PROPERTIES
     FOLDER components/render
 )
 cotire(render-skia)
+
+SOUI_INSTALL_TARGETS(render-skia)

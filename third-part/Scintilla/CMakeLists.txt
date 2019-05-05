@@ -3,7 +3,6 @@
 #
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lexlib)
 
 file(GLOB_RECURSE CURRENT_HEADERS  *.h *.hpp)
@@ -15,8 +14,16 @@ source_group("Source Files" FILES ${CURRENT_SRCS})
 source_group("Resource Files" FILES ${CURRENT_RC})
 
 add_library(Scintilla STATIC ${CURRENT_HEADERS} ${CURRENT_SRCS} ${CURRENT_RC})
+target_compile_definitions(Scintilla
+  PRIVATE STATIC_BUILD
+)
+target_include_directories(Scintilla
+  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
 
 set(COM_LIBS ${COM_LIBS} Scintilla CACHE INTERNAL "com_lib")
 set_target_properties (Scintilla PROPERTIES
     FOLDER third-part
 )
+
+SOUI_INSTALL_TARGETS(Scintilla)

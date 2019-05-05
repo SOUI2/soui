@@ -37,8 +37,10 @@ SOUI是目前为数不多的轻量级可快速开发window桌面程序开源Dire
     * 其它额外编译参数如下:
         * `nmake TYPE=Debug` 表示生成 x86 debug 模式
         * `nmake ABI=x64` 表示生成 x64 的 release 模式,如果需要 debug 模式在后面增加 `TYPE=Debug` 即可
-        * `nmake CRT=-MT` 表示静态链接CRT  
-* #### `cmake`(目前暂时有问题,等待完善)
+        * `nmake CRT=-MT` 表示静态链接CRT
+* #### `cmake`
+
+    参考 [CMake编译](building-cmake.md)
 
 ### 论坛
 - http://ui520.cn
@@ -52,4 +54,4 @@ SOUI是目前为数不多的轻量级可快速开发window桌面程序开源Dire
 - 教学[视频](http://my.tv.sohu.com/pl/9259542/89333168.shtml)
 
 ### 捐献
-- 支付宝帐号![img](https://github.com/SOUI2/soui/blob/master/doc/alipay.png) 微信帐号![img](https://github.com/SOUI2/soui/blob/master/doc/wechat.png) 
+- 支付宝帐号![img](https://github.com/SOUI2/soui/blob/master/doc/alipay.png) 微信帐号![img](https://github.com/SOUI2/soui/blob/master/doc/wechat.png)

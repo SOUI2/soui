@@ -34,3 +34,5 @@ set_target_properties (imgdecoder-gdip PROPERTIES
     FOLDER components/imgdecoder
 )
 cotire(imgdecoder-gdip)
+
+SOUI_INSTALL_TARGETS(imgdecoder-gdip)

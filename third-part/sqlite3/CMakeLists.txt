@@ -27,3 +27,5 @@ set_target_properties (sqlite3 PROPERTIES
     FOLDER third-part
 )
 cotire(sqlite3)
+
+SOUI_INSTALL_TARGETS(sqlite3)

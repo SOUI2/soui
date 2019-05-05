@@ -1,4 +1,4 @@
-# 
+#
 # SOUI cmake配置文件
 #
 
@@ -18,3 +18,5 @@ set_target_properties(soui-sys-resource PROPERTIES LINK_FLAGS "/NOENTRY")
 
 # add_library(soui-sys-resource SHARED soui-sys-resource.rc)
 cotire(soui-sys-resource)
+
+SOUI_INSTALL_TARGETS(soui-sys-resource)
