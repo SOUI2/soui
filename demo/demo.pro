@@ -21,11 +21,16 @@ include($$dir/common.pri)
 QMAKE_CXXFLAGS -= /MP
 
 
+#import skmatrix module from dll.
+!LIB_ALL:!COM_LIB{
+	DEFINES += SKMATRIX_DLL
+}
+
 CONFIG(debug,debug|release){
-	LIBS += utilitiesd.lib souid.lib mhookd.lib smileyd.lib matrixd.lib
+	LIBS += utilitiesd.lib souid.lib mhookd.lib smileyd.lib skmatrixd.lib
 }
 else{
-	LIBS += utilities.lib soui.lib mhook.lib smiley.lib matrix.lib
+	LIBS += utilities.lib soui.lib mhook.lib smiley.lib skmatrix.lib
 }
 
 

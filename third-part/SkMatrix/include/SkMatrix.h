@@ -652,7 +652,7 @@ private:
     };
 
     SkScalar         fMat[9];
-    mutable SkTRacy<uint32_t> fTypeMask;
+    mutable uint32_t fTypeMask;
 
     uint8_t computeTypeMask() const;
     uint8_t computePerspectiveTypeMask() const;

@@ -12,7 +12,7 @@
 
 #include "SkMatrix.h"
 
-struct SkUnit3D {
+struct SK_API SkUnit3D {
     SkScalar fX, fY, fZ;
 
     void set(SkScalar x, SkScalar y, SkScalar z) {
@@ -22,7 +22,7 @@ struct SkUnit3D {
     static void Cross(const SkUnit3D&, const SkUnit3D&, SkUnit3D* cross);
 };
 
-struct SkPoint3D {
+struct SK_API SkPoint3D {
     SkScalar    fX, fY, fZ;
 
     void set(SkScalar x, SkScalar y, SkScalar z) {
@@ -32,7 +32,7 @@ struct SkPoint3D {
 };
 typedef SkPoint3D SkVector3D;
 
-struct SkMatrix3D {
+struct SK_API SkMatrix3D {
     SkScalar    fMat[3][4];
 
     void reset();
@@ -68,7 +68,7 @@ struct SkMatrix3D {
     }
 };
 
-class SkPatch3D {
+class SK_API SkPatch3D {
 public:
     SkPatch3D();
 
@@ -88,7 +88,7 @@ public: // make public for SkDraw3D for now
     friend class SkCamera3D;
 };
 
-class SkCamera3D {
+class SK_API SkCamera3D {
 public:
     SkCamera3D();
 
@@ -108,7 +108,7 @@ private:
     void doUpdate() const;
 };
 
-class Sk3DView : SkNoncopyable {
+class SK_API Sk3DView : SkNoncopyable {
 public:
     Sk3DView();
     ~Sk3DView();

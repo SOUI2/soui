@@ -251,20 +251,4 @@ inline bool SkScalarsEqual(const SkScalar a[], const SkScalar b[], int n) {
     return true;
 }
 
-template <typename T>
-class SkTRacy {
-public:
-	operator const T() const {
-		return SK_ANNOTATE_UNPROTECTED_READ(fVal);
-	}
-
-	SkTRacy& operator=(const T& val) {
-		SK_ANNOTATE_UNPROTECTED_WRITE(&fVal, val);
-		return *this;
-	}
-
-private:
-	T fVal;
-};
-
 #endif

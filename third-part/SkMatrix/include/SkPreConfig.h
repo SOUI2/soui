@@ -42,16 +42,12 @@
     #define SKIA_IMPLEMENTATION 0
 #endif
 
-#if defined(MATRIX_DLL)
-    #if defined(WIN32)
-        #if BUILD_MATRIX
-            #define SK_API __declspec(dllexport)
-        #else
-            #define SK_API __declspec(dllimport)
-        #endif
-    #else
-        #define SK_API __attribute__((visibility("default")))
-    #endif
+#if defined(SKMATRIX_DLL)
+	#if BUILD_MATRIX
+	#define SK_API __declspec(dllexport)
+	#else
+	#define SK_API __declspec(dllimport)
+	#endif
 #else
     #define SK_API
 #endif

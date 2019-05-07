@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="matrix"
-	ProjectGUID="{77E6DF10-D259-3A09-9376-481AEA2D0AC5}"
+	Name="SkMatrix"
+	ProjectGUID="{1321C253-FA1E-30F6-92B7-BF385986251F}"
 	Keyword="Qt4VSv1.0"
 	TargetFrameworkVersion="0"
 	>
@@ -17,9 +17,9 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\bin\"
-			IntermediateDirectory="..\obj\release\matrix\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\bin\"
+			IntermediateDirectory="..\..\obj\release\SkMatrix\"
+			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
@@ -46,14 +46,14 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				Optimization="1"
-				AdditionalIncludeDirectories=".,include,..\soui\include,..\utilities\include,..\config,d:\work\soui.git\tools\mkspecs\win32-msvc2008"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,SK_BUILD_FOR_WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
+				AdditionalIncludeDirectories=".,include,..\..\soui\include,..\..\utilities\include,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,SKMATRIX_DLL,BUILD_MATRIX,_CRT_SECURE_NO_WARNINGS,SK_BUILD_FOR_WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
 				GeneratePreprocessedFile="0"
 				ExceptionHandling="1"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				TreatWChar_tAsBuiltInType="true"
-				AssemblerListingLocation="..\obj\release\matrix\"
-				ObjectFile="..\obj\release\matrix\"
+				AssemblerListingLocation="..\..\obj\release\SkMatrix\"
+				ObjectFile="..\..\obj\release\SkMatrix\"
 				ProgramDataBaseFileName="$(IntDir)"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
@@ -65,19 +65,31 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,SK_BUILD_FOR_WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
-				ResourceOutputFileName="$(OutDir)\$(InputName).res"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,SKMATRIX_DLL,BUILD_MATRIX,_CRT_SECURE_NO_WARNINGS,SK_BUILD_FOR_WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\matrix.lib"
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="true"
+				OutputFile="$(OutDir)\SkMatrix.dll"
+				LinkIncremental="1"
 				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="..\..\bin"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=""
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				LinkTimeCodeGeneration="0"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -89,14 +101,17 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\bin\"
-			IntermediateDirectory="..\obj\debug\matrix\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\bin\"
+			IntermediateDirectory="..\..\obj\debug\SkMatrix\"
+			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
@@ -123,14 +138,14 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				Optimization="4"
-				AdditionalIncludeDirectories=".,include,..\soui\include,..\utilities\include,..\config,d:\work\soui.git\tools\mkspecs\win32-msvc2008"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,SK_BUILD_FOR_WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				AdditionalIncludeDirectories=".,include,..\..\soui\include,..\..\utilities\include,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
+				PreprocessorDefinitions="_WINDOWS;UNICODE;WIN32;SKMATRIX_DLL;BUILD_MATRIX;_CRT_SECURE_NO_WARNINGS;SK_BUILD_FOR_WIN32;QT_NO_DYNAMIC_CAST"
 				GeneratePreprocessedFile="0"
 				ExceptionHandling="1"
 				RuntimeLibrary="1"
 				TreatWChar_tAsBuiltInType="true"
-				AssemblerListingLocation="..\obj\debug\matrix\"
-				ObjectFile="..\obj\debug\matrix\"
+				AssemblerListingLocation="..\..\obj\debug\SkMatrix\"
+				ObjectFile="..\..\obj\debug\SkMatrix\"
 				ProgramDataBaseFileName="$(IntDir)"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
@@ -142,19 +157,28 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,SK_BUILD_FOR_WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,_DEBUG"
-				ResourceOutputFileName="$(OutDir)\$(InputName).res"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,SKMATRIX_DLL,BUILD_MATRIX,_CRT_SECURE_NO_WARNINGS,SK_BUILD_FOR_WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,_DEBUG"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\matrixd.lib"
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="true"
+				OutputFile="$(OutDir)\SkMatrixd.dll"
 				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="..\..\bin"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=""
+				SubSystem="2"
+				LinkTimeCodeGeneration="0"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -164,6 +188,9 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -191,7 +218,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\SkRect.cpp"
+				RelativePath="src\SkRect.cpp"
 				>
 			</File>
 		</Filter>
@@ -206,10 +233,6 @@
 			</File>
 			<File
 				RelativePath="include\SkFloatBits.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SkGlobal.h"
 				>
 			</File>
 			<File

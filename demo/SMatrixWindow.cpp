@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 #include "SMatrixWindow.h"
-#include "../matrix/include/SkCamera.h"
-#pragma comment(lib,"matrixd.lib")
+#include "../third-part/skmatrix/include/SkCamera.h"
 namespace SOUI
 {
 SMatrixWindow::SMatrixWindow(void)
