@@ -165,8 +165,14 @@ public:
         return fMat[index];
     }
 
-	const SkScalar * getAll() const{
+	const SkScalar * getData() const{
 		return fMat;
+	}
+
+	void setData(SkScalar fMat[9])
+	{
+		memcpy(this->fMat,fMat,sizeof(this->fMat));
+		this->setTypeMask(kUnknown_Mask);
 	}
 
     SkScalar& operator[](int index) {
@@ -181,10 +187,6 @@ public:
         this->setTypeMask(kUnknown_Mask);
     }
 
-
-    void setAll(SkScalar scaleX, SkScalar skewX, SkScalar transX,
-                SkScalar skewY, SkScalar scaleY, SkScalar transY,
-                SkPersp persp0, SkPersp persp1, SkPersp persp2);
 
     /** Set the matrix to identity
     */
@@ -717,10 +719,12 @@ private:
     static void RotTrans_pts(const SkMatrix&, SkPoint dst[], const SkPoint[],
                              int count);
     static void Persp_pts(const SkMatrix&, SkPoint dst[], const SkPoint[], int);
-
     static const MapPtsProc gMapPtsProcs[];
 
+
     friend class SkPerspIter;
+public:
+	static float SkScalarSinCos(float radians, float* cosValue);
 };
 
 #endif

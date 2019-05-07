@@ -26,6 +26,11 @@ namespace SOUI
 		setMatrix(m11,m12,m21,m22,dx,dy);
     }
 
+	SMatrix::SMatrix(const FLOAT mat[9])
+	{
+		memcpy(m_mat,mat,sizeof(m_mat));
+	}
+
 
     void SMatrix::setMatrix(FLOAT m11, FLOAT m12, FLOAT m21, FLOAT m22, FLOAT dx, FLOAT dy)
     {

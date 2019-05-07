@@ -25,7 +25,7 @@ namespace SOUI
 
         SMatrix(const SMatrix & src);
         SMatrix(FLOAT m11, FLOAT m12, FLOAT m21, FLOAT m22, FLOAT dx, FLOAT dy);
-
+		SMatrix(const FLOAT mat[9]);
 	public://IxForm
 		virtual float GetScaleX() const ;
 		virtual float GetScaleY() const ;

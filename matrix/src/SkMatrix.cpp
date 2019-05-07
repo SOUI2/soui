@@ -408,6 +408,22 @@ void SkMatrix::setSinCos(SkScalar sinV, SkScalar cosV,
     this->setTypeMask(kUnknown_Mask | kOnlyPerspectiveValid_Mask);
 }
 
+float SkMatrix::SkScalarSinCos(float radians, float* cosValue) {
+	float sinValue = sk_float_sin(radians);
+
+	if (cosValue) {
+		*cosValue = sk_float_cos(radians);
+		if (SkScalarNearlyZero(*cosValue)) {
+			*cosValue = 0;
+		}
+	}
+
+	if (SkScalarNearlyZero(sinValue)) {
+		sinValue = 0;
+	}
+	return sinValue;
+}
+
 void SkMatrix::setSinCos(SkScalar sinV, SkScalar cosV) {
     fMat[kMScaleX]  = cosV;
     fMat[kMSkewX]   = -sinV;
@@ -1617,18 +1633,4 @@ void SkMatrix::SetPerspY(float v)
 void SkMatrix::SetPersp2(float v)
 {
 	set(kMPersp2,v);
-}
-
-void SkMatrix::setAll(SkScalar scaleX, SkScalar skewX, SkScalar transX, SkScalar skewY, SkScalar scaleY, SkScalar transY, SkPersp persp0, SkPersp persp1, SkPersp persp2)
-{
-	fMat[kMScaleX] = scaleX;
-	fMat[kMSkewX]  = skewX;
-	fMat[kMTransX] = transX;
-	fMat[kMSkewY]  = skewY;
-	fMat[kMScaleY] = scaleY;
-	fMat[kMTransY] = transY;
-	fMat[kMPersp0] = persp0;
-	fMat[kMPersp1] = persp1;
-	fMat[kMPersp2] = persp2;
-	this->setTypeMask(kUnknown_Mask);
 }

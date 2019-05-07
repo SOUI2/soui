@@ -7,12 +7,20 @@ CONFIG(x64){
 TARGET = $$TARGET"64"
 }
 
+!LIB_ALL:!COM_LIB{
+	CONFIG += dll
+	DEFINES += MATRIX_DLL BUILD_MATRIX
+}
+else{
+	CONFIG += staticlib
+}
+
+DEFINES += _CRT_SECURE_NO_WARNINGS SK_BUILD_FOR_WIN32
+
 INCLUDEPATH += ./include
 INCLUDEPATH += ../soui/include
 INCLUDEPATH += ../utilities/include
 
-CONFIG += staticlib
-DEFINES += _CRT_SECURE_NO_WARNINGS SK_BUILD_FOR_WIN32
 
 dir = ..
 include($$dir/common.pri)
@@ -29,4 +37,4 @@ HEADERS += include/SkCamera.h \
            include/SkTLazy.h \
            include/SkTypes.h \
 
-SOURCES += src/SkCamera.cpp src/SkMatrix.cpp src/SkPoint.cpp
+SOURCES += src/SkCamera.cpp src/SkMatrix.cpp src/SkPoint.cpp src/SkRect.cpp

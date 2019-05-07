@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "SMatrixWindow.h"
-
+#include "../matrix/include/SkCamera.h"
+#pragma comment(lib,"matrixd.lib")
 namespace SOUI
 {
 SMatrixWindow::SMatrixWindow(void)
@@ -9,6 +10,7 @@ SMatrixWindow::SMatrixWindow(void)
 ,m_fSkewX(.0f),m_fSkewY(.0f)
 ,m_fTransX(.0f),m_fTransY(.0f)
 ,m_fPerspX(0.0f),m_fPerspY(0.0f)
+,m_iStep(0)
 {
 }
 
@@ -71,18 +73,53 @@ void SMatrixWindow::OnPaint(IRenderTarget *pRT)
         pRT->DrawText(_T("没有指定skin对象"),-1,rc,DT_SINGLELINE|DT_VCENTER|DT_VCENTER);
     }else
     {
-        SMatrix m,m2;
-        m.rotate(m_fRotate)
-        .scale(m_fScaleX,m_fScaleY)
-        .shear(m_fSkewX,m_fSkewY)
-        .translate(m_fTransX,m_fTransY)
-		.perspective(m_fPerspX,m_fPerspY);
+		Sk3DView view;
+		view.rotateY(m_fRotate);
+		SkMatrix mat;
+		view.getMatrix(&mat);
+		SIZE szSkin = m_pBgSkin->GetSkinSize();
+		int wid = rc.Width()/2+rc.left;
+		int hei = rc.Height()/2+rc.top;
+		mat.preTranslate(-wid,-hei);
+		mat.postTranslate(wid,hei);
+		
+        SMatrix m(mat.getData()),m2;
+		
+//         m.rotate(m_fRotate)
+//         .scale(m_fScaleX,m_fScaleY)
+//         .shear(m_fSkewX,m_fSkewY)
+//         .translate(m_fTransX,m_fTransY)
+// 		.perspective(m_fPerspX,m_fPerspY);
         
         pRT->SetTransform(&m,&m2);
         m_pBgSkin->Draw(pRT,rc,0);
         pRT->SetTransform(&m2);
     }
     AfterPaint(pRT,painter);
+}
+
+void SMatrixWindow::OnNextFrame()
+{
+	m_iStep ++;
+	if(m_iStep==10)
+	{
+		m_fRotate += 5;
+		if(m_fRotate>360) m_fRotate-=360;
+		Invalidate();
+		m_iStep=0;
+	}
+}
+
+void SMatrixWindow::OnShowWindow(BOOL bShow, UINT nStatus)
+{
+	__super::OnShowWindow(bShow,nStatus);
+	if(IsVisible(TRUE))
+	{
+		GetContainer()->RegisterTimelineHandler(this);
+	}else
+	{
+		GetContainer()->UnregisterTimelineHandler(this);
+	}
 }
 
 

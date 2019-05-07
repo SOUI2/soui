@@ -220,27 +220,15 @@ typedef int SkBool;
  */
 typedef uint8_t SkBool8;
 
-#ifdef SK_DEBUG
-    SK_API int8_t      SkToS8(intmax_t);
-    SK_API uint8_t     SkToU8(uintmax_t);
-    SK_API int16_t     SkToS16(intmax_t);
-    SK_API uint16_t    SkToU16(uintmax_t);
-    SK_API int32_t     SkToS32(intmax_t);
-    SK_API uint32_t    SkToU32(uintmax_t);
-    SK_API int         SkToInt(intmax_t);
-    SK_API unsigned    SkToUInt(uintmax_t);
-    SK_API size_t      SkToSizeT(uintmax_t);
-#else
-    #define SkToS8(x)   ((int8_t)(x))
-    #define SkToU8(x)   ((uint8_t)(x))
-    #define SkToS16(x)  ((int16_t)(x))
-    #define SkToU16(x)  ((uint16_t)(x))
-    #define SkToS32(x)  ((int32_t)(x))
-    #define SkToU32(x)  ((uint32_t)(x))
-    #define SkToInt(x)  ((int)(x))
-    #define SkToUInt(x) ((unsigned)(x))
-    #define SkToSizeT(x) ((size_t)(x))
-#endif
+#define SkToS8(x)   ((int8_t)(x))
+#define SkToU8(x)   ((uint8_t)(x))
+#define SkToS16(x)  ((int16_t)(x))
+#define SkToU16(x)  ((uint16_t)(x))
+#define SkToS32(x)  ((int32_t)(x))
+#define SkToU32(x)  ((uint32_t)(x))
+#define SkToInt(x)  ((int)(x))
+#define SkToUInt(x) ((unsigned)(x))
+#define SkToSizeT(x) ((size_t)(x))
 
 /** Returns 0 or 1 based on the condition
 */

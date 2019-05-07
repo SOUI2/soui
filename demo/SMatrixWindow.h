@@ -2,7 +2,7 @@
 #include <helper/SMatrix.h>
 namespace SOUI
 {
-class SMatrixWindow : public SWindow
+class SMatrixWindow : public SWindow,public ITimelineHandler
 {
 SOUI_CLASS_NAME(SMatrixWindow,L"matrixWindow")
 public:
@@ -10,10 +10,15 @@ public:
     ~SMatrixWindow(void);
     
 protected:
+	virtual void OnNextFrame();
+
+protected:
     void OnPaint(IRenderTarget *pRT);
     BOOL OnEraseBkgnd(IRenderTarget *pRT){return TRUE;}
 
+	void OnShowWindow(BOOL bShow, UINT nStatus);
     SOUI_MSG_MAP_BEGIN()
+		MSG_WM_SHOWWINDOW(OnShowWindow)
         MSG_WM_PAINT_EX(OnPaint)
         MSG_WM_ERASEBKGND_EX(OnEraseBkgnd)
     SOUI_MSG_MAP_END()
@@ -37,6 +42,8 @@ protected:
     float m_fSkewX, m_fSkewY;
     float m_fTransX, m_fTransY;
 	float m_fPerspX, m_fPerspY;
+
+	int  m_iStep;
 };
 
 }

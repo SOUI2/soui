@@ -10,7 +10,7 @@
 
 #include "SkScalar.h"
 
-namespace SOUI{
+//NS_BEGIN
 /** \struct SkIPoint16
 
     SkIPoint holds two 16 bit integer coordinates

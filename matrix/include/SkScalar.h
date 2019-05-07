@@ -49,21 +49,6 @@ typedef float   SkScalar;
 /** SK_ScalarNaN is defined to be 'Not a Number' as an SkScalar
 */
 #define SK_ScalarNaN            SK_FloatNaN
-/** SkScalarIsNaN(n) returns true if argument is not a number
-*/
-static inline bool SkScalarIsNaN(float x) { return x != x; }
-
-/** Returns true if x is not NaN and not infinite */
-static inline bool SkScalarIsFinite(float x) {
-    // We rely on the following behavior of infinities and nans
-    // 0 * finite --> 0
-    // 0 * infinity --> NaN
-    // 0 * NaN --> NaN
-    float prod = x * 0;
-    // At this point, prod will either be NaN or 0
-    // Therefore we can return (prod == prod) or (0 == prod).
-    return prod == prod;
-}
 
 /** SkIntToScalar(n) returns its integer argument as an SkScalar
 */
@@ -100,25 +85,6 @@ static inline bool SkScalarIsFinite(float x) {
 #define SK_ANNOTATE_UNPROTECTED_READ(x) (x)
 #define SK_ANNOTATE_UNPROTECTED_WRITE(ptr, val) *(ptr) = (val)
 
-/**
- *  Variant of SkScalarRoundToInt, that performs the rounding step (adding 0.5) explicitly using
- *  double, to avoid possibly losing the low bit(s) of the answer before calling floor().
- *
- *  This routine will likely be slower than SkScalarRoundToInt(), and should only be used when the
- *  extra precision is known to be valuable.
- *
- *  In particular, this catches the following case:
- *      SkScalar x = 0.49999997;
- *      int ix = SkScalarRoundToInt(x);
- *      SkASSERT(0 == ix);    // <--- fails
- *      ix = SkDScalarRoundToInt(x);
- *      SkASSERT(0 == ix);    // <--- succeeds
- */
-static inline int SkDScalarRoundToInt(SkScalar x) {
-    double xx = x;
-    xx += 0.5;
-    return (int)floor(xx);
-}
 
 /** Returns the absolute value of the specified SkScalar
 */
@@ -126,19 +92,6 @@ static inline int SkDScalarRoundToInt(SkScalar x) {
 /** Return x with the sign of y
  */
 #define SkScalarCopySign(x, y)  sk_float_copysign(x, y)
-/** Returns the value pinned between 0 and max inclusive
-*/
-inline SkScalar SkScalarClampMax(SkScalar x, SkScalar max) {
-    return x < 0 ? 0 : x > max ? max : x;
-}
-/** Returns the value pinned between min and max inclusive
-*/
-inline SkScalar SkScalarPin(SkScalar x, SkScalar min, SkScalar max) {
-    return x < min ? min : x > max ? max : x;
-}
-/** Returns the specified SkScalar squared (x*x)
-*/
-inline SkScalar SkScalarSquare(SkScalar x) { return x * x; }
 /** Returns the product of two SkScalars
 */
 #define SkScalarMul(a, b)       ((float)(a) * (b))
@@ -178,7 +131,6 @@ inline SkScalar SkScalarSquare(SkScalar x) { return x * x; }
 
 #define SkDegreesToRadians(degrees) ((degrees) * (SK_ScalarPI / 180))
 #define SkRadiansToDegrees(radians) ((radians) * (180 / SK_ScalarPI))
-float SkScalarSinCos(SkScalar radians, SkScalar* cosValue);
 #define SkScalarSin(radians)    (float)sk_float_sin(radians)
 #define SkScalarCos(radians)    (float)sk_float_cos(radians)
 #define SkScalarTan(radians)    (float)sk_float_tan(radians)
@@ -188,19 +140,62 @@ float SkScalarSinCos(SkScalar radians, SkScalar* cosValue);
 #define SkScalarExp(x)  (float)sk_float_exp(x)
 #define SkScalarLog(x)  (float)sk_float_log(x)
 
+
+/**
+ *  Variant of SkScalarRoundToInt, that performs the rounding step (adding 0.5) explicitly using
+ *  double, to avoid possibly losing the low bit(s) of the answer before calling floor().
+ *
+ *  This routine will likely be slower than SkScalarRoundToInt(), and should only be used when the
+ *  extra precision is known to be valuable.
+ *
+ *  In particular, this catches the following case:
+ *      SkScalar x = 0.49999997;
+ *      int ix = SkScalarRoundToInt(x);
+ *      SkASSERT(0 == ix);    // <--- fails
+ *      ix = SkDScalarRoundToInt(x);
+ *      SkASSERT(0 == ix);    // <--- succeeds
+ */
+inline int SkDScalarRoundToInt(SkScalar x) {
+    double xx = x;
+    xx += 0.5;
+    return (int)floor(xx);
+}
 inline SkScalar SkMaxScalar(SkScalar a, SkScalar b) { return a > b ? a : b; }
 inline SkScalar SkMinScalar(SkScalar a, SkScalar b) { return a < b ? a : b; }
 
-static inline bool SkScalarIsInt(SkScalar x) {
-    return x == (float)(int)x;
+/** SkScalarIsNaN(n) returns true if argument is not a number
+*/
+inline bool SkScalarIsNaN(float x) { return x != x; }
+
+/** Returns true if x is not NaN and not infinite */
+inline bool SkScalarIsFinite(float x) {
+	// We rely on the following behavior of infinities and nans
+	// 0 * finite --> 0
+	// 0 * infinity --> NaN
+	// 0 * NaN --> NaN
+	float prod = x * 0;
+	// At this point, prod will either be NaN or 0
+	// Therefore we can return (prod == prod) or (0 == prod).
+	return prod == prod;
 }
 
-// DEPRECATED : use ToInt or ToScalar variant
-#ifdef SK_SUPPORT_DEPRECATED_SCALARROUND
-#   define SkScalarFloor(x)    SkScalarFloorToInt(x)
-#   define SkScalarCeil(x)     SkScalarCeilToInt(x)
-#   define SkScalarRound(x)    SkScalarRoundToInt(x)
-#endif
+/** Returns the value pinned between 0 and max inclusive
+*/
+inline SkScalar SkScalarClampMax(SkScalar x, SkScalar max) {
+	return x < 0 ? 0 : x > max ? max : x;
+}
+/** Returns the value pinned between min and max inclusive
+*/
+inline SkScalar SkScalarPin(SkScalar x, SkScalar min, SkScalar max) {
+	return x < min ? min : x > max ? max : x;
+}
+/** Returns the specified SkScalar squared (x*x)
+*/
+inline SkScalar SkScalarSquare(SkScalar x) { return x * x; }
+
+inline bool SkScalarIsInt(SkScalar x) {
+    return x == (float)(int)x;
+}
 
 /**
  *  Returns -1 || 0 || 1 depending on the sign of value:
@@ -208,24 +203,24 @@ static inline bool SkScalarIsInt(SkScalar x) {
  *   0 if x == 0
  *   1 if x > 0
  */
-static inline int SkScalarSignAsInt(SkScalar x) {
+inline int SkScalarSignAsInt(SkScalar x) {
     return x < 0 ? -1 : (x > 0);
 }
 
 // Scalar result version of above
-static inline SkScalar SkScalarSignAsScalar(SkScalar x) {
+inline SkScalar SkScalarSignAsScalar(SkScalar x) {
     return x < 0 ? -SK_Scalar1 : ((x > 0) ? SK_Scalar1 : 0);
 }
 
 #define SK_ScalarNearlyZero         (SK_Scalar1 / (1 << 12))
 
-static inline bool SkScalarNearlyZero(SkScalar x,
+inline bool SkScalarNearlyZero(SkScalar x,
                                     SkScalar tolerance = SK_ScalarNearlyZero) {
     SkASSERT(tolerance >= 0);
     return SkScalarAbs(x) <= tolerance;
 }
 
-static inline bool SkScalarNearlyEqual(SkScalar x, SkScalar y,
+inline bool SkScalarNearlyEqual(SkScalar x, SkScalar y,
                                      SkScalar tolerance = SK_ScalarNearlyZero) {
     SkASSERT(tolerance >= 0);
     return SkScalarAbs(x-y) <= tolerance;
@@ -237,7 +232,7 @@ static inline bool SkScalarNearlyEqual(SkScalar x, SkScalar y,
     else interpolate.
     t must be [0..SK_Scalar1]
 */
-static inline SkScalar SkScalarInterp(SkScalar A, SkScalar B, SkScalar t) {
+inline SkScalar SkScalarInterp(SkScalar A, SkScalar B, SkScalar t) {
     SkASSERT(t >= 0 && t <= SK_Scalar1);
     return A + (B - A) * t;
 }
@@ -246,7 +241,7 @@ static inline SkScalar SkScalarInterp(SkScalar A, SkScalar B, SkScalar t) {
 /*
  *  Helper to compare an array of scalars.
  */
-static inline bool SkScalarsEqual(const SkScalar a[], const SkScalar b[], int n) {
+inline bool SkScalarsEqual(const SkScalar a[], const SkScalar b[], int n) {
     SkASSERT(n >= 0);
     for (int i = 0; i < n; ++i) {
         if (a[i] != b[i]) {

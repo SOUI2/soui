@@ -256,7 +256,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\controls.extend\SAniWindow.cpp"
+				RelativePath="..\controls.extend\saniwindow.cpp"
 				>
 			</File>
 			<File
@@ -308,7 +308,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\controls.extend\SGroupList.cpp"
+				RelativePath="..\controls.extend\sgrouplist.cpp"
 				>
 			</File>
 			<File
@@ -502,7 +502,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\controls.extend\SAniWindow.h"
+				RelativePath="..\controls.extend\saniwindow.h"
 				>
 			</File>
 			<File
@@ -554,7 +554,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\controls.extend\SGroupList.h"
+				RelativePath="..\controls.extend\sgrouplist.h"
 				>
 			</File>
 			<File
@@ -742,10 +742,6 @@
 		</Filter>
 		<File
 			RelativePath="demo.rc"
-			>
-		</File>
-		<File
-			RelativePath=".\uires\values\template.xml"
 			>
 		</File>
 	</Files>

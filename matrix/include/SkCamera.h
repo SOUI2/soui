@@ -81,11 +81,6 @@ public:
         return this->dotWith(v.fX, v.fY, v.fZ);
     }
 
-    // deprecated, but still here for animator (for now)
-    void rotate(SkScalar x, SkScalar y, SkScalar z) {}
-    void rotateDegrees(SkScalar x, SkScalar y, SkScalar z) {}
-
-private:
 public: // make public for SkDraw3D for now
     SkVector3D  fU, fV;
     SkPoint3D   fOrigin;

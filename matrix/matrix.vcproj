@@ -127,7 +127,7 @@
 				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,SK_BUILD_FOR_WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
 				GeneratePreprocessedFile="0"
 				ExceptionHandling="1"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				TreatWChar_tAsBuiltInType="true"
 				AssemblerListingLocation="..\obj\debug\matrix\"
 				ObjectFile="..\obj\debug\matrix\"
@@ -190,6 +190,10 @@
 				RelativePath="src\SkPoint.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\src\SkRect.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -202,6 +206,10 @@
 			</File>
 			<File
 				RelativePath="include\SkFloatBits.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SkGlobal.h"
 				>
 			</File>
 			<File

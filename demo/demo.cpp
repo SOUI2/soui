@@ -34,6 +34,7 @@
 
 #include "MainDlg.h"
 
+
 #ifdef _DEBUG
 #define RES_TYPE 0      //从文件中加载资源，加载失败再从PE加载
 #else

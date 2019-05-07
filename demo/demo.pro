@@ -22,10 +22,10 @@ QMAKE_CXXFLAGS -= /MP
 
 
 CONFIG(debug,debug|release){
-	LIBS += utilitiesd.lib souid.lib mhookd.lib smileyd.lib
+	LIBS += utilitiesd.lib souid.lib mhookd.lib smileyd.lib matrixd.lib
 }
 else{
-	LIBS += utilities.lib soui.lib mhook.lib smiley.lib
+	LIBS += utilities.lib soui.lib mhook.lib smiley.lib matrix.lib
 }
 
 

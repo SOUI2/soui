@@ -44,7 +44,7 @@
 
 #if defined(MATRIX_DLL)
     #if defined(WIN32)
-        #if SKIA_IMPLEMENTATION
+        #if BUILD_MATRIX
             #define SK_API __declspec(dllexport)
         #else
             #define SK_API __declspec(dllimport)
@@ -107,6 +107,4 @@
 #  define SkDELETE(obj)                              (delete (obj))
 #  define SkDELETE_ARRAY(array)                      (delete[] (array))
 
-#define NS_BEGIN namespace SOUI{
-#define NS_END }//namespace SOUI
 #endif

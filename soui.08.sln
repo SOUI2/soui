@@ -108,6 +108,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskLoop", "components\Task
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SIpcObject", "components\SIpcObject\SIpcObject.vcproj", "{05BCE4A1-6B8B-386E-8962-D803F2977E82}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "matrix", "matrix\matrix.vcproj", "{77E6DF10-D259-3A09-9376-481AEA2D0AC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -222,6 +224,10 @@ Global
 		{05BCE4A1-6B8B-386E-8962-D803F2977E82}.Debug|Win32.Build.0 = Debug|Win32
 		{05BCE4A1-6B8B-386E-8962-D803F2977E82}.Release|Win32.ActiveCfg = Release|Win32
 		{05BCE4A1-6B8B-386E-8962-D803F2977E82}.Release|Win32.Build.0 = Release|Win32
+		{77E6DF10-D259-3A09-9376-481AEA2D0AC5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{77E6DF10-D259-3A09-9376-481AEA2D0AC5}.Debug|Win32.Build.0 = Debug|Win32
+		{77E6DF10-D259-3A09-9376-481AEA2D0AC5}.Release|Win32.ActiveCfg = Release|Win32
+		{77E6DF10-D259-3A09-9376-481AEA2D0AC5}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

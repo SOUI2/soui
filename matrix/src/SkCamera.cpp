@@ -106,7 +106,7 @@ void SkMatrix3D::setTranslate(SkScalar x, SkScalar y, SkScalar z) {
 void SkMatrix3D::setRotateX(SkScalar degX) {
     SkScalar    s, c;
 
-    s = SkScalarSinCos(SkDegreesToRadians(degX), &c);
+	s = SkMatrix::SkScalarSinCos(SkDegreesToRadians(degX), &c);
     this->setRow(0, SK_Scalar1, 0, 0);
     this->setRow(1, 0, c, -s);
     this->setRow(2, 0, s, c);
@@ -115,7 +115,7 @@ void SkMatrix3D::setRotateX(SkScalar degX) {
 void SkMatrix3D::setRotateY(SkScalar degY) {
     SkScalar    s, c;
 
-    s = SkScalarSinCos(SkDegreesToRadians(degY), &c);
+    s = SkMatrix::SkScalarSinCos(SkDegreesToRadians(degY), &c);
     this->setRow(0, c, 0, -s);
     this->setRow(1, 0, SK_Scalar1, 0);
     this->setRow(2, s, 0, c);
@@ -124,7 +124,7 @@ void SkMatrix3D::setRotateY(SkScalar degY) {
 void SkMatrix3D::setRotateZ(SkScalar degZ) {
     SkScalar    s, c;
 
-    s = SkScalarSinCos(SkDegreesToRadians(degZ), &c);
+    s = SkMatrix::SkScalarSinCos(SkDegreesToRadians(degZ), &c);
     this->setRow(0, c, -s, 0);
     this->setRow(1, s, c, 0);
     this->setRow(2, 0, 0, SK_Scalar1);
@@ -251,7 +251,7 @@ void SkCamera3D::patchToMatrix(const SkPatch3D& quilt, SkMatrix* matrix) const {
         fNeedToUpdate = false;
     }
 
-    const SkScalar* mapPtr = (const SkScalar*)(const void*)&fOrientation;
+    const SkScalar* mapPtr = fOrientation.getData();
     const SkScalar* patchPtr;
     SkPoint3D       diff;
     SkScalar        dot;
@@ -261,7 +261,7 @@ void SkCamera3D::patchToMatrix(const SkPatch3D& quilt, SkMatrix* matrix) const {
     diff.fZ = quilt.fOrigin.fZ - fLocation.fZ;
 
     dot = SkUnit3D::Dot(*SkTCast<const SkUnit3D*>(&diff),
-                        *SkTCast<const SkUnit3D*>(SkTCast<const SkScalar*>(&fOrientation) + 6));
+                        *SkTCast<const SkUnit3D*>(fOrientation.getData() + 6));
 
     patchPtr = (const SkScalar*)&quilt;
     matrix->set(SkMatrix::kMScaleX, SkScalarDotDiv(3, patchPtr, 1, mapPtr, 1, dot));
