@@ -214,6 +214,8 @@ protected:
 	//从模板创建子窗口demo
 	void OnBtnCreateByTemp();
 
+	void On3dViewRotate(EventArgs *e);
+
     //UI控件的事件及响应函数映射表
 	EVENT_MAP_BEGIN()
 		EVENT_HANDLER(EventPath::EventID,OnEventPath)
@@ -263,7 +265,6 @@ protected:
         EVENT_NAME_HANDLER(L"edit_scale",EVT_RE_NOTIFY,OnMatrixWindowReNotify)
         EVENT_NAME_HANDLER(L"edit_skew",EVT_RE_NOTIFY,OnMatrixWindowReNotify)
         EVENT_NAME_HANDLER(L"edit_translate",EVT_RE_NOTIFY,OnMatrixWindowReNotify)
-		EVENT_NAME_HANDLER(L"edit_perspective",EVT_RE_NOTIFY,OnMatrixWindowReNotify)
         
         EVENT_NAME_HANDLER(L"menu_slider",EventSliderPos::EventID,OnMenuSliderPos)
 		EVENT_ID_HANDLER(R.id.gl_catalog,EventGroupListInitGroup::EventID,OnInitGroup)
@@ -271,6 +272,10 @@ protected:
 		EVENT_ID_HANDLER(R.id.gl_catalog,EventGroupStateChanged::EventID,OnGroupStateChanged)
 		EVENT_ID_HANDLER(R.id.gl_catalog,EventGroupListItemCheck::EventID,OnCtrlPageClick)
 		EVENT_NAME_HANDLER(L"mclv_test_header",EventHeaderRelayout::EventID,OnMcLvHeaderRelayout)
+
+		EVENT_NAME_HANDLER(L"rotate_x",EventSwndStateChanged::EventID,On3dViewRotate)
+		EVENT_NAME_HANDLER(L"rotate_y",EventSwndStateChanged::EventID,On3dViewRotate)
+		EVENT_NAME_HANDLER(L"rotate_z",EventSwndStateChanged::EventID,On3dViewRotate)
 	EVENT_MAP_END()	
 
     //HOST消息及响应函数映射表

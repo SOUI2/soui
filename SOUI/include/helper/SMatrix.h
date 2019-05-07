@@ -78,8 +78,6 @@ namespace SOUI
 
         SMatrix & rotate(FLOAT a);
 
-		SMatrix & perspective(FLOAT perspX, FLOAT perspY);
-
         void inverted(SMatrix *pOut, bool *invertible = 0) const;
 
         FLOAT determinant() const;

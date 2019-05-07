@@ -8,6 +8,7 @@
 #include "../controls.extend/FileHelper.h"
 #include "../controls.extend/SChatEdit.h"
 #include "../controls.extend/reole/richeditole.h"
+#include "SMatrixWindow.h"
 #include "FormatMsgDlg.h"
 #include <math.h>
 
@@ -812,10 +813,7 @@ void CMainDlg::OnMatrixWindowReNotify(EventArgs *pEvt)
     }else if(SStringW(L"edit_translate") == pEvt->nameFrom)
     {
         pMatrixWnd->SetAttribute(L"translate",strValue);
-    }else if(SStringW(L"edit_perspective") == pEvt->nameFrom)
-	{
-		pMatrixWnd->SetAttribute(L"perspective",strValue);
-	}
+    }
 }
 
 //演示从XML字符串动态创建子窗口，使用subscribeEvent来响应创建出来的控件的事件，这里不做演示
@@ -1068,6 +1066,19 @@ void CMainDlg::OnBtnCreateByTemp()
 	{
 		SStringT strInput = pInput->GetWindowText();
 		pContainer->CreateChildren(S_CT2W(strInput));
+	}
+}
+
+void CMainDlg::On3dViewRotate(EventArgs *e)
+{
+	EventSwndStateChanged *e2 = sobj_cast<EventSwndStateChanged>(e);
+	S3DView *p3dView = FindChildByName2<S3DView>(L"3d_test");
+	if(p3dView)
+	{
+		if((e2->dwNewState & WndState_Check) && !(e2->dwOldState&WndState_Check))
+		{
+			p3dView->SetAttribute(L"rotateDir",e->nameFrom);
+		}
 	}
 }
 
