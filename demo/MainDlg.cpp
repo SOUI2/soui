@@ -335,6 +335,21 @@ LRESULT CMainDlg::OnInitDialog( HWND hWnd, LPARAM lParam )
     SWindow *pWndRgn = FindChildByName(L"wnd_rgn");
     if(pWndRgn)
     {
+		//性能优化后，隐藏窗口不能直接获取位置，这里先主动请求布局。
+		SList<SWindow*> pps;
+		SWindow *p = pWndRgn->GetParent();
+		while (!p->IsVisible(TRUE))
+		{
+			pps.AddHead(p);
+			p = p->GetParent();
+		}
+		SPOSITION pos = pps.GetHeadPosition();
+		while (pos)
+		{
+			SWindow *p = pps.GetNext(pos);
+			p->UpdateChildrenPosition();
+		}
+
         CRect rc=pWndRgn->GetWindowRect();
         rc.MoveToXY(0,0);//注意：SWindow将窗口的左上角定义为Rgn的原点。
         HRGN hRgn =::CreateEllipticRgnIndirect(&rc);
