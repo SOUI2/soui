@@ -1195,7 +1195,7 @@ namespace SOUI
 		return E_NOTIMPL;
 	}
 
-	HRESULT SRenderTarget_GDI::SetRopMode(int mode,int *pOldMode)
+	HRESULT SRenderTarget_GDI::SetXfermode(int mode,int *pOldMode)
 	{
 		switch (mode)
 		{

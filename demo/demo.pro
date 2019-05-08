@@ -80,6 +80,7 @@ HEADERS += MainDlg.h \
           httpsvr/httpserver.h \
           magnet/magnetframe.h \
           smatrixwindow.h \
+		  sroundimage.h \
           memflash.h \          
           threadObject.h \
           SmileyCreateHook.h \
@@ -138,7 +139,8 @@ SOURCES += demo.cpp \
           httpsvr/httpserver.cpp \
           magnet/magnetframe.cpp \
           memflash.cpp	\
-          smatrixwindow.cpp \           
+          smatrixwindow.cpp \ 
+		  sroundimage.cpp \          
           threadObject.cpp \
           SmileyCreateHook.cpp \
           uianimation/uianimationwnd.cpp \

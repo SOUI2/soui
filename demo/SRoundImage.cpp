@@ -18,12 +18,13 @@ namespace SOUI
 		CAutoRefPtr<IRenderTarget> pRT; 
 		CRect rc = GetClientRect();
 		GETRENDERFACTORY->CreateRenderTarget(&pRT, rc.Width(), rc.Height());
+		rc.MoveToXY(0, 0);
 		pRT->ClearRect(&rc, 0);
-		CAutoRefPtr<IPen> pen;
-		pRT->CreatePen(PS_SOLID, RGBA(0xBA,0xB3,0x99,0xFF), 1, &pen);
-		pRT->SelectObject(pen);
-		pRT->DrawEllipse(&rc);
-		pRT->SetRopMode(kSrcIn_Mode);
+		CAutoRefPtr<IBrush> br;
+		pRT->CreateSolidColorBrush(RGBA(0xBA, 0xB3, 0x99, 0xFF), &br);
+		pRT->SelectObject(br);
+		pRT->FillEllipse(&rc);
+		pRT->SetXfermode(kSrcIn_Mode);
 		m_pSkin->Draw(pRT, rc, 0);
 		return (IBitmap*)pRT->GetCurrentObject(OT_BITMAP);
 	}

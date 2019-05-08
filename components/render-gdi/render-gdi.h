@@ -395,7 +395,7 @@ namespace SOUI
 
 		virtual HRESULT PopLayer();
 
-		virtual HRESULT SetRopMode(int mode,int *pOldMode);
+		virtual HRESULT SetXfermode(int mode,int *pOldMode);
 	protected:
         HDC               m_hdc;
         SColor            m_curColor;

@@ -482,7 +482,7 @@ namespace SOUI
 
 		virtual HRESULT PopLayer() ;
 
-		virtual HRESULT SetRopMode(int mode,int *pOldMode/* =NULL */);
+		virtual HRESULT SetXfermode(int mode,int *pOldMode/* =NULL */);
     public:
         SkCanvas *GetCanvas(){return m_SkCanvas;}
 
@@ -523,7 +523,7 @@ namespace SOUI
 
 		bool			m_bAntiAlias;
 		SList<int>		m_lstLayerId;	//list to save layer ids
-		int				m_nRopMode;
+		int				m_xferMode;
 	};
 	
 	namespace RENDER_SKIA
