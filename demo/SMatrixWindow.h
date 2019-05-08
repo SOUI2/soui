@@ -29,6 +29,8 @@ namespace SOUI
 				ATTR_ENUM_VALUE(L"rotate_z",RotateZ)
 			ATTR_ENUM_END(m_rotateDir)
 			ATTR_INT(L"speed",m_nSpeed,FALSE)
+			ATTR_SKIN(L"skin_fore",m_skinFore,TRUE)
+			ATTR_SKIN(L"skin_back",m_skinBack,TRUE)
 		SOUI_ATTRS_END()
 
 	private:
@@ -39,9 +41,11 @@ namespace SOUI
 		};
 
 		RotateDir m_rotateDir;
-		float m_fRotate;
+		int  m_nRotate;
 		int  m_iStep;
 		int  m_nSpeed;
+		CAutoRefPtr<ISkinObj> m_skinFore;
+		CAutoRefPtr<ISkinObj> m_skinBack;
 	};
 
 

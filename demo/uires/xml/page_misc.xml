@@ -71,7 +71,7 @@
             <radio name="rotate_z" text="rotate z"/>
             <text colorText="@color/red" text="只有使用skia渲染才有3D变换效果!"/>
           </window>
-          <s3dview name="3d_test" size="-2,0" weight="1" skin="skin_avatar_low" clipClient="1"/>
+          <s3dview name="3d_test" size="-2,0" weight="1" skin_fore="skin_avatar_low" skin_back="skin_bkgnd" clipClient="1"/>
         </page>
       </tabctrl>
       

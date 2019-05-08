@@ -4,7 +4,7 @@
 namespace SOUI
 {
 
-	S3DView::S3DView(void):m_iStep(0),m_fRotate(0),m_rotateDir(RotateY),m_nSpeed(5)
+	S3DView::S3DView(void):m_iStep(0),m_nRotate(0),m_rotateDir(RotateY),m_nSpeed(5)
 	{
 	}
 
@@ -31,28 +31,45 @@ namespace SOUI
 		SPainter painter;
 		BeforePaint(pRT,painter);
 		CRect rc = GetClientRect();
-		if(!m_pBgSkin)
+		if(!(m_skinBack && m_skinFore))
 		{
 			pRT->DrawText(_T("没有指定skin对象"),-1,rc,DT_SINGLELINE|DT_VCENTER|DT_VCENTER);
 		}else
 		{
 			Sk3DView view;
+			float zOffset=rc.Width()/2*fabs(sin(m_nRotate*3.1415926/180));
+			view.translate(0,0,zOffset);
 			switch(m_rotateDir)
 			{
-			case RotateX:view.rotateX(m_fRotate);break;
-			case RotateY:view.rotateY(m_fRotate);break;
-			case RotateZ:view.rotateZ(m_fRotate);break;
+			case RotateX:view.rotateX(m_nRotate);break;
+			case RotateY:view.rotateY(m_nRotate);break;
+			case RotateZ:view.rotateZ(m_nRotate);break;
 			}
 			SkMatrix mat;
 			view.getMatrix(&mat);
-			SIZE szSkin = m_pBgSkin->GetSkinSize();
+
 			int wid = rc.Width()/2+rc.left;
 			int hei = rc.Height()/2+rc.top;
 			mat.preTranslate(-wid,-hei);
 			mat.postTranslate(wid,hei);
 
 			pRT->SetTransform(&mat);
-			m_pBgSkin->Draw(pRT,rc,0);
+			//[0,90) [180,270)=> fore
+			int nRotate = (int)m_nRotate;
+			if(m_nRotate<180)
+			{
+				if((m_nRotate%180)>90)
+					m_skinBack->Draw(pRT,rc,0);
+				else
+					m_skinFore->Draw(pRT,rc,0);
+			}else
+			{
+				if((m_nRotate%180)>90)
+					m_skinFore->Draw(pRT,rc,0);
+				else
+					m_skinBack->Draw(pRT,rc,0);
+			}
+			
 			mat.setIdentity();
 			pRT->SetTransform(&mat);
 		}
@@ -64,8 +81,11 @@ namespace SOUI
 		m_iStep ++;
 		if(m_iStep==m_nSpeed)
 		{
-			m_fRotate += 5;
-			if(m_fRotate>360) m_fRotate-=360;
+			m_nRotate += 5;
+			if(m_nRotate>=360) 
+			{
+				m_nRotate-=360;
+			}
 			Invalidate();
 			m_iStep=0;
 		}
