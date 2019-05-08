@@ -140,7 +140,7 @@ typedef float   SkScalar;
 #define SkScalarExp(x)  (float)sk_float_exp(x)
 #define SkScalarLog(x)  (float)sk_float_log(x)
 
-
+namespace SOUI{
 /**
  *  Variant of SkScalarRoundToInt, that performs the rounding step (adding 0.5) explicitly using
  *  double, to avoid possibly losing the low bit(s) of the answer before calling floor().
@@ -250,5 +250,7 @@ inline bool SkScalarsEqual(const SkScalar a[], const SkScalar b[], int n) {
     }
     return true;
 }
+
+}//end of namespace SOUI
 
 #endif

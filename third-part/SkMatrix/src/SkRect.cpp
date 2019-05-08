@@ -9,6 +9,7 @@
 
 #include "SkRect.h"
 
+namespace SOUI{
 void SkIRect::join(int32_t left, int32_t top, int32_t right, int32_t bottom) {
     // do nothing if the params are empty
     if (left >= right || top >= bottom) {
@@ -163,3 +164,4 @@ void SkRect::join(SkScalar left, SkScalar top, SkScalar right,
         if (bottom > fBottom) fBottom = bottom;
     }
 }
+}//end of namespace SOUI

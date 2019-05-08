@@ -13,6 +13,7 @@
 #include "SkPoint.h"
 #include "SkSize.h"
 
+namespace SOUI{
 /** \struct SkIRect
 
     SkIRect holds four 32 bit integer coordinates for a rectangle
@@ -824,5 +825,7 @@ struct SK_API SkRect {
 
 
 };
+
+}//end of namespace SOUI
 
 #endif

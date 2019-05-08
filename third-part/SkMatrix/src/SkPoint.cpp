@@ -8,6 +8,7 @@
 
 #include "SkPoint.h"
 
+namespace SOUI{
 void SkIPoint::rotateCW(SkIPoint* dst) const {
     SkASSERT(dst);
 
@@ -238,3 +239,5 @@ SkScalar SkPoint::distanceToLineSegmentBetweenSqd(const SkPoint& a,
         return SkScalarMulDiv(det, det, uLengthSqd);
     }
 }
+
+}//end of namespace SOUI

@@ -14,114 +14,118 @@
 #include "SkTypes.h"
 #include <new>
 
-template <typename T> class SkTLazy;
-template <typename T> void* operator new(size_t, SkTLazy<T>* lazy);
+namespace SOUI {
 
-/**
- *  Efficient way to defer allocating/initializing a class until it is needed
- *  (if ever).
- */
-template <typename T> class SkTLazy {
-public:
-    SkTLazy() : fPtr(NULL) {}
+	template <typename T> class SkTLazy;
+	template <typename T> void* operator new(size_t, SkTLazy<T>* lazy);
 
-    explicit SkTLazy(const T* src) : fPtr(NULL) {
-        if (src) {
-            fPtr = new (fStorage) T(*src);
-        }
-    }
+	/**
+	 *  Efficient way to defer allocating/initializing a class until it is needed
+	 *  (if ever).
+	 */
+	template <typename T> class SkTLazy {
+	public:
+		SkTLazy() : fPtr(NULL) {}
 
-    SkTLazy(const SkTLazy<T>& src) : fPtr(NULL) {
-        if (src.isValid()) {
-            fPtr = new (fStorage) T(*src->get());
-        } else {
-            fPtr = NULL;
-        }
-    }
+		explicit SkTLazy(const T* src) : fPtr(NULL) {
+			if (src) {
+				fPtr = new (fStorage) T(*src);
+			}
+		}
 
-    ~SkTLazy() {
-        if (this->isValid()) {
-            fPtr->~T();
-        }
-    }
+		SkTLazy(const SkTLazy<T>& src) : fPtr(NULL) {
+			if (src.isValid()) {
+				fPtr = new (fStorage) T(*src->get());
+			}
+			else {
+				fPtr = NULL;
+			}
+		}
 
-    /**
-     *  Return a pointer to a default-initialized instance of the class. If a
-     *  previous instance had been initialized (either from init() or set()) it
-     *  will first be destroyed, so that a freshly initialized instance is
-     *  always returned.
-     */
-    T* init() {
-        if (this->isValid()) {
-            fPtr->~T();
-        }
-        fPtr = new (SkTCast<T*>(fStorage)) T;
-        return fPtr;
-    }
+		~SkTLazy() {
+			if (this->isValid()) {
+				fPtr->~T();
+			}
+		}
 
-    /**
-     *  Copy src into this, and return a pointer to a copy of it. Note this
-     *  will always return the same pointer, so if it is called on a lazy that
-     *  has already been initialized, then this will copy over the previous
-     *  contents.
-     */
-    T* set(const T& src) {
-        if (this->isValid()) {
-            *fPtr = src;
-        } else {
-            fPtr = new (SkTCast<T*>(fStorage)) T(src);
-        }
-        return fPtr;
-    }
+		/**
+		 *  Return a pointer to a default-initialized instance of the class. If a
+		 *  previous instance had been initialized (either from init() or set()) it
+		 *  will first be destroyed, so that a freshly initialized instance is
+		 *  always returned.
+		 */
+		T* init() {
+			if (this->isValid()) {
+				fPtr->~T();
+			}
+			fPtr = new (SkTCast<T*>(fStorage)) T;
+			return fPtr;
+		}
 
-    /**
-     * Destroy the lazy object (if it was created via init() or set())
-     */
-    void reset() {
-        if (this->isValid()) {
-            fPtr->~T();
-            fPtr = NULL;
-        }
-    }
+		/**
+		 *  Copy src into this, and return a pointer to a copy of it. Note this
+		 *  will always return the same pointer, so if it is called on a lazy that
+		 *  has already been initialized, then this will copy over the previous
+		 *  contents.
+		 */
+		T* set(const T& src) {
+			if (this->isValid()) {
+				*fPtr = src;
+			}
+			else {
+				fPtr = new (SkTCast<T*>(fStorage)) T(src);
+			}
+			return fPtr;
+		}
 
-    /**
-     *  Returns true if a valid object has been initialized in the SkTLazy,
-     *  false otherwise.
-     */
-    bool isValid() const { return SkToBool(fPtr); }
+		/**
+		 * Destroy the lazy object (if it was created via init() or set())
+		 */
+		void reset() {
+			if (this->isValid()) {
+				fPtr->~T();
+				fPtr = NULL;
+			}
+		}
 
-    /**
-     * Returns the object. This version should only be called when the caller
-     * knows that the object has been initialized.
-     */
-    T* get() const { SkASSERT(this->isValid()); return fPtr; }
+		/**
+		 *  Returns true if a valid object has been initialized in the SkTLazy,
+		 *  false otherwise.
+		 */
+		bool isValid() const { return SkToBool(fPtr); }
 
-    /**
-     * Like above but doesn't assert if object isn't initialized (in which case
-     * NULL is returned).
-     */
-    T* getMaybeNull() const { return fPtr; }
+		/**
+		 * Returns the object. This version should only be called when the caller
+		 * knows that the object has been initialized.
+		 */
+		T* get() const { SkASSERT(this->isValid()); return fPtr; }
 
-private:
-    friend void* operator new<T>(size_t, SkTLazy* lazy);
+		/**
+		 * Like above but doesn't assert if object isn't initialized (in which case
+		 * NULL is returned).
+		 */
+		T* getMaybeNull() const { return fPtr; }
 
-    T*   fPtr; // NULL or fStorage
-    char fStorage[sizeof(T)];
-};
+	private:
+		friend void* operator new<T>(size_t, SkTLazy* lazy);
 
-// Use the below macro (SkNEW_IN_TLAZY) rather than calling this directly
-template <typename T> void* operator new(size_t, SkTLazy<T>* lazy) {
-    SkASSERT(!lazy->isValid());
-    lazy->fPtr = reinterpret_cast<T*>(lazy->fStorage);
-    return lazy->fPtr;
-}
+		T*   fPtr; // NULL or fStorage
+		char fStorage[sizeof(T)];
+	};
 
-// Skia doesn't use C++ exceptions but it may be compiled with them enabled. Having an op delete
-// to match the op new silences warnings about missing op delete when a constructor throws an
-// exception.
-template <typename T> void operator delete(void*, SkTLazy<T>*) { SK_CRASH(); }
+	// Use the below macro (SkNEW_IN_TLAZY) rather than calling this directly
+	template <typename T> void* operator new(size_t, SkTLazy<T>* lazy) {
+		SkASSERT(!lazy->isValid());
+		lazy->fPtr = reinterpret_cast<T*>(lazy->fStorage);
+		return lazy->fPtr;
+	}
 
-// Use this to construct a T inside an SkTLazy using a non-default constructor.
+	// Skia doesn't use C++ exceptions but it may be compiled with them enabled. Having an op delete
+	// to match the op new silences warnings about missing op delete when a constructor throws an
+	// exception.
+	template <typename T> void operator delete(void*, SkTLazy<T>*) { SK_CRASH(); }
+
+	// Use this to construct a T inside an SkTLazy using a non-default constructor.
 #define SkNEW_IN_TLAZY(tlazy_ptr, type_name, args) (new (tlazy_ptr) type_name args)
 
 /**
@@ -147,46 +151,47 @@ template <typename T> void operator delete(void*, SkTLazy<T>*) { SK_CRASH(); }
  *
  * consume_a_thing(thing); // could be constThing or a modified copy.
  */
-template <typename T>
-class SkTCopyOnFirstWrite {
-public:
-    SkTCopyOnFirstWrite(const T& initial) : fObj(&initial) {}
+	template <typename T>
+	class SkTCopyOnFirstWrite {
+	public:
+		SkTCopyOnFirstWrite(const T& initial) : fObj(&initial) {}
 
-    // Constructor for delayed initialization.
-    SkTCopyOnFirstWrite() : fObj(NULL) {}
+		// Constructor for delayed initialization.
+		SkTCopyOnFirstWrite() : fObj(NULL) {}
 
-    // Should only be called once, and only if the default constructor was used.
-    void init(const T& initial) {
-        SkASSERT(NULL == fObj);
-        SkASSERT(!fLazy.isValid());
-        fObj = &initial;
-    }
+		// Should only be called once, and only if the default constructor was used.
+		void init(const T& initial) {
+			SkASSERT(NULL == fObj);
+			SkASSERT(!fLazy.isValid());
+			fObj = &initial;
+		}
 
-    /**
-     * Returns a writable T*. The first time this is called the initial object is cloned.
-     */
-    T* writable() {
-        SkASSERT(fObj);
-        if (!fLazy.isValid()) {
-            fLazy.set(*fObj);
-            fObj = fLazy.get();
-        }
-        return const_cast<T*>(fObj);
-    }
+		/**
+		 * Returns a writable T*. The first time this is called the initial object is cloned.
+		 */
+		T* writable() {
+			SkASSERT(fObj);
+			if (!fLazy.isValid()) {
+				fLazy.set(*fObj);
+				fObj = fLazy.get();
+			}
+			return const_cast<T*>(fObj);
+		}
 
-    /**
-     * Operators for treating this as though it were a const pointer.
-     */
+		/**
+		 * Operators for treating this as though it were a const pointer.
+		 */
 
-    const T *operator->() const { return fObj; }
+		const T *operator->() const { return fObj; }
 
-    operator const T*() const { return fObj; }
+		operator const T*() const { return fObj; }
 
-    const T& operator *() const { return *fObj; }
+		const T& operator *() const { return *fObj; }
 
-private:
-    const T*    fObj;
-    SkTLazy<T>  fLazy;
-};
+	private:
+		const T*    fObj;
+		SkTLazy<T>  fLazy;
+	};
 
+}//end of namespace SOUI
 #endif

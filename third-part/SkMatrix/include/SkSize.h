@@ -9,6 +9,7 @@
 #define SkSize_DEFINED
 
 #include "SkScalar.h"
+namespace SOUI{
 
 template <typename T> struct SkTSize {
     T fWidth;
@@ -106,5 +107,7 @@ struct SkSize : public SkTSize<SkScalar> {
         return s;
     }
 };
+
+}//end of namespace SOUI
 
 #endif

@@ -51,29 +51,16 @@ typedef unsigned long long uintmax_t;
 
 /** See SkGraphics::GetVersion() to retrieve these at runtime
  */
-#define SKIA_VERSION_MAJOR  1
-#define SKIA_VERSION_MINOR  0
-#define SKIA_VERSION_PATCH  0
+//#define SKIA_VERSION_MAJOR  1
+//#define SKIA_VERSION_MINOR  0
+//#define SKIA_VERSION_PATCH  0
 
+namespace SOUI {
 
 // bzero is safer than memset, but we can't rely on it, so... sk_bzero()
 static inline void sk_bzero(void* buffer, size_t size) {
     memset(buffer, 0, size);
 }
-
-///////////////////////////////////////////////////////////////////////////////
-
-#ifdef SK_OVERRIDE_GLOBAL_NEW
-#include <new>
-
-inline void* operator new(size_t size) {
-    return sk_malloc_throw(size);
-}
-
-inline void operator delete(void* p) {
-    sk_free(p);
-}
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -433,5 +420,6 @@ private:
 // Can't guard the constructor because it's a template class.
 
 #endif /* C++ */
+}//end of namespace SOUI
 
 #endif

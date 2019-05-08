@@ -14,6 +14,7 @@
 
 #include <interface/render-i.h>
 
+namespace SOUI{
 // TODO: can we remove these 3 (need to check chrome/android)
 typedef SkScalar SkPersp;
 #define SkScalarToPersp(x) (x)
@@ -713,5 +714,7 @@ private:
 public:
 	static float SkScalarSinCos(float radians, float* cosValue);
 };
+
+}//end of namespace SOUI
 
 #endif

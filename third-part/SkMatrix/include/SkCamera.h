@@ -12,6 +12,7 @@
 
 #include "SkMatrix.h"
 
+namespace SOUI {
 struct SK_API SkUnit3D {
     SkScalar fX, fY, fZ;
 
@@ -141,5 +142,6 @@ private:
     Rec         fInitialRec;
     SkCamera3D  fCamera;
 };
+}//end of namespace SOUI
 
 #endif

@@ -6,6 +6,7 @@
  */
 #include "SkCamera.h"
 
+namespace SOUI{
 static SkScalar SkScalarDotDiv(int count, const SkScalar a[], int step_a,
                                const SkScalar b[], int step_b,
                                SkScalar denom) {
@@ -361,3 +362,5 @@ void Sk3DView::getMatrix(SkMatrix* matrix) const {
         fCamera.patchToMatrix(patch, matrix);
     }
 }
+
+}//end of namespace SOUI

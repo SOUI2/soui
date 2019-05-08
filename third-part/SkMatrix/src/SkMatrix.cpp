@@ -25,7 +25,7 @@
 //
 #define SK_LEGACY_MATRIX_MATH_ORDER
 
-
+namespace SOUI{
 static inline float SkDoubleToFloat(double x) {
     return static_cast<float>(x);
 }
@@ -1656,3 +1656,5 @@ void SkMatrix::SetData(const float fMat[9])
 	memcpy(this->fMat, fMat, sizeof(this->fMat));
 	this->setTypeMask(kUnknown_Mask);
 }
+
+}//end of namespace SOUI

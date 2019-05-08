@@ -12,6 +12,7 @@
 
 #include "SkTypes.h"
 
+namespace SOUI{
 /** Convert a sign-bit int (i.e. float interpreted as int) into a 2s compliement
     int. This also converts -0 (0x80000000) to 0. Doing this to a float allows
     it to be compared using normal C operators (<, <=, etc.)
@@ -69,5 +70,7 @@ static inline int32_t SkFloatAs2sCompliment(float x) {
 
 #define SkScalarAs2sCompliment(x)    SkFloatAs2sCompliment(x)
 #define Sk2sComplimentAsScalar(x)    Sk2sComplimentAsFloat(x)
+
+}//end of namespace SOUI
 
 #endif
