@@ -40,7 +40,7 @@ namespace SOUI
 		m_mat[kMScaleY] = m22;
 		m_mat[kMTransX] = dx;
 		m_mat[kMTransY] = dy;
-		m_mat[kMPerspX] = m_mat[kMPerspY] = 0.0f;
+		m_mat[kMPersp0] = m_mat[kMPersp1] = 0.0f;
 		m_mat[kMPersp2] = 1.0f;
     }
 
@@ -55,7 +55,7 @@ namespace SOUI
 		return SLayoutSize::fequal(m_mat[kMScaleX], 1.0f) && SLayoutSize::fequal(m_mat[kMScaleY],1.0f) 
 			&& SLayoutSize::fequal(m_mat[kMSkewX],0.0f) && SLayoutSize::fequal(m_mat[kMSkewY],0.0f)
             && SLayoutSize::fequal(m_mat[kMTransX],0.0f) && SLayoutSize::fequal(m_mat[kMTransY],0.0f)
-		    && SLayoutSize::fequal(m_mat[kMPerspX],0.0f) && SLayoutSize::fequal(m_mat[kMPerspY],0.0f) && SLayoutSize::fequal(m_mat[kMPersp2],1.0f);
+		    && SLayoutSize::fequal(m_mat[kMPersp0],0.0f) && SLayoutSize::fequal(m_mat[kMPersp1],0.0f) && SLayoutSize::fequal(m_mat[kMPersp2],1.0f);
     }
 
 
@@ -89,19 +89,29 @@ namespace SOUI
 		return m_mat[kMTransY];
 	}
 
-	float SMatrix::GetPerspX() const
+	float SMatrix::GetPersp0() const
 	{
-		return m_mat[kMPerspX];
+		return m_mat[kMPersp0];
 	}
 
-	float SMatrix::GetPerspY() const
+	float SMatrix::GetPersp1() const
 	{
-		return m_mat[kMPerspY];
+		return m_mat[kMPersp1];
 	}
 
 	float SMatrix::GetPersp2() const
 	{
 		return m_mat[kMPersp2];
+	}
+
+	float SMatrix::GetValue(Index idx) const
+	{
+		return m_mat[idx];
+	}
+
+	const float *SMatrix::GetData() const
+	{
+		return m_mat;
 	}
 
 	void SMatrix::SetScaleX(float v)
@@ -134,14 +144,14 @@ namespace SOUI
 		m_mat[kMTransY] = v;
 	}
 
-	void SMatrix::SetPerspX(float v)
+	void SMatrix::SetPersp0(float v)
 	{
-		m_mat[kMPerspX] = v;
+		m_mat[kMPersp0] = v;
 	}
 
-	void SMatrix::SetPerspY(float v)
+	void SMatrix::SetPersp1(float v)
 	{
-		m_mat[kMPerspY] = v;
+		m_mat[kMPersp1] = v;
 	}
 
 	void SMatrix::SetPersp2(float v)
@@ -149,6 +159,15 @@ namespace SOUI
 		m_mat[kMPersp2] = v;
 	}
 
+	void SMatrix::SetValue(Index idx,float v)
+	{
+		m_mat[idx] = v;
+	}
+
+	void SMatrix::SetData(const float fMat[9])
+	{
+		memcpy(m_mat, fMat, sizeof(m_mat));
+	}
 
 #define eM11 m_mat[kMScaleX]
 #define eM21 m_mat[kMSkewX] 
@@ -159,8 +178,8 @@ namespace SOUI
 
     SMatrix & SMatrix::translate(FLOAT dx, FLOAT dy)
     {
-		SASSERT(SLayoutSize::fequal(m_mat[kMPerspX],0.0f) 
-			&& SLayoutSize::fequal(m_mat[kMPerspY],0.0f)
+		SASSERT(SLayoutSize::fequal(m_mat[kMPersp0],0.0f) 
+			&& SLayoutSize::fequal(m_mat[kMPersp1],0.0f)
 			&& SLayoutSize::fequal(m_mat[kMPersp2],1.0f));
         eDx += dx*eM11 + dy*eM21;
         eDy += dy*eM22 + dx*eM12;
@@ -169,8 +188,8 @@ namespace SOUI
 
     SMatrix & SMatrix::scale(FLOAT sx, FLOAT sy)
     {
-		SASSERT(SLayoutSize::fequal(m_mat[kMPerspX],0.0f) 
-			&& SLayoutSize::fequal(m_mat[kMPerspY],0.0f)
+		SASSERT(SLayoutSize::fequal(m_mat[kMPersp0],0.0f) 
+			&& SLayoutSize::fequal(m_mat[kMPersp1],0.0f)
 			&& SLayoutSize::fequal(m_mat[kMPersp2],1.0f));
         eM11 *= sx;
         eM12 *= sx;
@@ -181,8 +200,8 @@ namespace SOUI
 
 	SMatrix & SMatrix::setScale(FLOAT sx, FLOAT sy, FLOAT px, FLOAT py)
 	{
-		SASSERT(SLayoutSize::fequal(m_mat[kMPerspX],0.0f) 
-			&& SLayoutSize::fequal(m_mat[kMPerspY],0.0f)
+		SASSERT(SLayoutSize::fequal(m_mat[kMPersp0],0.0f) 
+			&& SLayoutSize::fequal(m_mat[kMPersp1],0.0f)
 			&& SLayoutSize::fequal(m_mat[kMPersp2],1.0f));
 		eM11 = sx;
 		eM22 = sy;
@@ -195,8 +214,8 @@ namespace SOUI
 
     SMatrix & SMatrix::shear(FLOAT sh, FLOAT sv)
     {
-		SASSERT(SLayoutSize::fequal(m_mat[kMPerspX],0.0f) 
-			&& SLayoutSize::fequal(m_mat[kMPerspY],0.0f)
+		SASSERT(SLayoutSize::fequal(m_mat[kMPersp0],0.0f) 
+			&& SLayoutSize::fequal(m_mat[kMPersp1],0.0f)
 			&& SLayoutSize::fequal(m_mat[kMPersp2],1.0f));
         FLOAT tm11 = sv*eM21;
         FLOAT tm12 = sv*eM22;
@@ -211,8 +230,8 @@ namespace SOUI
 
     SMatrix & SMatrix::rotate(FLOAT a)
     {
-		SASSERT(SLayoutSize::fequal(m_mat[kMPerspX],0.0f) 
-			&& SLayoutSize::fequal(m_mat[kMPerspY],0.0f)
+		SASSERT(SLayoutSize::fequal(m_mat[kMPersp0],0.0f) 
+			&& SLayoutSize::fequal(m_mat[kMPersp1],0.0f)
 			&& SLayoutSize::fequal(m_mat[kMPersp2],1.0f));
         FLOAT sina = 0;
         FLOAT cosa = 0;
@@ -239,8 +258,8 @@ namespace SOUI
 
     void SMatrix::inverted(SMatrix *pOut, bool *invertible) const
     {
-		SASSERT(SLayoutSize::fequal(m_mat[kMPerspX],0.0f) 
-			&& SLayoutSize::fequal(m_mat[kMPerspY],0.0f)
+		SASSERT(SLayoutSize::fequal(m_mat[kMPersp0],0.0f) 
+			&& SLayoutSize::fequal(m_mat[kMPersp1],0.0f)
 			&& SLayoutSize::fequal(m_mat[kMPersp2],1.0f));
         FLOAT dtr = determinant();
         if (dtr == 0.0) {
@@ -287,8 +306,8 @@ namespace SOUI
                 &&SLayoutSize::fequal(eM22 , src.eM22)
                 &&SLayoutSize::fequal(eDx , src.eDx)  
                 &&SLayoutSize::fequal(eDy , src.eDy)
-				&&SLayoutSize::fequal(m_mat[kMPerspX] , src.m_mat[kMPerspX])
-				&&SLayoutSize::fequal(m_mat[kMPerspY] , src.m_mat[kMPerspY])  
+				&&SLayoutSize::fequal(m_mat[kMPersp0] , src.m_mat[kMPersp0])
+				&&SLayoutSize::fequal(m_mat[kMPersp1] , src.m_mat[kMPersp1])  
 				&&SLayoutSize::fequal(m_mat[kMPersp2] , src.m_mat[kMPersp2])
 				) ;
     }
@@ -303,8 +322,8 @@ namespace SOUI
 
     SMatrix &SMatrix::operator *=(const SMatrix &src)
     {
-		SASSERT(SLayoutSize::fequal(m_mat[kMPerspX],0.0f) 
-			&& SLayoutSize::fequal(m_mat[kMPerspY],0.0f)
+		SASSERT(SLayoutSize::fequal(m_mat[kMPersp0],0.0f) 
+			&& SLayoutSize::fequal(m_mat[kMPersp1],0.0f)
 			&& SLayoutSize::fequal(m_mat[kMPersp2],1.0f));
         FLOAT tm11 = eM11*src.eM11 + eM12*src.eM21;
         FLOAT tm12 = eM11*src.eM12 + eM12*src.eM22;
@@ -332,8 +351,8 @@ namespace SOUI
 
     SMatrix SMatrix::operator *(const SMatrix &m) const
     {
-		SASSERT(SLayoutSize::fequal(m_mat[kMPerspX],0.0f) 
-			&& SLayoutSize::fequal(m_mat[kMPerspY],0.0f)
+		SASSERT(SLayoutSize::fequal(m_mat[kMPersp0],0.0f) 
+			&& SLayoutSize::fequal(m_mat[kMPersp1],0.0f)
 			&& SLayoutSize::fequal(m_mat[kMPersp2],1.0f));
         FLOAT tm11 = eM11*m.eM11 + eM12*m.eM21;
         FLOAT tm12 = eM11*m.eM12 + eM12*m.eM22;
@@ -356,16 +375,16 @@ namespace SOUI
         eM22 = src.eM22;
         eDx  = src.eDx;
         eDy  = src.eDy;
-		m_mat[kMPerspX] = src.m_mat[kMPerspX];
-		m_mat[kMPerspY] = src.m_mat[kMPerspY];
+		m_mat[kMPersp0] = src.m_mat[kMPersp0];
+		m_mat[kMPersp1] = src.m_mat[kMPersp1];
 		m_mat[kMPersp2] = src.m_mat[kMPersp2];
         return *this;
     }
 
     FLOAT SMatrix::determinant() const
     {
-		SASSERT(SLayoutSize::fequal(m_mat[kMPerspX],0.0f) 
-			&& SLayoutSize::fequal(m_mat[kMPerspY],0.0f)
+		SASSERT(SLayoutSize::fequal(m_mat[kMPersp0],0.0f) 
+			&& SLayoutSize::fequal(m_mat[kMPersp1],0.0f)
 			&& SLayoutSize::fequal(m_mat[kMPersp2],1.0f));
         return eM11*eM22 - eM12*eM21;
     }

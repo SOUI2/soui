@@ -8,17 +8,6 @@ namespace SOUI
     class SOUI_EXP SMatrix : public IxForm
     {
 	protected:
-		enum{
-			kMScaleX = 0,	//m11
-			kMSkewX,		//m21
-			kMTransX,		//eDx
-			kMSkewY,		//m12
-			kMScaleY,		//m22
-			kMTransY,		//eDy
-			kMPerspX,
-			kMPerspY,
-			kMPersp2,
-		};
 		float m_mat[9];
     public:
         SMatrix();
@@ -33,9 +22,11 @@ namespace SOUI
 		virtual float GetSkewY() const ;
 		virtual float GetTranslateX() const ;
 		virtual float GetTranslateY() const ;
-		virtual float GetPerspX() const ;
-		virtual float GetPerspY() const ;
+		virtual float GetPersp0() const ;
+		virtual float GetPersp1() const ;
 		virtual float GetPersp2() const ;
+		virtual float GetValue(Index idx) const;
+		virtual const float *GetData() const;
 
 		virtual void SetScaleX(float v) ;
 		virtual void SetScaleY(float v) ;
@@ -43,10 +34,11 @@ namespace SOUI
 		virtual void SetSkewX(float v) ;
 		virtual void SetTranslateX(float v) ;
 		virtual void SetTranslateY(float v) ;
-		virtual void SetPerspX(float v) ;
-		virtual void SetPerspY(float v) ;
+		virtual void SetPersp0(float v) ;
+		virtual void SetPersp1(float v) ;
 		virtual void SetPersp2(float v) ;
-
+		virtual void SetValue(Index idx, float v);
+		virtual void SetData(const float fMat[9]);
     public:
         bool operator==(const SMatrix &src) const;
         bool operator!=(const SMatrix &src) const;

@@ -1239,7 +1239,7 @@ namespace SOUI
         SkMatrix m;
 		m.setAll(pXForm->GetScaleX(),pXForm->GetSkewX(),pXForm->GetTranslateX(),
 			pXForm->GetSkewY(),pXForm->GetScaleY(),pXForm->GetTranslateY(),
-			pXForm->GetPerspX(),pXForm->GetPerspY(),pXForm->GetPersp2()
+			pXForm->GetPersp0(),pXForm->GetPersp1(),pXForm->GetPersp2()
 			);
         m_SkCanvas->setMatrix(m);
         return S_OK;
@@ -1257,8 +1257,8 @@ namespace SOUI
         pXForm->SetScaleY(m.getScaleY());
         pXForm->SetTranslateY(m.getTranslateY());
 
-		pXForm->SetPerspX(m.getPerspX());
-		pXForm->SetPerspY(m.getPerspY());
+		pXForm->SetPersp0(m.getPerspX());
+		pXForm->SetPersp1(m.getPerspY());
 		pXForm->SetPersp2(m.get(SkMatrix::kMPersp2));
         return S_OK;
     }
@@ -2109,6 +2109,15 @@ namespace SOUI
 	void SPath_Skia::offset(float dx, float dy)
 	{
 		m_skPath.offset(dx,dy);
+	}
+
+	void SPath_Skia::transform(const IxForm * matrix)
+	{
+		SkMatrix mat;
+		mat.setAll(matrix->GetScaleX(), matrix->GetSkewX(), matrix->GetTranslateX(),
+			matrix->GetSkewY(), matrix->GetScaleY(), matrix->GetTranslateY(),
+			matrix->GetPersp0(), matrix->GetPersp1(), matrix->GetPersp2());
+		m_skPath.transform(mat);
 	}
 
 	bool SPath_Skia::getLastPt(POINT* lastPt) const

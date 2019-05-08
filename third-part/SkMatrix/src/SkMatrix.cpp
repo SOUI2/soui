@@ -1575,12 +1575,12 @@ float SkMatrix::GetTranslateY() const
 	return fMat[kMTransY];
 }
 
-float SkMatrix::GetPerspX() const
+float SkMatrix::GetPersp0() const
 {
 	return fMat[kMPersp0];
 }
 
-float SkMatrix::GetPerspY() const
+float SkMatrix::GetPersp1() const
 {
 	return fMat[kMPersp1];
 }
@@ -1589,6 +1589,17 @@ float SkMatrix::GetPersp2() const
 {
 	return fMat[kMPersp2];
 }
+
+float SkMatrix::GetValue(Index idx) const
+{
+	return fMat[idx];
+}
+
+const float * SkMatrix::GetData() const
+{
+	return fMat;
+}
+
 
 void SkMatrix::SetScaleX(float v)
 {
@@ -1620,12 +1631,12 @@ void SkMatrix::SetTranslateY(float v)
 	set(kMTransY,v);
 }
 
-void SkMatrix::SetPerspX(float v)
+void SkMatrix::SetPersp0(float v)
 {
 	set(kMPersp0,v);
 }
 
-void SkMatrix::SetPerspY(float v)
+void SkMatrix::SetPersp1(float v)
 {
 	set(kMPersp1,v);
 }
@@ -1633,4 +1644,15 @@ void SkMatrix::SetPerspY(float v)
 void SkMatrix::SetPersp2(float v)
 {
 	set(kMPersp2,v);
+}
+
+void SkMatrix::SetValue(Index idx, float v)
+{
+	set(idx, v);
+}
+
+void SkMatrix::SetData(const float fMat[9])
+{
+	memcpy(this->fMat, fMat, sizeof(this->fMat));
+	this->setTypeMask(kUnknown_Mask);
 }

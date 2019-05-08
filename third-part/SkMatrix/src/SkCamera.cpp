@@ -251,7 +251,7 @@ void SkCamera3D::patchToMatrix(const SkPatch3D& quilt, SkMatrix* matrix) const {
         fNeedToUpdate = false;
     }
 
-    const SkScalar* mapPtr = fOrientation.getData();
+    const SkScalar* mapPtr = fOrientation.GetData();
     const SkScalar* patchPtr;
     SkPoint3D       diff;
     SkScalar        dot;
@@ -261,7 +261,7 @@ void SkCamera3D::patchToMatrix(const SkPatch3D& quilt, SkMatrix* matrix) const {
     diff.fZ = quilt.fOrigin.fZ - fLocation.fZ;
 
     dot = SkUnit3D::Dot(*SkTCast<const SkUnit3D*>(&diff),
-                        *SkTCast<const SkUnit3D*>(fOrientation.getData() + 6));
+                        *SkTCast<const SkUnit3D*>(fOrientation.GetData() + 6));
 
     patchPtr = (const SkScalar*)&quilt;
     matrix->set(SkMatrix::kMScaleX, SkScalarDotDiv(3, patchPtr, 1, mapPtr, 1, dot));

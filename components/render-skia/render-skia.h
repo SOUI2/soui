@@ -354,6 +354,8 @@ namespace SOUI
 
 		virtual void offset(float dx, float dy);
 
+		virtual void transform(const IxForm * matrix);
+
 		virtual bool getLastPt(POINT* lastPt) const;
 
 		virtual void setLastPt(float x, float y);

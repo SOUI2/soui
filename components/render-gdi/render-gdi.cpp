@@ -1118,8 +1118,8 @@ namespace SOUI
 		pXForm->SetScaleY(xForm.eM22);
 		pXForm->SetTranslateY(xForm.eDy);
 
-		pXForm->SetPerspX(0.0f);
-		pXForm->SetPerspY(0.0f);
+		pXForm->SetPersp0(0.0f);
+		pXForm->SetPersp1(0.0f);
 		pXForm->SetPersp2(1.0f);
 		return S_OK;
 	}

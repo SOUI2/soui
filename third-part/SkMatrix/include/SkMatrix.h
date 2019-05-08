@@ -40,9 +40,13 @@ public:
 
 	virtual float GetTranslateY() const;
 
-	virtual float GetPerspX() const;
+	virtual float GetPersp0() const;
 
-	virtual float GetPerspY() const;
+	virtual float GetPersp1() const;
+
+	virtual float GetValue(Index idx) const;
+
+	virtual const float * GetData() const;
 
 	virtual float GetPersp2() const;
 
@@ -58,11 +62,16 @@ public:
 
 	virtual void SetTranslateY(float v);
 
-	virtual void SetPerspX(float v);
+	virtual void SetPersp0(float v);
 
-	virtual void SetPerspY(float v);
+	virtual void SetPersp1(float v);
 
 	virtual void SetPersp2(float v);
+
+	virtual void SetValue(Index idx,float v);
+
+	virtual void SetData(const float fMat[9]);
+
 public:
     /** Enum of bit fields for the mask return by getType().
         Use this to identify the complexity of the matrix.
@@ -131,18 +140,6 @@ public:
      */
     bool preservesRightAngles(SkScalar tol = SK_ScalarNearlyZero) const;
 
-    enum {
-        kMScaleX,
-        kMSkewX,
-        kMTransX,
-        kMSkewY,
-        kMScaleY,
-        kMTransY,
-        kMPersp0,
-        kMPersp1,
-        kMPersp2
-    };
-
     /** Affine arrays are in column major order
         because that's how PDF and XPS like it.
      */
@@ -164,16 +161,6 @@ public:
         SkASSERT((unsigned)index < 9);
         return fMat[index];
     }
-
-	const SkScalar * getData() const{
-		return fMat;
-	}
-
-	void setData(SkScalar fMat[9])
-	{
-		memcpy(this->fMat,fMat,sizeof(this->fMat));
-		this->setTypeMask(kUnknown_Mask);
-	}
 
     SkScalar& operator[](int index) {
         SkASSERT((unsigned)index < 9);
