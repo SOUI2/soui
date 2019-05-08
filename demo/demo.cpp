@@ -25,6 +25,7 @@
 #include "SMatrixWindow.h"
 #include "SmileyCreateHook.h"
 #include "clock/sclock.h"
+#include "SRoundImage.h"
 
 //<--定一个filter="demo"的slog输出
 #undef LOG_FILTER
@@ -226,7 +227,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
 		theApp->RegisterWindowClass<SCheckBox2>();
 		theApp->RegisterWindowClass<SAniWindow>();
 		theApp->RegisterWindowClass<SGroupList>();
-
+		theApp->RegisterWindowClass<SRoundImage>();
         if(SUCCEEDED(CUiAnimation::Init()))
         {
             theApp->RegisterWindowClass<SUiAnimationWnd>();//注册动画控件
