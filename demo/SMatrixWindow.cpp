@@ -37,12 +37,19 @@ namespace SOUI
 		}else
 		{
 			Sk3DView view;
-			float zOffset=rc.Width()/2*fabs(sin(m_nRotate*3.1415926/180));
-			view.translate(0,0,zOffset);
+			float zOffset = 0.0f;
 			switch(m_rotateDir)
 			{
-			case RotateX:view.rotateX(m_nRotate);break;
-			case RotateY:view.rotateY(m_nRotate);break;
+			case RotateX:
+				zOffset = rc.Height()/2*fabs(sin(m_nRotate*3.1415926/180));
+				view.translate(0,0,zOffset);
+				view.rotateX(m_nRotate);
+				break;
+			case RotateY:
+				zOffset = rc.Width()/2*fabs(sin(m_nRotate*3.1415926/180));
+				view.translate(0,0,zOffset);
+				view.rotateY(m_nRotate);
+				break;
 			case RotateZ:view.rotateZ(m_nRotate);break;
 			}
 			SkMatrix mat;
