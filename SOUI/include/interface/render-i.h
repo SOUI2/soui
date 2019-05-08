@@ -501,6 +501,44 @@ namespace SOUI
         virtual void SetRgn(const HRGN hRgn) = 0;
     };
 
+	struct IxForm
+	{
+		enum Index{
+			kMScaleX = 0,
+			kMSkewX,
+			kMTransX,
+			kMSkewY,
+			kMScaleY,
+			kMTransY,
+			kMPersp0,
+			kMPersp1,
+			kMPersp2
+		};
+
+		virtual float GetScaleX() const = 0;
+		virtual float GetScaleY() const = 0;
+		virtual float GetSkewX() const = 0;
+		virtual float GetSkewY() const = 0;
+		virtual float GetTranslateX() const = 0;
+		virtual float GetTranslateY() const = 0;
+		virtual float GetPersp0() const = 0;
+		virtual float GetPersp1() const = 0;
+		virtual float GetPersp2() const = 0;
+		virtual float GetValue(Index idx) const = 0;
+		virtual const float * GetData() const = 0;
+
+		virtual void SetScaleX(float v) = 0;
+		virtual void SetScaleY(float v) = 0;
+		virtual void SetSkewX(float v) = 0;
+		virtual void SetSkewY(float v) = 0;
+		virtual void SetTranslateX(float v) = 0;
+		virtual void SetTranslateY(float v) = 0;
+		virtual void SetPersp0(float v) = 0;
+		virtual void SetPersp1(float v) = 0;
+		virtual void SetPersp2(float v) = 0;
+		virtual void SetValue(Index index, float v) = 0;
+		virtual void SetData(const float fMat[9]) = 0;
+	};
 
 	struct IPath : IRenderObj
 	{
@@ -959,6 +997,11 @@ namespace SOUI
 		*/
 		virtual void offset(float dx, float dy) PURE;
 
+		/** Transform the points in this path by matrix
+
+		@param matrix The matrix to apply to the path
+		*/
+		virtual void transform(const IxForm * matrix) PURE;
 
 		/** Return the last point on the path. If no points have been added, (0,0)
 		is returned. If there are no points, this returns false, otherwise it
@@ -1020,16 +1063,6 @@ namespace SOUI
 		*/
 		virtual bool getSegment(float startD, float stopD, IPath * dst, bool startWithMoveTo)  = 0;
 	};
-
-    struct IxForm
-    {
-        FLOAT eM11; 
-        FLOAT eM12; 
-        FLOAT eM21; 
-        FLOAT eM22; 
-        FLOAT eDx; 
-        FLOAT eDy; 
-    };
 
 
     /**
@@ -1108,7 +1141,7 @@ namespace SOUI
         /**
          * SetTransform
          * @brief    设置坐标变换矩阵
-         * @param    const IxForm * pXForm --  2*3变换矩阵
+         * @param    const IxForm * pXForm --  3*3变换矩阵
          * @param    IxForm * pOldXFrom --  原变换矩阵
          * @return   HRESULT -- 成功返回S_OK
          *
@@ -1193,7 +1226,7 @@ namespace SOUI
 
 		virtual HRESULT PopLayer() = 0;
 
-		virtual HRESULT SetRopMode(int mode,int *pOldMode=NULL) = 0;
+		virtual HRESULT SetXfermode(int mode,int *pOldMode=NULL) = 0;
 	};
 
 

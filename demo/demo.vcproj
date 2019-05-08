@@ -46,7 +46,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				AdditionalIncludeDirectories=".,.,..\utilities\include,..\soui\include,..\third-part\wke\include,..\third-part\mhook\mhook-lib,..\components,..\config,..\tools\mkspecs\win32-msvc2008"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,SKMATRIX_DLL,QT_NO_DYNAMIC_CAST,NDEBUG"
 				GeneratePreprocessedFile="0"
 				ExceptionHandling="1"
 				RuntimeLibrary="0"
@@ -68,7 +68,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,SKMATRIX_DLL,QT_NO_DYNAMIC_CAST"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -77,7 +77,7 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot;"
-				AdditionalDependencies="utilities.lib soui.lib mhook.lib smiley.lib"
+				AdditionalDependencies="utilities.lib soui.lib mhook.lib smiley.lib skmatrix.lib"
 				OutputFile="$(OutDir)\demo.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -143,7 +143,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="4"
 				AdditionalIncludeDirectories=".,.,..\utilities\include,..\soui\include,..\third-part\wke\include,..\third-part\mhook\mhook-lib,..\components,..\config,..\tools\mkspecs\win32-msvc2008"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				PreprocessorDefinitions="_WINDOWS;UNICODE;WIN32;_CRT_SECURE_NO_WARNINGS;SKMATRIX_DLL;QT_NO_DYNAMIC_CAST"
 				GeneratePreprocessedFile="0"
 				ExceptionHandling="1"
 				RuntimeLibrary="1"
@@ -165,7 +165,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,_DEBUG"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,SKMATRIX_DLL,QT_NO_DYNAMIC_CAST,_DEBUG"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -174,7 +174,7 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot;"
-				AdditionalDependencies="utilitiesd.lib souid.lib mhookd.lib smileyd.lib"
+				AdditionalDependencies="utilitiesd.lib souid.lib mhookd.lib smileyd.lib skmatrixd.lib"
 				OutputFile="$(OutDir)\demod.exe"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="..\bin"
@@ -256,7 +256,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\controls.extend\SAniWindow.cpp"
+				RelativePath="..\controls.extend\saniwindow.cpp"
 				>
 			</File>
 			<File
@@ -308,7 +308,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\controls.extend\SGroupList.cpp"
+				RelativePath="..\controls.extend\sgrouplist.cpp"
 				>
 			</File>
 			<File
@@ -502,7 +502,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\controls.extend\SAniWindow.h"
+				RelativePath="..\controls.extend\saniwindow.h"
 				>
 			</File>
 			<File
@@ -554,7 +554,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\controls.extend\SGroupList.h"
+				RelativePath="..\controls.extend\sgrouplist.h"
 				>
 			</File>
 			<File
@@ -742,10 +742,6 @@
 		</Filter>
 		<File
 			RelativePath="demo.rc"
-			>
-		</File>
-		<File
-			RelativePath=".\uires\values\template.xml"
 			>
 		</File>
 	</Files>

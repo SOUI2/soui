@@ -354,6 +354,8 @@ namespace SOUI
 
 		virtual void offset(float dx, float dy);
 
+		virtual void transform(const IxForm * matrix);
+
 		virtual bool getLastPt(POINT* lastPt) const;
 
 		virtual void setLastPt(float x, float y);
@@ -480,7 +482,7 @@ namespace SOUI
 
 		virtual HRESULT PopLayer() ;
 
-		virtual HRESULT SetRopMode(int mode,int *pOldMode/* =NULL */);
+		virtual HRESULT SetXfermode(int mode,int *pOldMode/* =NULL */);
     public:
         SkCanvas *GetCanvas(){return m_SkCanvas;}
 
@@ -521,7 +523,7 @@ namespace SOUI
 
 		bool			m_bAntiAlias;
 		SList<int>		m_lstLayerId;	//list to save layer ids
-		int				m_nRopMode;
+		int				m_xferMode;
 	};
 	
 	namespace RENDER_SKIA

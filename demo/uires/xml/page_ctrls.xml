@@ -226,7 +226,7 @@
       </window>
       <button pos="[0,{0,@100,@30" name="btn_lrc">LRC</button>
       <button pos="[10,{0,@100,@30" name="btn_clock">clock</button>
-
+      <roundImg pos="[10,{0,@50,@50" name="img_round" skin="skin_avatar_high"/>
       <button.link pos="[10,{0,@-1,@30" name="btn_tip">提示窗口演示</button.link>
       <hr pos="10,[20,-10,@1" lineStyle="dashdotdot" mode="horizontal" lineColor="#ff0000"/>
       <hr pos="10,{0,-10,-10" lineStyle="dash" mode="tilt" lineColor="#00ff00"/>

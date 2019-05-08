@@ -1,8 +1,78 @@
 ﻿#include "stdafx.h"
 #include "SMatrixWindow.h"
-
+#include "../third-part/skmatrix/include/SkCamera.h"
 namespace SOUI
 {
+
+	S3DView::S3DView(void):m_iStep(0),m_fRotate(0),m_rotateDir(RotateY),m_nSpeed(5)
+	{
+	}
+
+	S3DView::~S3DView(void)
+	{
+	}
+
+
+	void S3DView::OnShowWindow(BOOL bShow, UINT nStatus)
+	{
+		__super::OnShowWindow(bShow,nStatus);
+		if(IsVisible(TRUE))
+		{
+			GetContainer()->RegisterTimelineHandler(this);
+		}else
+		{
+			GetContainer()->UnregisterTimelineHandler(this);
+		}
+	}
+
+
+	void S3DView::OnPaint(IRenderTarget *pRT)
+	{
+		SPainter painter;
+		BeforePaint(pRT,painter);
+		CRect rc = GetClientRect();
+		if(!m_pBgSkin)
+		{
+			pRT->DrawText(_T("没有指定skin对象"),-1,rc,DT_SINGLELINE|DT_VCENTER|DT_VCENTER);
+		}else
+		{
+			Sk3DView view;
+			switch(m_rotateDir)
+			{
+			case RotateX:view.rotateX(m_fRotate);break;
+			case RotateY:view.rotateY(m_fRotate);break;
+			case RotateZ:view.rotateZ(m_fRotate);break;
+			}
+			SkMatrix mat;
+			view.getMatrix(&mat);
+			SIZE szSkin = m_pBgSkin->GetSkinSize();
+			int wid = rc.Width()/2+rc.left;
+			int hei = rc.Height()/2+rc.top;
+			mat.preTranslate(-wid,-hei);
+			mat.postTranslate(wid,hei);
+
+			pRT->SetTransform(&mat);
+			m_pBgSkin->Draw(pRT,rc,0);
+			mat.setIdentity();
+			pRT->SetTransform(&mat);
+		}
+		AfterPaint(pRT,painter);
+	}
+
+	void S3DView::OnNextFrame()
+	{
+		m_iStep ++;
+		if(m_iStep==m_nSpeed)
+		{
+			m_fRotate += 5;
+			if(m_fRotate>360) m_fRotate-=360;
+			Invalidate();
+			m_iStep=0;
+		}
+	}
+
+
+	/////////////////////////////////////////////////////////////////////////
 SMatrixWindow::SMatrixWindow(void)
 :m_fRotate(.0f)
 ,m_fScaleX(1.0F),m_fScaleY(1.0f)
@@ -50,6 +120,7 @@ HRESULT SMatrixWindow::OnAttrTranslate(const SStringW & strValue,BOOL bLoading)
     return bLoading?S_FALSE:S_OK;
 }
 
+
 void SMatrixWindow::OnPaint(IRenderTarget *pRT)
 {
     SPainter painter;
@@ -61,10 +132,11 @@ void SMatrixWindow::OnPaint(IRenderTarget *pRT)
     }else
     {
         SMatrix m,m2;
-        m.rotate(m_fRotate)
-        .scale(m_fScaleX,m_fScaleY)
-        .shear(m_fSkewX,m_fSkewY)
-        .translate(m_fTransX,m_fTransY);
+		
+         m.rotate(m_fRotate)
+         .scale(m_fScaleX,m_fScaleY)
+         .shear(m_fSkewX,m_fSkewY)
+         .translate(m_fTransX,m_fTransY);
         
         pRT->SetTransform(&m,&m2);
         m_pBgSkin->Draw(pRT,rc,0);
