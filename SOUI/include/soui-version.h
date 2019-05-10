@@ -15,6 +15,6 @@
 #pragma once
 
 #define SOUI_VER1   2
-#define SOUI_VER2   8
+#define SOUI_VER2   9
 #define SOUI_VER3   0
-#define SOUI_VER4   6
+#define SOUI_VER4   1

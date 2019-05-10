@@ -25,6 +25,7 @@
 #include "SMatrixWindow.h"
 #include "SmileyCreateHook.h"
 #include "clock/sclock.h"
+#include "SRoundImage.h"
 
 //<--定一个filter="demo"的slog输出
 #undef LOG_FILTER
@@ -33,6 +34,7 @@
 //-->
 
 #include "MainDlg.h"
+
 
 #ifdef _DEBUG
 #define RES_TYPE 0      //从文件中加载资源，加载失败再从PE加载
@@ -196,6 +198,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
             theApp->RegisterWindowClass<SWkeWebkit>();//注册WKE浏览器
         }
         theApp->RegisterWindowClass<SMatrixWindow>();//
+		theApp->RegisterWindowClass<S3DView>();//
         theApp->RegisterWindowClass<SFreeMoveWindow>();//
         theApp->RegisterWindowClass<SClock>();//
         theApp->RegisterWindowClass<SGifPlayer>();//theApp中增加方法：RegisterWindowClass,替换RegisterWndFactory(TplSWindowFactory<SGifPlayer>())
@@ -224,7 +227,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
 		theApp->RegisterWindowClass<SCheckBox2>();
 		theApp->RegisterWindowClass<SAniWindow>();
 		theApp->RegisterWindowClass<SGroupList>();
-
+		theApp->RegisterWindowClass<SRoundImage>();
         if(SUCCEEDED(CUiAnimation::Init()))
         {
             theApp->RegisterWindowClass<SUiAnimationWnd>();//注册动画控件

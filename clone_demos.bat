@@ -42,6 +42,7 @@ call :update_repo TczKline
 call :update_repo SIpcDemo
 call :update_repo wxdemo
 call :update_repo sinstar3
+call :update_repo idoudemo
 
 SET /p selected=1.是否生成soui_demo.sln工程[1=YES;Other=No]:
 if %selected% neq 1 (

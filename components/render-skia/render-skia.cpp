@@ -170,7 +170,7 @@ namespace SOUI
         ,m_hGetDC(0)
         ,m_uGetDCFlag(0)
 		,m_bAntiAlias(true)
-		,m_nRopMode(kSrcOver_Mode)
+		,m_xferMode(kSrcOver_Mode)
 	{
         m_ptOrg.fX=m_ptOrg.fY=0.0f;
         m_pRenderFactory = pRenderFactory;
@@ -399,7 +399,7 @@ namespace SOUI
 	HRESULT SRenderTarget_Skia::DrawRectangle(LPCRECT pRect)
 	{
 		SkPaint paint;
-		SetPaintXferMode(paint,m_nRopMode);
+		SetPaintXferMode(paint,m_xferMode);
 		paint.setColor(SColor(m_curPen->GetColor()).toARGB());
 		SGetLineDashEffect skDash(m_curPen->GetStyle());
  		paint.setPathEffect(skDash.Get());
@@ -424,7 +424,7 @@ namespace SOUI
 	HRESULT SRenderTarget_Skia::FillRectangle(LPCRECT pRect)
 	{
 		SkPaint paint;
-		SetPaintXferMode(paint,m_nRopMode);
+		SetPaintXferMode(paint,m_xferMode);
 		if(m_curBrush->IsBitmap())
 		{
 			paint.setFilterBitmap(true);
@@ -446,7 +446,7 @@ namespace SOUI
     HRESULT SRenderTarget_Skia::DrawRoundRect( LPCRECT pRect,POINT pt )
     {
         SkPaint paint;
-		SetPaintXferMode(paint,m_nRopMode);
+		SetPaintXferMode(paint,m_xferMode);
         paint.setColor(SColor(m_curPen->GetColor()).toARGB());
         SGetLineDashEffect skDash(m_curPen->GetStyle());
         paint.setPathEffect(skDash.Get());
@@ -471,7 +471,7 @@ namespace SOUI
     HRESULT SRenderTarget_Skia::FillRoundRect( LPCRECT pRect,POINT pt )
     {
         SkPaint paint;
-		SetPaintXferMode(paint,m_nRopMode);
+		SetPaintXferMode(paint,m_xferMode);
         paint.setAntiAlias(m_bAntiAlias);
 
         if(m_curBrush->IsBitmap())
@@ -496,7 +496,7 @@ namespace SOUI
     HRESULT SRenderTarget_Skia::FillSolidRoundRect(LPCRECT pRect,POINT pt,COLORREF cr)
     {
         SkPaint paint;
-		SetPaintXferMode(paint,m_nRopMode);
+		SetPaintXferMode(paint,m_xferMode);
         paint.setAntiAlias(m_bAntiAlias);
 
         paint.setFilterBitmap(false);
@@ -523,7 +523,7 @@ namespace SOUI
         SkPoint::Offset(pts,nCount,m_ptOrg);
 
         SkPaint paint;
-		SetPaintXferMode(paint,m_nRopMode);
+		SetPaintXferMode(paint,m_xferMode);
 		if(m_bAntiAlias)
 		{
 			paint.setAntiAlias(true);
@@ -609,7 +609,7 @@ namespace SOUI
 
         SkPaint paint;
         paint.setAntiAlias(m_bAntiAlias);
-		SetPaintXferMode(paint,m_nRopMode);
+		SetPaintXferMode(paint,m_xferMode);
         
         if(byAlpha != 0xFF) paint.setAlpha(byAlpha);
         m_SkCanvas->drawBitmapRectToRect(bmp,&skrcSrc,skrcDst,&paint);
@@ -644,7 +644,7 @@ namespace SOUI
         rcDest.offset(m_ptOrg);
 
         SkPaint paint;
-		SetPaintXferMode(paint,m_nRopMode);
+		SetPaintXferMode(paint,m_xferMode);
         paint.setAntiAlias(true);
         if(byAlpha != 0xFF) paint.setAlpha(byAlpha);
         
@@ -938,7 +938,7 @@ namespace SOUI
         
         SkShader *pShader = SkGradientShader::CreateLinear(skPts, skColors, pos,nCount,SkShader::kMirror_TileMode);
         SkPaint paint;
-		SetPaintXferMode(paint,m_nRopMode);
+		SetPaintXferMode(paint,m_xferMode);
         paint.setShader(pShader)->unref();
 
         m_SkCanvas->drawRect(skrc,paint);
@@ -1033,7 +1033,7 @@ namespace SOUI
 		}
 
 		SkPaint paint;
-		SetPaintXferMode(paint,m_nRopMode);
+		SetPaintXferMode(paint,m_xferMode);
 		paint.setShader(pShader)->unref();
 
 		SkPoint skOffset = {skrc.left(),skrc.top()};
@@ -1069,7 +1069,7 @@ namespace SOUI
         const SkColor colors[2] = {cr1.toARGB(),cr2.toARGB()};
         SkShader *pShader = SkGradientShader::CreateLinear(pts, colors, NULL,2,SkShader::kMirror_TileMode);
         SkPaint paint;
-		SetPaintXferMode(paint,m_nRopMode);
+		SetPaintXferMode(paint,m_xferMode);
         paint.setShader(pShader);
         pShader->unref();
 
@@ -1081,7 +1081,7 @@ namespace SOUI
     HRESULT SRenderTarget_Skia::FillSolidRect( LPCRECT pRect,COLORREF cr )
     {
         SkPaint paint;
-		SetPaintXferMode(paint,m_nRopMode);
+		SetPaintXferMode(paint,m_xferMode);
         paint.setStyle(SkPaint::kFill_Style);
         paint.setColor(SColor(cr).toARGB());
         
@@ -1118,7 +1118,7 @@ namespace SOUI
     HRESULT SRenderTarget_Skia::DrawEllipse( LPCRECT pRect )
     {
         SkPaint paint;
-		SetPaintXferMode(paint,m_nRopMode);
+		SetPaintXferMode(paint,m_xferMode);
         paint.setColor(SColor(m_curPen->GetColor()).toARGB());
         SGetLineDashEffect skDash(m_curPen->GetStyle());
         paint.setPathEffect(skDash.Get());
@@ -1153,7 +1153,7 @@ namespace SOUI
         }
         paint.setStyle(SkPaint::kFill_Style);
         paint.setAntiAlias(m_bAntiAlias);
-		SetPaintXferMode(paint,m_nRopMode);
+		SetPaintXferMode(paint,m_xferMode);
 
         SkRect skrc=toSkRect(pRect);
         skrc.offset(m_ptOrg);
@@ -1164,7 +1164,7 @@ namespace SOUI
     HRESULT SRenderTarget_Skia::FillSolidEllipse(LPCRECT pRect,COLORREF cr)
     {
         SkPaint paint;
-		SetPaintXferMode(paint,m_nRopMode);
+		SetPaintXferMode(paint,m_xferMode);
 		paint.setAntiAlias(m_bAntiAlias);
         paint.setFilterBitmap(false);
         paint.setColor(SColor(cr).toARGB());
@@ -1179,7 +1179,7 @@ namespace SOUI
     HRESULT SRenderTarget_Skia::DrawArc( LPCRECT pRect,float startAngle,float sweepAngle,bool useCenter )
     {
         SkPaint paint;
-		SetPaintXferMode(paint,m_nRopMode);
+		SetPaintXferMode(paint,m_xferMode);
         paint.setColor(SColor(m_curPen->GetColor()).toARGB());
         SGetLineDashEffect skDash(m_curPen->GetStyle());
         paint.setPathEffect(skDash.Get());
@@ -1213,7 +1213,7 @@ namespace SOUI
             paint.setColor(SColor(m_curBrush->GetColor()).toARGB());
         }
         paint.setStyle(SkPaint::kFill_Style);
-		SetPaintXferMode(paint,m_nRopMode);
+		SetPaintXferMode(paint,m_xferMode);
 
         SkRect skrc=toSkRect(pRect);
         skrc.offset(m_ptOrg);
@@ -1237,7 +1237,10 @@ namespace SOUI
         SASSERT(pXForm);
         if(pOldXFrom) GetTransform(pOldXFrom);
         SkMatrix m;
-        m.setAll(pXForm->eM11,pXForm->eM21,pXForm->eDx,pXForm->eM12,pXForm->eM22,pXForm->eDy,0.0f,0.0f,1.0f);
+		m.setAll(pXForm->GetScaleX(),pXForm->GetSkewX(),pXForm->GetTranslateX(),
+			pXForm->GetSkewY(),pXForm->GetScaleY(),pXForm->GetTranslateY(),
+			pXForm->GetPersp0(),pXForm->GetPersp1(),pXForm->GetPersp2()
+			);
         m_SkCanvas->setMatrix(m);
         return S_OK;
     }
@@ -1246,13 +1249,17 @@ namespace SOUI
     {
         SASSERT(pXForm);
         const SkMatrix m = m_SkCanvas->getTotalMatrix();
-        pXForm->eM11 = m.getScaleX();
-        pXForm->eM21 = m.getSkewX();
-        pXForm->eDx  = m.getTranslateX();
+        pXForm->SetScaleX(m.getScaleX()); 
+        pXForm->SetSkewX(m.getSkewX());
+        pXForm->SetTranslateX(m.getTranslateX());
         
-        pXForm->eM12 = m.getSkewY();
-        pXForm->eM22 = m.getScaleY();
-        pXForm->eDy  = m.getTranslateY();
+        pXForm->SetSkewY(m.getSkewY());
+        pXForm->SetScaleY(m.getScaleY());
+        pXForm->SetTranslateY(m.getTranslateY());
+
+		pXForm->SetPersp0(m.getPerspX());
+		pXForm->SetPersp1(m.getPerspY());
+		pXForm->SetPersp2(m.get(SkMatrix::kMPersp2));
         return S_OK;
     }
 
@@ -1303,7 +1310,7 @@ namespace SOUI
 		const SPath_Skia * path2 = (const SPath_Skia *)path;
 
 		SkPaint paint;
-		SetPaintXferMode(paint,m_nRopMode);
+		SetPaintXferMode(paint,m_xferMode);
 		paint.setColor(SColor(m_curPen->GetColor()).toARGB());
 		SGetLineDashEffect skDash(m_curPen->GetStyle());
 		paint.setPathEffect(skDash.Get());
@@ -1335,7 +1342,7 @@ namespace SOUI
 		const SPath_Skia * path2 = (const SPath_Skia *)path;
 
 		SkPaint paint;
-		SetPaintXferMode(paint,m_nRopMode);
+		SetPaintXferMode(paint,m_xferMode);
 		paint.setAntiAlias(m_bAntiAlias);
 
 		if(m_curBrush->IsBitmap())
@@ -1377,10 +1384,10 @@ namespace SOUI
 		return S_OK;
 	}
 
-	HRESULT SRenderTarget_Skia::SetRopMode(int mode,int *pOldMode/* =NULL */)
+	HRESULT SRenderTarget_Skia::SetXfermode(int mode,int *pOldMode/* =NULL */)
 	{
-		if(pOldMode) *pOldMode = m_nRopMode;
-		m_nRopMode = mode;
+		if(pOldMode) *pOldMode = m_xferMode;
+		m_xferMode = mode;
 		return S_OK;
 	}
 
@@ -2102,6 +2109,15 @@ namespace SOUI
 	void SPath_Skia::offset(float dx, float dy)
 	{
 		m_skPath.offset(dx,dy);
+	}
+
+	void SPath_Skia::transform(const IxForm * matrix)
+	{
+		SkMatrix mat;
+		mat.setAll(matrix->GetScaleX(), matrix->GetSkewX(), matrix->GetTranslateX(),
+			matrix->GetSkewY(), matrix->GetScaleY(), matrix->GetTranslateY(),
+			matrix->GetPersp0(), matrix->GetPersp1(), matrix->GetPersp2());
+		m_skPath.transform(mat);
 	}
 
 	bool SPath_Skia::getLastPt(POINT* lastPt) const

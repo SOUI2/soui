@@ -8,6 +8,7 @@
 #include "../controls.extend/FileHelper.h"
 #include "../controls.extend/SChatEdit.h"
 #include "../controls.extend/reole/richeditole.h"
+#include "SMatrixWindow.h"
 #include "FormatMsgDlg.h"
 #include <math.h>
 
@@ -334,6 +335,21 @@ LRESULT CMainDlg::OnInitDialog( HWND hWnd, LPARAM lParam )
     SWindow *pWndRgn = FindChildByName(L"wnd_rgn");
     if(pWndRgn)
     {
+		//性能优化后，隐藏窗口不能直接获取位置，这里先主动请求布局。
+		SList<SWindow*> pps;
+		SWindow *p = pWndRgn->GetParent();
+		while (!p->IsVisible(TRUE))
+		{
+			pps.AddHead(p);
+			p = p->GetParent();
+		}
+		SPOSITION pos = pps.GetHeadPosition();
+		while (pos)
+		{
+			SWindow *p = pps.GetNext(pos);
+			p->UpdateChildrenPosition();
+		}
+
         CRect rc=pWndRgn->GetWindowRect();
         rc.MoveToXY(0,0);//注意：SWindow将窗口的左上角定义为Rgn的原点。
         HRGN hRgn =::CreateEllipticRgnIndirect(&rc);
@@ -1065,6 +1081,19 @@ void CMainDlg::OnBtnCreateByTemp()
 	{
 		SStringT strInput = pInput->GetWindowText();
 		pContainer->CreateChildren(S_CT2W(strInput));
+	}
+}
+
+void CMainDlg::On3dViewRotate(EventArgs *e)
+{
+	EventSwndStateChanged *e2 = sobj_cast<EventSwndStateChanged>(e);
+	S3DView *p3dView = FindChildByName2<S3DView>(L"3d_test");
+	if(p3dView)
+	{
+		if((e2->dwNewState & WndState_Check) && !(e2->dwOldState&WndState_Check))
+		{
+			p3dView->SetAttribute(L"rotateDir",e->nameFrom);
+		}
 	}
 }
 

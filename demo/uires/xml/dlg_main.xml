@@ -78,7 +78,7 @@
       <page title="skia" tip="demo skia advance features">
         <include src="layout:page_skia"/>
       </page>
-      <page title="about" tip="copy right(c) setoutsoft 2014.">
+      <page title="about" tip="copy right(c) setoutsoft 2011-2019.">
         <include src="layout:page_about"/>
       </page>
     </tabctrl>
