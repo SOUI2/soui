@@ -505,6 +505,12 @@ namespace SOUI
 			return m_tree.DeleteItemEx(hItem);
 		}
 
+		const T & GetItemData(HTREEITEM hItem) const
+		{
+			SASSERT(hItem != STVI_ROOT);
+			ItemInfo & ii = m_tree.GetItemRef((HSTREEITEM)hItem);
+			return ii.data;
+		}
     protected:
 		CSTree<ItemInfo> m_tree;
 		ULONG_PTR        m_rootUserData[DATA_INDEX_NUMBER];
