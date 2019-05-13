@@ -135,7 +135,7 @@ namespace SOUI
 
         virtual bool isEmpty()
         {
-            return getCount()>0;
+            return getCount() <= 0;
         }
 
         virtual ULONG_PTR getItemData(int position){
