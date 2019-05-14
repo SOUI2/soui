@@ -52,7 +52,7 @@ namespace SOUI
             ATTR_STRINGW(L"name",m_strName,FALSE)
             ATTR_INT(L"id",m_nID,FALSE)
             ATTR_STRINGT(L"description",m_strDescription,FALSE)
-            ATTR_INT(L"readOnly",m_bReadOnly,FALSE)
+            ATTR_INT(L"readOnly",m_bReadOnly,TRUE)
             ATTR_CUSTOM(L"expanded",OnAttrExpanded)
         SOUI_ATTRS_END()
 

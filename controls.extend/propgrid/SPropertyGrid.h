@@ -88,6 +88,12 @@ namespace SOUI
         
         BOOL InsertGroup(SPropertyGroup * pGroup,SPropertyGroup* pInertAfter=IG_LAST);
         
+		IPropertyItem * FindItemByName(LPCWSTR pszName) const;
+
+		IPropertyItem * FindItemByID(int nID) const;
+
+		BOOL SetItemAttribute(IPropertyItem * pItem,const SStringW & attr,const SStringW & value);
+
         SOUI_ATTRS_BEGIN()
             ATTR_INT(L"indent",m_nIndent,TRUE)
             ATTR_INT(L"nameWidth",m_nNameWidth,TRUE)

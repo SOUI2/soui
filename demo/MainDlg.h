@@ -216,6 +216,8 @@ protected:
 
 	void On3dViewRotate(EventArgs *e);
 
+	void OnSetPropItemValue();
+
     //UI控件的事件及响应函数映射表
 	EVENT_MAP_BEGIN()
 		EVENT_HANDLER(EventPath::EventID,OnEventPath)
@@ -276,6 +278,7 @@ protected:
 		EVENT_NAME_HANDLER(L"rotate_x",EventSwndStateChanged::EventID,On3dViewRotate)
 		EVENT_NAME_HANDLER(L"rotate_y",EventSwndStateChanged::EventID,On3dViewRotate)
 		EVENT_NAME_HANDLER(L"rotate_z",EventSwndStateChanged::EventID,On3dViewRotate)
+		EVENT_ID_COMMAND(R.id.btn_set_prop_value,OnSetPropItemValue)
 	EVENT_MAP_END()	
 
     //HOST消息及响应函数映射表
