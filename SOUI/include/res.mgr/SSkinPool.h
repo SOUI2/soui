@@ -36,7 +36,8 @@ namespace SOUI
         SKIN_SYS_DROPBTN,               //L"_skin.sys.dropbtn",
         SKIN_SYS_TREE_TOGGLE,           //L"_skin.sys.tree.toggle",
         SKIN_SYS_TREE_CHECKBOX,         //L"_skin.sys.tree.checkbox"
-        SKIN_SYS_TAB_PAGE,              //L"_skin.sys.tab.page",
+		SKIN_SYS_TREE_LINES,			//L"_skin.sys.tree.lines"
+		SKIN_SYS_TAB_PAGE,              //L"_skin.sys.tab.page",
         SKIN_SYS_HEADER,                //L"_skin.sys.header"
         SKIN_SYS_SPLIT_VERT,            //L"_skin.sys.split.vert",
         SKIN_SYS_SPLIT_HORZ,            //L"_skin.sys.split.horz",

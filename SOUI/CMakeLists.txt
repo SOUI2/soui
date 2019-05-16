@@ -10,15 +10,15 @@ add_definitions(-DSOUI_EXPORTS -D_CRT_SECURE_NO_WARNINGS)
 
 file(GLOB_RECURSE CURRENT_HEADERS  *.h *.hpp)
 file(GLOB_RECURSE CURRENT_SRCS  *.cpp)
-file(GLOB_RECURSE CURRENT_SOUIS  *.xml *.idx *.ico)
+file(GLOB_RECURSE CURRENT_UIRES  *.xml *.idx *.ico)
 file(GLOB_RECURSE CURRENT_RC *.rc *.rc2)
 
 source_group("Header Files" FILES ${CURRENT_HEADERS})
 source_group("Source Files" FILES ${CURRENT_SRCS})
-source_group("SoUI Resouece" FILES ${CURRENT_SOUIS})
+source_group("SoUI Resource" FILES ${CURRENT_UIRES})
 source_group("Resource Files" FILES ${CURRENT_RC})
 
-set(source ${CURRENT_HEADERS} ${CURRENT_SRCS} ${CURRENT_SOUIS})
+set(source ${CURRENT_HEADERS} ${CURRENT_SRCS} ${CURRENT_UIRES})
 
 if (NOT ENABLE_SOUI_CORE_LIB)
     set (source  ${source} soui.rc)

@@ -144,7 +144,8 @@ protected:
     BOOL GetItemRect( LPTVITEM pItem,CRect &rcItem );
 
     void RedrawItem(HSTREEITEM hItem);
-    virtual void DrawItem(IRenderTarget *pRT, CRect & rc, HSTREEITEM hItem);
+    virtual void DrawItem(IRenderTarget *pRT, const CRect & rc, HSTREEITEM hItem);
+	virtual void DrawLines(IRenderTarget *pRT, const CRect & rc, HSTREEITEM hItem);
 
     int ItemHitTest(HSTREEITEM hItem,CPoint &pt) const;
     void ModifyToggleState(HSTREEITEM hItem, DWORD dwStateAdd, DWORD dwStateRemove);
@@ -167,7 +168,6 @@ protected:
     void OnLButtonUp(UINT nFlags,CPoint pt);
     void OnLButtonDbClick(UINT nFlags,CPoint pt);
     void OnRButtonDown(UINT nFlags, CPoint pt);
-    void OnRButtonUp(UINT nFlags,CPoint pt);
 
     void OnMouseMove(UINT nFlags,CPoint pt);
     void OnMouseLeave();
@@ -200,9 +200,11 @@ protected:
     BOOL        m_bRightClickSel;
     ISkinObj * m_pItemBgSkin, * m_pItemSelSkin;
     ISkinObj * m_pIconSkin, * m_pToggleSkin, * m_pCheckSkin;
+	ISkinObj * m_pLineSkin;
+
     COLORREF m_crItemBg,m_crItemSelBg;
     COLORREF m_crItemText,m_crItemSelText;
-
+	BOOL	 m_bHasLines; /**< has lines*/
 
     SOUI_ATTRS_BEGIN()        
         ATTR_INT(L"indent", m_nIndent, TRUE)
@@ -219,6 +221,7 @@ protected:
         ATTR_COLOR(L"colorItemSelBkgnd",m_crItemSelBg,FALSE)
         ATTR_COLOR(L"colorItemText",m_crItemText,FALSE)
         ATTR_COLOR(L"colorItemSelText",m_crItemSelText,FALSE)
+		ATTR_BOOL(L"hasLines",m_bHasLines,TRUE)
     SOUI_ATTRS_END()
 
     SOUI_MSG_MAP_BEGIN()
