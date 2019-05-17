@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <include>
-  <treectrl size="full,full"  name="mytree" itemHeight="30" hasLines="true" iconSkin="skin_tree_icon" checkBox="1" font="underline:1">
+  <treectrl size="full,full"  name="mytree" itemHeight="30" indent="30" hasLines="true" iconSkin="skin_tree_icon" checkBox="1" font="underline:1">
     <item text="组织机构" img="0" selImg="1"  expand="1">
       <item text="市场部" img="0" selImg="1">
         <item text="南一区" img="2"/>
