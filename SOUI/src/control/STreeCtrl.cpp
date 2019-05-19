@@ -12,7 +12,7 @@ namespace SOUI{
 
 STreeCtrl::STreeCtrl()
 : m_nItemHei(20)
-, m_nIndent(16)
+, m_nIndent(18)
 , m_nItemMargin(4)
 , m_hSelItem(NULL)
 , m_hHoverItem(NULL)
@@ -20,6 +20,7 @@ STreeCtrl::STreeCtrl()
 , m_pItemBgSkin(NULL)
 , m_pItemSelSkin(NULL)
 , m_pIconSkin(NULL)
+, m_pLineSkin(GETBUILTINSKIN(SKIN_SYS_TREE_LINES))
 , m_pToggleSkin(GETBUILTINSKIN(SKIN_SYS_TREE_TOGGLE))
 , m_pCheckSkin(GETBUILTINSKIN(SKIN_SYS_TREE_CHECKBOX))
 , m_crItemBg(RGBA(255,255,255,255))
@@ -34,6 +35,7 @@ STreeCtrl::STreeCtrl()
 , m_nItemOffset(0)
 , m_nItemHoverBtn(STVIBtn_None)
 , m_nItemPushDownBtn(STVIBtn_None)
+, m_bHasLines(FALSE)
 {
     m_bClipClient = TRUE;
     m_bFocusable  = TRUE;
@@ -564,16 +566,24 @@ void STreeCtrl::ItemLayout()
     m_rcIcon.SetRect(0, 0, 0, 0);
 
     //计算位置    
-    if (m_pToggleSkin)
+    if (m_pToggleSkin || m_bHasLines)
     {
         m_uItemMask |= STVIMask_Toggle;
-        sizeSkin = m_pToggleSkin->GetSkinSize();        
+		CSize szToggle;
+		if (m_bHasLines)
+		{
+			szToggle = CSize(m_nIndent, m_nIndent);
+		}
+		else
+		{
+			szToggle = m_pToggleSkin->GetSkinSize();
+		}
         m_rcToggle.SetRect( 
             nOffset, 
-            (m_nItemHei - sizeSkin.cy) / 2,
-            nOffset + sizeSkin.cx,
-            m_nItemHei - (m_nItemHei - sizeSkin.cy) / 2);
-        nOffset += sizeSkin.cx;
+            (m_nItemHei - szToggle.cy) / 2,
+            nOffset + szToggle.cx,
+            m_nItemHei - (m_nItemHei - szToggle.cy) / 2);
+        nOffset += szToggle.cx;
     }
 
     if (m_bCheckBox && m_pCheckSkin)
@@ -781,13 +791,14 @@ void STreeCtrl::RedrawItem(HSTREEITEM hItem)
 
         SSendMessage(WM_ERASEBKGND,(WPARAM)(void*)pRT);
 
+		DrawLines(pRT, rcItem, hItem);
         DrawItem(pRT,rcItem,hItem);
 
         ReleaseRenderTarget(pRT);
     }
 }
 
-void STreeCtrl::DrawItem(IRenderTarget *pRT, CRect & rc, HSTREEITEM hItem)
+void STreeCtrl::DrawItem(IRenderTarget *pRT, const CRect & rc, HSTREEITEM hItem)
 {    
     BOOL     bTextColorChanged = FALSE;;
     COLORREF crOldText=RGBA(0xFF,0xFF,0xFF,0xFF);
@@ -823,7 +834,7 @@ void STreeCtrl::DrawItem(IRenderTarget *pRT, CRect & rc, HSTREEITEM hItem)
     }
 
     if (pItem->bHasChildren &&
-        STVIMask_Toggle == (m_uItemMask & STVIMask_Toggle))
+        STVIMask_Toggle == (m_uItemMask & STVIMask_Toggle) && !m_bHasLines)
     {
         int nImage = IIF_STATE3(pItem->dwToggleState, 0, 1, 2);
         if (!pItem->bCollapsed) nImage += 3;
@@ -857,6 +868,69 @@ void STreeCtrl::DrawItem(IRenderTarget *pRT, CRect & rc, HSTREEITEM hItem)
         pRT->SetTextColor(crOldText);
 
     pRT->OffsetViewportOrg(-rc.left  - pItem->nLevel * m_nIndent,-rc.top);
+}
+
+void STreeCtrl::DrawLines(IRenderTarget * pRT, const CRect & rc, HSTREEITEM hItem)
+{
+	if (m_nIndent == 0 || !m_pLineSkin || !m_bHasLines) 
+		return;
+	LPTVITEM pItem = CSTree<LPTVITEM>::GetItem(hItem);
+	SList<HSTREEITEM> lstParent;
+	HSTREEITEM hParent = GetParentItem(hItem);
+	while (hParent)
+	{
+		lstParent.AddHead(hParent);
+		hParent = GetParentItem(hParent);
+	}
+	//draw parent flags.
+	enum {plus,plus_join,plus_bottom,minus,minus_join,minus_bottom,line,line_join,line_bottom};//9 line states
+	CRect rcLine = rc;
+	rcLine.right = rcLine.left + m_nIndent;
+//	rcLine.DeflateRect(0, (rcLine.Height() - m_nIndent) / 2);
+	SPOSITION pos = lstParent.GetHeadPosition();
+	while (pos)
+	{
+		HSTREEITEM hParent = lstParent.GetNext(pos);
+		HSTREEITEM hNextSibling = GetNextSiblingItem(hParent);
+		if (hNextSibling)
+		{
+			m_pLineSkin->Draw(pRT, rcLine, line);
+		}
+		rcLine.OffsetRect(m_nIndent, 0);
+	}
+	bool hasNextSibling = GetNextSiblingItem(hItem)!=NULL;
+	bool hasPervSibling = GetPrevSiblingItem(hItem) != NULL;
+	bool hasChild = GetChildItem(hItem) != NULL;
+	int iLine = -1;
+	if (hasChild)
+	{//test if is collapsed
+		if (pItem->bCollapsed)
+		{
+			if (lstParent.IsEmpty() && !hasPervSibling)//no parent
+				iLine = plus;
+			else if (hasNextSibling)
+				iLine = plus_join;
+			else
+				iLine = plus_bottom;
+		}
+		else
+		{
+			if (lstParent.IsEmpty() && !hasPervSibling)//no parent
+				iLine = minus;
+			else if (hasNextSibling)
+				iLine = minus_join;
+			else
+				iLine = minus_bottom;
+		}
+	}
+	else
+	{
+		if (hasNextSibling)
+			iLine = line_join;
+		else
+			iLine = line_bottom;
+	}
+	m_pLineSkin->Draw(pRT, rcLine, iLine);
 }
 
 int STreeCtrl::ItemHitTest(HSTREEITEM hItem,CPoint &pt) const
@@ -1089,6 +1163,7 @@ void STreeCtrl::OnPaint(IRenderTarget *pRT)
             CRect rcItem(0,0,CalcItemWidth(pItem),m_nItemHei);
             rcItem.OffsetRect(rcClient.left-m_ptOrigin.x,
                 rcClient.top-m_ptOrigin.y+iVisible*m_nItemHei);
+			DrawLines(pRT, rcItem, hItem);
             DrawItem(pRT,rcItem,hItem);
         }
         if(pItem->bCollapsed)
