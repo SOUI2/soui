@@ -730,10 +730,12 @@ void SListCtrl::NotifySelChange(int nOldSel, int nNewSel, BOOL checkBox)
     if(evt1.bCancel) return;
 
     if (checkBox) {
+    	if (nNewSel != -1) {
             DXLVITEM &newItem = m_arrItems[nNewSel];
             newItem.checked = newItem.checked? FALSE:TRUE;
             m_nSelectItem = nNewSel;
             RedrawItem(nNewSel);
+        }
     } else  {
         if ((m_bMultiSelection || m_bCheckBox) && GetKeyState(VK_CONTROL) < 0) {
             if (nNewSel != -1) {
