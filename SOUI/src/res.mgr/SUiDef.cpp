@@ -82,13 +82,13 @@ namespace SOUI{
 		SStringTList strUiDef;
 		if(2!=ParseResID(pszUidef,strUiDef))
 		{
-			SLOGFMTW(_T("warning!!!! Add ResProvider Error."));
+			STRACE(_T("warning!!!! Add ResProvider Error."));
 		}
 
 		size_t dwSize=pResProvider->GetRawBufferSize(strUiDef[0],strUiDef[1]);
 		if(dwSize==0)
 		{
-			SLOGFMTW(_T("warning!!!! uidef was not found in the specified resprovider"));
+			STRACE(_T("warning!!!! uidef was not found in the specified resprovider"));
 		}else
 		{
 			pugi::xml_document docInit;
@@ -101,13 +101,13 @@ namespace SOUI{
 
 			if(!result)
 			{//load xml failed
-				SLOGFMTW(_T("warning!!! load uidef as xml document failed"));
+				STRACE(_T("warning!!! load uidef as xml document failed"));
 			}else
 			{//init named objects
 				pugi::xml_node root = docInit.child(KNodeUidef,false);
 				if(!root)
 				{
-					SLOGFMTW(_T("warning!!! \"uidef\" element is not the root element of uidef xml"));
+					STRACE(_T("warning!!! \"uidef\" element is not the root element of uidef xml"));
 				}else
 				{
 					//parse default font
