@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<include width="764" height="500">
 	<tabctrl pos="0,0,-0,-0" animateSteps="10" tabAlign="left" tabSkin="skin_tab_left" tabInterSkin="skin_tab_left_splitter" tabInterSize="2" tabWidth="150" iconSkin="skin_small_icons" icon-x="5" icon-y="8" colorText="#000000bb" curSel="0">
 		<page title="soui layout">
 			<group pos="0,0,-0,-0" id="10000">
@@ -134,4 +133,3 @@
       <scrollview name="wnd_temp_host" size="-2,0" weight="1" viewSize="-1,-1" colorBkgnd="@color/white" layout="vbox"/>
     </page>
 	</tabctrl>
-</include>

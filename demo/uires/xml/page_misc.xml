@@ -1,5 +1,5 @@
-﻿<include>
-  <tabctrl pos="0,0,-0,-0" tabAlign="left" tabSkin="skin_tab_left" tabInterSkin="skin_tab_left_splitter" tabInterSize="2" tabWidth="200" iconSkin="skin_small_icons" icon-x="5" icon-y="8">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tabctrl pos="0,0,-0,-0" tabAlign="left" tabSkin="skin_tab_left" tabInterSkin="skin_tab_left_splitter" tabInterSize="2" tabWidth="200" iconSkin="skin_small_icons" icon-x="5" icon-y="8">
     <page title="script" colorBorder="#ff0000" margin-x="1" margin-y="1">
       <include src="layout:page_script"/>
     </page>
@@ -88,4 +88,3 @@
     </page>
     
   </tabctrl>
-</include>
