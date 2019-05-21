@@ -41,7 +41,7 @@ namespace SOUI
 
         SOUI_ATTRS_BEGIN()
             ATTR_CUSTOM(L"clsID",OnAttrClsid)
-            ATTR_DWORD(L"clscText",m_clsCtx,FALSE)
+            ATTR_DWORD(L"clsCtx",m_clsCtx,FALSE)
             ATTR_UINT(L"delay",m_bDelayInit,FALSE)
         SOUI_ATTRS_END()
 
