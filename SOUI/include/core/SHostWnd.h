@@ -87,7 +87,6 @@ namespace SOUI
             ATTR_ICON(L"bigIcon",m_hAppIconBig,FALSE)
             ATTR_UINT(L"alpha",m_byAlpha,FALSE)
             ATTR_INT(L"allowSpy",m_bAllowSpy,FALSE)
-            ATTR_INT(L"appMainWnd",m_byWndType,FALSE)
             ATTR_ENUM_BEGIN(L"wndType",DWORD,FALSE)
                 ATTR_ENUM_VALUE(L"undefine",WT_UNDEFINE)
                 ATTR_ENUM_VALUE(L"appMain",WT_APPMAIN)
