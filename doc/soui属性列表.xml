@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="soui属性列表.xslt---edit by zhichao281@163.com 如有问题请联系我"?>
+<?xml-stylesheet type="text/xsl" href="soui属性列表.xslt"?>
 <soui_property soui_ver="2.9">
   <doc_ver>
+    <ver name="0.2" date="2019年5月23日" author="智力糖" comment="新增了四个控件的注释"/>
     <ver name="0.1" date="2019年5月21日" author="智力糖" email="zhichao281@163.com"/>
   </doc_ver>
   <!-- 范例
@@ -167,7 +168,7 @@
   <text parent="Window" comment="图片控件类"  classname="SStatic">
     <Attribute name="align" default="left" type="STRING" comment="文字横向对齐方式,取值left、center、right"/>
     <Attribute name="multiLines" default="0" type="INT" comment="是否开启多行显示 0--不开启（默认）  1--开启"/>
-    <Attribute name="interHeight" default="0" type="INT" comment="多行显示时行间距"/>
+    <Attribute name="interHeight" default="0" type="INT" comment="多行显示时的行间距"/>
   </text>
 
   <!-- 范例 超链接控件类   Only For Header Drag Test
@@ -490,7 +491,6 @@
     <Attribute name="dropBkAlpha" default="0" type="INT" comment="拖拽时候的透明度 "/>
   </mclistviewex>
 
-
   <!-- 范例   瓦片控件   
       <tileview pos="5,0,-5,-5" name="lv_test_tile" wantTab="1" marginSize="5" colorBkgnd="#FFFFFF">
 -->
@@ -498,6 +498,17 @@
     <Attribute name="marginSize" default="0" type="INT" comment="间隔 "/>
     <Attribute name="wantTab" default="0" type="INT" comment="wantTab代表系统会将tab按钮交给控件处理。如果wanttab=0, 那这个控件就不处理tab，这样按tab就可以切换焦点。	0--不支持（默认）  1--支持 "/>
   </tileview>
+  
+  
+ <!-- 范例    列表的子项
+	<item text="本地文件夹" img="0" selImg="1"  expand="1" icon="1">
+-->
+  <item parent="" comment=" 列表的子项"  classname="">	
+      <Attribute name="icon" default="0" type="INT" comment="一般是对应这个控件的一个skin属性。用来标识使用skin中哪一个序号的子图。"/>
+	  <Attribute name="img" default="0" type="INT" comment="一般是对应这个控件的一个skin属性。用来标识使用skin中哪一个序号的子图。 "/>
+  </item>
+
+
 
   <!-- 范例   滚动条   
         <scrollbar name="sb_test2" pos="[50,10,@16,@200" min="0" max="100" value="10" page="10" vertical="1"/>
@@ -542,17 +553,6 @@
     <Attribute name="thumbInRail" default="0" type="INT" comment="滑块包含在轨道中	0--否  1--是 （默认）"/>
   </sliderbar>
 
-  <!-- 范例   分割窗口     pane是splitwnd的子项目。
-	<pane idealSize="250" minSize="30" priority="2" colorBkgnd="#880000" clipClient="1">
--->
-  <pane  parent="SWindow" comment="分割窗口单元"  classname="SSplitPane">
-    <Attribute name="idealSize" default="0" type="INT" comment="理想大小"/>
-    <Attribute name="minSize" default="0" type="INT" comment="最小大小"/>
-    <Attribute name="maxSize" default="0" type="INT" comment="最大大小"/>
-    <Attribute name="priority" default="0" type="INT" comment="优先级,值越大优先级越高,优先级越高，窗格越先到达idealSize "/>
-  </pane>
-
-
   <!-- 范例   分割窗口    splitwnd是pane的容器。
 	<splitwnd idealSize="250" minSize="30" priority="2" colorBkgnd="#880000" clipClient="1">
 -->
@@ -574,6 +574,17 @@
 -->
   <splitrow  parent="SSplitWnd" comment=" 横向分割窗口"  classname="SSplitWnd_Row">
   </splitrow>
+
+  <!-- 范例   分割窗口     pane是splitwnd的子项目。
+	<pane idealSize="250" minSize="30" priority="2" colorBkgnd="#880000" clipClient="1">
+-->
+  <pane  parent="SWindow" comment="分割窗口单元"  classname="SSplitPane">
+    <Attribute name="idealSize" default="0" type="INT" comment="理想大小"/>
+    <Attribute name="minSize" default="0" type="INT" comment="最小大小"/>
+    <Attribute name="maxSize" default="0" type="INT" comment="最大大小"/>
+    <Attribute name="priority" default="0" type="INT" comment="优先级,值越大优先级越高,优先级越高，窗格越先到达idealSize "/>
+  </pane>
+
 
   <!-- 范例  tab控件
   <tabctrl pos="[0,0,-0,-0" name="tab_ctrls" font="style:StrokeAndFill,blurStyle:solid,blurRadius:3" animateSteps="10" animateType="1" tabHeight="0">
@@ -657,8 +668,52 @@
     <Attribute name="nextSkin" default="skin_tip_bg" type="STRING" comment="下个月日期的皮肤  ISkinObj对象"/>
     <Attribute name="daySkin" default="skin_tip_bg" type="STRING" comment="日  皮肤  ISkinObj对象"/>
   </calendarex>
-  <SMenu>
-  </SMenu>
-  <SMenuEx>
-  </SMenuEx>
+  
+  <!-- 范例    activex 控件
+    <activex pos="0,0,-0,-0" name="ctrl_flash"  delay="1"/>
+-->
+  <activex parent="SWindow" comment=" activex 控件"  classname="SActiveX">
+	<Attribute name="clsID" default="skin_tip_bg" type="STRING" comment="ActiveX的ID"/>
+	<Attribute name="clsCtx" default="0" type="INT" comment="dwClsCtx  CLS_INPROC_SERVER"/>	
+	<Attribute name="delay" default="0" type="INT" comment="显示控件的时候再初始化activex   0---0就是控件创建出来就创建activex   1--延迟 "/>	
+  </activex>
+
+ <!-- 范例    flash 控件
+    <flash pos="0,0,-0,-0" name="ctrl_flash" url="http://127.0.0.1:82/flash/apple.swf" delay="1"/>
+-->
+  <flash parent="SWindow" comment=" flash 控件"  classname="SCalendar">	
+	<Attribute name="url" default="http://127.0.0.1:82/flash/apple.swf" type="STRING" comment="url播放地址"/>	
+  </flash>
+
+ <!-- 范例    右键菜单控件
+   <menu iconSkin="skin_small_icons" itemHeight="26" iconMargin="4" textMargin="8" maxWidth="90">
+  <item id="100" check="1">删除</item>
+</menu>
+-->
+  <menu parent="SWindow" comment=" 右键菜单控件"  classname="SMenu">	
+      <Attribute name="iconSkin" default="0" type="STRING" comment="icon皮肤 属性值为BUILDIN_SKIN_NAME "/>
+	  <Attribute name="itemHeight" default="0" type="INT" comment="表项高度 "/>
+  </menu>
+  
+   <!-- 范例    shellnotifyicon 控件 系统的托盘图标
+   <shellnotifyicon id="008" menu="SMENUEX:menu_tray" ico="ICON_MM_ONLINE;ICON_MM_OFFLINE;ICON_Loading1;ICON_Loading2;ICON_Loading3;ICON_Loading4;ICON_Loading5;ICON_Loading6" startframe="2" duration="200" tip="SOUI小飞侠"/>
+-->
+  <shellnotifyicon parent="SWindow" comment="shellnotifyicon 控件 系统的托盘图标"  classname="SShellNotifyIcon">	
+	<Attribute name="ico" default="ICON_MM_ONLINE" type="STRING" comment="托盘图标"/>
+	<Attribute name="tip" default="this is tip" type="STRING" comment="提示框"/>
+	<Attribute name="menu" default="SMENUEX:menu_tray" type="STRING" comment="右键菜单地址"/>
+	<Attribute name="deficoidx" default="1" type="INT" comment="默认图标索引"/>
+	<Attribute name="startframe" default="2" type="INT" comment="开始帧位置"/>
+	<Attribute name="duration" default="200" type="INT" comment="动画间隔时间"/>	
+  </shellnotifyicon>
+  
+
+
+
+
+
+
+
+
+
 </soui_property>
