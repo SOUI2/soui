@@ -566,5 +566,41 @@ namespace SOUI
         FireEvent(evt);
     }
 
+	IPropertyItem * SPropertyGrid::FindItemByName(LPCWSTR pszName) const
+	{
+		for(int i=0;i<GetCount();i++)
+		{
+			IPropertyItem *p = (IPropertyItem *)GetItemData(i);
+			if(_tcsicmp(p->GetName(),pszName) == 0) 
+			{
+				return p;
+			}
+		}
+		return NULL;
+	}
+
+	IPropertyItem * SPropertyGrid::FindItemByID(int nID) const
+	{
+		for(int i=0;i<GetCount();i++)
+		{
+			IPropertyItem *p = (IPropertyItem *)GetItemData(i);
+			if(p->GetID()==nID) 
+			{
+				return p;
+			}
+		}
+		return NULL;
+	}
+
+	BOOL SPropertyGrid::SetItemAttribute(IPropertyItem * pItem,const SStringW & attr,const SStringW & value)
+	{
+		HRESULT hRet = pItem->SetAttribute(attr,value,FALSE);
+		if(hRet == S_OK)
+		{//update view.
+			Invalidate();
+		}
+		return SUCCEEDED(hRet);
+	}
+
 
 }

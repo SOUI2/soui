@@ -35,6 +35,7 @@
 #include "../controls.extend/SProgressRing.h"
 #include "../controls.extend/SGroupList.h"
 #include "../controls.extend/SAniWindow.h"
+#include "../controls.extend/propgrid/SPropertyGrid.h"
 
 #include "SInterpolatorView.h"
 #include "SPathView.h"

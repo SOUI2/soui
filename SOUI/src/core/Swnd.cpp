@@ -661,7 +661,6 @@ namespace SOUI
 	}
 
 	const static wchar_t KLabelInclude[] = L"include";	//文件包含的标签
-	const static wchar_t KLabelTemplate[] = L"template";//模板标签
 	const static wchar_t KTempNamespace[] = L"t:";//模板识别ＮＳ
 	const static wchar_t KTempData[] = L"data";//模板参数
 	const static wchar_t KTempParamFmt[] = L"{{%s}}";//模板数据替换格式
@@ -688,7 +687,38 @@ namespace SOUI
 				}
 				if(xmlDoc)
 				{
-					CreateChildren(xmlDoc.child(KLabelInclude));
+					pugi::xml_node xmlInclude = xmlDoc.first_child();
+					if(wcsicmp(xmlInclude.name(),KLabelInclude)==0)
+					{//compatible with 2.9.0.1
+						CreateChildren(xmlInclude);
+					}else
+					{
+						//merger include attribute to xml node.
+						for(pugi::xml_attribute_iterator it = xmlChild.attributes_begin();it != xmlChild.attributes_end();it++)
+						{
+							if(wcsicmp(it->name(),L"src") == 0) 
+								continue;
+							if(xmlInclude.attribute(it->name()))
+							{
+								xmlInclude.attribute(it->name()).set_value(it->value());
+							}else
+							{
+								xmlInclude.append_attribute(it->name()).set_value(it->value());
+							}
+						}
+						//create child.
+						SWindow *pChild = SApplication::getSingleton().CreateWindowByName(xmlInclude.name());
+						if (pChild)
+						{
+							InsertChild(pChild);
+							pChild->InitFromXml(xmlInclude);
+						}
+
+						if(xmlInclude.next_sibling())
+						{
+							STRACE(_T("warning! multi root include layout is not supported!"));
+						}
+					}
 				}else
 				{
 					SASSERT(FALSE);

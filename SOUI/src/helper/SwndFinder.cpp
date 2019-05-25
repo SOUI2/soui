@@ -44,7 +44,6 @@ namespace SOUI
 			{
 				m_findCache.RemoveKey(fi);
 			}
-			SLOG_INFO("findChildByKey: hParent:"<<fi.hParent<<" nDeep:"<<fi.nDeep<<" hId:"<<fi.nID<<" name:"<<fi.strName<<" result:"<<(pRet?pRet->GetSwnd():0));
 			return pRet;
         }
 
@@ -56,7 +55,6 @@ namespace SOUI
 		SASSERT(m_findCache.Lookup(fi)==NULL);
 		SASSERT(pResult);
 		m_findCache[fi]=pResult->GetSwnd();
-		SLOG_INFO("CacheResultForID,parent:"<<pParent->GetSwnd()<<" name:"<<strName<<" nDeep"<<nDeep<<" result:"<<pResult->GetSwnd());
 	}
 
 	void SWindowFinder::CacheResultForID(SWindow *pParent,int nID,int nDeep,SWindow *pResult)
@@ -65,7 +63,6 @@ namespace SOUI
 		SASSERT(m_findCache.Lookup(fi)==NULL);
 		SASSERT(pResult);
 		m_findCache[fi]=pResult->GetSwnd();
-		SLOG_INFO("CacheResultForID,parent:"<<pParent->GetSwnd()<<" nId:"<<nID<<" nDeep"<<nDeep<<" result:"<<pResult->GetSwnd());
 	}
 
 

@@ -2,12 +2,14 @@
 
 namespace SOUI
 {
-    class SImageMaskWnd : public SImageWnd
+    class SImageMaskWnd : public SWindow
     {
     SOUI_CLASS_NAME(SImageMaskWnd,L"imageMask")
     public:
         SImageMaskWnd(void);
         ~SImageMaskWnd(void);
+
+		void SetImage(IBitmap * pBitmap,FilterLevel fl=kHigh_FilterLevel);
 
     protected:
         void OnPaint(IRenderTarget *pRT);
@@ -19,8 +21,10 @@ namespace SOUI
         HRESULT OnAttrMask(const SStringW & strValue,BOOL bLoading);
         HRESULT OnAttrImage(const SStringW & strValue,BOOL bLoading);
         
-        void MakeCacheApha(ISkinObj *pSkin);
-        
+		void UpdateCacheFromSkin(ISkinObj *pSkin);
+		void UpdateCacheFromImage(IBitmap * pBitmap,FilterLevel fl);
+		void MakeCacheApha();
+
         SOUI_ATTRS_BEGIN()
             ATTR_CUSTOM(L"mask", OnAttrMask)//image.a
             ATTR_CUSTOM(L"skin", OnAttrImage)

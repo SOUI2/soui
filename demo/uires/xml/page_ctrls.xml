@@ -368,8 +368,17 @@
 
 
     </page>
-    <page title="propertygrid">
-      <propgrid pos="10,10,-10,-10" nameWidth="180" orderType="group" switchSkin="skin_propswitch" colorBkgnd="#ffffff" itemHeight="30">
+    <page title="propertygrid" layout="vbox">
+      <window size="-2,-1" layout="hbox">
+        <text text="target:"/>
+        <edit name="prop_target" size="100,30" text="text1.1"/>
+        <text text="property:"/>
+        <edit name="prop_prop" size="100,30" text="value"/>
+        <text text="value:"/>
+        <edit name="prop_value" size="150,30" text="haha"/>
+        <button name="btn_set_prop_value" text="set prop" size="100,30"/>
+      </window>
+      <propgrid name="prop_test" size="-2,0" weight="1" nameWidth="180" orderType="group" switchSkin="skin_propswitch" colorBkgnd="#ffffff" itemHeight="30">
         <cmdbtnstyle skin="_skin.sys.btn.normal">...</cmdbtnstyle>
         <groups>
           <propgroup name="group1" description="desc of group1">

@@ -1097,3 +1097,22 @@ void CMainDlg::On3dViewRotate(EventArgs *e)
 	}
 }
 
+void CMainDlg::OnSetPropItemValue()
+{
+	SPropertyGrid * pPropGrid = FindChildByID2<SPropertyGrid>(R.id.prop_test);
+	SASSERT(pPropGrid);
+
+	SStringW strTarget = S_CT2W(FindChildByID(R.id.prop_target)->GetWindowText());
+	SStringW strProp = S_CT2W(FindChildByID(R.id.prop_prop)->GetWindowText());
+	SStringW strValue = S_CT2W(FindChildByID(R.id.prop_value)->GetWindowText());
+
+	IPropertyItem *pItem = pPropGrid->FindItemByName(strTarget);
+	if(pItem)
+	{
+		pPropGrid->SetItemAttribute(pItem,strProp,strValue);
+	}else
+	{
+		SMessageBox(m_hWnd,_T("target item not found!"),_T("error"),MB_OK|MB_ICONSTOP);
+	}
+}
+

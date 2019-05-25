@@ -6,7 +6,6 @@
 #include <helper/mybuffer.h>
 #include "httpsvr/HTTPServer.h"
 #include "MemFlash.h"
-#include "../controls.extend/propgrid/SPropertyGrid.h"
 #include "../controls.extend/SFadeFrame.h"
 #include "../controls.extend/sradiobox2.h"
 #include "../controls.extend/SVscrollbar.h"
