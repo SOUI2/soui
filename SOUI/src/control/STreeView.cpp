@@ -599,7 +599,7 @@ namespace SOUI
         SItemPanel *pItem = GetItemPanel(m_hSelected);
         if(pItem)
         {
-            pItem->GetFocusManager()->SetFocusedHwnd((SWND)-1);
+            pItem->GetFocusManager()->ClearFocus();
             pItem->ModifyItemState(0,WndState_Check);
             RedrawItem(pItem);
         }
@@ -879,7 +879,7 @@ namespace SOUI
             if((HTREEITEM)ii.pItem->GetItemIndex() == m_hSelected)
             {
                 ii.pItem->ModifyItemState(0, WndState_Check);
-                ii.pItem->GetFocusManager()->SetFocusedHwnd(0);
+                ii.pItem->GetFocusManager()->ClearFocus();
             }
             ii.pItem->SetVisible(FALSE);//防止执行SItemPanel::OnTimeFrame()
             ii.pItem->GetEventSet()->setMutedState(false);
