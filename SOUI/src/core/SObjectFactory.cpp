@@ -58,7 +58,7 @@ IObject * SObjectFactoryMgr::CreateObject(const SObjectInfo & objInfo) const
 {
     if(!HasKey(objInfo))
     {
-		STRACEW(L"Warning: no object %s of type:%d in SOUI!!", (LPCWSTR)objInfo.mName, objInfo.mType);
+		SLOGFMTD(L"Warning: no object %s of type:%d in SOUI!!", (LPCWSTR)objInfo.mName, objInfo.mType);
         return NULL;
     }
     IObject * pRet = GetKeyObject(objInfo)->NewObject();

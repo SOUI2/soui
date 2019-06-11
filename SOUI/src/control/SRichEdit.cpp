@@ -1357,7 +1357,7 @@ LRESULT SRichEdit::OnSetCharFormat( UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
     if(wParam == SCF_DEFAULT && !FValidCF((CHARFORMAT2W *) lParam))
     {//设置默认字体只支持CHARFORMAT2W
-        STRACE(_T("set default char format failed! only CHARFORMAT2W can be set for default char format"));
+        SLOGFMTD(_T("set default char format failed! only CHARFORMAT2W can be set for default char format"));
         return 0;
     }
     

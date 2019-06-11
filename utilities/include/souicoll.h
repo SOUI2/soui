@@ -2600,8 +2600,6 @@ void SMap< K, V, KTraits, VTraits >::Rehash( UINT nBins )
         return;
     }
 
-    //hjx         STRACE(atlTraceMap, 2, _T("Rehash: %u bins\n"), nBins );
-
     if( m_ppBins == NULL )
     {
         // Just set the new number of bins

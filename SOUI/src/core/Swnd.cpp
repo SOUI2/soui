@@ -716,7 +716,7 @@ namespace SOUI
 
 						if(xmlInclude.next_sibling())
 						{
-							STRACE(_T("warning! multi root include layout is not supported!"));
+							SLOGFMTD(_T("warning! multi root include layout is not supported!"));
 						}
 					}
 				}else

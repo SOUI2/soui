@@ -1825,14 +1825,10 @@ void LogerManager::run()
             if (curLogger._display)
             {
                 showColorText(pszBuf, pLog->_level);
-            }
-            if (LOG4Z_ALL_DEBUGOUTPUT_DISPLAY)
-            {
 #if defined (WIN32) || defined(_WIN64)
-                OutputDebugStringA(pszBuf);
+				OutputDebugStringA(pszBuf);
 #endif
             }
-
 
             if (curLogger._outfile)
             {

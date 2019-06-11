@@ -204,7 +204,7 @@ namespace SOUI
             key.MakeLower();
             if(!pMapResUsage->Lookup(key))
             {//发现未使用资源
-                STRACE(_T("resource of [%s] was not used."),key);
+                SLOGFMTD(_T("resource of [%s] was not used."),key);
             }
             return TRUE;
         }
@@ -222,9 +222,9 @@ namespace SOUI
 
     void SResProviderPE::CheckResUsage(const SMap<SStringT,int> & mapResUsage)
     {
-        STRACEW(L"####Detecting File Resource Usage BEGIN");    
+        SLOGFMTD(L"####Detecting File Resource Usage BEGIN");    
         EnumResourceTypes(m_hResInst,EnumResTypeProc,(LONG_PTR)&mapResUsage);
-        STRACEW(L"!!!!Detecting Resource Usage END");    
+        SLOGFMTD(L"!!!!Detecting Resource Usage END");    
     }
 #endif
 
@@ -413,7 +413,7 @@ namespace SOUI
 #ifdef _DEBUG
     void SResProviderFiles::CheckResUsage(const SMap<SStringT,int> & mapResUsage)
     {
-        STRACEW(L"####Detecting File Resource Usage BEGIN");    
+        SLOGFMTD(L"####Detecting File Resource Usage BEGIN");    
         SPOSITION pos = m_mapFiles.GetStartPosition();
         while(pos)
         {
@@ -422,10 +422,10 @@ namespace SOUI
             key.MakeLower();
             if(!mapResUsage.Lookup(key))
             {//发现未使用资源
-                STRACE(_T("resource of [%s] was not used."),key);
+                SLOGFMTD(_T("resource of [%s] was not used."),key);
             }
         }
-        STRACEW(L"!!!!Detecting Resource Usage END");    
+        SLOGFMTD(L"!!!!Detecting Resource Usage END");    
     }
 #endif
 
