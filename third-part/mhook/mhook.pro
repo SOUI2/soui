@@ -14,6 +14,7 @@ dir = ../..
 include($$dir/common.pri)
 
 CONFIG += staticlib
+DEFINES += DISABLE_ODPRINTF
 
 # Input
 HEADERS += disasm-lib/cpu.h \
