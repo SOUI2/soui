@@ -204,7 +204,7 @@ namespace SOUI
             key.MakeLower();
             if(!pMapResUsage->Lookup(key))
             {//发现未使用资源
-                SLOGFMTD(_T("resource of [%s] was not used."),key);
+                SLOGFMTD(_T("resource of [%s] was not used."),(LPCTSTR)key);
             }
             return TRUE;
         }
@@ -422,7 +422,7 @@ namespace SOUI
             key.MakeLower();
             if(!mapResUsage.Lookup(key))
             {//发现未使用资源
-                SLOGFMTD(_T("resource of [%s] was not used."),key);
+                SLOGFMTD(_T("resource of [%s] was not used."),(LPCTSTR)key);
             }
         }
         SLOGFMTD(L"!!!!Detecting Resource Usage END");    
