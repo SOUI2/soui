@@ -27,7 +27,7 @@ SSkinPool::~SSkinPool()
         SkinKey skinKey = m_mapNamedObj->GetNextKey(pos);
         if(!m_mapSkinUseCount.Lookup(skinKey))
         {
-            SLOGFMTD(L"skin of [%s.%d] was not used.",skinKey.strName,skinKey.scale);
+            SLOGFMTD(L"skin of [%s.%d] was not used.",(LPCWSTR)skinKey.strName,skinKey.scale);
         }
     }
     SLOGFMTD(L"!!!!Detecting Defined Skin Usage END");    
