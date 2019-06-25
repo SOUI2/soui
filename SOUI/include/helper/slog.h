@@ -13,6 +13,10 @@
 #define E_RANGE 9944
 #endif
 
+#ifndef OUTLOG_LEVEL
+#define OUTLOG_LEVEL 0	//LOG_LEVEL_TRACE
+#endif
+
 //! check VC VERSION. DO NOT TOUCH
 //! format micro cannot support VC6 or VS2003, please use stream input log, like LOGI, LOGD, LOG_DEBUG, LOG_STREAM ...
 #if _MSC_VER >= 1400 //MSVC >= VS2005
@@ -40,7 +44,7 @@ namespace SOUI
 		{\
 			const void *pAddr = _ReturnAddress(); \
 			pLogMgr->pushLog(id_or_name, level, filter, logBuf, __FILE__, __LINE__, __FUNCTION__, pAddr);\
-		}else\
+		}else if(level>=OUTLOG_LEVEL)\
 		{\
 			ss<<" "<<__FUNCTION__<<" "<<__FILE__<<":"<<__LINE__<<"\n";\
 			OutputDebugStringA(logBuf);\
@@ -90,7 +94,7 @@ namespace SOUI
 		if (pLogMgr && pLogMgr->prePushLog(id_or_name,level)) \
 		{\
 			pLogMgr->pushLog(id_or_name, level,filter, logbuf, __FILE__, __LINE__, __FUNCTION__,_ReturnAddress()); \
-		}else\
+		}else if(level>=OUTLOG_LEVEL)\
 		{\
 			char *logbuf2 = (char*)malloc(SOUI::LOG4Z_LOG_BUF_SIZE);\
 			_snprintf_s(logbuf2, SOUI::LOG4Z_LOG_BUF_SIZE, _TRUNCATE, "%s %s %s:%d\n",logbuf, __FUNCTION__, __FILE__, __LINE__ ); \

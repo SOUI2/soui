@@ -41,7 +41,7 @@
 #endif
 
 //=========================================================================
-#ifndef ODPRINTF
+#ifndef DISABLE_ODPRINTF
 
 #ifdef _DEBUG
 #define ODPRINTF(a) odprintf a
@@ -93,7 +93,9 @@ inline void __cdecl odprintf(PCWSTR format, ...) {
 	}
 }
 
-#endif //#ifndef ODPRINTF
+#else
+#define ODPRINTF(a)
+#endif //#ifndef DISABLE_ODPRINTF
 
 //=========================================================================
 #define MHOOKS_MAX_CODE_BYTES	32

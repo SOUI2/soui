@@ -136,12 +136,13 @@ namespace SOUI
         // a reason). If the focus change should only happen if the view is
         // currenty focusable, enabled, and visible, call view->RequestFocus().
         void SetFocusedHwndWithReason(SWND swnd, FocusChangeReason reason);
-        void SetFocusedHwnd(SWND swnd)
-        {
-            SetFocusedHwndWithReason(swnd, kReasonDirectFocusChange);
-        }
+		void SetFocusedHwnd(SWND swnd);
 
-        SWND GetFocusedHwnd(){return focused_view_;}
+		// Clears the focused view. The window associated with the top root view gets
+		// the native focus (so we still get keyboard events).
+		void ClearFocus();
+
+		SWND GetFocusedHwnd();
 
         // Stores and restores the focused view. Used when the window becomes
         // active/inactive.
@@ -181,10 +182,6 @@ namespace SOUI
     private:
         // Returns the next focusable view.
         SWindow * GetNextFocusableView(SWindow* pWndStarting, bool bReverse, bool bLoop);
-
-        // Clears the focused view. The window associated with the top root view gets
-        // the native focus (so we still get keyboard events).
-        void ClearFocus();
 
         // Validates the focused view, clearing it if the window it belongs too is not
         // attached to the window hierarchy anymore.

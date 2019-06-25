@@ -5,15 +5,13 @@
 #include "tinyxml/tinyxml.h"
 
 const wchar_t  RB_HEADER_RC[]=
-L"/*<------------------------------------------------------------------------------------------------->*/\n"\
-L"/*该文件由uiresbuilder生成，请不要手动修改*/\n"\
 L"/*<------------------------------------------------------------------------------------------------->*/\n"
 L"#define DEFINE_UIRES(name, type, file_path)\\\n"
 L"    name type file_path\n\n";
 
 const wchar_t  RB_HEADER_ID[]=
-L"/*<------------------------------------------------------------------------------------------------->*/\n"\
-L"/*该文件由uiresbuilder生成，请不要手动修改*/\n"\
+L"/*<------------------------------------------------------------------------------------------------->*/\n"
+L"/*该文件由uiresbuilder生成，请不要手动修改*/\n"
 L"/*<------------------------------------------------------------------------------------------------->*/\n";
 
 const wchar_t ROBJ_DEF[] =
@@ -422,10 +420,7 @@ void ParseLayoutFile(const wchar_t * pszFileName,map<wstring,int> &mapName2ID,in
         //避免解析到skin结点
         if(stricmp(pXmlNode->Value(),"soui") == 0)
             ParseLayout(pXmlNode->FirstChildElement("root"),mapName2ID,nStartId);
-        else if(stricmp(pXmlNode->Value(),"include") == 0 
-            || stricmp(pXmlNode->Value(),"menu") == 0   //smenu
-            || stricmp(pXmlNode->Value(),"menuRoot") == 0 //smenuex
-            )
+        else 
             ParseLayout(pXmlNode,mapName2ID,nStartId);
     }else
     {

@@ -276,6 +276,10 @@ namespace SOUI
     {
         if(swnd == focused_view_)
         {
+			if (swnd == 0 && focused_backup_)
+			{//clear focus
+				focused_backup_ = swnd;
+			}
             return;
         }
         
@@ -304,6 +308,11 @@ namespace SOUI
         }
     }
 
+	void CFocusManager::SetFocusedHwnd(SWND swnd)
+	{
+		SetFocusedHwndWithReason(swnd, kReasonDirectFocusChange);
+	}
+
     void CFocusManager::ValidateFocusedView()
     {
         if(focused_view_)
@@ -325,8 +334,10 @@ namespace SOUI
 
     void CFocusManager::ClearFocus()
     {
-        SetFocusedHwnd(NULL);
+        SetFocusedHwnd(0);
     }
+
+	SWND CFocusManager::GetFocusedHwnd() { return focused_view_; }
 
     void CFocusManager::StoreFocusedView()
     {

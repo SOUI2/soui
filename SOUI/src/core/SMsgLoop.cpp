@@ -41,12 +41,12 @@ namespace SOUI
 
             if(bRet == -1)
             {
-				STRACE(_T("::GetMessage returned -1 (error)"));
+				SLOGFMTD(_T("::GetMessage returned -1 (error)"));
                 continue;   // error, don't process
             }
             else if(!bRet)
             {
-				STRACE(_T("SMessageLoop::Run - exiting,code = %d"),(int)m_msg.wParam);
+				SLOGFMTD(_T("SMessageLoop::Run - exiting,code = %d"),(int)m_msg.wParam);
                 break;   // WM_QUIT, exit message loop
             }
             
