@@ -172,6 +172,7 @@ namespace SOUI
           ATTR_INT(L"fixWidth",m_bFixWidth,FALSE)
           ATTR_INT(L"itemSwapEnable",m_bItemSwapEnable,FALSE)
           ATTR_INT(L"sortHeader",m_bSortHeader,FALSE)
+		  ATTR_LAYOUTSIZE(L"minWidth", m_MinWidth,FALSE)
       SOUI_ATTRS_END()
   protected:
       /**
@@ -337,5 +338,6 @@ namespace SOUI
       DWORD           m_dwDragTo;  /**< 拖放目标 */    
       int             m_nAdjItemOldWidth;  /**< 保存被拖动项的原始宽度 */
       SArray<SHDITEM> m_arrItems; /**< 列表项集合 */
+	  SLayoutSize	m_MinWidth;/*最小宽度*/
   };
 }//end of namespace SOUI

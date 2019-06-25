@@ -16,6 +16,7 @@ namespace SOUI
 		, m_bDragging(FALSE)
 		, m_hDragImg(NULL)
 	{
+		m_MinWidth.fSize = 0;
 		m_bClipClient = TRUE;
 		m_evtSet.addEvent(EVENTID(EventHeaderClick));
 		m_evtSet.addEvent(EVENTID(EventHeaderItemChanged));
@@ -304,7 +305,8 @@ namespace SOUI
 				if (!m_bFixWidth)
 				{
 					int cxNew = m_nAdjItemOldWidth + pt.x - m_ptClick.x;
-					if (cxNew < 0) cxNew = 0;
+					int mincx = m_MinWidth.toPixelSize(GetScale());
+					if (cxNew < mincx) cxNew = mincx;
                     if (m_arrItems[LOWORD(m_dwHitTest)].cx.unit == SLayoutSize::px)
                         m_arrItems[LOWORD(m_dwHitTest)].cx.setSize((float)cxNew, SLayoutSize::px);
                     else if(m_arrItems[LOWORD(m_dwHitTest)].cx.unit == SLayoutSize::dp)
@@ -357,9 +359,9 @@ namespace SOUI
 			if (IsItemHover(m_dwHitTest) && m_bSortHeader)
 			{
 				m_arrItems[LOWORD(m_dwHitTest)].state = 0;
-				RedrawItem(LOWORD(m_dwHitTest));
+				RedrawItem(LOWORD(m_dwHitTest));				
 			}
-			m_dwHitTest = (DWORD)-1;
+			//m_dwHitTest = (DWORD)-1;
 		}
 	}
 
@@ -383,6 +385,16 @@ namespace SOUI
 			strText.TrimBlank();
 			item.strText.SetText(S_CW2T(GETSTRING(strText)));
             item.cx = GETLAYOUTSIZE(xmlItem.attribute(L"width").as_string(L"50"));// .as_int(50);
+#ifdef _DEBUG
+			if (m_bFixWidth==FALSE)
+			{
+				int mincx = m_MinWidth.toPixelSize(100);
+				int cx = item.cx.toPixelSize(100);
+				//有项比最小宽度还小
+				SASSERT(cx >= mincx);
+			}
+#endif
+
 			item.lParam = xmlItem.attribute(L"userData").as_uint(0);
 			item.stFlag = (SHDSORTFLAG)xmlItem.attribute(L"sortFlag").as_uint(ST_NULL);
 			item.bVisible = xmlItem.attribute(L"visible").as_bool(true);
