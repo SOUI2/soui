@@ -282,10 +282,25 @@ public:
 	{
 		SButton *pBtn = sobj_cast<SButton>(pEvt->sender);
 		int iItem = pBtn->GetUserData();
-
-		if (SMessageBox(NULL, SStringT().Format(_T("Are you sure to uninstall the selected [%d] software?"), iItem), _T("uninstall"), MB_OKCANCEL | MB_ICONQUESTION) == IDOK)
-		{//删除一条记录
-			DeleteItem(iItem);
+		//添加一个菜单弹出示例
+		if(iItem%2==0)
+		{
+			CRect rc = pBtn->GetWindowRect();
+			SItemPanel* pItemPanel = (SItemPanel*)pBtn->GetTopLevelParent();
+			CRect rc2 = pItemPanel->GetItemRect();
+			rc += rc2.TopLeft();
+			POINT pt = { rc.left,rc.bottom };
+			ClientToScreen(pItemPanel->GetContainer()->GetHostHwnd(), &pt);
+			SMenu menu;
+			menu.LoadMenu(_T("menu_test"), _T("SMENU"));
+			menu.TrackPopupMenu(0, pt.x, pt.y + 2, pItemPanel->GetContainer()->GetHostHwnd());
+		}
+		else
+		{
+			if (SMessageBox(NULL, SStringT().Format(_T("Are you sure to uninstall the selected [%d] software?"), iItem), _T("uninstall"), MB_OKCANCEL | MB_ICONQUESTION) == IDOK)
+			{//删除一条记录
+				DeleteItem(iItem);
+			}
 		}
 		return true;
 	}
