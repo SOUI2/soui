@@ -880,14 +880,18 @@ void SCheckBox::OnPaint(IRenderTarget *pRT)
 
 void SCheckBox::DrawFocus(IRenderTarget *pRT)
 {
-    if(m_pFocusSkin)
-    {
-        CRect rcCheckBox=GetCheckRect();
-        m_pFocusSkin->Draw(pRT,rcCheckBox,0);
-    }else
-    {
-        __super::DrawFocus(pRT);
-    }
+	if (m_bDrawFocusRect)
+	{
+		if (m_pFocusSkin)
+		{
+			CRect rcCheckBox = GetCheckRect();
+			m_pFocusSkin->Draw(pRT, rcCheckBox, 0);
+		}
+		else
+		{
+			__super::DrawFocus(pRT);
+		}
+	}
 }
 
 CSize SCheckBox::GetDesiredSize(LPCRECT pRcContainer)
@@ -1109,14 +1113,18 @@ void SRadioBox::OnPaint(IRenderTarget *pRT)
 
 void SRadioBox::DrawFocus(IRenderTarget *pRT)
 {
-    if(m_pFocusSkin && m_bDrawFocusRect && IsFocusable())
+	if (m_bDrawFocusRect)
 	{
-        CRect rcCheckBox=GetRadioRect();
-        m_pFocusSkin->Draw(pRT,rcCheckBox,0);
-    }else
-    {
-        __super::DrawFocus(pRT);
-    }
+		if (m_pFocusSkin)
+		{
+			CRect rcCheckBox = GetRadioRect();
+			m_pFocusSkin->Draw(pRT, rcCheckBox, 0);
+		}
+		else
+		{
+			__super::DrawFocus(pRT);
+		}
+	}
 }
 
 
