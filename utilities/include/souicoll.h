@@ -458,6 +458,7 @@ public:
 
 public:
     SArray();
+	SArray(const SArray &src);
 
     size_t GetCount() const;
     bool IsEmpty() const;
@@ -647,6 +648,16 @@ SArray< E, ETraits >::SArray() :
     m_nMaxSize( 0 ),
     m_nGrowBy( 0 )
 {
+}
+
+template< typename E, class ETraits >
+SArray< E, ETraits >::SArray(const SArray< E, ETraits > & src) :
+    m_pData( NULL ),
+    m_nSize( 0 ),
+    m_nMaxSize( 0 ),
+    m_nGrowBy( 0 )
+{
+	Copy(src);
 }
 
 template< typename E, class ETraits >
