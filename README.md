@@ -14,11 +14,10 @@ SOUI是目前为数不多的轻量级可快速开发window桌面程序开源Dire
 - https://github.com/soui-demo
 * 每一个Demo一个单独的仓库，自己分别clone就好了。如果想一次拉取所有demo,可以直接运行SOUI仓库代码下的clone_demos.bat来clone，当然前提是已经安装了git命令行工具。
 
-### 原仓库Git下载地址
-
-- [国内Git下载站点](https://gitee.com/setoutsoft/soui.backup)
-
-- [国外Git下载站点](https://github.com/SOUI2/soui.backup)
+### SOUI3仓库：
+SOUI3在SOUI2的基础上完善了矩阵变换，移植了Android的插值动画及数值动画，增加了动画光标，动画滚动条等一系列更炫的效果。SOUI3.0还是100%开源，不过开源协议有更新，有兴趣的朋友注意！
+- [国内Git下载站点](https://gitee.com/setoutsoft/soui3)
+- [国外Git下载站点](https://github.com/SOUI3/soui)
 
 ### 编译
 - SOUI提供了多种编译方式包括qmake,cmake,nmake等等.我们推荐使用qmake方式生成符合自己的Visual Studio 版本项目工程文件,当然,如果你有兴趣也可以尝试cmake与nmake两种方式
@@ -41,7 +40,8 @@ SOUI是目前为数不多的轻量级可快速开发window桌面程序开源Dire
 * #### `cmake`(目前暂时有问题,等待完善)
 
 ### 论坛
-- http://ui520.cn
+- http://www.soui.vip
+
 ### QQ群
 
 - SOUI讨论#1: [点击加入](http://shang.qq.com/wpa/qunwpa?idkey=9653a811a72365d798a5247d6ba6885a568bdcf51c624f906c8ce7b8fd9e4eda)
@@ -52,4 +52,4 @@ SOUI是目前为数不多的轻量级可快速开发window桌面程序开源Dire
 - 教学[视频](http://my.tv.sohu.com/pl/9259542/89333168.shtml)
 
 ### 捐献
-- 支付宝帐号![img](https://github.com/SOUI2/soui/blob/master/doc/alipay.png) 微信帐号![img](https://github.com/SOUI2/soui/blob/master/doc/wechat.png) 
+- 支付宝帐号![img](./doc/alipay.png) 微信帐号![img](./doc/wechat.png) 
