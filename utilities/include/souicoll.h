@@ -3811,7 +3811,7 @@ public:
     typename SRBMap< K, V, KTraits, VTraits >::CPair* Lookup(typename SRBTree< K, V, KTraits, VTraits >::KINARGTYPE key ) ;
     typename SRBMap< K, V, KTraits, VTraits >::SPOSITION SetAt(typename SRBTree< K, V, KTraits, VTraits >::KINARGTYPE key, typename SRBTree< K, V, KTraits, VTraits >::VINARGTYPE value)
     {
-        CPair* pNode = Find(key);
+		SRBTree::CPair* pNode = Find(key);
         if (pNode == NULL)
         {
             return(RBInsert(key, value));
