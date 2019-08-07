@@ -2,14 +2,15 @@
 
 #include <unknown/obj-ref-i.h>
 
-#define UM_CALL_FUN (WM_USER+1000)
-
 namespace SOUI
 {
 	enum {
 		FUN_ID_CONNECT = 100,
 		FUN_ID_DISCONNECT,
 		FUN_ID_START,
+	};
+	enum {
+		UM_CALL_FUN = (WM_USER + 1000),
 	};
 
 	struct IShareBuffer {
