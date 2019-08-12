@@ -441,7 +441,13 @@ SImageButton::SImageButton()
 CSize SImageButton::GetDesiredSize(int nParentWid, int nParentHei) 
 {
 	SASSERT(m_pBgSkin);
-	return m_pBgSkin->GetSkinSize();
+	CSize szRet=SButton::GetDesiredSize(nParentWid,nParentHei);
+	CSize szSkin=m_pBgSkin->GetSkinSize();
+	if(GetLayoutParam()->IsWrapContent(Horz))
+		szRet.cx = szSkin.cx;
+	if(GetLayoutParam()->IsWrapContent(Vert))
+		szRet.cy = szSkin.cy;
+	return szRet;
 }
 
 
