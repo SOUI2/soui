@@ -164,15 +164,6 @@ public:
      */
     SButton();
 
-public:
-        /**
-     * SButton::GetDesiredSize
-     * @brief    获得期望的大小值
-     * @param    LPRECT pRcContainer -- 内容窗体矩形
-     *
-     * Describe  根据内容窗体矩形大小，计算出适合的大小
-     */
-    virtual CSize GetDesiredSize(LPCRECT pRcContainer);
 
 protected:
     /**
@@ -278,10 +269,10 @@ class SOUI_EXP SImageButton : public SButton
 {
     SOUI_CLASS_NAME(SImageButton, L"imgbtn")
 public:
-    SImageButton()
-    {
-        m_bDrawFocusRect=FALSE;
-    }
+    SImageButton();
+
+protected:
+	virtual CSize GetDesiredSize(int nParentWid, int nParentHei) override;
 };
 
 /**

@@ -388,14 +388,6 @@ HRESULT SButton::OnAttrAccel( SStringW strAccel,BOOL bLoading )
     return S_FALSE;
 }
 
-CSize SButton::GetDesiredSize( LPCRECT pRcContainer )
-{
-    SASSERT(m_pBgSkin);
-    CSize szRet=m_pBgSkin->GetSkinSize();
-    if(szRet.cx==0 || szRet.cy==0)
-        szRet=__super::GetDesiredSize(pRcContainer);
-    return szRet;
-}
 
 void SButton::OnStateChanged( DWORD dwOldState,DWORD dwNewState )
 {
@@ -437,6 +429,21 @@ void SButton::OnNextFrame()
 	}
     Invalidate();
 }
+
+
+////////////////////////////////////////////////////////////////////////////
+
+SImageButton::SImageButton()
+{
+	m_bDrawFocusRect=FALSE;
+}
+
+CSize SImageButton::GetDesiredSize(int nParentWid, int nParentHei) 
+{
+	SASSERT(m_pBgSkin);
+	return m_pBgSkin->GetSkinSize();
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 // Image Control
