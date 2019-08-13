@@ -1,39 +1,32 @@
-﻿#pragma once
+#pragma once
 
 #include <interface/STaskLoop-i.h>
-#include <windows.h>
-#include "thread.h"
 #include <helper/SSharedPtr.hpp>
-#include <list>
 #include <unknown/obj-ref-impl.hpp>
 #include <helper/SFunctor.hpp>
-
+#include <core/SimpleWnd.h>
+#include <helper/SSemaphore.h>
+#include <souicoll.h>
 namespace SOUI
 {
-	class STaskLoop : public TObjRefImpl<ITaskLoop>
+	class SOUI_EXP STaskHandler : public TObjRefImpl<ITaskLoop>, protected CSimpleWnd
 	{
 	public:
 		/**
 		* Constructor.
 		*/
-		STaskLoop();
+		STaskHandler();
 
 		/**
 		* Destructor.
 		*/
-		virtual ~STaskLoop();
+		virtual ~STaskHandler();
 
 		/**
 		* Start task mgr thread.
 		*/
 		void start(const char * pszName, Priority priority);
 
-		template<typename TClass,typename Fun>
-		void _start(TClass *obj, Fun fun, Priority priority)
-		{
-			SFunctor0<TClass,Fun>  runnable(this, &STaskLoop::runLoopProc);
-			m_thread.start(&runnable, m_strName,  (Thread::ThreadPriority)priority);
-		}
 		/**
 		* Stop task mgr synchronized.
 		*/
@@ -76,11 +69,11 @@ namespace SOUI
 		class TaskItem
 		{
 		public:
-			TaskItem(IRunnable *runnable_, int nPriority_) 
+			TaskItem(IRunnable *runnable_, int nPriority_)
 				: taskID(0)
 				, runnable(runnable_)
 				, nPriority(nPriority_)
-				, semaphore(NULL) 
+				, semaphore(NULL)
 			{}
 
 			const char *getRunnableInfo()
@@ -94,32 +87,23 @@ namespace SOUI
 			int  nPriority;
 		};
 
+		void OnTimer(UINT_PTR id);
 
-
-
-		void runLoopProc();
+		BEGIN_MSG_MAP_EX(STaskHandler)
+			MSG_WM_TIMER(OnTimer)
+			CHAIN_MSG_MAP(CSimpleWnd)
+		END_MSG_MAP()
 
 		mutable SCriticalSection m_taskListLock;
 		SCriticalSection m_runningLock;
-		std::string m_strName;
-		Thread m_thread;
 		SSemaphore m_itemsSem;
-		std::list<TaskItem> m_items;
+		SList<TaskItem> m_items;
 
 		SCriticalSection m_runningInfoLock;
 		bool m_hasRunningItem;
-		std::string m_runingItemInfo;
 		TaskItem m_runningItem;
 		long m_nextTaskID;
-
+		bool    m_isRunning;
+		DWORD   m_dwThreadID;
 	};
-
-    namespace TASKLOOP
-    {
-        SOUI_COM_C BOOL SOUI_COM_API SCreateInstance(IObjRef **ppTaskLoop);
-    }
 }
-
-
-
-

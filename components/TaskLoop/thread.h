@@ -4,7 +4,7 @@
 #include <helper/SCriticalSection.h>
 #include <helper/SNoCopyable.hpp>
 #include <helper/SFunctor.hpp>
-#include "semaphore.h"
+#include <helper/SSemaphore.h>
 namespace SOUI
 {
 
@@ -115,7 +115,7 @@ private:
     IRunnable *_runnable;
     std::string _name;
     long _threadID;
-    Semaphore _startSem;
+    SSemaphore _startSem;
     ThreadPrivate &_private;
     ThreadPriority _priorityLevel;
 };

@@ -63,7 +63,7 @@ namespace SOUI
 			return -1;
 		}
 
-		Semaphore semaphore;
+		SSemaphore semaphore;
 		TaskItem item(pCloneRunnable,priority);
 
 		if (waitUntilDone)

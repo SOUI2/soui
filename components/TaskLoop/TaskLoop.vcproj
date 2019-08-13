@@ -138,8 +138,6 @@
 			<File
 				RelativePath="TaskLoop.cpp" />
 			<File
-				RelativePath="semaphore.cpp" />
-			<File
 				RelativePath="thread.cpp" />
 		</Filter>
 		<Filter
@@ -148,8 +146,6 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
 				RelativePath="TaskLoop.h" />
-			<File
-				RelativePath="semaphore.h" />
 			<File
 				RelativePath="thread.h" />
 		</Filter>

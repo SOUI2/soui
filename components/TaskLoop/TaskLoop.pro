@@ -32,5 +32,5 @@ else{
 }
 
 # Input
-HEADERS += TaskLoop.h semaphore.h thread.h
-SOURCES += TaskLoop.cpp  semaphore.cpp thread.cpp
+HEADERS += TaskLoop.h thread.h
+SOURCES += TaskLoop.cpp  thread.cpp

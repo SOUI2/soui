@@ -1,5 +1,5 @@
 #pragma once
-
+#include <utilities-def.h>
 #include <helper/SNoCopyable.hpp>
 
 namespace SOUI
@@ -15,7 +15,7 @@ class SemaphorePrivate;
 /**
  * Semaphore class for thread synchronization.
  */
-class Semaphore : public SNoCopyable
+class UTILITIES_API SSemaphore : public SNoCopyable
 {
 public:
     /**
@@ -41,12 +41,12 @@ public:
     /**
      * Default constructor.
      */
-    Semaphore();
+	SSemaphore();
 
     /**
      * Destructor.
      */
-    virtual ~Semaphore();
+    virtual ~SSemaphore();
 
 private:
     SemaphorePrivate &_private;

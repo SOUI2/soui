@@ -1,5 +1,5 @@
 #include <Windows.h>
-#include "semaphore.h"
+#include <helper/SSemaphore.h>
 #include <cerrno>
 
 
@@ -11,19 +11,19 @@ namespace SOUI
 		HANDLE  _hsem;
 	};
 
-Semaphore::Semaphore() :
+SSemaphore::SSemaphore() :
     _private(*(new SemaphorePrivate()))
 {
     _private._hsem = ::CreateSemaphore(NULL, 0, 65535/* we need to discuss this max value*/, NULL);
 }
 
-Semaphore::~Semaphore()
+SSemaphore::~SSemaphore()
 {
     ::CloseHandle(_private._hsem);
     delete &_private;
 }
 
-int Semaphore::wait()
+int SSemaphore::wait()
 {
     DWORD ret = ::WaitForSingleObject (_private._hsem, INFINITE);
 
@@ -35,7 +35,7 @@ int Semaphore::wait()
     return RETURN_ERROR; // This is a blocking wait, so any value other than WAIT_OBJECT_0 indicates an error!
 }
 
-int Semaphore::wait(unsigned int msec)
+int SSemaphore::wait(unsigned int msec)
 {
     DWORD ret = ::WaitForSingleObject (_private._hsem, msec);
 
@@ -53,7 +53,7 @@ int Semaphore::wait(unsigned int msec)
     return RETURN_ERROR;
 }
 
-void Semaphore::notify()
+void SSemaphore::notify()
 {
     LONG previous_count;
     // let's just unblock one waiting thread.
