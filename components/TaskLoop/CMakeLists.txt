@@ -9,13 +9,11 @@ include_directories(${PROJECT_SOURCE_DIR}/utilities/include)
 include_directories(${PROJECT_SOURCE_DIR}/SOUI/include)
 
 set(TaskLoop_header
-	semaphore.h
 	TaskLoop.h
 	thread.h
 )
 
-set(TaskLoop_src 
-	semaphore.cpp
+set(TaskLoop_src
 	TaskLoop.cpp
 	thread.cpp
 )
