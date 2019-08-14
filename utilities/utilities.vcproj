@@ -1,374 +1,222 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="utilities"
 	ProjectGUID="{37DE703E-9349-3B3D-8462-BA4A1E1BBFCA}"
-	RootNamespace="utilities"
-	Keyword="Qt4VSv1.0"
-	TargetFrameworkVersion="0"
-	>
+	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform
-			Name="Win32"
-		/>
+			Name="Win32" />
 	</Platforms>
-	<ToolFiles>
-	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="..\bin\"
-			IntermediateDirectory="..\obj\release\utilities\"
-			ConfigurationType="2"
-			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				WarningLevel="0"
-				DefaultCharType="0"
-				EnableErrorChecks="1"
-			/>
+			ConfigurationType="2"
+			IntermediateDirectory="..\obj\release\utilities\"
+			UseOfMfc="0">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				Optimization="1"
 				AdditionalIncludeDirectories=".,.,include,..\config,..\tools\mkspecs\win32-msvc2008"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,UTILITIES_EXPORTS,QT_NO_DYNAMIC_CAST,NDEBUG"
-				GeneratePreprocessedFile="0"
-				ExceptionHandling="1"
-				RuntimeLibrary="0"
-				TreatWChar_tAsBuiltInType="true"
+				AdditionalOptions="/MP"
 				AssemblerListingLocation="..\obj\release\utilities\"
-				ObjectFile="..\obj\release\utilities\"
-				ProgramDataBaseFileName="$(IntDir)"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"
-			/>
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="..\obj\release\utilities\"
+				Optimization ="1"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,UTILITIES_EXPORTS,QT_NO_DYNAMIC_CAST,NDEBUG"
+				ProgramDataBaseFileName="$(IntDir)"
+				RuntimeLibrary="0"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="true"
+				WarningLevel="3" />
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,UTILITIES_EXPORTS,QT_NO_DYNAMIC_CAST"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
-				OutputFile="$(OutDir)\utilities.dll"
-				LinkIncremental="1"
-				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="..\bin"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile=""
-				SubSystem="2"
-				OptimizeReferences="2"
+				DataExecutionPrevention="true"
 				EnableCOMDATFolding="2"
+				GenerateDebugInformation="true"
+				IgnoreImportLibrary="true"
+				LinkIncremental="1"
 				LinkTimeCodeGeneration="0"
-				TargetMachine="1"
-			/>
+				OptimizeReferences="2"
+				OutputFile="$(OutDir)\utilities.dll"
+				ProgramDatabaseFile=""
+				RandomizedBaseAddress="true"
+				SubSystem="2"
+				SuppressStartupBanner="true"
+				TargetMachine="1" />
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCManifestTool" />
 			<Tool
-				Name="VCManifestTool"
-			/>
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCPostBuildEventTool" />
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCPreBuildEventTool" />
 			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCPreLinkEventTool" />
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,UTILITIES_EXPORTS,QT_NO_DYNAMIC_CAST" />
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="..\bin\"
-			IntermediateDirectory="..\obj\debug\utilities\"
-			ConfigurationType="2"
-			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				WarningLevel="0"
-				DefaultCharType="0"
-				EnableErrorChecks="1"
-			/>
+			ConfigurationType="2"
+			IntermediateDirectory="..\obj\debug\utilities\"
+			UseOfMfc="0">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				Optimization="4"
 				AdditionalIncludeDirectories=".,.,include,..\config,..\tools\mkspecs\win32-msvc2008"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,UTILITIES_EXPORTS,QT_NO_DYNAMIC_CAST"
-				GeneratePreprocessedFile="0"
-				ExceptionHandling="1"
-				RuntimeLibrary="1"
-				TreatWChar_tAsBuiltInType="true"
+				AdditionalOptions="/MP"
 				AssemblerListingLocation="..\obj\debug\utilities\"
-				ObjectFile="..\obj\debug\utilities\"
-				ProgramDataBaseFileName="$(IntDir)"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100,4101,4102,4189,4996"
-			/>
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="..\obj\debug\utilities\"
+				Optimization ="4"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,UTILITIES_EXPORTS,QT_NO_DYNAMIC_CAST"
+				ProgramDataBaseFileName="$(IntDir)"
+				RuntimeLibrary="1"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="true"
+				WarningLevel="3" />
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,UTILITIES_EXPORTS,QT_NO_DYNAMIC_CAST,_DEBUG"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
-				OutputFile="$(OutDir)\utilitiesd.dll"
-				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="..\bin"
+				DataExecutionPrevention="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=""
-				SubSystem="2"
+				IgnoreImportLibrary="true"
 				LinkTimeCodeGeneration="0"
-				TargetMachine="1"
-			/>
+				OutputFile="$(OutDir)\utilitiesd.dll"
+				ProgramDatabaseFile=""
+				RandomizedBaseAddress="true"
+				SubSystem="2"
+				SuppressStartupBanner="true"
+				TargetMachine="1" />
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCManifestTool" />
 			<Tool
-				Name="VCManifestTool"
-			/>
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCPostBuildEventTool" />
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCPreBuildEventTool" />
 			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCPreLinkEventTool" />
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,UTILITIES_EXPORTS,QT_NO_DYNAMIC_CAST,_DEBUG" />
 		</Configuration>
 	</Configurations>
-	<References>
-	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
-			>
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath="src\gdialpha.cpp"
-				>
-			</File>
+				RelativePath="src\helper\SCriticalSection.cpp" />
 			<File
-				RelativePath="src\pugixml\pugixml.cpp"
-				>
-			</File>
+				RelativePath="src\helper\SSemaphore.cpp" />
 			<File
-				RelativePath="src\helper\SCriticalSection.cpp"
-				>
-			</File>
+				RelativePath="src\gdialpha.cpp" />
 			<File
-				RelativePath="src\sobject\sobject.cpp"
-				>
-			</File>
+				RelativePath="src\pugixml\pugixml.cpp" />
 			<File
-				RelativePath="src\soui_mem_wrapper.cpp"
-				>
-			</File>
+				RelativePath="src\sobject\sobject.cpp" />
 			<File
-				RelativePath="src\helper\SSemaphore.cpp"
-				>
-			</File>
+				RelativePath="src\soui_mem_wrapper.cpp" />
 			<File
-				RelativePath="src\string\strcpcvt.cpp"
-				>
-			</File>
+				RelativePath="src\string\strcpcvt.cpp" />
 			<File
-				RelativePath="src\trace.cpp"
-				>
-			</File>
+				RelativePath="src\trace.cpp" />
 			<File
-				RelativePath="src\string\tstring.cpp"
-				>
-			</File>
+				RelativePath="src\string\tstring.cpp" />
 			<File
-				RelativePath="src\utilities.cpp"
-				>
-			</File>
+				RelativePath="src\utilities.cpp" />
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
-				RelativePath="include\atl.mini\atldef.h"
-				>
-			</File>
+				RelativePath="include\atl.mini\SComCli.h" />
 			<File
-				RelativePath="include\com-loader.hpp"
-				>
-			</File>
+				RelativePath="include\atl.mini\SComHelper.h" />
 			<File
-				RelativePath="include\gdialpha.h"
-				>
-			</File>
+				RelativePath="include\helper\SCriticalSection.h" />
 			<File
-				RelativePath="include\wtl.mini\msgcrack.h"
-				>
-			</File>
+				RelativePath="include\helper\SEmptyable.hpp" />
 			<File
-				RelativePath="include\unknown\obj-ref-i.h"
-				>
-			</File>
+				RelativePath="include\helper\SNoCopyable.hpp" />
 			<File
-				RelativePath="include\unknown\obj-ref-impl.hpp"
-				>
-			</File>
+				RelativePath="include\helper\SSemaphore.h" />
 			<File
-				RelativePath="include\pugixml\pugiconfig.hpp"
-				>
-			</File>
+				RelativePath="include\helper\SSharedPtr.hpp" />
 			<File
-				RelativePath="include\pugixml\pugixml.hpp"
-				>
-			</File>
+				RelativePath="include\atl.mini\atldef.h" />
 			<File
-				RelativePath="include\atl.mini\SComCli.h"
-				>
-			</File>
+				RelativePath="include\com-loader.hpp" />
 			<File
-				RelativePath="include\atl.mini\SComHelper.h"
-				>
-			</File>
+				RelativePath="include\gdialpha.h" />
 			<File
-				RelativePath="include\helper\SCriticalSection.h"
-				>
-			</File>
+				RelativePath="include\wtl.mini\msgcrack.h" />
 			<File
-				RelativePath="include\helper\SEmptyable.hpp"
-				>
-			</File>
+				RelativePath="include\unknown\obj-ref-i.h" />
 			<File
-				RelativePath="include\snew.h"
-				>
-			</File>
+				RelativePath="include\unknown\obj-ref-impl.hpp" />
 			<File
-				RelativePath="include\helper\SNoCopyable.hpp"
-				>
-			</File>
+				RelativePath="include\pugixml\pugiconfig.hpp" />
 			<File
-				RelativePath="include\sobject\sobject-i.h"
-				>
-			</File>
+				RelativePath="include\pugixml\pugixml.hpp" />
 			<File
-				RelativePath="include\sobject\sobject-state-i.h"
-				>
-			</File>
+				RelativePath="include\snew.h" />
 			<File
-				RelativePath="include\sobject\sobject-state-impl.hpp"
-				>
-			</File>
+				RelativePath="include\sobject\sobject-i.h" />
 			<File
-				RelativePath="include\sobject\sobject.hpp"
-				>
-			</File>
+				RelativePath="include\sobject\sobject-state-i.h" />
 			<File
-				RelativePath="include\soui_mem_wrapper.h"
-				>
-			</File>
+				RelativePath="include\sobject\sobject-state-impl.hpp" />
 			<File
-				RelativePath="include\souicoll.h"
-				>
-			</File>
+				RelativePath="include\sobject\sobject.hpp" />
 			<File
-				RelativePath="include\wtl.mini\souimisc.h"
-				>
-			</File>
+				RelativePath="include\soui_mem_wrapper.h" />
 			<File
-				RelativePath="include\helper\SSemaphore.h"
-				>
-			</File>
+				RelativePath="include\souicoll.h" />
 			<File
-				RelativePath="include\helper\SSharedPtr.hpp"
-				>
-			</File>
+				RelativePath="include\wtl.mini\souimisc.h" />
 			<File
-				RelativePath="include\string\strcpcvt.h"
-				>
-			</File>
+				RelativePath="include\string\strcpcvt.h" />
 			<File
-				RelativePath="include\trace.h"
-				>
-			</File>
+				RelativePath="include\trace.h" />
 			<File
-				RelativePath="include\string\tstring.h"
-				>
-			</File>
+				RelativePath="include\string\tstring.h" />
 			<File
-				RelativePath="include\utilities-def.h"
-				>
-			</File>
+				RelativePath="include\utilities-def.h" />
 			<File
-				RelativePath="include\utilities.h"
-				>
-			</File>
+				RelativePath="include\utilities.h" />
 		</Filter>
 		<File
-			RelativePath="utilities.rc"
-			>
-		</File>
+			RelativePath="utilities.rc" />
 	</Files>
 	<Globals>
 	</Globals>
