@@ -1,12 +1,11 @@
-SOUI License
+SOUI 2.x 开源协议（类MIT协议)
 
-The MIT License (MIT)
-Copyright (c) 2019 启程软件
+SOUI是启程软件开发（QQ:99200711)的一套DirectUI客户端开发框架,版权归“启程软件”个人所有。
+作者授权企业或者个人在满足下面条件的情况下可以免费使用：
+1、所有用户基于SOUI开发的产品都有义务向作者报备最终产品的基本信息：包含软件名称，版本，开发公司，产品简介，SOUI版本。作者将把这些信息收集并汇总到git库的/products.md文件中。欢迎用户提供产品更详细的信息如截图，演示动画等，作者将选择有推广价值的图片上传到官方博客。
+2、使用SOUI开发的产品的有义务将本协议打包到程序的安装目录下，如果确实需要以单独EXE发布的产品，则需要在产品的“关于”界面中明确说明使用了SOUI开源项目。
+3、作者不对代码做任何显示或者隐示的的功能担保，出现任何问题由使用者自己负责。
+4、作者有权利制作使用者黑名单，黑名单上的企业或者个人不得使用SOUI开发产品。
+5、违反上述条件使用SOUI，作者有权要求停止侵权并要求经济赔偿！
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
+启程软件  2019.9.19
