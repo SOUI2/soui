@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<include>
   <tabctrl size="-2,-2" animateSteps="10" animateType="1" tabAlign="left" tabSkin="skin_tab_left" tabInterSkin="skin_tab_left_splitter" tabInterSize="2" tabWidth="150" iconSkin="skin_small_icons" icon-x="5" icon-y="8" colorText="#000000bb">
     <page title="controls">
       <gifplayer pos="10,10" skin="gif_horse" name="giftest" cursor="ANI_ARROW" show="1"/>
@@ -29,4 +28,3 @@
     </page>
   </tabctrl>
 
-</include>

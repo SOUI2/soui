@@ -872,24 +872,8 @@ namespace SOUI
         *
         * Describe  获取窗口消息码
         */
-        virtual UINT OnGetDlgCode()
-        {
-            UINT uRet=SC_WANTCHARS|SC_WANTARROWS;
-            if(m_fWantTab) uRet |= DLGC_WANTTAB;
-            if(m_dwStyle&ES_WANTRETURN) uRet |= SC_WANTRETURN;
-            return uRet;
-        }
+		virtual UINT OnGetDlgCode();
         
-        /**
-        * GetDesiredSize
-        * @brief    当没有指定窗口大小时，通过如皮肤计算窗口的期望大小
-        * @param    LPRECT pRcContainer --  容器位置
-        * @return   CSize 
-        *
-        * Describe  注意需要增加inset的大小
-        */
-        virtual CSize GetDesiredSize(LPCRECT pRcContainer);
-
         /**
         * SRichEdit::OnScroll
         * @brief    滚动条事件
@@ -1160,11 +1144,11 @@ namespace SOUI
             ATTR_INT(L"allowBeep",m_fAllowBeep,FALSE)
             ATTR_INT(L"autoWordSel",m_fEnableAutoWordSel,FALSE)
             ATTR_INT(L"vcenter",m_fSingleLineVCenter,FALSE)
-            ATTR_RECT(L"inset",m_rcInsetPixel,FALSE)
             ATTR_CUSTOM(L"colorText",OnAttrTextColor)
             ATTR_CUSTOM(L"rtf",OnAttrRTF)
             ATTR_CUSTOM(L"align",OnAttrAlign)
             ATTR_CUSTOM(L"notifyChange",OnAttrNotifyChange)
+			ATTR_BOOL(L"wantTab",m_fWantTab,FALSE)
             //更多属性见SRichEdit::DefAttributeProc代码
             //包括：hscrollBar，vscrollBar，autoHscroll，autoVscroll，multiLines，readOnly，wantReturn，password
             //      number,passwordChar,enableDragdrop,autoSel
@@ -1195,7 +1179,6 @@ namespace SOUI
         LONG         m_lAccelPos;            /**< Accelerator position      */
         SIZEL        m_sizelExtent;          /**< Extent array              */
         CRect        m_rcInset;              /**< inset margin              */
-        CRect        m_rcInsetPixel;         /**< inset margin in pixel     */
         int          m_nFontHeight;          /**< 单行文字输出高度          */
         DWORD        m_dwStyle;
 
@@ -1263,7 +1246,8 @@ namespace SOUI
         * Describe  此函数是消息响应函数
         */
         void OnSetFocus(SWND wndOld);
-        /**
+		UINT GetCueTextAlign();
+		/**
         * SEdit::OnKillFocus
         * @brief    失去焦点
         * 

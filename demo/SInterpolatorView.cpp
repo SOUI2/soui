@@ -69,8 +69,8 @@ namespace SOUI
 			pRT->CreatePen(PS_DASH,RGBA(255,0,0,255),3,&pen);
 
 			pRT->SelectObject(pen,(IRenderObj**)&oldPen);
-			path->moveTo(rc.left,rc.top);
-			path->quadTo((rc.right+rc.left)/2,rc.bottom + rc.Height(),rc.right,rc.top);
+			path->moveTo((float)rc.left,(float)rc.top);
+			path->quadTo((float)(rc.right+rc.left)/2,(float)rc.bottom + rc.Height(),(float)rc.right,(float)rc.top);
 			pRT->DrawPath(path);
 			pRT->SelectObject(oldPen);
 		}

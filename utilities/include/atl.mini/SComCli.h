@@ -158,11 +158,14 @@ public:
         if (p == NULL || pOther == NULL)
             return false;    // One is NULL the other is not
 
-        SComPtr<IUnknown> punk1;
-        SComPtr<IUnknown> punk2;
+        IUnknown* punk1;
+        IUnknown* punk2;
         p->QueryInterface(__uuidof(IUnknown), (void**)&punk1);
         pOther->QueryInterface(__uuidof(IUnknown), (void**)&punk2);
-        return punk1 == punk2;
+        bool bEqual =  punk1 == punk2;
+		punk1->Release();
+		punk2->Release();
+		return bEqual;
     }
     // Attach to an existing interface (does not AddRef)
     void Attach( T* p2) throw()
@@ -244,7 +247,7 @@ public:
     {
         if( !IsEqualObject(lp) )
         {
-            return static_cast<T*>(SComQIPtrAssign((IUnknown**)&p, lp, __uuidof(T)));
+            return static_cast<T*>(SComQIPtrAssign((IUnknown**)&this->p, lp, __uuidof(T)));
         }
         return *this;
     }
@@ -252,7 +255,7 @@ public:
     {
         if(*this!=lp)
         {
-            return static_cast<T*>(SComPtrAssign((IUnknown**)&p, lp));
+            return static_cast<T*>(SComPtrAssign((IUnknown**)&this->p, lp));
         }
         return *this;
     }

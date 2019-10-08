@@ -38,46 +38,66 @@ if %selected%==1 (
 	goto error
 )
 
+for /f "skip=2 delims=: tokens=1,*" %%i in ('reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion" /v "ProgramFilesDir (x86)"') do ( 
+	    set str=%%i
+		set var=%%j
+		set "var=!var:"=!"
+		if not "!var:~-1!"=="=" set strCMD=!str:~-1!:!var!
+	 )
+	 SET strCMD=%strCMD%\Microsoft Visual Studio\Installer\vswhere.exe
+	
+	 if exist "%strCMD%" (
+	 for /f "delims=" %%i in ('"%strCMD%" -nologo -version [16.0^,17.0] -prerelease -property installationPath -format value') do (
+	    set vs2019path=%%i
+		)
+	 )
+
 rem 选择开发环境
-SET /p selected=2.选择开发环境[1=2008;2=2010;3=2012;4=2013;5=2015;6=2017;7=2005]:
+SET /p selected=2.选择开发环境[1=2005;2=2008;3=2010;4=2012;5=2013;6=2015;7=2017;8=2019]:
 
 if %selected%==1 (
+	SET specs=win32-msvc2005
+	SET vsvarbat="%VS80COMNTOOLS%..\..\VC\vcvarsall.bat"
+	call !vsvarbat! %target%
+	rem call "%VS80COMNTOOLS%..\..\VC\vcvarsall.bat" %target%
+	goto built
+) else if %selected%==2 (
 	SET specs=win32-msvc2008
 	SET vsvarbat="!VS90COMNTOOLS!..\..\VC\vcvarsall.bat"
 	call !vsvarbat! %target%
 	rem call "%VS90COMNTOOLS%..\..\VC\vcvarsall.bat" %target%
 	goto built
-) else if %selected%==2 (
+) else if %selected%==3 (
 	SET specs=win32-msvc2010
 	SET vsvarbat="%VS100COMNTOOLS%..\..\VC\vcvarsall.bat"
 	call !vsvarbat! %target%
 	rem call "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %target%
 	goto built
-) else if %selected%==3 (
+) else if %selected%==4 (
 	SET specs=win32-msvc2012	
 	SET vsvarbat="%VS110COMNTOOLS%..\..\VC\vcvarsall.bat"
 	call !vsvarbat! %target%
 	rem call "%VS110COMNTOOLS%..\..\VC\vcvarsall.bat" %target%
 	goto built
-) else if %selected%==4 (
+) else if %selected%==5 (
 	SET specs=win32-msvc2013
 	SET vsvarbat="%VS120COMNTOOLS%..\..\VC\vcvarsall.bat"
 	call !vsvarbat! %target%
 	rem call "%VS120COMNTOOLS%..\..\VC\vcvarsall.bat" %target%
 	goto toolsetxp
-) else if %selected%==5 (
+) else if %selected%==6 (
 	SET specs=win32-msvc2015
 	SET vsvarbat="%VS140COMNTOOLS%..\..\VC\vcvarsall.bat"
 	call !vsvarbat! %target%
 	rem call "%VS140COMNTOOLS%..\..\VC\vcvarsall.bat" %target%
 	goto toolsetxp
-)else if %selected%==6 (
+) else if %selected%==7 (
 	SET specs=win32-msvc2017
 	for /f "skip=2 delims=: tokens=1,*" %%i in ('reg query "HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7" /v "15.0" /reg:32') do ( 
 	    set str=%%i
-	   set var=%%j
-	   set "var=!var:"=!"
-	   if not "!var:~-1!"=="=" set value=!str:~-1!:!var!
+		set var=%%j
+		set "var=!var:"=!"
+		if not "!var:~-1!"=="=" set value=!str:~-1!:!var!
 	 )
 	 SET value=!value!\VC\Auxiliary\Build\vcvarsall.bat
 	 rem ECHO Vs2017 path is:!value! 
@@ -85,13 +105,15 @@ if %selected%==1 (
 		call !vsvarbat! %target%
 		rem call "!value!" %target%
 		goto toolsetxp
-)else if %selected%==7 (
-	SET specs=win32-msvc2005
-	SET vsvarbat="%VS80COMNTOOLS%..\..\VC\vcvarsall.bat"
-	call !vsvarbat! %target%
-	rem call "%VS80COMNTOOLS%..\..\VC\vcvarsall.bat" %target%
-	goto built
-) else (
+) else if %selected%==8 (		 
+	  SET specs=win32-msvc2017
+	  SET vs2019path=!vs2019path!\VC\Auxiliary\Build\vcvarsall.bat
+	 rem ECHO Vs2019 path is:!vs2019path! 
+		SET vsvarbat="!vs2019path!"
+		call !vsvarbat! %target%
+		rem call "!value!" %target%
+		goto toolsetxp
+)else (
 	goto error
 )
 :toolsetxp

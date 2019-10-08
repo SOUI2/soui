@@ -164,15 +164,6 @@ public:
      */
     SButton();
 
-public:
-        /**
-     * SButton::GetDesiredSize
-     * @brief    获得期望的大小值
-     * @param    LPRECT pRcContainer -- 内容窗体矩形
-     *
-     * Describe  根据内容窗体矩形大小，计算出适合的大小
-     */
-    virtual CSize GetDesiredSize(LPCRECT pRcContainer);
 
 protected:
     /**
@@ -248,11 +239,13 @@ protected:
     BOOL   m_bAnimate;    /**< 动画标志 */
     WORD   m_byAlphaAni;  /**< 动画状态 */
 	BYTE   m_nAniStep;	  /**< alpha for an animate step */
+	BOOL   m_bDisableAccelIfInvisible; /**< disable accel if invisible */
 public:
     SOUI_ATTRS_BEGIN()
         ATTR_CUSTOM(L"accel",OnAttrAccel)
         ATTR_INT(L"animate", m_bAnimate, FALSE)
 		ATTR_INT(L"animateStep",m_nAniStep,FALSE)
+		ATTR_BOOL(L"disableAccelIfInvisible",m_bDisableAccelIfInvisible,FALSE)
     SOUI_ATTRS_END()
 
     SOUI_MSG_MAP_BEGIN()
@@ -276,10 +269,10 @@ class SOUI_EXP SImageButton : public SButton
 {
     SOUI_CLASS_NAME(SImageButton, L"imgbtn")
 public:
-    SImageButton()
-    {
-        m_bDrawFocusRect=FALSE;
-    }
+    SImageButton();
+
+protected:
+	virtual CSize GetDesiredSize(int nParentWid, int nParentHei) override;
 };
 
 /**
@@ -373,10 +366,13 @@ protected:
     ISkinObj *m_pSkin;  /**< ISkinObj对象 */
     CAutoRefPtr<IBitmap>    m_pImg;//使用代码设定的图片
     FilterLevel             m_fl;
+	bool m_bKeepAspect; /**< keep aspect ratio */
+
     SOUI_ATTRS_BEGIN()
         ATTR_SKIN(L"skin", m_pSkin, TRUE)
         ATTR_INT(L"iconIndex", m_iFrame, FALSE)
 		ATTR_INT(L"tile", m_iTile, TRUE)
+		ATTR_BOOL(L"keepAspect",m_bKeepAspect,TRUE)
     SOUI_ATTRS_END()
 
     SOUI_MSG_MAP_BEGIN()
@@ -549,7 +545,8 @@ protected:
      */
     virtual CSize GetDesiredSize(LPCRECT pRcContainer);
     virtual void OnColorize(COLORREF cr);
-    
+	virtual void OnScaleChanged(int scale);
+
     void OnPaint(IRenderTarget *pRT);
     int  OnCreate(void*);
 
@@ -614,7 +611,8 @@ protected:
 
     SOUI_ATTRS_BEGIN()
         ATTR_COLOR(L"colorLine", m_crLine, FALSE)
-        ATTR_INT(L"size", m_nLineSize, FALSE)
+		ATTR_COLOR(L"lineColor", m_crLine, FALSE)
+		ATTR_INT(L"lineSize", m_nLineSize, FALSE)
         ATTR_ENUM_BEGIN(L"mode", HRMODE, FALSE)
             ATTR_ENUM_VALUE(L"vertical", HR_VERT)
             ATTR_ENUM_VALUE(L"horizontal", HR_HORZ)
@@ -995,9 +993,10 @@ protected:
     void OnPaint(IRenderTarget *pRT);
     void OnLButtonUp(UINT nFlags,CPoint pt);
     virtual CSize GetDesiredSize(LPCRECT pRcContainer);
-    virtual BOOL NeedRedrawWhenStateChange(){return TRUE;}
+    virtual BOOL NeedRedrawWhenStateChange(){return TRUE;}	
     virtual void OnColorize(COLORREF cr);
-    
+	virtual void OnScaleChanged(int nScale);
+
     SOUI_ATTRS_BEGIN()
         ATTR_INT(L"toggled", m_bToggled, TRUE)
         ATTR_SKIN(L"skin", m_pSkin, TRUE)

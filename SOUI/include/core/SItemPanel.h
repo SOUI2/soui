@@ -24,6 +24,7 @@ struct IItemContainer
 
 class SOUI_EXP SItemPanel : public SwndContainerImpl
 {
+	SOUI_CLASS_NAME(SItemPanel,L"itemPanel")
 public:
     static SItemPanel * Create(SWindow *pFrameHost,pugi::xml_node xmlNode,IItemContainer *pItemContainer);
     
@@ -52,7 +53,7 @@ public://SwndContainerImpl
 
     virtual SWND OnSetSwndCapture(SWND swnd);
     virtual HWND GetHostHwnd();
-    virtual const SStringW & GetTranslatorContext();
+    virtual const SStringW & GetTranslatorContext() const;
     virtual void FrameToHost(RECT & rc);
     virtual BOOL IsTranslucent() const;
     virtual BOOL IsSendWheel2Hover() const;
@@ -86,7 +87,7 @@ public://SWindow
     virtual BOOL NeedRedrawWhenStateChange();
     virtual BOOL OnUpdateToolTip(CPoint pt, SwndToolTipInfo &tipInfo);
     virtual BOOL IsLayeredWindow() const {return FALSE;}
-    virtual void RequestRelayout(SWindow *pSource ,BOOL bSourceResizable);
+    virtual void RequestRelayout(SWND hSource ,BOOL bSourceResizable);
     
     CRect GetItemRect();
     void SetItemCapture(BOOL bCapture);

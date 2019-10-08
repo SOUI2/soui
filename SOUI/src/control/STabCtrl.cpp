@@ -45,7 +45,6 @@ namespace SOUI
 						pt.x = pt.y = 0;
 						m_nFrom = 0;
 						m_nTo = rcPage.Height();
-						//m_nAniRange = rcPage.Height();
 					}
 					else
 					{// move down
@@ -53,7 +52,6 @@ namespace SOUI
 						m_ptOffset.y = rcPage.Height();
 						m_nFrom = rcPage.Height();
 						m_nTo = 0;
-//						m_nAniRange = -rcPage.Height();
 					}
 				}
 				else
@@ -63,7 +61,6 @@ namespace SOUI
 						pt.x = pt.y = 0;
 						m_nFrom = 0;
 						m_nTo = rcPage.Width();
-						//m_nAniRange = rcPage.Width();
 					}
 					else
 					{
@@ -71,7 +68,6 @@ namespace SOUI
 						m_ptOffset.x = rcPage.Width();
 						m_nFrom = rcPage.Width();
 						m_nTo = 0;
-						//m_nAniRange = -rcPage.Width();
 					}
 				}
 				pt -= rcPage.TopLeft();
@@ -371,7 +367,7 @@ CRect STabCtrl::GetChildrenLayoutRect()
 {
     CRect rcRet;
     GetClientRect(rcRet);
-
+	rcRet.DeflateRect(GetStyle().GetPadding());
     switch(m_nTabAlign)
     {
     case AlignLeft:
@@ -835,8 +831,8 @@ void STabCtrl::OnInitFinished( pugi::xml_node xmlNode )
     if(m_pSkinTab)
     {
         SIZE sz = m_pSkinTab->GetSkinSize();
-		if(SLayoutSize::fequal(m_szTab[0].fSize, -1.f)) m_szTab[0] = SLayoutSize((float)sz.cx, SLayoutSize::px);
-        if(SLayoutSize::fequal(m_szTab[1].fSize, -1.f)) m_szTab[1] = SLayoutSize((float)sz.cy, SLayoutSize::px);
+		if(SLayoutSize::fequal(m_szTab[0].fSize, -1.f)) m_szTab[0] = SLayoutSize((float)sz.cx, SLayoutSize::defUnit);
+        if(SLayoutSize::fequal(m_szTab[1].fSize, -1.f)) m_szTab[1] = SLayoutSize((float)sz.cy, SLayoutSize::defUnit);
     }
 }
 
@@ -918,10 +914,10 @@ void STabCtrl::OnColorize(COLORREF cr)
 void STabCtrl::OnScaleChanged(int nScale)
 {
     __super::OnScaleChanged(nScale);
-    if (m_pSkinIcon)
-    {
-        GetScaleSkin(m_pSkinIcon, nScale);
-    }
+    if (m_pSkinIcon) GetScaleSkin(m_pSkinIcon, nScale);
+    if (m_pSkinTab) GetScaleSkin(m_pSkinTab, nScale);
+    if (m_pSkinTabInter) GetScaleSkin(m_pSkinTabInter, nScale);
+    if (m_pSkinFrame) GetScaleSkin(m_pSkinFrame, nScale);
 }
 
 HRESULT STabCtrl::OnLanguageChanged()

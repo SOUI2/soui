@@ -760,15 +760,20 @@ void SRichEdit::OnTimer2( UINT_PTR idEvent )
     m_pTxtHost->GetTextService()->TxSendMessage(WM_TIMER,idEvent,0,NULL);
 }
 
+/**
+* SRichEdit::OnGetDlgCode
+* @brief    获取窗口消息码
+* @return   返回UINT
+*
+* Describe  获取窗口消息码
+*/
 
-CSize SRichEdit::GetDesiredSize( LPCRECT pRcContainer )
+UINT SRichEdit::OnGetDlgCode()
 {
-    CSize sz = __super::GetDesiredSize(pRcContainer);
-    sz.cx += m_rcInsetPixel.left + m_rcInsetPixel.right;
-    sz.cy += m_rcInsetPixel.top + m_rcInsetPixel.bottom;
-    sz.cx = sz.cx * GetScale() / 100;
-    sz.cy = sz.cy * GetScale() / 100;
-    return sz;
+	UINT uRet = SC_WANTCHARS | SC_WANTARROWS;
+	if (m_fWantTab) uRet |= SC_WANTTAB;
+	if (m_dwStyle&ES_WANTRETURN) uRet |= SC_WANTRETURN;
+	return uRet;
 }
 
 BOOL SRichEdit::OnScroll( BOOL bVertical,UINT uCode,int nPos )
@@ -1287,13 +1292,10 @@ LRESULT SRichEdit::OnNcCalcSize( BOOL bCalcValidRects, LPARAM lParam )
 {
     __super::OnNcCalcSize(bCalcValidRects,lParam);
     
-    CRect rcInsetPixel = m_rcInsetPixel;
-    rcInsetPixel.left = rcInsetPixel.left * GetScale() / 100;
-    rcInsetPixel.top = rcInsetPixel.top * GetScale() / 100;
-    rcInsetPixel.right = rcInsetPixel.right * GetScale() / 100;
-    rcInsetPixel.bottom = rcInsetPixel.bottom * GetScale() / 100;
 
-    if(!m_fRich && m_fSingleLineVCenter && !(m_dwStyle&ES_MULTILINE))
+    CRect rcInsetPixel = GetStyle().GetPadding();
+
+	if(!m_fRich && m_fSingleLineVCenter && !(m_dwStyle&ES_MULTILINE))
     {
         rcInsetPixel.top   =
         rcInsetPixel.bottom=(m_rcClient.Height()-m_nFontHeight)/2;
@@ -1355,7 +1357,7 @@ LRESULT SRichEdit::OnSetCharFormat( UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
     if(wParam == SCF_DEFAULT && !FValidCF((CHARFORMAT2W *) lParam))
     {//设置默认字体只支持CHARFORMAT2W
-        SLOGFMTW(_T("set default char format failed! only CHARFORMAT2W can be set for default char format"));
+        SLOGFMTD(_T("set default char format failed! only CHARFORMAT2W can be set for default char format"));
         return 0;
     }
     
@@ -1712,6 +1714,17 @@ void SEdit::OnSetFocus(SWND wndOld)
     if(!m_strCue.GetText(FALSE).IsEmpty() && GetWindowTextLength() == 0) Invalidate();
 }
 
+UINT SEdit::GetCueTextAlign()
+{
+	UINT algin= SWindow::GetTextAlign();
+	algin&=~(DT_CENTER|DT_RIGHT);
+	if(m_dwStyle&ES_CENTER)
+		algin|=DT_CENTER;
+	else if(m_dwStyle&ES_RIGHT)
+		algin|=DT_RIGHT;	 
+	return algin;
+}
+
 void SEdit::OnPaint( IRenderTarget * pRT )
 {
     SRichEdit::OnPaint(pRT);
@@ -1723,13 +1736,9 @@ void SEdit::OnPaint( IRenderTarget * pRT )
         
         CRect rc;
         GetClientRect(&rc);
-        CRect rcInsetPixel = m_rcInsetPixel;
-        rcInsetPixel.left = rcInsetPixel.left * GetScale() / 100;
-        rcInsetPixel.top = rcInsetPixel.top * GetScale() / 100;
-        rcInsetPixel.right = rcInsetPixel.right * GetScale() / 100;
-        rcInsetPixel.bottom = rcInsetPixel.bottom * GetScale() / 100;
+        CRect rcInsetPixel = GetStyle().GetPadding();
         rc.DeflateRect(rcInsetPixel.left, rcInsetPixel.top, rcInsetPixel.right, rcInsetPixel.bottom);
-        pRT->DrawText(m_strCue.GetText(FALSE),m_strCue.GetText(FALSE).GetLength(),&rc,DT_SINGLELINE|DT_VCENTER);
+		pRT->DrawText(m_strCue.GetText(FALSE),m_strCue.GetText(FALSE).GetLength(),&rc,GetCueTextAlign());
         
         pRT->SetTextColor(crOld);
         AfterPaint(pRT,painter);

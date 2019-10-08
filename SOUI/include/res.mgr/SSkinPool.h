@@ -20,7 +20,7 @@
 #define GETBUILTINSKIN(p1) SOUI::SSkinPoolMgr::getSingleton().GetBuiltinSkin(p1,100)
 #define GETBUILTINSKIN2(p1,scale) SOUI::SSkinPoolMgr::getSingleton().GetBuiltinSkin(p1,scale)
 #define GETSKINPOOLMGR SOUI::SSkinPoolMgr::getSingletonPtr()
-
+#define GETTEMPLATEPOOLMR SOUI::STemplatePoolMgr::getSingletonPtr()
 namespace SOUI
 {
     //系统内置皮肤名称
@@ -36,7 +36,8 @@ namespace SOUI
         SKIN_SYS_DROPBTN,               //L"_skin.sys.dropbtn",
         SKIN_SYS_TREE_TOGGLE,           //L"_skin.sys.tree.toggle",
         SKIN_SYS_TREE_CHECKBOX,         //L"_skin.sys.tree.checkbox"
-        SKIN_SYS_TAB_PAGE,              //L"_skin.sys.tab.page",
+		SKIN_SYS_TREE_LINES,			//L"_skin.sys.tree.lines"
+		SKIN_SYS_TAB_PAGE,              //L"_skin.sys.tab.page",
         SKIN_SYS_HEADER,                //L"_skin.sys.header"
         SKIN_SYS_SPLIT_VERT,            //L"_skin.sys.split.vert",
         SKIN_SYS_SPLIT_HORZ,            //L"_skin.sys.split.horz",

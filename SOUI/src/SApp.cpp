@@ -31,15 +31,6 @@
 
 namespace SOUI
 {
-	class SObjectDefaultRegister : public TObjRefImpl<ISystemObjectRegister>
-	{
-	public:
-
-		void RegisterWindows(SObjectFactoryMgr *objFactory);
-		void RegisterSkins(SObjectFactoryMgr *objFactory);
-		void RegisterLayouts(SObjectFactoryMgr *objFactory);
-		void RegisterInterpolator(SObjectFactoryMgr *objFactory);
-	};
 
 class SNullTranslator : public TObjRefImpl<ITranslatorMgr>
 {
@@ -102,12 +93,97 @@ public:
     }
 };
 
+void SObjectDefaultRegister::RegisterWindows(SObjectFactoryMgr *objFactory) const
+{
+	objFactory->TplRegisterFactory<SWindow>();
+	objFactory->TplRegisterFactory<SPanel>();
+	objFactory->TplRegisterFactory<SStatic>();
+	objFactory->TplRegisterFactory<SButton>();
+	objFactory->TplRegisterFactory<SImageWnd>();
+	objFactory->TplRegisterFactory<SProgress>();
+	objFactory->TplRegisterFactory<SImageButton>();
+	objFactory->TplRegisterFactory<SLine>();
+	objFactory->TplRegisterFactory<SCheckBox>();
+	objFactory->TplRegisterFactory<SIconWnd>();
+	objFactory->TplRegisterFactory<SRadioBox>();
+	objFactory->TplRegisterFactory<SLink>();
+	objFactory->TplRegisterFactory<SGroup>();
+	objFactory->TplRegisterFactory<SAnimateImgWnd>();
+	objFactory->TplRegisterFactory<SScrollView>();
+	objFactory->TplRegisterFactory<SRealWnd>();
+	objFactory->TplRegisterFactory<SToggle>();
+	objFactory->TplRegisterFactory<SCaption>();
+	objFactory->TplRegisterFactory<STabCtrl>();
+	objFactory->TplRegisterFactory<STabPage>();
+	objFactory->TplRegisterFactory<SActiveX>();
+	objFactory->TplRegisterFactory<SFlashCtrl>();
+	objFactory->TplRegisterFactory<SSplitPane>();
+	objFactory->TplRegisterFactory<SSplitWnd>();
+	objFactory->TplRegisterFactory<SSplitWnd_Col>();
+	objFactory->TplRegisterFactory<SSplitWnd_Row>();
+	objFactory->TplRegisterFactory<SSliderBar>();
+	objFactory->TplRegisterFactory<STreeCtrl>();
+	objFactory->TplRegisterFactory<SScrollBar>();
+	objFactory->TplRegisterFactory<SHeaderCtrl>();
+	objFactory->TplRegisterFactory<SListCtrl>();
+	objFactory->TplRegisterFactory<SListBox>();
+	objFactory->TplRegisterFactory<SRichEdit>();
+	objFactory->TplRegisterFactory<SEdit>();
+	objFactory->TplRegisterFactory<SHotKeyCtrl>();
+	objFactory->TplRegisterFactory<SComboBox>();
+	objFactory->TplRegisterFactory<SCalendar>();
+	objFactory->TplRegisterFactory<SSpinButtonCtrl>();
+	objFactory->TplRegisterFactory<SListView>();
+	objFactory->TplRegisterFactory<SComboView>();
+	objFactory->TplRegisterFactory<SMCListView>();
+	objFactory->TplRegisterFactory<STileView>();
+	objFactory->TplRegisterFactory<STreeView>();
+	objFactory->TplRegisterFactory<SMenuBar>();
+	objFactory->TplRegisterFactory<SCalendarEx>();
+	objFactory->TplRegisterFactory<SDateTimePicker>();
+}
+
+void SObjectDefaultRegister::RegisterSkins(SObjectFactoryMgr *objFactory)  const
+{
+	objFactory->TplRegisterFactory<SSkinImgList>();
+	objFactory->TplRegisterFactory<SSkinImgCenter>();
+	objFactory->TplRegisterFactory<SSkinImgFrame>();
+	objFactory->TplRegisterFactory<SSkinImgFrame2>();
+	objFactory->TplRegisterFactory<SSkinButton>();
+	objFactory->TplRegisterFactory<SSkinGradation>();
+	objFactory->TplRegisterFactory<SSkinScrollbar>();
+	objFactory->TplRegisterFactory<SSkinColorRect>();
+	objFactory->TplRegisterFactory<SSkinShape>();
+	objFactory->TplRegisterFactory<SSKinGroup>();
+}
+
+void SObjectDefaultRegister::RegisterLayouts(SObjectFactoryMgr *objFactory)  const
+{
+	objFactory->TplRegisterFactory<SouiLayout>();
+	objFactory->TplRegisterFactory<SLinearLayout>();
+	objFactory->TplRegisterFactory<SHBox>();
+	objFactory->TplRegisterFactory<SVBox>();
+	objFactory->TplRegisterFactory<SGridLayout>();
+}
+
+void SObjectDefaultRegister::RegisterInterpolator(SObjectFactoryMgr *objFactory)  const
+{
+	objFactory->TplRegisterFactory<SLinearInterpolator>();
+	objFactory->TplRegisterFactory<SAccelerateInterpolator>();
+	objFactory->TplRegisterFactory<SDecelerateInterpolator>();
+	objFactory->TplRegisterFactory<SAccelerateDecelerateInterpolator>();
+	objFactory->TplRegisterFactory<SAnticipateInterpolator>();
+	objFactory->TplRegisterFactory<SAnticipateOvershootInterpolator>();
+	objFactory->TplRegisterFactory<SBounceInterpolator>();
+	objFactory->TplRegisterFactory<SCycleInterpolator>();
+	objFactory->TplRegisterFactory<SOvershootInterpolator>();
+}
 //////////////////////////////////////////////////////////////////////////
 // SApplication
 
 template<> SApplication* SSingleton<SApplication>::ms_Singleton = 0;
 
-SApplication::SApplication(IRenderFactory *pRendFactory,HINSTANCE hInst,LPCTSTR pszHostClassName,ISystemObjectRegister *pSysObjRegister,BOOL bImeApp)
+SApplication::SApplication(IRenderFactory *pRendFactory,HINSTANCE hInst,LPCTSTR pszHostClassName, const ISystemObjectRegister & sysObjRegister,BOOL bImeApp)
     :m_hInst(hInst)
     ,m_RenderFactory(pRendFactory)
     ,m_hMainWnd(NULL)
@@ -125,14 +201,10 @@ SApplication::SApplication(IRenderFactory *pRendFactory,HINSTANCE hInst,LPCTSTR 
     
     m_pMsgLoop = GetMsgLoopFactory()->CreateMsgLoop();
 
-	ISystemObjectRegister *pRegister = pSysObjRegister ? pSysObjRegister : new SObjectDefaultRegister();
-	pRegister->RegisterLayouts(this);
-	pRegister->RegisterSkins(this);
-	pRegister->RegisterWindows(this);
-	pRegister->RegisterInterpolator(this);
-	if (pSysObjRegister == NULL)
-		pRegister->Release();
-
+	sysObjRegister.RegisterLayouts(this);
+	sysObjRegister.RegisterSkins(this);
+	sysObjRegister.RegisterWindows(this);
+	sysObjRegister.RegisterInterpolator(this);
 }
 
 SApplication::~SApplication(void)
@@ -152,6 +224,7 @@ void SApplication::_CreateSingletons(HINSTANCE hInst,LPCTSTR pszHostClassName,BO
 	m_pSingletons[SFontPool::GetType()] = new SFontPool(m_RenderFactory);
 	m_pSingletons[SSkinPoolMgr::GetType()] =  new SSkinPoolMgr();
 	m_pSingletons[SStylePoolMgr::GetType()] =  new SStylePoolMgr();
+	m_pSingletons[STemplatePoolMgr::GetType()] = new STemplatePoolMgr();
 	m_pSingletons[SWindowFinder::GetType()] = new SWindowFinder();
 	m_pSingletons[STextServiceHelper::GetType()] = new STextServiceHelper();
 	m_pSingletons[SRicheditMenuDef::GetType()] = new SRicheditMenuDef();
@@ -169,6 +242,7 @@ void SApplication::_DestroySingletons()
 	DELETE_SINGLETON(STextServiceHelper);
 	DELETE_SINGLETON(SWindowFinder);
 	DELETE_SINGLETON(SStylePoolMgr);
+	DELETE_SINGLETON(STemplatePoolMgr);
 	DELETE_SINGLETON(SSkinPoolMgr);
 	DELETE_SINGLETON(SFontPool);
 	DELETE_SINGLETON(SScriptTimer);
@@ -412,8 +486,16 @@ SStringW SApplication::tr(const SStringW & strSrc,const SStringW & strCtx) const
 }
 
 SWindow * SApplication::CreateWindowByName(LPCWSTR pszWndClass) const
-{
-	return (SWindow*)CreateObject(SObjectInfo(pszWndClass, Window));
+{//支持使用类似button.ok这样的控件名来创建控件，对于这种格式自动应用button.ok为class属性.
+	SStringW strClsName = pszWndClass;
+	int nPos = strClsName.ReverseFind(L'.');
+	if (nPos != -1) strClsName = strClsName.Left(nPos);
+	SWindow *pRet = (SWindow*)CreateObject(SObjectInfo(strClsName, Window));
+	if (pRet && nPos != -1)
+	{
+		pRet->SetAttribute(L"class", pszWndClass, TRUE);
+	}
+	return pRet;
 }
 
 ISkinObj * SApplication::CreateSkinByName(LPCWSTR pszSkinClass) const
@@ -458,91 +540,5 @@ void SApplication::SetAttrStorageFactory(IAttrStorageFactory * pAttrStorageFacto
 }
 
 
-
-void SObjectDefaultRegister::RegisterWindows(SObjectFactoryMgr *objFactory)
-{
-	objFactory->TplRegisterFactory<SWindow>();
-	objFactory->TplRegisterFactory<SPanel>();
-	objFactory->TplRegisterFactory<SStatic>();
-	objFactory->TplRegisterFactory<SButton>();
-	objFactory->TplRegisterFactory<SImageWnd>();
-	objFactory->TplRegisterFactory<SProgress>();
-	objFactory->TplRegisterFactory<SImageButton>();
-	objFactory->TplRegisterFactory<SLine>();
-	objFactory->TplRegisterFactory<SCheckBox>();
-	objFactory->TplRegisterFactory<SIconWnd>();
-	objFactory->TplRegisterFactory<SRadioBox>();
-	objFactory->TplRegisterFactory<SLink>();
-	objFactory->TplRegisterFactory<SGroup>();
-	objFactory->TplRegisterFactory<SAnimateImgWnd>();
-	objFactory->TplRegisterFactory<SScrollView>();
-	objFactory->TplRegisterFactory<SRealWnd>();
-	objFactory->TplRegisterFactory<SToggle>();
-	objFactory->TplRegisterFactory<SCaption>();
-	objFactory->TplRegisterFactory<STabCtrl>();
-	objFactory->TplRegisterFactory<STabPage>();
-	objFactory->TplRegisterFactory<SActiveX>();
-	objFactory->TplRegisterFactory<SFlashCtrl>();
-	objFactory->TplRegisterFactory<SSplitPane>();
-	objFactory->TplRegisterFactory<SSplitWnd>();
-	objFactory->TplRegisterFactory<SSplitWnd_Col>();
-	objFactory->TplRegisterFactory<SSplitWnd_Row>();
-	objFactory->TplRegisterFactory<SSliderBar>();
-	objFactory->TplRegisterFactory<STreeCtrl>();
-	objFactory->TplRegisterFactory<SScrollBar>();
-	objFactory->TplRegisterFactory<SHeaderCtrl>();
-	objFactory->TplRegisterFactory<SListCtrl>();
-	objFactory->TplRegisterFactory<SListBox>();
-	objFactory->TplRegisterFactory<SRichEdit>();
-	objFactory->TplRegisterFactory<SEdit>();
-	objFactory->TplRegisterFactory<SHotKeyCtrl>();
-	objFactory->TplRegisterFactory<SComboBox>();
-	objFactory->TplRegisterFactory<SCalendar>();
-	objFactory->TplRegisterFactory<SSpinButtonCtrl>();
-	objFactory->TplRegisterFactory<SListView>();
-	objFactory->TplRegisterFactory<SComboView>();
-	objFactory->TplRegisterFactory<SMCListView>();
-	objFactory->TplRegisterFactory<STileView>();
-	objFactory->TplRegisterFactory<STreeView>();
-	objFactory->TplRegisterFactory<SMenuBar>();
-	objFactory->TplRegisterFactory<SCalendarEx>();
-	objFactory->TplRegisterFactory<SDateTimePicker>();
-}
-
-void SObjectDefaultRegister::RegisterSkins(SObjectFactoryMgr *objFactory)
-{
-	objFactory->TplRegisterFactory<SSkinImgList>();
-	objFactory->TplRegisterFactory<SSkinImgCenter>();
-	objFactory->TplRegisterFactory<SSkinImgFrame>();
-	objFactory->TplRegisterFactory<SSkinImgFrame2>();
-	objFactory->TplRegisterFactory<SSkinButton>();
-	objFactory->TplRegisterFactory<SSkinGradation>();
-	objFactory->TplRegisterFactory<SSkinScrollbar>();
-	objFactory->TplRegisterFactory<SSkinColorRect>();
-	objFactory->TplRegisterFactory<SSkinShape>();
-	objFactory->TplRegisterFactory<SSKinGroup>();
-}
-
-void SObjectDefaultRegister::RegisterLayouts(SObjectFactoryMgr *objFactory)
-{
-	objFactory->TplRegisterFactory<SouiLayout>();
-	objFactory->TplRegisterFactory<SLinearLayout>();
-	objFactory->TplRegisterFactory<SHBox>();
-	objFactory->TplRegisterFactory<SVBox>();
-	objFactory->TplRegisterFactory<SGridLayout>();
-}
-
-void SObjectDefaultRegister::RegisterInterpolator(SObjectFactoryMgr *objFactory)
-{
-	objFactory->TplRegisterFactory<SLinearInterpolator>();
-	objFactory->TplRegisterFactory<SAccelerateInterpolator>();
-	objFactory->TplRegisterFactory<SDecelerateInterpolator>();
- 	objFactory->TplRegisterFactory<SAccelerateDecelerateInterpolator>();
- 	objFactory->TplRegisterFactory<SAnticipateInterpolator>();
- 	objFactory->TplRegisterFactory<SAnticipateOvershootInterpolator>();
- 	objFactory->TplRegisterFactory<SBounceInterpolator>();
- 	objFactory->TplRegisterFactory<SCycleInterpolator>();
- 	objFactory->TplRegisterFactory<SOvershootInterpolator>();
-}
 
 }//namespace SOUI

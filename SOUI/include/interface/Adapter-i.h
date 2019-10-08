@@ -19,6 +19,8 @@ namespace SOUI
         * {@link Cursor}.
         */
         virtual void onInvalidated()  PURE;
+
+		virtual void OnItemChanged(int iItem) PURE;
     };
     
     interface ILvAdapter : public IObjRef{

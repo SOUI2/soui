@@ -85,13 +85,13 @@ public:
     BOOL RemoveItem(HSTREEITEM hItem);
     void RemoveAllItems();
 
-    HSTREEITEM GetRootItem();
-    HSTREEITEM GetNextSiblingItem(HSTREEITEM hItem);
-    HSTREEITEM GetPrevSiblingItem(HSTREEITEM hItem);
-    HSTREEITEM GetChildItem(HSTREEITEM hItem,BOOL bFirst =TRUE);
-    HSTREEITEM GetParentItem(HSTREEITEM hItem);
-    HSTREEITEM GetSelectedItem();
-    HSTREEITEM GetNextItem(HSTREEITEM hItem){return CSTree<LPTVITEM>::GetNextItem(hItem);}
+    HSTREEITEM GetRootItem() const;
+    HSTREEITEM GetNextSiblingItem(HSTREEITEM hItem) const;
+    HSTREEITEM GetPrevSiblingItem(HSTREEITEM hItem) const;
+    HSTREEITEM GetChildItem(HSTREEITEM hItem,BOOL bFirst =TRUE) const;
+    HSTREEITEM GetParentItem(HSTREEITEM hItem) const;
+    HSTREEITEM GetSelectedItem() const;
+    HSTREEITEM GetNextItem(HSTREEITEM hItem) const{return CSTree<LPTVITEM>::GetNextItem(hItem);}
     
     typedef int (__cdecl *FunSortCallback)(void * pCtx,const void * phItem1,const void * phItem2);
     void SortChildren(HSTREEITEM hItem,FunSortCallback sortFunc,void *pCtx);
@@ -127,6 +127,7 @@ protected:
     HSTREEITEM InsertItem(pugi::xml_node xmlNode,HSTREEITEM hParent=STVI_ROOT, HSTREEITEM hInsertAfter=STVI_LAST,BOOL bEnsureVisible=FALSE);
     
     BOOL IsAncestor(HSTREEITEM hItem1,HSTREEITEM hItem2);
+	BOOL VerifyItem(HSTREEITEM hItem) const;
 
     void SetChildrenVisible(HSTREEITEM hItem,BOOL bVisible);
 
@@ -143,7 +144,8 @@ protected:
     BOOL GetItemRect( LPTVITEM pItem,CRect &rcItem );
 
     void RedrawItem(HSTREEITEM hItem);
-    virtual void DrawItem(IRenderTarget *pRT, CRect & rc, HSTREEITEM hItem);
+    virtual void DrawItem(IRenderTarget *pRT, const CRect & rc, HSTREEITEM hItem);
+	virtual void DrawLines(IRenderTarget *pRT, const CRect & rc, HSTREEITEM hItem);
 
     int ItemHitTest(HSTREEITEM hItem,CPoint &pt) const;
     void ModifyToggleState(HSTREEITEM hItem, DWORD dwStateAdd, DWORD dwStateRemove);
@@ -166,7 +168,6 @@ protected:
     void OnLButtonUp(UINT nFlags,CPoint pt);
     void OnLButtonDbClick(UINT nFlags,CPoint pt);
     void OnRButtonDown(UINT nFlags, CPoint pt);
-    void OnRButtonUp(UINT nFlags,CPoint pt);
 
     void OnMouseMove(UINT nFlags,CPoint pt);
     void OnMouseLeave();
@@ -199,9 +200,11 @@ protected:
     BOOL        m_bRightClickSel;
     ISkinObj * m_pItemBgSkin, * m_pItemSelSkin;
     ISkinObj * m_pIconSkin, * m_pToggleSkin, * m_pCheckSkin;
+	ISkinObj * m_pLineSkin;
+
     COLORREF m_crItemBg,m_crItemSelBg;
     COLORREF m_crItemText,m_crItemSelText;
-
+	BOOL	 m_bHasLines; /**< has lines*/
 
     SOUI_ATTRS_BEGIN()        
         ATTR_INT(L"indent", m_nIndent, TRUE)
@@ -218,6 +221,7 @@ protected:
         ATTR_COLOR(L"colorItemSelBkgnd",m_crItemSelBg,FALSE)
         ATTR_COLOR(L"colorItemText",m_crItemText,FALSE)
         ATTR_COLOR(L"colorItemSelText",m_crItemSelText,FALSE)
+		ATTR_BOOL(L"hasLines",m_bHasLines,TRUE)
     SOUI_ATTRS_END()
 
     SOUI_MSG_MAP_BEGIN()

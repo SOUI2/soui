@@ -1,9 +1,6 @@
 ﻿#include "include\souistd.h"
 #include "control\SSpinButtonCtrl.h"
 
-static const wchar_t * KBTN_UP = L"btn_up";
-static const wchar_t * KBTN_DOWN = L"btn_down";
-
 namespace SOUI
 {
     SSpinButtonCtrl::SSpinButtonCtrl(void)
@@ -129,6 +126,16 @@ namespace SOUI
 		}
 	}
 
+
+    void SSpinButtonCtrl::OnColorize(COLORREF cr)
+    {
+        __super::OnColorize(cr);
+
+        if ( m_pUpSkin ) m_pUpSkin->OnColorize(cr);
+        if ( m_pDownSkin ) m_pDownSkin->OnColorize(cr);
+    }
+
+
 	void SSpinButtonCtrl::OnPaint(IRenderTarget *pRT)
 	{
 		SWindow::OnPaint(pRT);
@@ -163,11 +170,34 @@ namespace SOUI
 		OnClick();
 	}
 
+	bool SSpinButtonCtrl::OnBuddyChange(EventArgs* pEvt)
+	{
+		SWindow *pBuddy = GetBuddy();
+		if(pBuddy)
+		{
+			int nValue = _ttoi(pBuddy->GetWindowText());
+			if (nValue <= m_nMax && nValue >= m_nMin)
+			{
+				m_nValue = nValue;
+
+				EventSpinValue2String evt(this);
+				evt.bInit = false;
+				evt.nValue = m_nValue;
+				evt.strValue = SStringT().Format(_T("%d"), m_nValue);
+				FireEvent(evt);
+			}
+		}
+		return true;
+	}
+
 	int SSpinButtonCtrl::OnCreate(void *)
 	{
 		int nRet =__super::OnCreate(NULL);
 		if (nRet != 0) return nRet;
 		OnValueChanged(true);
+
+		SWindow *pBuddy = GetBuddy();
+		if (pBuddy)	pBuddy->GetEventSet()->subscribeEvent(EVT_RE_NOTIFY, Subscriber(&SSpinButtonCtrl::OnBuddyChange, this));
 		return 0;
 	}
 

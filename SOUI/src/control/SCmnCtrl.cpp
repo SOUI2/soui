@@ -115,11 +115,20 @@ void SStatic::DrawMultiLine(IRenderTarget *pRT,LPCTSTR pszBuf,int cchText,LPRECT
                 CRect rcText(pRect->left,pt.y,nRight, pt.y + nLineHei);
 				OnDrawLine(pRT, pszBuf, (int)(pLineHead - pszBuf), (int)(pLineTail - pLineHead), &rcText, uFormat);
 			}
+
+			// modify by baozi 20190312 显示多行文本时，如果下一行文字的高度超过了文本框，则不再输出下一行文字内容。
+			if(pt.y+nLineHei + m_nLineInter>pRect->bottom)
+			{//将绘制限制在有效区。
+				pLineHead = pLineTail;
+				break;
+			}
+
             pLineHead = p1;
             
             pt.y+=nLineHei+m_nLineInter;
             pt.x=pRect->left;
             nLine++;
+
             continue;
         }
         pt.x+=szChar.cx;
@@ -130,7 +139,9 @@ void SStatic::DrawMultiLine(IRenderTarget *pRT,LPCTSTR pszBuf,int cchText,LPRECT
 
     if(uFormat & DT_CALCRECT)
     {
-        pRect->bottom=pt.y+nLineHei;
+		if(pRect->bottom>pt.y+nLineHei)
+			pRect->bottom=pt.y+nLineHei;
+
     }else if(pLineTail > pLineHead )
     {
         CRect rcText(pRect->left,pt.y,nRight, pt.y + nLineHei);
@@ -251,6 +262,7 @@ SButton::SButton()
 ,m_bAnimate(FALSE)
 ,m_byAlphaAni(0xFF)
 , m_nAniStep(25)
+, m_bDisableAccelIfInvisible(FALSE)
 {
     m_pBgSkin=GETBUILTINSKIN(SKIN_SYS_BTN_NORMAL);
     m_bFocusable=TRUE;
@@ -317,7 +329,10 @@ void SButton::OnKeyUp( UINT nChar, UINT nRepCnt, UINT nFlags )
 
 bool SButton::OnAcceleratorPressed( const CAccelerator& accelerator )
 {
-    if(IsDisabled(TRUE)) return false;
+    if(IsDisabled(TRUE)) 
+		return false;
+	if(m_bDisableAccelIfInvisible && !IsVisible(TRUE))
+		return false;
     FireCommand();
     return true;
 }
@@ -367,21 +382,12 @@ HRESULT SButton::OnAttrAccel( SStringW strAccel,BOOL bLoading )
     m_accel=CAccelerator::TranslateAccelKey(strAccelT);
     if(m_accel)
     {
-        CAccelerator acc(m_accel);
-        GetContainer()->GetAcceleratorMgr()->RegisterAccelerator(acc,this);
-        return S_OK;
+		CAccelerator acc(m_accel);
+		GetContainer()->GetAcceleratorMgr()->RegisterAccelerator(acc,this);
     }
     return S_FALSE;
 }
 
-CSize SButton::GetDesiredSize( LPCRECT pRcContainer )
-{
-    SASSERT(m_pBgSkin);
-    CSize szRet=m_pBgSkin->GetSkinSize();
-    if(szRet.cx==0 || szRet.cy==0)
-        szRet=__super::GetDesiredSize(pRcContainer);
-    return szRet;
-}
 
 void SButton::OnStateChanged( DWORD dwOldState,DWORD dwNewState )
 {
@@ -424,6 +430,27 @@ void SButton::OnNextFrame()
     Invalidate();
 }
 
+
+////////////////////////////////////////////////////////////////////////////
+
+SImageButton::SImageButton()
+{
+	m_bDrawFocusRect=FALSE;
+}
+
+CSize SImageButton::GetDesiredSize(int nParentWid, int nParentHei) 
+{
+	SASSERT(m_pBgSkin);
+	CSize szRet=SButton::GetDesiredSize(nParentWid,nParentHei);
+	CSize szSkin=m_pBgSkin->GetSkinSize();
+	if(GetLayoutParam()->IsWrapContent(Horz))
+		szRet.cx = szSkin.cx;
+	if(GetLayoutParam()->IsWrapContent(Vert))
+		szRet.cy = szSkin.cy;
+	return szRet;
+}
+
+
 //////////////////////////////////////////////////////////////////////////
 // Image Control
 // Use src attribute specify a resource id
@@ -436,6 +463,7 @@ SImageWnd::SImageWnd()
     , m_fl(kNone_FilterLevel)
     , m_bManaged(FALSE)
 	, m_iTile(0)
+	, m_bKeepAspect(0)
 {
     m_bMsgTransparent=TRUE;
 }
@@ -452,6 +480,30 @@ SImageWnd::~SImageWnd()
 void SImageWnd::OnPaint(IRenderTarget *pRT)
 {
     CRect rcWnd = GetWindowRect();
+	if (rcWnd.IsRectEmpty())
+		return;
+	if (m_bKeepAspect)
+	{
+		CSize szImg;
+		if (m_pImg) szImg = m_pImg->Size();
+		else if(m_pSkin) szImg = m_pSkin->GetSkinSize();
+		if (szImg.cx == 0 || szImg.cy == 0)
+			return;
+
+		float fWndRatio = rcWnd.Width()*1.0f / rcWnd.Height();
+		float fImgRatio = szImg.cx*1.0f / szImg.cy;
+		if (fWndRatio > fImgRatio)
+		{
+			int nWid = (int)(rcWnd.Height()*fImgRatio);
+			rcWnd.DeflateRect((rcWnd.Width() - nWid) / 2, 0);
+		}
+		else
+		{
+			int nHei = (int)(rcWnd.Width() / fImgRatio);
+			rcWnd.DeflateRect(0,(rcWnd.Height() - nHei) / 2);
+		}
+	}
+
     if(m_pImg)
     {
         CRect rcImg(CPoint(0,0),m_pImg->Size());
@@ -461,9 +513,11 @@ void SImageWnd::OnPaint(IRenderTarget *pRT)
 			pRT->DrawBitmapEx(rcWnd, m_pImg, &rcImg, MAKELONG(EM_NULL, m_fl));
 		else if (m_iTile == 2)
 			pRT->DrawBitmapEx(rcWnd, m_pImg, &rcImg, MAKELONG(EM_TILE, m_fl));
-    }
-    else if (m_pSkin)
-        m_pSkin->Draw(pRT, rcWnd, m_iFrame);
+	}
+	else if (m_pSkin)
+	{
+		m_pSkin->Draw(pRT, rcWnd, m_iFrame);
+	}
 }
 
 BOOL SImageWnd::SetSkin(ISkinObj *pSkin,int iFrame/*=0*/,BOOL bAutoFree/*=TRUE*/)
@@ -472,12 +526,13 @@ BOOL SImageWnd::SetSkin(ISkinObj *pSkin,int iFrame/*=0*/,BOOL bAutoFree/*=TRUE*/
     if(m_bManaged && m_pSkin)
     {
         m_pSkin->Release();
+		m_pSkin=NULL;
         m_bManaged=FALSE;
     }
     if(!pSkin) return FALSE;
     m_pSkin=pSkin;
     m_iFrame=iFrame;
-    
+	m_pImg = NULL;
     if(bAutoFree)
     {
         m_pSkin->AddRef();
@@ -502,12 +557,7 @@ void SImageWnd::SetImage(IBitmap * pBitmap,FilterLevel fl)
 {
     m_pImg = pBitmap;
     m_fl = fl;
-    if(GetLayoutParam()->IsWrapContent(Any) && GetParent())
-    {
-        //重新计算坐标
-        RequestRelayout();
-    }
-    Invalidate();
+	OnContentChanged();
 }
 
 IBitmap* SImageWnd::GetImage()
@@ -766,6 +816,13 @@ void SProgress::OnColorize(COLORREF cr)
     if(m_pSkinPos) m_pSkinPos->OnColorize(cr);
 }
 
+void SProgress::OnScaleChanged(int scale)
+{
+	__super::OnScaleChanged(scale);
+	GetScaleSkin(m_pSkinBg,scale);
+	GetScaleSkin(m_pSkinPos,scale);
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Line Control
 // Simple HTML "HR" tag
@@ -921,7 +978,7 @@ void SCheckBox::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 HRESULT SCheckBox::OnAttrCheck( const SStringW& strValue, BOOL bLoading )
 {
-    SetCheck(strValue != L"0");
+    SetCheck(STRINGASBOOL(strValue));
     return S_FALSE;
 }
 
@@ -1244,6 +1301,12 @@ void SToggle::OnColorize(COLORREF cr)
 {
     __super::OnColorize(cr);
     if(m_pSkin) m_pSkin->OnColorize(cr);
+}
+
+void SToggle::OnScaleChanged(int nScale)
+{
+	__super::OnScaleChanged(nScale);
+	GetScaleSkin(m_pSkin, nScale);
 }
 
 #define GROUP_HEADER        20

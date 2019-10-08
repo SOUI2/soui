@@ -5,15 +5,13 @@
 #include "tinyxml/tinyxml.h"
 
 const wchar_t  RB_HEADER_RC[]=
-L"/*<------------------------------------------------------------------------------------------------->*/\n"\
-L"/*该文件由uiresbuilder生成，请不要手动修改*/\n"\
 L"/*<------------------------------------------------------------------------------------------------->*/\n"
 L"#define DEFINE_UIRES(name, type, file_path)\\\n"
 L"    name type file_path\n\n";
 
 const wchar_t  RB_HEADER_ID[]=
-L"/*<------------------------------------------------------------------------------------------------->*/\n"\
-L"/*该文件由uiresbuilder生成，请不要手动修改*/\n"\
+L"/*<------------------------------------------------------------------------------------------------->*/\n"
+L"/*该文件由uiresbuilder生成，请不要手动修改*/\n"
 L"/*<------------------------------------------------------------------------------------------------->*/\n";
 
 const wchar_t ROBJ_DEF[] =
@@ -29,6 +27,7 @@ struct IDMAPRECORD
 	WCHAR szType[100];
 	WCHAR szName[200];
 	WCHAR szPath[MAX_PATH];
+	bool  bBuildId;
 };
 
 //解析为布局的文件类型
@@ -421,10 +420,7 @@ void ParseLayoutFile(const wchar_t * pszFileName,map<wstring,int> &mapName2ID,in
         //避免解析到skin结点
         if(stricmp(pXmlNode->Value(),"soui") == 0)
             ParseLayout(pXmlNode->FirstChildElement("root"),mapName2ID,nStartId);
-        else if(stricmp(pXmlNode->Value(),"include") == 0 
-            || stricmp(pXmlNode->Value(),"menu") == 0   //smenu
-            || stricmp(pXmlNode->Value(),"menuRoot") == 0 //smenuex
-            )
+        else 
             ParseLayout(pXmlNode,mapName2ID,nStartId);
     }else
     {
@@ -609,7 +605,7 @@ int _tmain(int argc, _TCHAR* argv[])
                 wchar_t wszName[200];
                 MultiByteToWideChar(CP_UTF8,0,pszName,-1,rec.szName,200);
                 MakeNameValid(rec.szName,wszName);
-                
+				pXmlFile->QueryBoolAttribute("buildId", &rec.bBuildId);
                 const char *pszPath=pXmlFile->Attribute("path");
                 string strPath;
                 if(pszPath)
@@ -670,7 +666,7 @@ int _tmain(int argc, _TCHAR* argv[])
         vector<IDMAPRECORD>::iterator it2=vecIdMapRecord.begin();
         while(it2!=vecIdMapRecord.end())
         {
-            if(wcsicmp(it2->szType,KXML_LAYOUT)==0 || wcsicmp(it2->szType,KXML_SMENU) == 0 || wcsicmp(it2->szType,KXML_SMENUEX) == 0)
+            if(it2->bBuildId || wcsicmp(it2->szType,KXML_LAYOUT)==0 || wcsicmp(it2->szType,KXML_SMENU) == 0 || wcsicmp(it2->szType,KXML_SMENUEX) == 0)
             {//发现布局或者菜单文件
                 tmResource += GetLastWriteTime(it2->szPath);
                 ParseLayoutFile(it2->szPath,mapNameID,nStartID);

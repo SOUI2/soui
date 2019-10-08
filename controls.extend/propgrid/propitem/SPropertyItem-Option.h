@@ -19,7 +19,7 @@ namespace SOUI
         SOUI_ATTRS_BEGIN()
             ATTR_CUSTOM(L"options",OnAttrOptions)
             ATTR_INT(L"dropHeight",m_nDropHeight,FALSE)
-            ATTR_INT(L"value",m_nValue,FALSE)
+            ATTR_INT(L"value",m_nValue,TRUE)
         SOUI_ATTRS_END()
 
     protected:

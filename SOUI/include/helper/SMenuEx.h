@@ -115,7 +115,7 @@ namespace SOUI
         END_MSG_MAP()
     protected:
         virtual BOOL _HandleEvent(EventArgs *pEvt);
-		virtual const SStringW & GetTranslatorContext();
+		virtual const SStringW & GetTranslatorContext()const;
 		virtual int GetScale() const;
 
 		SWindow * FindItem(UINT uPos, UINT uFlag);

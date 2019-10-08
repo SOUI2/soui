@@ -331,6 +331,11 @@ protected:
         ATTR_COLOR(L"hover",m_crStates[1],FALSE)
         ATTR_COLOR(L"pushdown",m_crStates[2],FALSE)
         ATTR_COLOR(L"disable",m_crStates[3],FALSE)
+		ATTR_COLOR(L"normalBorder", m_crBorders[0], FALSE)
+		ATTR_COLOR(L"hoverBorder", m_crBorders[1], FALSE)
+		ATTR_COLOR(L"pushdownBorder", m_crBorders[2], FALSE)
+		ATTR_COLOR(L"disableBorder", m_crBorders[3], FALSE)
+		ATTR_INT(L"borderWidth",m_nBorderWidth,FALSE)
         ATTR_INT(L"cornerRadius",m_nRadius,FALSE)
 		ATTR_FLOAT(L"cornerPercent", m_fCornerPercent, FALSE)				// 圆角 百分比 0.5 半圆 会覆盖 cornerRadius 
     SOUI_ATTRS_END()
@@ -339,6 +344,8 @@ protected:
     int      m_nRadius;
 	float	m_fCornerPercent;				// 圆角 百分比 0.5 半圆
     COLORREF m_crStates[4];
+	COLORREF m_crBorders[4];
+	int		m_nBorderWidth;
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -505,6 +512,8 @@ public:
 	virtual BOOL IgnoreState(){return FALSE;}
 	virtual SIZE GetSkinSize();
 
+	
+
 	SOUI_ATTRS_BEGIN()
 		ATTR_SKIN(L"normal",m_skins[0],FALSE)
 		ATTR_SKIN(L"hover",m_skins[1],FALSE)
@@ -514,7 +523,7 @@ public:
 
 protected:
 	virtual void _Draw(IRenderTarget *pRT, LPCRECT rcDraw, DWORD dwState,BYTE byAlpha);
-
+	virtual void _Scale(ISkinObj * skinObj, int nScale);
 	CAutoRefPtr<ISkinObj> m_skins[4];
 };
 }//namespace SOUI

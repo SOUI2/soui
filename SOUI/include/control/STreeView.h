@@ -93,7 +93,7 @@ namespace SOUI
 	class SOUI_EXP STreeView : public SPanel, protected IItemContainer
 	{
 		SOUI_CLASS_NAME(STreeView, L"treeview")
-		
+		friend class STreeViewDataSetObserver;
 	public:
 		STreeView();
 		~STreeView();
@@ -110,17 +110,20 @@ namespace SOUI
 		    return m_tvItemLocator;
 		}
 		
-		void onBranchChanged(HTREEITEM hBranch);
-		void onBranchInvalidated(HTREEITEM hBranch);
-        void onBranchExpandedChanged(HTREEITEM hBranch,BOOL bExpandedOld,BOOL bExpandedNew);
         
         void SetSel(HTREEITEM hItem,BOOL bNotify=FALSE);
         HTREEITEM  GetSel()const{return m_hSelected;}
         SItemPanel * HitTest(CPoint & pt);
 
+		void EnsureVisible(HTREEITEM hItem);
+
     protected:
         bool OnItemClick(EventArgs *pEvt);
         bool OnItemDblClick(EventArgs *pEvt);
+
+		void onBranchChanged(HTREEITEM hBranch);
+		void onBranchInvalidated(HTREEITEM hBranch);
+		void onBranchExpandedChanged(HTREEITEM hBranch,BOOL bExpandedOld,BOOL bExpandedNew);
 
     protected:
 		void OnPaint(IRenderTarget * pRT);
@@ -184,7 +187,6 @@ namespace SOUI
 		void _SetSel(int iItem,BOOL bNotify, SWND hHitWnd);
 		SItemPanel * GetItemPanel(HTREEITEM hItem);
 
-		void EnsureVisible(HTREEITEM hItem);
 		void DispatchMessage2Items(UINT uMsg,WPARAM wParam,LPARAM lParam);
 	protected:
 		CAutoRefPtr<ITvAdapter>		m_adapter;

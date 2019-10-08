@@ -8,17 +8,18 @@ namespace SOUI
 {
 
     static pugi::xml_document s_xmlMsgTemplate;
-    
+    	
+	
     BOOL SetMsgTemplate(pugi::xml_node uiRoot)
     {
         if(wcscmp(uiRoot.name(),L"SOUI")!=0 ) return FALSE;
-        if(!uiRoot.attribute(L"frameSize").value()[0]) return FALSE;
         if(!uiRoot.attribute(L"minSize").value()[0]) return FALSE;
 
         s_xmlMsgTemplate.reset();
         s_xmlMsgTemplate.append_copy(uiRoot);
         return TRUE;
     }
+	
 
     pugi::xml_node GetMsgTemplate()
     {
@@ -39,13 +40,13 @@ namespace SOUI
         UINT    uType;
     }s_MsgBoxInfo;
     
-    INT_PTR SMessageBoxImpl::MessageBox( HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType )
+    INT_PTR SMessageBoxImpl::MessageBox( HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType ,int nScale)
     {
         if(!GetMsgTemplate()) return ::MessageBox(hWnd,lpText,lpCaption,uType);
         s_MsgBoxInfo.pszText=lpText;
         s_MsgBoxInfo.pszCaption=lpCaption;
         s_MsgBoxInfo.uType=uType;
-        
+		m_nScale = nScale;
         return DoModal(hWnd);
     }
 
@@ -158,6 +159,7 @@ namespace SOUI
         pugi::xml_node uiRoot=GetMsgTemplate();
         
         InitFromXml(uiRoot);
+		
         UINT uType = s_MsgBoxInfo.uType&0x0F;
 
         STabCtrl *pBtnSwitch= FindChildByName2<STabCtrl>(NAME_MSGBOX_BTNSWITCH);
@@ -191,50 +193,43 @@ namespace SOUI
             pBtn->SetWindowText(strText);
         }
         
-        const wchar_t *pszFrameAttr=uiRoot.attribute(L"frameSize").value();
-        CRect rcFrame;
-        swscanf(pszFrameAttr,L"%d,%d,%d,%d",&rcFrame.left,&rcFrame.top,&rcFrame.right,&rcFrame.bottom);
-        CSize szMin;
-        const wchar_t *pszMinAttr=uiRoot.attribute(L"minSize").value();
-        swscanf(pszMinAttr,L"%d,%d",&szMin.cx,&szMin.cy);
+		SStringW strMinSize = uiRoot.attribute(L"minSize").value();
+		SStringWList lstMinSize ;
+		SplitString(strMinSize,L',',lstMinSize);
+		SASSERT(lstMinSize.GetCount()==2);
+		SLayoutSize szMin[2]={SLayoutSize::fromString(lstMinSize[0]),SLayoutSize::fromString(lstMinSize[1])};
 
-        SWindow * pTitle= FindChildByName(NAME_MSGBOX_TITLE);
+		SWindow * pTitle= FindChildByName(NAME_MSGBOX_TITLE);
         SASSERT(pTitle);
-        pTitle->SetWindowText(S_CW2T(TR(s_MsgBoxInfo.pszCaption?S_CT2W(s_MsgBoxInfo.pszCaption):L"prompt",GetTranslatorContext())));
+		SStringT strTitle = pTitle->GetWindowText();
+		if (s_MsgBoxInfo.pszCaption) strTitle = s_MsgBoxInfo.pszCaption;
+        pTitle->SetWindowText(S_CW2T(TR(S_CT2W(strTitle),GetTranslatorContext())));
 
         SWindow * pMsg= FindChildByName(NAME_MSGBOX_TEXT);
         SASSERT(pMsg);
         pMsg->SetWindowText(S_CW2T(TR(S_CT2W(s_MsgBoxInfo.pszText),GetTranslatorContext())));
 
         OnSetIcon(s_MsgBoxInfo.uType);
-        pMsg->GetRoot()->UpdateLayout();
-        
-        CSize szText = pMsg->GetDesiredSize(NULL);
+        UpdateLayout();
 
-        CRect rcText = pMsg->GetWindowRect();//获取msg的左边位置
-        
-        CSize szWnd;
-        szWnd.cx=(std::max)(szMin.cx,rcText.left + szText.cx + rcFrame.right);
-        szWnd.cy=(std::max)(szMin.cy,rcFrame.top + szText.cy + rcFrame.bottom);
-        
-        SetWindowPos(0,0,0,szWnd.cx,szWnd.cy,SWP_NOMOVE|SWP_NOACTIVATE|SWP_NOZORDER);   
-        pMsg->GetRoot()->UpdateLayout();
-        //将msg text的上下位置设置成和parent相同。
-        rcText = pMsg->GetWindowRect();
-        CRect rcTextParent = pMsg->GetParent()->GetWindowRect();
-        rcText.top = rcTextParent.top;
-        rcText.bottom = rcTextParent.bottom;
-        pMsg->Move(rcText);
+		CRect rcWnd = GetWindowRect();
+		CSize szWnd = rcWnd.Size();
+        if(szWnd.cx<szMin[0].toPixelSize(GetScale()))
+			szWnd.cx = szMin[0].toPixelSize(GetScale());
+		if(szWnd.cy < szMin[1].toPixelSize(GetScale()))
+			szWnd.cy = szMin[1].toPixelSize(GetScale());
+
+		SetWindowPos(0,0,0,szWnd.cx,szWnd.cy,SWP_NOMOVE|SWP_NOACTIVATE|SWP_NOZORDER);   
         
         CenterWindow();
         return 0;
     }
 
     //////////////////////////////////////////////////////////////////////////
-    INT_PTR SMessageBox( HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType )
+    INT_PTR SMessageBox( HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType,int nScale)
     {
         SMessageBoxImpl msgBox;
-        return msgBox.MessageBox(hWnd,lpText,lpCaption,uType);
+        return msgBox.MessageBox(hWnd,lpText,lpCaption,uType, nScale);
     }
 
 

@@ -4,6 +4,8 @@
 #include "helper/SplitString.h"
 #include "layout/SouiLayout.h"
 #include "interface/sacchelper-i.h"
+#include "helper/SwndFinder.h"
+
 namespace SOUI
 {
 
@@ -37,10 +39,6 @@ namespace SOUI
 		strTr = S_CW2T(TR(S_CT2W(strRaw),pTrCtxProvider->GetTrCtx()));
 	}
 
-
-
-
-
 	//////////////////////////////////////////////////////////////////////////
 	// SWindow Implement
 	//////////////////////////////////////////////////////////////////////////
@@ -57,7 +55,7 @@ namespace SOUI
 		, m_bVisible(TRUE)
 		, m_bDisplay(TRUE)
 		, m_bDisable(FALSE)
-		, m_bUpdateLocked(FALSE)
+		, m_nUpdateLockCnt(0)
 		, m_bClipClient(FALSE)
 		, m_bFocusable(FALSE)
 		, m_bDrawFocusRect(TRUE)
@@ -180,11 +178,20 @@ namespace SOUI
 	{
 		m_strText.SetText(lpszText);
 		accNotifyEvent(EVENT_OBJECT_NAMECHANGE);
+		OnContentChanged();
+	}
+
+
+	void SWindow::OnContentChanged()
+	{
 		if(IsVisible(TRUE)) Invalidate();
-		if (GetLayoutParam()->IsWrapContent(Horz) || GetLayoutParam()->IsWrapContent(Vert))
+		if (GetLayoutParam()->IsWrapContent(Any))
 		{
 			RequestRelayout();
 			if(IsVisible(TRUE)) Invalidate();
+		}else if(GetLayoutParam()->IsMatchParent(Any) && GetParent())
+		{
+			GetParent()->OnContentChanged();
 		}
 	}
 
@@ -578,12 +585,9 @@ namespace SOUI
 		return m_style;
 	}
 
-	//改用广度优先算法搜索控件,便于逐级查找 2014年12月8日
-	SWindow* SWindow::FindChildByID(int id, int nDeep/* =-1*/)
+
+	SWindow* SWindow::_FindChildByID(int id, int nDeep)
 	{
-		if(id == 0 || nDeep ==0) return NULL;
-
-
 		SWindow *pChild = GetWindow(GSW_FIRSTCHILD);
 		while(pChild)
 		{
@@ -598,7 +602,7 @@ namespace SOUI
 		pChild = GetWindow(GSW_FIRSTCHILD);
 		while(pChild)
 		{
-			SWindow *pChildFind=pChild->FindChildByID(id,nDeep);
+			SWindow *pChildFind=pChild->_FindChildByID(id,nDeep);
 			if(pChildFind) return pChildFind;
 			pChild = pChild->GetWindow(GSW_NEXTSIBLING);
 		}
@@ -606,14 +610,12 @@ namespace SOUI
 		return NULL;
 	}
 
-	SWindow* SWindow::FindChildByName( LPCWSTR pszName , int nDeep)
+	SWindow* SWindow::_FindChildByName(const SStringW & strName, int nDeep)
 	{
-		if(!pszName || nDeep ==0) return NULL;
-
 		SWindow *pChild = GetWindow(GSW_FIRSTCHILD);
 		while(pChild)
 		{
-			if (pChild->m_strName == pszName)
+			if (pChild->m_strName == strName)
 				return pChild;
 			pChild = pChild->GetWindow(GSW_NEXTSIBLING);
 		}
@@ -624,7 +626,7 @@ namespace SOUI
 		pChild = GetWindow(GSW_FIRSTCHILD);
 		while(pChild)
 		{
-			SWindow *pChildFind=pChild->FindChildByName(pszName,nDeep);
+			SWindow *pChildFind=pChild->_FindChildByName(strName,nDeep);
 			if(pChildFind) return pChildFind;
 			pChild = pChild->GetWindow(GSW_NEXTSIBLING);
 		}
@@ -632,7 +634,36 @@ namespace SOUI
 		return NULL;
 	}
 
-	const static wchar_t KLabelInclude[] = L"include";
+	//改用广度优先算法搜索控件,便于逐级查找 2014年12月8日
+	SWindow* SWindow::FindChildByID(int id, int nDeep/* =-1*/)
+	{
+		if(id == SWindowMgr::SWND_INVALID || nDeep ==0) return NULL;
+		SWindow *pRet = SWindowFinder::getSingletonPtr()->FindChildByID(this,id,nDeep);
+		if(pRet) return pRet;
+
+		pRet = _FindChildByID(id,nDeep);
+		if(pRet) SWindowFinder::getSingletonPtr()->CacheResultForID(this,id,nDeep,pRet);
+		return pRet;
+	}
+
+	SWindow* SWindow::FindChildByName( LPCWSTR pszName , int nDeep)
+	{
+		if(pszName==NULL || nDeep ==0) return NULL;
+		SStringW strName(pszName);
+		if(strName.IsEmpty()) return NULL;
+
+		SWindow *pRet = SWindowFinder::getSingletonPtr()->FindChildByName(this,strName,nDeep);
+		if(pRet) return pRet;
+
+		pRet = _FindChildByName(strName,nDeep);
+		if(pRet) SWindowFinder::getSingletonPtr()->CacheResultForName(this,strName,nDeep,pRet);
+		return pRet;
+	}
+
+	const static wchar_t KLabelInclude[] = L"include";	//文件包含的标签
+	const static wchar_t KTempNamespace[] = L"t:";//模板识别ＮＳ
+	const static wchar_t KTempData[] = L"data";//模板参数
+	const static wchar_t KTempParamFmt[] = L"{{%s}}";//模板数据替换格式
 
 	BOOL SWindow::CreateChildren(pugi::xml_node xmlNode)
 	{
@@ -656,29 +687,104 @@ namespace SOUI
 				}
 				if(xmlDoc)
 				{
-					CreateChildren(xmlDoc.child(KLabelInclude));
+					pugi::xml_node xmlInclude = xmlDoc.first_child();
+					if(wcsicmp(xmlInclude.name(),KLabelInclude)==0)
+					{//compatible with 2.9.0.1
+						CreateChildren(xmlInclude);
+					}else
+					{
+						//merger include attribute to xml node.
+						for(pugi::xml_attribute_iterator it = xmlChild.attributes_begin();it != xmlChild.attributes_end();it++)
+						{
+							if(wcsicmp(it->name(),L"src") == 0) 
+								continue;
+							if(xmlInclude.attribute(it->name()))
+							{
+								xmlInclude.attribute(it->name()).set_value(it->value());
+							}else
+							{
+								xmlInclude.append_attribute(it->name()).set_value(it->value());
+							}
+						}
+						//create child.
+						SWindow *pChild = SApplication::getSingleton().CreateWindowByName(xmlInclude.name());
+						if (pChild)
+						{
+							InsertChild(pChild);
+							pChild->InitFromXml(xmlInclude);
+						}
+
+						if(xmlInclude.next_sibling())
+						{
+							SLOGFMTD(_T("warning! multi root include layout is not supported!"));
+						}
+					}
 				}else
 				{
 					SASSERT(FALSE);
 				}
-			}else if(!xmlChild.get_userdata())//通过userdata来标记一个节点是否可以忽略
+			}
+			else if(!xmlChild.get_userdata())//通过userdata来标记一个节点是否可以忽略
 			{
-				SWindow *pChild = SApplication::getSingleton().CreateWindowByName(xmlChild.name());
-				if(pChild)
+				SStringW strName = xmlChild.name();
+				if (strName.StartsWith(KTempNamespace))
 				{
-					InsertChild(pChild);
-					pChild->InitFromXml(xmlChild);
+					strName = strName.Right(strName.GetLength() - 2);
+					SStringW strXml = GETTEMPLATEPOOLMR->GetTemplateString(strName);
+					SASSERT(!strXml.IsEmpty());
+					if (!strXml.IsEmpty())
+					{//create children by template.
+						pugi::xml_node xmlData = xmlChild.child(KTempData);
+						for (pugi::xml_attribute param = xmlData.first_attribute(); param; param = param.next_attribute())
+						{
+							SStringW strParam = SStringW().Format(KTempParamFmt, param.name());
+							strXml.Replace(strParam, param.value());//replace params to value.
+						}
+						pugi::xml_document xmlDoc;
+						if (xmlDoc.load_buffer_inplace(strXml.GetBuffer(strXml.GetLength()), strXml.GetLength() * sizeof(WCHAR), 116, pugi::encoding_utf16))
+						{
+							pugi::xml_node xmlTemp = xmlDoc.first_child();
+							SASSERT(xmlTemp);
+							//merger properties.
+							for (pugi::xml_attribute attr = xmlChild.first_attribute(); attr; attr = attr.next_attribute())
+							{
+								if (!xmlTemp.attribute(attr.name()))
+								{
+									xmlTemp.append_attribute(attr.name()).set_value(attr.value());
+								}else
+								{
+									xmlTemp.attribute(attr.name()).set_value(attr.value());
+								}
+							}
+							//create child.
+							SWindow *pChild = SApplication::getSingleton().CreateWindowByName(xmlTemp.name());
+							if (pChild)
+							{
+								InsertChild(pChild);
+								pChild->InitFromXml(xmlTemp);
+							}
+						}
+						strXml.ReleaseBuffer();
+					}
+				}
+				else
+				{
+					SWindow *pChild = SApplication::getSingleton().CreateWindowByName(xmlChild.name());
+					if (pChild)
+					{
+						InsertChild(pChild);
+						pChild->InitFromXml(xmlChild);
+					}
 				}
 			}
 		}
-
 		return TRUE;
 	}
 
 
 	SStringW SWindow::tr( const SStringW &strSrc )
 	{
-		return TR(strSrc,GetContainer()->GetTranslatorContext());
+		return TR(strSrc,GetTrCtx());
 	}
 
 	// Create SWindow from xml element
@@ -717,8 +823,15 @@ namespace SOUI
 			if (!strText.IsEmpty())
 			{
 				m_strText.SetText(S_CW2T(GETSTRING(strText)));   //使用语言包翻译。
+			}else if(m_strText.GetText(TRUE).IsEmpty())
+			{//try to apply cdata as text
+				SStringW strCData = xmlNode.child_value();
+				strCData.TrimBlank();
+				if(!strCData.IsEmpty())
+				{
+					m_strText.SetText(S_CW2T(GETSTRING(strCData)));
+				}
 			}
-
 		}
 
 		//发送WM_CREATE消息
@@ -1088,17 +1201,18 @@ namespace SOUI
 
 	void SWindow::LockUpdate()
 	{
-		m_bUpdateLocked=TRUE;
+		m_nUpdateLockCnt ++;
 	}
 
 	void SWindow::UnlockUpdate()
 	{
-		m_bUpdateLocked=FALSE;
+		m_nUpdateLockCnt --;
+		SASSERT(m_nUpdateLockCnt >= 0);
 	}
 
 	BOOL SWindow::IsUpdateLocked()
 	{
-		return m_bUpdateLocked;
+		return m_nUpdateLockCnt>0;
 	}
 
 	void SWindow::BringWindowToTop()
@@ -1158,13 +1272,24 @@ namespace SOUI
 			SSendMessage(WM_NCCALCSIZE);//计算非客户区大小
 		}
 
-
-		UpdateChildrenPosition();   //更新子窗口位置
+		//only if window is visible now, we do relayout.
+		if (IsVisible(FALSE))
+		{
+			//don't call UpdateLayout, otherwise will result in dead cycle.
+			if (m_layoutDirty != dirty_clean && GetChildrenCount())
+			{
+				UpdateChildrenPosition();//更新子窗口位置
+			}
+			m_layoutDirty = dirty_clean;
+		}
+		else
+		{//mark layout to self dirty.
+			m_layoutDirty = dirty_self;
+		}
 
 		CRect rcClient;
 		GetClientRect(&rcClient);
 		SSendMessage(WM_SIZE,0,MAKELPARAM(rcClient.Width(),rcClient.Height()));
-		m_layoutDirty = dirty_clean;
 		return TRUE;
 	}
 
@@ -1281,7 +1406,8 @@ namespace SOUI
 
 		CRect rcText;
 		GetTextRect(rcText);
-		DrawText(pRT,m_strText.GetText(FALSE), m_strText.GetText(FALSE).GetLength(), rcText, GetTextAlign());
+		SStringT strText = GetWindowText(FALSE);
+		DrawText(pRT, strText, strText.GetLength(), rcText, GetTextAlign());
 
 		//draw focus rect
 		if(IsFocused())
@@ -1375,12 +1501,26 @@ namespace SOUI
 		CAutoRefPtr<IRenderTarget> pRT;
 		GETRENDERFACTORY->CreateRenderTarget(&pRT,0,0);
 		BeforePaintEx(pRT);
-		DrawText(pRT,m_strText.GetText(FALSE), m_strText.GetText(FALSE).GetLength(), rcTest4Text, nTestDrawMode | DT_CALCRECT);
 
+		SStringT strText = GetWindowText(FALSE);
+		DrawText(pRT, strText, strText.GetLength(), rcTest4Text, nTestDrawMode | DT_CALCRECT);
+
+		CRect rcMargin = m_style.GetMargin();
 		//计算子窗口大小
+		if(rcContainer.Width()>0)
+		{
+			rcContainer.left += rcMargin.left + rcPadding.left;
+			rcContainer.right-=rcMargin.right + rcPadding.right;
+			if(rcContainer.Width()<0) rcContainer.right=rcContainer.left;
+		}
+		if(rcContainer.Height()>0)
+		{
+			rcContainer.top += rcMargin.top + rcPadding.top;
+			rcContainer.bottom -= rcMargin.bottom + rcPadding.bottom;
+			if(rcContainer.Height()<0) rcContainer.bottom = rcContainer.top;
+		}
 		CSize szChilds = GetLayout()->MeasureChildren(this,rcContainer.Width(),rcContainer.Height());
 
-		
 		CRect rcTest(0,0, smax(szChilds.cx,rcTest4Text.right),smax(szChilds.cy,rcTest4Text.bottom));
 
 		rcTest.InflateRect(m_style.GetMargin());
@@ -1399,9 +1539,6 @@ namespace SOUI
 	{
 		bool isParentHorzWrapContent = nParentWid<0;
 		bool isParentVertWrapContent = nParentHei<0;
-
-		nParentWid = abs(nParentWid);
-		nParentHei = abs(nParentHei);
 
 		ILayoutParam * pLayoutParam = GetLayoutParam();
 		bool bSaveHorz = isParentHorzWrapContent && pLayoutParam->IsMatchParent(Horz);
@@ -1475,7 +1612,10 @@ namespace SOUI
 		{
 			bShow=m_pParent->IsVisible(TRUE);
 		}
-
+		if (bShow)
+		{//delay reflesh layout of children.
+			UpdateLayout();
+		}
 		if (bShow)
 		{
 			ModifyState(0, WndState_Invisible);
@@ -1653,12 +1793,12 @@ namespace SOUI
 
 	void SWindow::RequestRelayout()
 	{
-		RequestRelayout(this,TRUE);//此处bSourceResizable可以为任意值
+		RequestRelayout(m_swnd,TRUE);//此处bSourceResizable可以为任意值
 	}
 
-	void SWindow::RequestRelayout(SWindow *pSource,BOOL bSourceResizable)
+	void SWindow::RequestRelayout(SWND hSource,BOOL bSourceResizable)
 	{
-		SASSERT(pSource);
+		SASSERT(SWindowMgr::IsWindow(hSource));
 
 		if(bSourceResizable)
 		{//源窗口大小发生变化,当前窗口的所有子窗口全部重新布局
@@ -1667,22 +1807,25 @@ namespace SOUI
 
 		if(m_layoutDirty != dirty_self)
 		{//需要检测当前窗口是不是内容自适应
-			m_layoutDirty = (pSource == this || GetLayoutParam()->IsWrapContent(Any)) ? dirty_self:dirty_child;
+			m_layoutDirty = (hSource == m_swnd || GetLayoutParam()->IsWrapContent(Any)) ? dirty_self:dirty_child;
 		}
 
 		SWindow *pParent = GetParent();
-		if(pParent) pParent->RequestRelayout(pSource,GetLayoutParam()->IsWrapContent(Any) || !IsDisplay());
+		if (pParent && pParent->IsVisible())
+		{
+			pParent->RequestRelayout(hSource, GetLayoutParam()->IsWrapContent(Any) || !IsDisplay());
+		}
 	}
 
 	void SWindow::UpdateLayout()
 	{
 		if(m_layoutDirty == dirty_clean) return;
-		UpdateChildrenPosition();
+		if(GetChildrenCount()) UpdateChildrenPosition();
 		m_layoutDirty = dirty_clean;
 	}
 
 
-	SWindow * SWindow::GetNextLayoutChild(SWindow *pCurChild)
+	SWindow * SWindow::GetNextLayoutChild(SWindow *pCurChild) const
 	{
 		SWindow *pRet = NULL;
 		if(pCurChild == NULL)
@@ -1727,7 +1870,7 @@ namespace SOUI
 		if(hr == S_FALSE)
 			Invalidate();
 		else if(hr == S_OK)
-			RequestRelayout(this,TRUE);
+			RequestRelayout(m_swnd,TRUE);
 		return 0;
 	}
 
@@ -1775,6 +1918,13 @@ namespace SOUI
 
 	IRenderTarget * SWindow::GetRenderTarget( DWORD gdcFlags,IRegion *pRgn )
 	{
+		if (IsUpdateLocked())
+		{//return a empty render target
+			IRenderTarget *pRT = NULL;
+			GETRENDERFACTORY->CreateRenderTarget(&pRT, 0, 0);
+			return pRT;
+		}
+
 		CRect rcClip;
 		pRgn->GetRgnBox(&rcClip);
 		SWindow *pParent = GetParent();
@@ -1795,6 +1945,11 @@ namespace SOUI
 
 	void SWindow::ReleaseRenderTarget(IRenderTarget *pRT)
 	{
+		if (IsUpdateLocked())
+		{
+			pRT->Release();
+			return;
+		}
 		SASSERT(m_pGetRTData);
 		_ReleaseRenderTarget(pRT);        
 	}
@@ -2277,7 +2432,7 @@ namespace SOUI
 
 	HRESULT SWindow::OnAttrVisible( const SStringW& strValue, BOOL bLoading )
 	{
-		BOOL bVisible = strValue != L"0";
+		BOOL bVisible = STRINGASBOOL(strValue);
 		if(!bLoading)   SetVisible(bVisible,TRUE);
 		else m_bVisible=bVisible;
 		return S_FALSE;
@@ -2285,7 +2440,7 @@ namespace SOUI
 
 	HRESULT SWindow::OnAttrEnable( const SStringW& strValue, BOOL bLoading )
 	{
-		BOOL bEnable = strValue != L"0";
+		BOOL bEnable = STRINGASBOOL(strValue);
 		if(bLoading)
 		{
 			if (bEnable)
@@ -2302,7 +2457,7 @@ namespace SOUI
 
 	HRESULT SWindow::OnAttrDisplay( const SStringW& strValue, BOOL bLoading )
 	{
-		m_bDisplay = strValue != L"0";
+		m_bDisplay = STRINGASBOOL(strValue);
 		if(bLoading)
 			return S_FALSE;
 
@@ -2347,7 +2502,7 @@ namespace SOUI
 
 	HRESULT SWindow::OnAttrTrackMouseEvent( const SStringW& strValue, BOOL bLoading )
 	{
-		m_style.m_bTrackMouseEvent = strValue==L"0"?0:1;
+		m_style.m_bTrackMouseEvent = STRINGASBOOL(strValue);
 		if(!bLoading)
 		{
 			if(m_style.m_bTrackMouseEvent)
@@ -2406,7 +2561,7 @@ namespace SOUI
 
 	HRESULT SWindow::OnAttrCache( const SStringW& strValue, BOOL bLoading )
 	{
-		m_bCacheDraw = strValue != L"0";
+		m_bCacheDraw = STRINGASBOOL(strValue);
 
 		if(!bLoading)
 		{
@@ -2443,7 +2598,7 @@ namespace SOUI
 
 	HRESULT SWindow::OnAttrLayeredWindow( const SStringW& strValue, BOOL bLoading )
 	{
-		m_bLayeredWindow = strValue!=L"0";
+		m_bLayeredWindow = STRINGASBOOL(strValue);
 		if(!bLoading)
 		{
 			UpdateLayeredWindowMode();
@@ -2753,9 +2908,12 @@ namespace SOUI
 		}
 	}
 
-	const SStringW & SWindow::GetTrCtx()
+	const SStringW & SWindow::GetTrCtx() const
 	{
-		return GetContainer()->GetTranslatorContext();	
+		if (m_strTrCtx.IsEmpty())
+			return GetContainer()->GetTranslatorContext();
+		else
+			return m_strTrCtx;
 	}
 
 	int SWindow::GetScale() const
@@ -2809,7 +2967,19 @@ namespace SOUI
 
 	void SWindow::accNotifyEvent(DWORD dwEvt)
 	{
+#ifdef SOUI_ENABLE_ACC
 		NotifyWinEvent(dwEvt, GetContainer()->GetHostHwnd(), GetSwnd(), CHILDID_SELF);
+#endif
 	}
+
+	bool SWindow::SetLayoutParam(ILayoutParam * pLayoutParam)
+	{
+		SWindow *pParent = GetParent();
+		if (!pParent->GetLayout()->IsParamAcceptable(pLayoutParam))
+			return false;
+		m_pLayoutParam = pLayoutParam;
+		return true;
+	}
+
 
 }//namespace SOUI

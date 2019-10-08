@@ -32,6 +32,8 @@ namespace SOUI
 
 		virtual void * GetRawData();
 
+		virtual ILayoutParam * Clone() const;
+	public:
         SOUI_ATTRS_BEGIN()
             ATTR_CUSTOM(L"width",OnAttrWidth)
             ATTR_CUSTOM(L"height",OnAttrHeight)
@@ -69,7 +71,7 @@ namespace SOUI
 
         virtual void LayoutChildren(SWindow * pParent);
         virtual ILayoutParam * CreateLayoutParam() const;
-		virtual CSize MeasureChildren(SWindow * pParent,int nWidth,int nHeight) const;
+		virtual CSize MeasureChildren(const SWindow * pParent,int nWidth,int nHeight) const;
 		virtual bool IsParamAcceptable(ILayoutParam *pLayoutParam) const;
 
         
@@ -85,13 +87,14 @@ namespace SOUI
                 ATTR_ENUM_VALUE(L"right",G_Right)
                 ATTR_ENUM_VALUE(L"bottom",G_Bottom)
             ATTR_ENUM_END(m_gravity)
-
+			ATTR_LAYOUTSIZE(L"interval",m_interval,FALSE)
         SOUI_ATTRS_BREAK()
 
 
 	protected:
 		ORIENTATION m_orientation;
         Gravity     m_gravity;
+		SLayoutSize m_interval;
     };
 
 	class SVBox : public SLinearLayout

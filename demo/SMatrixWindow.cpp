@@ -1,8 +1,105 @@
 ﻿#include "stdafx.h"
 #include "SMatrixWindow.h"
-
+#include "../third-part/skmatrix/include/SkCamera.h"
 namespace SOUI
 {
+
+	S3DView::S3DView(void):m_iStep(0),m_nRotate(0),m_rotateDir(RotateY),m_nSpeed(5)
+	{
+	}
+
+	S3DView::~S3DView(void)
+	{
+	}
+
+
+	void S3DView::OnShowWindow(BOOL bShow, UINT nStatus)
+	{
+		__super::OnShowWindow(bShow,nStatus);
+		if(IsVisible(TRUE))
+		{
+			GetContainer()->RegisterTimelineHandler(this);
+		}else
+		{
+			GetContainer()->UnregisterTimelineHandler(this);
+		}
+	}
+
+
+	void S3DView::OnPaint(IRenderTarget *pRT)
+	{
+		SPainter painter;
+		BeforePaint(pRT,painter);
+		CRect rc = GetClientRect();
+		if(!(m_skinBack && m_skinFore))
+		{
+			pRT->DrawText(_T("没有指定skin对象"),-1,rc,DT_SINGLELINE|DT_VCENTER|DT_VCENTER);
+		}else
+		{
+			Sk3DView view;
+			float zOffset = 0.0f;
+			switch(m_rotateDir)
+			{
+			case RotateX:
+				zOffset = rc.Height()/2*fabs(sin(m_nRotate*3.1415926/180));
+				view.translate(0,0,zOffset);
+				view.rotateX(m_nRotate);
+				break;
+			case RotateY:
+				zOffset = rc.Width()/2*fabs(sin(m_nRotate*3.1415926/180));
+				view.translate(0,0,zOffset);
+				view.rotateY(m_nRotate);
+				break;
+			case RotateZ:view.rotateZ(m_nRotate);break;
+			}
+			SkMatrix mat;
+			view.getMatrix(&mat);
+
+			int wid = rc.Width()/2+rc.left;
+			int hei = rc.Height()/2+rc.top;
+			mat.preTranslate(-wid,-hei);
+			mat.postTranslate(wid,hei);
+
+			pRT->SetTransform(&mat);
+			//[0,90) [180,270)=> fore
+			int nRotate = (int)m_nRotate;
+			if(m_nRotate<180)
+			{
+				if((m_nRotate%180)>90)
+					m_skinBack->Draw(pRT,rc,0);
+				else
+					m_skinFore->Draw(pRT,rc,0);
+			}else
+			{
+				if((m_nRotate%180)>90)
+					m_skinFore->Draw(pRT,rc,0);
+				else
+					m_skinBack->Draw(pRT,rc,0);
+			}
+			
+			mat.setIdentity();
+			pRT->SetTransform(&mat);
+		}
+		AfterPaint(pRT,painter);
+	}
+
+	void S3DView::OnNextFrame()
+	{
+		m_iStep ++;
+		if(m_iStep==m_nSpeed)
+		{
+			m_nRotate += 5;
+			if(m_nRotate>=360) 
+			{
+				m_nRotate-=360;
+			}
+			Invalidate();
+			m_iStep=0;
+		}
+	}
+
+
+	/////////////////////////////////////////////////////////////////////////
 SMatrixWindow::SMatrixWindow(void)
 :m_fRotate(.0f)
 ,m_fScaleX(1.0F),m_fScaleY(1.0f)
@@ -50,6 +147,7 @@ HRESULT SMatrixWindow::OnAttrTranslate(const SStringW & strValue,BOOL bLoading)
     return bLoading?S_FALSE:S_OK;
 }
 
+
 void SMatrixWindow::OnPaint(IRenderTarget *pRT)
 {
     SPainter painter;
@@ -61,10 +159,11 @@ void SMatrixWindow::OnPaint(IRenderTarget *pRT)
     }else
     {
         SMatrix m,m2;
-        m.rotate(m_fRotate)
-        .scale(m_fScaleX,m_fScaleY)
-        .shear(m_fSkewX,m_fSkewY)
-        .translate(m_fTransX,m_fTransY);
+		
+         m.rotate(m_fRotate)
+         .scale(m_fScaleX,m_fScaleY)
+         .shear(m_fSkewX,m_fSkewY)
+         .translate(m_fTransX,m_fTransY);
         
         pRT->SetTransform(&m,&m2);
         m_pBgSkin->Draw(pRT,rc,0);

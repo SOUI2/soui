@@ -51,7 +51,7 @@ namespace SOUI
         
 		void Init();
         
-		virtual const SStringW & GetTrCtx();
+		virtual const SStringW & GetTrCtx() const;
 
 		CRect GetMaxInset(int nScale) const;
 
@@ -87,7 +87,6 @@ namespace SOUI
             ATTR_ICON(L"bigIcon",m_hAppIconBig,FALSE)
             ATTR_UINT(L"alpha",m_byAlpha,FALSE)
             ATTR_INT(L"allowSpy",m_bAllowSpy,FALSE)
-            ATTR_INT(L"appMainWnd",m_byWndType,FALSE)
             ATTR_ENUM_BEGIN(L"wndType",DWORD,FALSE)
                 ATTR_ENUM_VALUE(L"undefine",WT_UNDEFINE)
                 ATTR_ENUM_VALUE(L"appMain",WT_APPMAIN)
@@ -148,6 +147,7 @@ protected:
     BOOL                    m_bResizing;        /**<执行WM_SIZE*/
     CAutoRefPtr<SStylePool> m_privateStylePool; /**<局部style pool*/
     CAutoRefPtr<SSkinPool>  m_privateSkinPool;  /**<局部skin pool*/
+	CAutoRefPtr<STemplatePool>  m_privateTemplatePool;/**< 局部template pool */
 
     SList<SWND>             m_lstUpdateSwnd;    /**<等待刷新的非背景混合窗口列表*/
     SList<RECT>             m_lstUpdatedRect;   /**<更新的脏矩形列表*/
@@ -285,7 +285,7 @@ protected:// IContainer
 
     virtual HWND GetHostHwnd();
 
-    virtual const SStringW & GetTranslatorContext();
+    virtual const SStringW & GetTranslatorContext() const;
 
     virtual IRenderTarget * OnGetRenderTarget(const CRect & rc,DWORD gdcFlags);
 
@@ -330,7 +330,7 @@ protected://Swindow 虚方法
 
 
 public:
-    virtual void RequestRelayout(SWindow *pSource ,BOOL bSourceResizable );
+    virtual void RequestRelayout(SWND hSource ,BOOL bSourceResizable );
 	virtual bool onRootResize(EventArgs *e);
 
 public://事件处理接口

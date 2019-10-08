@@ -145,7 +145,7 @@ namespace SOUI
 
 	struct ITrCtxProvider
 	{
-		virtual const SStringW & GetTrCtx() = 0;
+		virtual const SStringW & GetTrCtx() const = 0;
 	};
 
 	class  SOUI_EXP STrText
@@ -196,29 +196,22 @@ namespace SOUI
 		void accNotifyEvent(DWORD dwEvt);
 	public:
 
-		ILayout * GetLayout(){
+		ILayout * GetLayout() const{
 			return m_pLayout;
 		}
 
 		template<class T>
 		T * GetLayoutParamT() const
 		{
-			return sobj_cast<T>(m_pLayoutParam);
+			return sobj_cast<T>(GetLayoutParam());
 		}
 
-		ILayoutParam * GetLayoutParam()
+		virtual ILayoutParam * GetLayoutParam() const
 		{
 			return m_pLayoutParam;
 		}
 
-		bool SetLayoutParam(ILayoutParam * pLayoutParam)
-		{
-			SWindow *pParent = GetParent();
-			if(!pParent->GetLayout()->IsParamAcceptable(pLayoutParam))
-				return false;
-			m_pLayoutParam = pLayoutParam;
-			return true;
-		}
+		bool SetLayoutParam(ILayoutParam * pLayoutParam);
 
 		bool IsFloat() const{
 			return !!m_bFloat;
@@ -236,7 +229,7 @@ namespace SOUI
         *
         * Describe  
         */
-		SWindow * GetNextLayoutChild(SWindow *pCurChild);
+		SWindow * GetNextLayoutChild(SWindow *pCurChild) const;
 
     public://SWindow状态相关方法
         /**
@@ -493,7 +486,7 @@ namespace SOUI
 
             if(!pTarget || !pTarget->IsClass(T::GetClassName()))
             {
-                SLOGFMTW(_T("FindChildByID2 Failed, no window of class [%s] with id of [%d] was found within [%d] levels"),T::GetClassName(),nID,nDeep);
+                SLOGFMTD(_T("FindChildByID2 Failed, no window of class [%s] with id of [%d] was found within [%d] levels"),T::GetClassName(),nID,nDeep);
                 return NULL;
             }
             return (T*)pTarget;
@@ -502,17 +495,17 @@ namespace SOUI
         /**
         * FindChildByName
         * @brief    通过名字查找子窗口
-        * @param    LPCWSTR pszName --  窗口name属性
+        * @param    const SStringW & pszName --  窗口name属性
         * @param    int nDeep --  搜索深度,-1代表无限度
         * @return   SWindow* 
         *
         * Describe  
         */
-        SWindow* FindChildByName(LPCWSTR pszName , int nDeep =-1);
+        SWindow* FindChildByName(LPCWSTR strName , int nDeep =-1);
 
-        SWindow* FindChildByName(LPCSTR pszName , int nDeep =-1)
+        SWindow* FindChildByName(LPCSTR strName , int nDeep =-1)
         {
-            return FindChildByName(S_CA2W(pszName),nDeep);
+            return FindChildByName(S_CA2W(strName),nDeep);
         }
 
         /**
@@ -530,7 +523,7 @@ namespace SOUI
             SWindow *pTarget = FindChildByName(pszName,nDeep);
             if(!pTarget || !pTarget->IsClass(T::GetClassName()))
             {
-                SLOGFMTW(_T("FindChildByName2 Failed, no window of class [%s] with name of [%s] was found within [%d] levels"),T::GetClassName(),pszName,nDeep);
+				SLOGFMTD(_T("FindChildByName2 Failed, no window of class [%s] with name of [%s] was found within [%d] levels"), T::GetClassName(), pszName, nDeep);
                 return NULL;
             }
             return (T*)pTarget;
@@ -821,10 +814,12 @@ namespace SOUI
         * Describe  
         */
 		void RequestRelayout();
-        virtual void RequestRelayout(SWindow *pSource,BOOL bSourceResizable);
+        virtual void RequestRelayout(SWND hSource,BOOL bSourceResizable);
         
         virtual void UpdateLayout();
         
+		virtual void OnContentChanged();
+
         virtual SStringW tr(const SStringW &strSrc);
 
         virtual SWND SwndFromPoint(CPoint ptHitTest, BOOL bOnlyText);
@@ -966,6 +961,7 @@ namespace SOUI
         */
         virtual void AfterPaint(IRenderTarget *pRT, SPainter &painter);
         
+		virtual const SStringW & GetTrCtx() const;
     public://caret相关方法
         virtual BOOL CreateCaret(HBITMAP pBmp,int nWid,int nHeight);
         virtual void ShowCaret(BOOL bShow);   
@@ -1126,6 +1122,9 @@ namespace SOUI
         IRenderTarget * GetLayerRenderTarget();
 
     protected://helper functions
+
+		SWindow* _FindChildByID(int nID, int nDeep);
+		SWindow* _FindChildByName(const SStringW & strName, int nDeep);
 
         void _Update();
         
@@ -1290,6 +1289,7 @@ namespace SOUI
             ATTR_SKIN(L"ncskin", m_pNcSkin, TRUE)   //直接获得皮肤对象
             ATTR_INT(L"data", m_uData, 0 )
 			ATTR_I18NSTRT(L"text",m_strText,TRUE)	//从text属性中获取显示文本
+			ATTR_STRINGW(L"trCtx",m_strTrCtx,FALSE) 
             ATTR_CUSTOM(L"enable", OnAttrEnable)
             ATTR_CUSTOM(L"visible", OnAttrVisible)
             ATTR_CUSTOM(L"show", OnAttrVisible)
@@ -1299,12 +1299,12 @@ namespace SOUI
             ATTR_CUSTOM(L"layeredWindow",OnAttrLayeredWindow)
             ATTR_CUSTOM(L"trackMouseEvent",OnAttrTrackMouseEvent)
 			ATTR_CUSTOM(L"tip",OnAttrTip)
-            ATTR_INT(L"msgTransparent", m_bMsgTransparent, FALSE)
+            ATTR_BOOL(L"msgTransparent", m_bMsgTransparent, FALSE)
             ATTR_LAYOUTSIZE(L"maxWidth",m_nMaxWidth,FALSE)
-            ATTR_INT(L"clipClient",m_bClipClient,FALSE)
-            ATTR_INT(L"focusable",m_bFocusable,FALSE)
-            ATTR_INT(L"drawFocusRect",m_bDrawFocusRect,TRUE)
-            ATTR_INT(L"float",m_bFloat,FALSE)
+            ATTR_BOOL(L"clipClient",m_bClipClient,FALSE)
+            ATTR_BOOL(L"focusable",m_bFocusable,FALSE)
+            ATTR_BOOL(L"drawFocusRect",m_bDrawFocusRect,TRUE)
+            ATTR_BOOL(L"float",m_bFloat,FALSE)
 			ATTR_CHAIN(m_style,HRET_FLAG_STYLE)					    //交给SwndStyle处理
 			ATTR_CHAIN_PTR(m_pLayout,HRET_FLAG_LAYOUT)				//交给Layout处理
 			ATTR_CHAIN_PTR(m_pLayoutParam,HRET_FLAG_LAYOUT_PARAM)	//交给LayoutParam处理
@@ -1312,8 +1312,6 @@ namespace SOUI
 
 
 		virtual HRESULT OnLanguageChanged();
-
-		virtual const SStringW & GetTrCtx();
 
 		virtual void OnScaleChanged(int scale);
 
@@ -1353,8 +1351,10 @@ namespace SOUI
         STrText             m_strText;          /**< 窗口文字 */
         STrText             m_strToolTipText;   /**< 窗口ToolTip */
         SStringW            m_strName;          /**< 窗口名称 */
+		SStringW			m_strTrCtx;			/**< translate context. empty than use container's tr ctx*/
         int                 m_nID;              /**< 窗口ID */
         UINT                m_uZorder;          /**< 窗口Zorder */
+		int                 m_nUpdateLockCnt;   /**< 暂时锁定更新Count，锁定后，不向宿主发送Invalidate */
 
         DWORD               m_dwState;          /**< 窗口在渲染过程中的状态 */
         DWORD               m_bVisible:1;       /**< 窗口可见状态 */
@@ -1364,12 +1364,11 @@ namespace SOUI
         DWORD               m_bMsgTransparent:1;/**< 接收消息标志 TRUE-不处理消息 */
         DWORD               m_bFocusable:1;     /**< 窗口可获得焦点标志 */
         DWORD               m_bDrawFocusRect:1; /**< 绘制默认的焦点虚框 */
-        DWORD               m_bUpdateLocked:1;  /**< 暂时锁定更新，锁定后，不向宿主发送Invalidate */
         DWORD               m_bCacheDraw:1;     /**< 支持窗口内容的Cache标志 */
         DWORD               m_bCacheDirty:1;    /**< 缓存窗口脏标志 */
         DWORD               m_bLayeredWindow:1; /**< 指示是否是一个分层窗口 */
-		DWORD               m_layoutDirty:2;    /**< 布局脏标志 参见LayoutDirtyType */
 
+		LayoutDirtyType     m_layoutDirty;      /**< 布局脏标志 参见LayoutDirtyType */
         CAutoRefPtr<IRenderTarget> m_cachedRT;  /**< 缓存窗口绘制的RT */
         CAutoRefPtr<IRenderTarget> m_layeredRT; /**< 分层窗口绘制的RT */
         CAutoRefPtr<IRegion>       m_rgnWnd;    /**< 窗口Region */
@@ -1401,5 +1400,5 @@ namespace SOUI
 #ifdef _DEBUG
         DWORD               m_nMainThreadId;    /**< 窗口宿线程ID */
 #endif
-    };
+	};
 }//namespace SOUI

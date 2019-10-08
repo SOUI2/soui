@@ -122,7 +122,7 @@ namespace SOUI
         int nRet=__super::OnCreate(NULL);
         if(GetContainer()->IsTranslucent())
         {
-            STRACE(_T("warning!!! create iectrl failed bacause of host is translucent!"));
+            SLOGFMTD(_T("warning!!! create iectrl failed bacause of host is translucent!"));
             return -1;
         }
         GetContainer()->GetMsgLoop()->AddMessageFilter(this);

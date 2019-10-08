@@ -64,10 +64,13 @@ int SScrollBar::SetPos(int nPos)
             CRect rcNewThumb=GetPartRect(SB_THUMBTRACK);
             CRect rcUnion;
             rcUnion.UnionRect(&rcOldThumb,&rcNewThumb);
-            IRenderTarget *pRT=GetRenderTarget(&rcUnion,OLEDC_PAINTBKGND);
-            m_pSkin->Draw(pRT,rcUnion,MAKESBSTATE(SB_PAGEDOWN,SBST_NORMAL,IsVertical()));
-            m_pSkin->Draw(pRT,rcNewThumb,MAKESBSTATE(SB_THUMBTRACK,SBST_NORMAL,IsVertical()));
-            ReleaseRenderTarget(pRT);
+			if (IsVisible())
+			{
+				IRenderTarget *pRT = GetRenderTarget(&rcUnion, OLEDC_PAINTBKGND);
+				m_pSkin->Draw(pRT, rcUnion, MAKESBSTATE(SB_PAGEDOWN, SBST_NORMAL, IsVertical()));
+				m_pSkin->Draw(pRT, rcNewThumb, MAKESBSTATE(SB_THUMBTRACK, SBST_NORMAL, IsVertical()));
+				ReleaseRenderTarget(pRT);
+			}         
             m_si.nTrackPos=-1;
         }
         m_si.nPos=nPos;
@@ -78,6 +81,16 @@ int SScrollBar::SetPos(int nPos)
 int SScrollBar::GetPos()
 {
     return m_si.nPos;
+}
+
+int SScrollBar::GetMax()
+{
+	return m_si.nMax;
+}
+
+int SScrollBar::GetMin()
+{
+	return m_si.nMin;
 }
 
 // Generated message map functions

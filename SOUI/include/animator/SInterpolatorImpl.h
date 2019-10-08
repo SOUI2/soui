@@ -25,17 +25,21 @@ namespace SOUI
 	private: double mDoubleFactor;
 
 
-			/**
-			* Constructor
-			*
-			* @param factor Degree to which the animation should be eased. Seting
-			*        factor to 1.0f produces a y=x^2 parabola. Increasing factor above
-			*        1.0f  exaggerates the ease-in effect (i.e., it starts even
-			*        slower and ends evens faster)
-			*/
+			 /**
+			 * Constructor
+			 *
+			 * @param factor Degree to which the animation should be eased. Seting
+			 *        factor to 1.0f produces a y=x^2 parabola. Increasing factor above
+			 *        1.0f  exaggerates the ease-in effect (i.e., it starts even
+			 *        slower and ends evens faster)
+			 */
 	public: SAccelerateInterpolator(float factor=1.0f);
 
 	public: float getInterpolation(float input);
+
+			SOUI_ATTRS_BEGIN()
+				ATTR_FLOAT(L"factor",mFactor,FALSE)
+			SOUI_ATTRS_END()
 
 	};
 
@@ -44,13 +48,13 @@ namespace SOUI
 
 	private: float mFactor;
 
-			/**
-			* Constructor
-			*
-			* @param factor Degree to which the animation should be eased. Setting factor to 1.0f produces
-			*        an upside-down y=x^2 parabola. Increasing factor above 1.0f makes exaggerates the
-			*        ease-out effect (i.e., it starts even faster and ends evens slower)
-			*/
+		/**
+		* Constructor
+		*
+		* @param factor Degree to which the animation should be eased. Setting factor to 1.0f produces
+		*        an upside-down y=x^2 parabola. Increasing factor above 1.0f makes exaggerates the
+		*        ease-out effect (i.e., it starts even faster and ends evens slower)
+		*/
 	public: SDecelerateInterpolator(float factor=1.0f);
 
 	public: float getInterpolation(float input);
@@ -95,14 +99,14 @@ namespace SOUI
 	private: float mTension;
 	private: float mExtraTension;
 
-			/**
-			* @param tension Amount of anticipation/overshoot. When tension equals 0.0f,
-			*                there is no anticipation/overshoot and the interpolator becomes
-			*                a simple acceleration/deceleration interpolator.
-			* @param extraTension Amount by which to multiply the tension. For instance,
-			*                     to get the same overshoot as an OvershootInterpolator with
-			*                     a tension of 2.0f, you would use an extraTension of 1.5f.
-			*/
+			 /**
+			 * @param tension Amount of anticipation/overshoot. When tension equals 0.0f,
+			 *                there is no anticipation/overshoot and the interpolator becomes
+			 *                a simple acceleration/deceleration interpolator.
+			 * @param extraTension Amount by which to multiply the tension. For instance,
+			 *                     to get the same overshoot as an OvershootInterpolator with
+			 *                     a tension of 2.0f, you would use an extraTension of 1.5f.
+			 */
 	public: SAnticipateOvershootInterpolator(float tension=2.0f, float extraTension=1.5f);
 
 
@@ -155,11 +159,11 @@ namespace SOUI
 	private:  float mTension;
 
 
-			/**
-			* @param tension Amount of overshoot. When tension equals 0.0f, there is
-			*                no overshoot and the interpolator becomes a simple
-			*                deceleration interpolator.
-			*/
+		/**
+		* @param tension Amount of overshoot. When tension equals 0.0f, there is
+		*                no overshoot and the interpolator becomes a simple
+		*                deceleration interpolator.
+		*/
 	public: SOvershootInterpolator(float tension=2.0f);
 
 

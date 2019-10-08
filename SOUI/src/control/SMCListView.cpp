@@ -16,6 +16,7 @@ namespace SOUI
         virtual void onChanged();
         virtual void onInvalidated();
 
+		virtual void OnItemChanged(int iItem);
     protected:
         SMCListView * m_pOwner;
     };
@@ -31,6 +32,11 @@ namespace SOUI
         m_pOwner->onDataSetInvalidated();
     }
 
+	void SMCListViewDataSetObserver::OnItemChanged(int iItem)
+	{
+		m_pOwner->onItemDataChanged(iItem);
+	}
+
 //////////////////////////////////////////////////////////////////////////
 //  SMCListView
 
@@ -42,7 +48,9 @@ namespace SOUI
         ,m_itemCapture(NULL)
         ,m_pSkinDivider(NULL)
         ,m_bWantTab(FALSE)
-        ,m_bDatasetInvalidated(TRUE)
+		,m_bDatasetInvalidated(TRUE)
+		,m_bPendingUpdate(false)
+		,m_iPendingUpdateItem(-2)
     {
         m_bFocusable = TRUE;
         m_bClipClient = TRUE;
@@ -125,10 +133,10 @@ int SMCListView::InsertColumn(int nIndex, LPCTSTR pszText, int nWidth, LPARAM lP
 BOOL SMCListView::CreateChildren(pugi::xml_node xmlNode)
 {
     //  listctrl的子控件只能是一个header控件
-    if (!__super::CreateChildren(xmlNode))
+	pugi::xml_node xmlTemplate = xmlNode.child(L"template");
+	xmlTemplate.set_userdata(1);
+	if (!__super::CreateChildren(xmlNode))
         return FALSE;
-        
-    pugi::xml_node xmlTemplate = xmlNode.child(L"template");
     if(xmlTemplate)
     {
         m_xmlTemplate.append_copy(xmlTemplate);
@@ -329,7 +337,7 @@ bool SMCListView::OnHeaderClick(EventArgs *pEvt)
         pOrders[hi.iOrder]=i;
         if(i == pEvt2->iItem) iCol = hi.iOrder;
     }
-    if(m_adapter->OnSort(iCol,pstFlags,m_pHeader->GetItemCount()))
+    if(m_adapter && m_adapter->OnSort(iCol,pstFlags,m_pHeader->GetItemCount()))
     {
         //更新表头的排序状态
         for(int i=0;i<m_pHeader->GetItemCount();i++)
@@ -387,6 +395,12 @@ bool SMCListView::OnHeaderSwap(EventArgs *pEvt)
 void SMCListView::onDataSetChanged()
 {
     if(!m_adapter) return;
+	if(!IsVisible(TRUE))
+	{
+		m_bPendingUpdate = true;
+		m_iPendingUpdateItem = -1;
+		return;
+	}
 
 	//更新列显示状态
 	m_pHeader->GetEventSet()->setMutedState(true);
@@ -409,6 +423,24 @@ void SMCListView::onDataSetInvalidated()
 {
     m_bDatasetInvalidated = TRUE;
     Invalidate();
+}
+
+void SMCListView::onItemDataChanged(int iItem)
+{
+	if(!m_adapter) return;
+	if(!IsVisible(TRUE))
+	{
+		m_bPendingUpdate = true;
+		m_iPendingUpdateItem = m_iPendingUpdateItem==-2?iItem:-1;
+		return;
+	}
+
+	if(iItem<m_iFirstVisible) return;
+	if(iItem>=m_iFirstVisible + (int)m_lstItems.GetCount()) return;
+	if(m_lvItemLocator->IsFixHeight())
+		UpdateVisibleItem(iItem);
+	else
+		UpdateVisibleItems();
 }
 
 void SMCListView::OnPaint(IRenderTarget *pRT)
@@ -607,7 +639,7 @@ void SMCListView::UpdateVisibleItems()
         if(ii.pItem->GetState() & WndState_Check)
         {
             ii.pItem->ModifyItemState(0,WndState_Check);
-            ii.pItem->GetFocusManager()->SetFocusedHwnd(0);
+            ii.pItem->GetFocusManager()->ClearFocus();
         }
         ii.pItem->SetVisible(FALSE);
         ii.pItem->GetEventSet()->setMutedState(false);
@@ -623,6 +655,16 @@ void SMCListView::UpdateVisibleItems()
         UpdateVisibleItems();//根据新的滚动条状态重新记录显示列表项
     }
 }
+
+
+void SMCListView::UpdateVisibleItem(int iItem)
+{
+	SASSERT(m_lvItemLocator->IsFixHeight());
+	SItemPanel * pItem = GetItemPanel(iItem);
+	SASSERT(pItem);
+	m_adapter->getView(iItem,pItem,m_xmlTemplate.first_child());
+}
+
 
 void SMCListView::OnSize(UINT nType, CSize size)
 {
@@ -1031,7 +1073,7 @@ void SMCListView::SetSel(int iItem,BOOL bNotify)
     SItemPanel *pItem = GetItemPanel(nOldSel);
     if(pItem)
     {
-        pItem->GetFocusManager()->SetFocusedHwnd((SWND)-1);
+        pItem->GetFocusManager()->ClearFocus();
         pItem->ModifyItemState(0,WndState_Check);
         RedrawItem(pItem);
     }
@@ -1157,6 +1199,20 @@ void SMCListView::DispatchMessage2Items(UINT uMsg,WPARAM wParam,LPARAM lParam)
 			SItemPanel *pItem = pLstTypeItems->GetNext(pos);
 			pItem->SDispatchMessage(uMsg, wParam, lParam);
 		}
+	}
+}
+
+void SMCListView::OnShowWindow(BOOL bShow, UINT nStatus)
+{
+	__super::OnShowWindow(bShow,nStatus);
+	if(IsVisible(TRUE) && m_bPendingUpdate)
+	{
+		if(m_iPendingUpdateItem == -1)
+			onDataSetChanged();
+		else
+			onItemDataChanged(m_iPendingUpdateItem);
+		m_bPendingUpdate = false;
+		m_iPendingUpdateItem = -2;
 	}
 }
 

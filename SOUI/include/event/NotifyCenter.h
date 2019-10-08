@@ -1,6 +1,8 @@
 ﻿#pragma once
 
 #include <core/SSingleton.h>
+#include <helper/SCriticalSection.h>
+
 #if _MSC_VER >= 1700	//VS2012
 #include <functional>
 // 将 闭包 传递到了 UI线程 
@@ -48,6 +50,7 @@ namespace SOUI
 
 	struct INotifyCallback{
 		virtual void OnFireEvent(EventArgs *e) = 0;
+		virtual void OnFireEvts() = 0;
 	};
 
 	class SNotifyReceiver;
@@ -101,7 +104,7 @@ namespace SOUI
 		bool UnregisterEventMap(const ISlotFunctor & slot);
 	protected:
 		virtual void OnFireEvent(EventArgs *e);
-
+		virtual void OnFireEvts();
 
 		DWORD				m_dwMainTrdID;//主线程ID
 
@@ -109,6 +112,9 @@ namespace SOUI
 
 		SNotifyReceiver	 *  m_pReceiver;
 
+		SCriticalSection	m_cs;
+		SList<EventArgs *> m_ayncEvent;
+		
 #if _MSC_VER >= 1700	//VS2012
 	public:
 		void RunOnUISync(std::function<void(void)> fn);

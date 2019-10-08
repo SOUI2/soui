@@ -276,4 +276,10 @@ void SSliderBar::OnColorize(COLORREF cr)
     if(m_pSkinThumb) m_pSkinThumb->OnColorize(cr);
 }
 
+void SSliderBar::OnScaleChanged(int scale)
+{
+	__super::OnScaleChanged(scale);
+	GetScaleSkin(m_pSkinThumb,scale);
+}
+
 }//end of namespace

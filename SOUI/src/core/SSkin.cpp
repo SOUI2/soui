@@ -459,11 +459,13 @@ void SSkinScrollbar::_Scale(ISkinObj *skinObj, int nScale)
 SSkinColorRect::SSkinColorRect()
 	: m_nRadius(0)
 	, m_fCornerPercent(0.0)
+	, m_nBorderWidth(0)
 {
     m_crStates[0]=RGBA(255,255,255,255);
     m_crStates[1]=CR_INVALID;
     m_crStates[2]=CR_INVALID;
     m_crStates[3]=CR_INVALID;
+	m_crBorders[0] = m_crBorders[1] = m_crBorders[2] = m_crBorders[3] = CR_INVALID;
 }
 
 SSkinColorRect::~SSkinColorRect()
@@ -486,10 +488,22 @@ void SSkinColorRect::_Draw(IRenderTarget *pRT, LPCRECT prcDraw, DWORD dwState,BY
         dwState = 0;
     SColor cr(m_crStates[dwState]);
     cr.updateAlpha(byAlpha);
-    if(nCorner > 0)
-        pRT->FillSolidRoundRect(prcDraw, CPoint(nCorner, nCorner), cr.toCOLORREF());
-    else
-        pRT->FillSolidRect(prcDraw, cr.toCOLORREF());
+	if (nCorner > 0)
+		pRT->FillSolidRoundRect(prcDraw, CPoint(nCorner, nCorner), cr.toCOLORREF());
+	else
+		pRT->FillSolidRect(prcDraw, cr.toCOLORREF());
+
+	if (m_crBorders[dwState] != CR_INVALID && m_nBorderWidth>0)
+	{
+		CAutoRefPtr<IPen> pen, oldPen;
+		pRT->CreatePen(PS_SOLID, m_crBorders[dwState], m_nBorderWidth, (IPen**)&pen);
+		pRT->SelectObject(pen, (IRenderObj**)&oldPen);
+		if (nCorner > 0)
+			pRT->DrawRoundRect(prcDraw, CPoint(nCorner, nCorner));
+		else
+			pRT->DrawRectangle(prcDraw);
+		pRT->SelectObject(oldPen);
+	}
 }
 
 int SSkinColorRect::GetStates()
@@ -529,7 +543,7 @@ void SSkinShape::OnInitFinished(pugi::xml_node xmlNode)
 		if (!m_gradient) m_gradient.Attach(new SGradient());
 		m_gradient->InitFromXml(xmlGrident);
 	}
-	pugi::xml_node xmlSize = xmlNode.child(L"size");
+	pugi::xml_node xmlSize = xmlNode.child(SShapeSize::GetClassName());
 	if(xmlSize)
 	{
 		if (!m_shapeSize) m_shapeSize.Attach(new SShapeSize());
@@ -588,7 +602,6 @@ void SSkinShape::_Draw(IRenderTarget *pRT, LPCRECT rcDraw, DWORD dwState,BYTE by
 	}
 
 	RECT rcDest = *rcDraw;
-	//::InflateRect(&rcDest,-1,-1);
 	if(m_crSolid != CR_INVALID)
 	{
 		CAutoRefPtr<IBrush> brush,oldBrush;
@@ -725,6 +738,20 @@ SIZE SSKinGroup::GetSkinSize()
 		if(m_skins[i]) return m_skins[i]->GetSkinSize();
 	}
 	return CSize();
+}
+
+void SSKinGroup::_Scale(ISkinObj * skinObj, int nScale)
+{
+	__super::_Scale(skinObj, nScale);
+	SSKinGroup *pRet = sobj_cast<SSKinGroup>(skinObj);
+	if (m_skins[0])
+		pRet->m_skins[0] = m_skins[0]->Scale(nScale);
+	if (m_skins[1])
+		pRet->m_skins[1] = m_skins[1]->Scale(nScale);
+	if (m_skins[2])
+		pRet->m_skins[2] = m_skins[2]->Scale(nScale);
+	if (m_skins[3])
+		pRet->m_skins[3] = m_skins[3]->Scale(nScale);
 }
 
 /*

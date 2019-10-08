@@ -62,6 +62,17 @@ namespace SOUI
                 pObserver->onInvalidated();
             }
         }
+
+		void notifyItemChanged(int iItem)
+		{
+			SPOSITION pos = m_lstObserver.GetHeadPosition();
+			while(pos)
+			{
+				ILvDataSetObserver *pObserver = m_lstObserver.GetNext(pos);
+				pObserver->OnItemChanged(iItem);
+			}
+		}
+
     protected:
         SList<ILvDataSetObserver *> m_lstObserver;
     };
@@ -82,6 +93,10 @@ namespace SOUI
         void notifyDataSetInvalidated() {
             m_obzMgr.notifyInvalidated();
         }
+
+		void notifyItemDataChanged(int iItem){
+			m_obzMgr.notifyItemChanged(iItem);
+		}
 
         virtual void registerDataSetObserver(ILvDataSetObserver * observer)
         {
@@ -120,7 +135,7 @@ namespace SOUI
 
         virtual bool isEmpty()
         {
-            return getCount()>0;
+            return getCount() <= 0;
         }
 
         virtual ULONG_PTR getItemData(int position){
@@ -490,6 +505,12 @@ namespace SOUI
 			return m_tree.DeleteItemEx(hItem);
 		}
 
+		const T & GetItemData(HTREEITEM hItem) const
+		{
+			SASSERT(hItem != STVI_ROOT);
+			ItemInfo & ii = m_tree.GetItemRef((HSTREEITEM)hItem);
+			return ii.data;
+		}
     protected:
 		CSTree<ItemInfo> m_tree;
 		ULONG_PTR        m_rootUserData[DATA_INDEX_NUMBER];

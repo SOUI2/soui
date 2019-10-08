@@ -107,8 +107,9 @@ namespace SOUI
     HRESULT SPropertyItemOption::OnAttrOptions( const SStringW & strValue,BOOL bLoading )
     {
         SStringT strValueT = S_CW2T(strValue);
+		m_options.RemoveAll();
         SplitString(strValueT,_T('|'),m_options);
-        return S_FALSE;
+        return S_OK;
     }
 
 }

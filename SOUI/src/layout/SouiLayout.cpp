@@ -369,6 +369,13 @@ namespace SOUI{
 		return (SouiLayoutParamStruct*)this;
 	}
 
+	ILayoutParam * SouiLayoutParam::Clone() const
+	{
+		SouiLayoutParam *pRet = new SouiLayoutParam();
+		memcpy(pRet->GetRawData(), (SouiLayoutParamStruct*)this, sizeof(SouiLayoutParamStruct));
+		return pRet;
+	}
+
     //////////////////////////////////////////////////////////////////////////
 
 	SouiLayout::SouiLayout(void)
@@ -525,7 +532,7 @@ namespace SOUI{
 
     }
 
-    CSize SouiLayout::MeasureChildren(SWindow * pParent,int nWidth,int nHeight) const
+    CSize SouiLayout::MeasureChildren(const SWindow * pParent,int nWidth,int nHeight) const
     {
         SList<WndPos>       lstWndPos;
 

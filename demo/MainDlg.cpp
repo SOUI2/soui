@@ -8,6 +8,7 @@
 #include "../controls.extend/FileHelper.h"
 #include "../controls.extend/SChatEdit.h"
 #include "../controls.extend/reole/richeditole.h"
+#include "SMatrixWindow.h"
 #include "FormatMsgDlg.h"
 #include <math.h>
 
@@ -274,7 +275,11 @@ HRESULT CMainDlg::OnSkinChangeMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 
 LRESULT CMainDlg::OnInitDialog( HWND hWnd, LPARAM lParam )
 {
-    m_bLayoutInited=TRUE;
+	SLOG_INFO("OnInitDialog");
+
+	m_bLayoutInited=TRUE;
+	FindChildByID2<SGroupList>(R.id.gl_catalog)->SelectPage(R.id.page_listctrl);
+
 	STabCtrl *pTabCtrl = FindChildByName2<STabCtrl>(L"tab_radio2");
 	{
 		m_pTabBinder = new STabCtrlHeaderBinder(pTabCtrl);
@@ -330,6 +335,21 @@ LRESULT CMainDlg::OnInitDialog( HWND hWnd, LPARAM lParam )
     SWindow *pWndRgn = FindChildByName(L"wnd_rgn");
     if(pWndRgn)
     {
+		//性能优化后，隐藏窗口不能直接获取位置，这里先主动请求布局。
+		SList<SWindow*> pps;
+		SWindow *p = pWndRgn->GetParent();
+		while (!p->IsVisible(TRUE))
+		{
+			pps.AddHead(p);
+			p = p->GetParent();
+		}
+		SPOSITION pos = pps.GetHeadPosition();
+		while (pos)
+		{
+			SWindow *p = pps.GetNext(pos);
+			p->UpdateChildrenPosition();
+		}
+
         CRect rc=pWndRgn->GetWindowRect();
         rc.MoveToXY(0,0);//注意：SWindow将窗口的左上角定义为Rgn的原点。
         HRGN hRgn =::CreateEllipticRgnIndirect(&rc);
@@ -396,8 +416,8 @@ LRESULT CMainDlg::OnInitDialog( HWND hWnd, LPARAM lParam )
 		POINT pts[10];
 		for(int i=0;i<ARRAYSIZE(pts);i++)
 		{
-			pts[i].x = rand()%rc.Width();
-			pts[i].y = rand()%rc.Height();
+			pts[i].x = rand()%500;
+			pts[i].y = rand()%300;
 		}
 		pPathView->AddPoint(pts,ARRAYSIZE(pts));
 	}
@@ -720,10 +740,10 @@ void CMainDlg::OnBtnFileWnd()
 void CMainDlg::OnUrlReNotify(EventArgs *pEvt)
 {
     EventRENotify *pEvt2 = sobj_cast<EventRENotify>(pEvt);
-    STRACE(_T("OnUrlReNotify,iNotify = %d"),pEvt2->iNotify);
+    SLOGFMTD(_T("OnUrlReNotify,iNotify = %d"),pEvt2->iNotify);
     if(pEvt2->iNotify == EN_CHANGE)
     {
-        STRACE(_T("OnUrlReNotify,iNotify = EN_CHANGE"));    
+        SLOGFMTD(_T("OnUrlReNotify,iNotify = EN_CHANGE"));    
     }
 }
 
@@ -741,7 +761,7 @@ void CMainDlg::OnMclvCtxMenu(EventArgs *pEvt)
         {
             int iItem = pItem->GetItemIndex();
             pListview->SetSel(iItem);
-            STRACE(_T("当前选中行:%d"),iItem);
+            SLOGFMTD(_T("当前选中行:%d"),iItem);
         }
         
     }
@@ -1003,3 +1023,96 @@ void CMainDlg::OnEventPath(EventArgs *e)
 	SStringT strLen = SStringT().Format(_T("%.2f"),e2->fLength);
 	FindChildByID(R.id.txt_path_length)->SetWindowText(strLen);
 }
+
+void CMainDlg::OnInitGroup(EventArgs *e)
+{
+	EventGroupListInitGroup *e2 = sobj_cast<EventGroupListInitGroup>(e);
+	SToggle *pTgl = e2->pItem->FindChildByID2<SToggle>(R.id.tgl_switch);
+	pTgl->SetToggle(!e2->pGroupInfo->bCollapsed);
+	e2->pItem->FindChildByID(R.id.txt_label)->SetWindowText(e2->pGroupInfo->strText);
+}
+
+void CMainDlg::OnInitItem(EventArgs *e)
+{
+	EventGroupListInitItem *e2 = sobj_cast<EventGroupListInitItem>(e);
+	e2->pItem->FindChildByID(R.id.txt_label)->SetWindowText(e2->pItemInfo->strText);
+	e2->pItem->FindChildByID2<SImageWnd>(R.id.img_indicator)->SetIcon(e2->pItemInfo->iIcon);
+}
+
+void CMainDlg::OnGroupStateChanged(EventArgs *e)
+{
+	EventGroupStateChanged *e2 = sobj_cast<EventGroupStateChanged>(e);
+	SToggle *pTgl = e2->pItem->FindChildByID2<SToggle>(R.id.tgl_switch);
+	pTgl->SetToggle(!e2->pGroupInfo->bCollapsed);
+
+}
+
+
+void CMainDlg::OnCtrlPageClick(EventArgs *e)
+{
+	EventGroupListItemCheck *e2=sobj_cast<EventGroupListItemCheck>(e);
+	STabCtrl *pTabOp = FindChildByID2<STabCtrl>(R.id.tab_ctrls);
+	int nIndex = e2->pItemInfo->id - R.id.page_listctrl;
+	pTabOp->SetCurSel(nIndex);
+
+}
+
+void CMainDlg::OnMcLvHeaderRelayout(EventArgs * e)
+{
+	SHeaderCtrl *pHeader = sobj_cast<SHeaderCtrl>(e->sender);
+	int nItems = pHeader->GetItemCount();
+	if (nItems > 1)
+	{
+		CRect rc = pHeader->GetItemRect(pHeader->GetOriItemIndex(0));
+		SWindow *pChk = pHeader->FindChildByName(L"chk_mclv_sel");
+		SASSERT(pChk);
+		CSize szChk = pChk->GetDesiredSize(NULL);
+		CRect rc2(CPoint(rc.left + 5, rc.top + (rc.Height()-szChk.cy)/2), szChk);
+		if (rc2.right >= rc.right - 5) rc2.right = rc.right - 5;
+		pChk->Move(rc2);
+	}
+}
+
+void CMainDlg::OnBtnCreateByTemp()
+{
+	SWindow *pContainer = FindChildByName(L"wnd_temp_host");
+	SWindow *pInput = FindChildByName(L"re_temp_input");
+	if(pContainer && pInput)
+	{
+		SStringT strInput = pInput->GetWindowText();
+		pContainer->CreateChildren(S_CT2W(strInput));
+	}
+}
+
+void CMainDlg::On3dViewRotate(EventArgs *e)
+{
+	EventSwndStateChanged *e2 = sobj_cast<EventSwndStateChanged>(e);
+	S3DView *p3dView = FindChildByName2<S3DView>(L"3d_test");
+	if(p3dView)
+	{
+		if((e2->dwNewState & WndState_Check) && !(e2->dwOldState&WndState_Check))
+		{
+			p3dView->SetAttribute(L"rotateDir",e->nameFrom);
+		}
+	}
+}
+
+void CMainDlg::OnSetPropItemValue()
+{
+	SPropertyGrid * pPropGrid = FindChildByID2<SPropertyGrid>(R.id.prop_test);
+	SASSERT(pPropGrid);
+
+	SStringW strTarget = S_CT2W(FindChildByID(R.id.prop_target)->GetWindowText());
+	SStringW strProp = S_CT2W(FindChildByID(R.id.prop_prop)->GetWindowText());
+	SStringW strValue = S_CT2W(FindChildByID(R.id.prop_value)->GetWindowText());
+
+	IPropertyItem *pItem = pPropGrid->FindItemByName(strTarget);
+	if(pItem)
+	{
+		pPropGrid->SetItemAttribute(pItem,strProp,strValue);
+	}else
+	{
+		SMessageBox(m_hWnd,_T("target item not found!"),_T("error"),MB_OK|MB_ICONSTOP);
+	}
+}
+

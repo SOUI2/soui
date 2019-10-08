@@ -1,5 +1,5 @@
-﻿<include>
-  <tabctrl pos="0,0,-0,-0" tabAlign="left" tabSkin="skin_tab_left" tabInterSkin="skin_tab_left_splitter" tabInterSize="2" tabWidth="200" iconSkin="skin_small_icons" icon-x="5" icon-y="8">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tabctrl pos="0,0,-0,-0" tabAlign="left" tabSkin="skin_tab_left" tabInterSkin="skin_tab_left_splitter" tabInterSize="2" tabWidth="200" iconSkin="skin_small_icons" icon-x="5" icon-y="8">
     <page title="script" colorBorder="#ff0000" margin-x="1" margin-y="1">
       <include src="layout:page_script"/>
     </page>
@@ -14,18 +14,10 @@
       <uianimationwnd pos="0,0,-0,-0" icon="skin_small_icons" aniMode="imgx:png_animode"  colorBkgnd="#cccccc" bkgndBlend="0"/>
       <text pos="|0,20" offset="-0.5,0" colorText="#ff0000">SOUI动画演示</text>
     </page>
-    <page title="smiley" >
-      <window pos="0,5,-0,@30">
-        <button name="btn_insert_gif" pos="5,0,@120,@25" id="#id_test1">insert gif</button>
-        <button name="btn_append_msg" pos="[5,0,@120,@25">append format msg</button>
-        <button name="btn_richedit_open" pos="[5,0,@120,@25">open from rtf</button>
-        <button name="btn_richedit_save" pos="[5,0,@120,@25">save to rtf</button>
-      </window>
-      <chatedit name="re_gifhost" pos="5,[5,-5,-5" bkgndBlend="1" class="cls_edit" enableDragdrop="1" multiLines="1" vscrollBar="1" sbSkin="skin_vscrollbar" wordWrap="1"  autoVscroll="1" hscrollBar="0" wantReturn="1" maxBuf="6400000" rtf="rtf:rtf_test"/>
-    </page>
+
     <page title="iectrl">
       <text pos="|0,|0" offset="-0.5,-0.5" colorText="#ff0000">IE CTRL需要窗口句柄，在半透明宿主上不能正常显示</text>
-      <iectrl size="full,full" url="http://www.baidu.com"/>
+      <iectrl pos="0,0,-0,-0" url="http://www.baidu.com"/>
     </page>
     <page title="calendar2">
       <calendar2 pos="0,0,-0,-0" name="mp_test">
@@ -58,17 +50,31 @@
         <img pos="0,[0" skin="skin_bkgnd"/>
       </scrollview>
     </page>
-    <page title="2d transform">
-      <matrixWindow pos="5,5,-5,-5" skin="skin_avatar_low" name="matrix_test" clipClient="1">
-        <text pos="5,5">rotate:</text>
-        <edit pos="100,{0,@100,@30" name="edit_rotate" notifyChange="1">0</edit>
-        <text pos="5,[5">scale:</text>
-        <edit pos="100,{0,@100,@30" name="edit_scale" notifyChange="1">1,1</edit>
-        <text pos="5,[5">skew:</text>
-        <edit pos="100,{0,@100,@30" name="edit_skew" notifyChange="1">0,0</edit>
-        <text pos="5,[5">translate:</text>
-        <edit pos="100,{0,@100,@30" name="edit_translate" notifyChange="1">0,0</edit>
-      </matrixWindow>
+    <page title="transform">
+      <tabctrl tabHeight="30" size="-2,-2">
+        <page title="2d">
+          <matrixWindow pos="5,5,-5,-5" skin="skin_avatar_low" name="matrix_test" clipClient="1">
+            <text pos="5,5">rotate:</text>
+            <edit pos="100,{0,@100,@30" name="edit_rotate" notifyChange="1">0</edit>
+            <text pos="5,[5">scale:</text>
+            <edit pos="100,{0,@100,@30" name="edit_scale" notifyChange="1">1,1</edit>
+            <text pos="5,[5">skew:</text>
+            <edit pos="100,{0,@100,@30" name="edit_skew" notifyChange="1">0,0</edit>
+            <text pos="5,[5">translate:</text>
+            <edit pos="100,{0,@100,@30" name="edit_translate" notifyChange="1">0,0</edit>
+          </matrixWindow>
+        </page>
+        <page title="3d" layout="vbox">
+          <window size="-2,-1" layout="hbox">
+            <radio name="rotate_x" text="rotate x"/>
+            <radio name="rotate_y" text="rotate y" checked="1"/>
+            <radio name="rotate_z" text="rotate z"/>
+            <text colorText="@color/red" text="只有使用skia渲染才有3D变换效果!"/>
+          </window>
+          <s3dview name="3d_test" size="-2,0" weight="1" skin_fore="skin_avatar_low" skin_back="skin_bkgnd" clipClient="1"/>
+        </page>
+      </tabctrl>
+      
     </page>
     <page title="free move" colorBkgnd="@color/gray" clipClient="1">
       <freeMoveWindow name="fmw_test" margin="5,25,5,5" clipClient="1" captionHeight="20" captionSkin="skin_caption" colorBorder="#cccccc" width="160" height="100" valign="0x20" halign="0x02" distx="20" disty="20" colorBkgnd="@color/blue">
@@ -82,4 +88,3 @@
     </page>
     
   </tabctrl>
-</include>

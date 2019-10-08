@@ -19,6 +19,7 @@ using namespace SOUI;
 #include "ThreadObject.h"
 #include "skin/SDemoSkin.h"
 #include "../../controls.extend/SMcListViewEx/STabCtrlHeaderBinder.h"
+#include <helper/SDpiHelper.hpp>
 
 extern UINT g_dwSkinChangeMessage;
 //演示使用SNotifyCenter的异步事件
@@ -51,6 +52,7 @@ public:
 };
 
 
+
 /**
 * @class      CMainDlg
 * @brief      主窗口实现
@@ -59,10 +61,10 @@ public:
 */
 class CMainDlg : public SHostWnd
 			   , public CMagnetFrame	//磁力吸附
-			   //, public ISetSkinHandler	//皮肤处理
 			   , public CThreadObject	//线程对象
 			   , public TAutoEventMapReg<CMainDlg>//通知中心自动注册
 			   , public ISetOrLoadSkinHandler
+,				public SDpiHandler<CMainDlg>
 {
 public:
 
@@ -201,6 +203,21 @@ protected:
 	void OnEventPath(EventArgs *e);
 
 	HRESULT OnSkinChangeMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bHandled);
+
+	void OnInitGroup(EventArgs *e);
+	void OnInitItem(EventArgs *e);
+	void OnGroupStateChanged(EventArgs *e);
+	void OnCtrlPageClick(EventArgs *e);
+
+	void OnMcLvHeaderRelayout(EventArgs *e);
+
+	//从模板创建子窗口demo
+	void OnBtnCreateByTemp();
+
+	void On3dViewRotate(EventArgs *e);
+
+	void OnSetPropItemValue();
+
     //UI控件的事件及响应函数映射表
 	EVENT_MAP_BEGIN()
 		EVENT_HANDLER(EventPath::EventID,OnEventPath)
@@ -231,7 +248,7 @@ protected:
 		EVENT_ID_HANDLER(SENDER_ID,EventThreadStop::EventID,OnEventThreadStop)
 		EVENT_ID_HANDLER(SENDER_ID,EventThread::EventID,OnEventThread)
 		//-->
-
+		EVENT_NAME_COMMAND(L"btn_create_by_temp",OnBtnCreateByTemp)
         EVENT_NAME_COMMAND(L"btn_webkit_back",OnBtnWebkitBackward)
         EVENT_NAME_COMMAND(L"btn_webkit_fore",OnBtnWebkitForeward)
         EVENT_NAME_COMMAND(L"btn_webkit_refresh",OnBtnWebkitRefresh)
@@ -252,6 +269,16 @@ protected:
         EVENT_NAME_HANDLER(L"edit_translate",EVT_RE_NOTIFY,OnMatrixWindowReNotify)
         
         EVENT_NAME_HANDLER(L"menu_slider",EventSliderPos::EventID,OnMenuSliderPos)
+		EVENT_ID_HANDLER(R.id.gl_catalog,EventGroupListInitGroup::EventID,OnInitGroup)
+		EVENT_ID_HANDLER(R.id.gl_catalog,EventGroupListInitItem::EventID,OnInitItem)
+		EVENT_ID_HANDLER(R.id.gl_catalog,EventGroupStateChanged::EventID,OnGroupStateChanged)
+		EVENT_ID_HANDLER(R.id.gl_catalog,EventGroupListItemCheck::EventID,OnCtrlPageClick)
+		EVENT_NAME_HANDLER(L"mclv_test_header",EventHeaderRelayout::EventID,OnMcLvHeaderRelayout)
+
+		EVENT_NAME_HANDLER(L"rotate_x",EventSwndStateChanged::EventID,On3dViewRotate)
+		EVENT_NAME_HANDLER(L"rotate_y",EventSwndStateChanged::EventID,On3dViewRotate)
+		EVENT_NAME_HANDLER(L"rotate_z",EventSwndStateChanged::EventID,On3dViewRotate)
+		EVENT_ID_COMMAND(R.id.btn_set_prop_value,OnSetPropItemValue)
 	EVENT_MAP_END()	
 
     //HOST消息及响应函数映射表
@@ -265,6 +292,7 @@ protected:
 		MSG_WM_TIMER(OnTimer)
 		MESSAGE_HANDLER(g_dwSkinChangeMessage, OnSkinChangeMessage)
 		CHAIN_MSG_MAP(SHostWnd)
+		CHAIN_MSG_MAP(SDpiHandler<CMainDlg>)
 		REFLECT_NOTIFICATIONS_EX()
 	END_MSG_MAP()
 
@@ -280,4 +308,5 @@ private:
 	HWND			m_hSetSkinWnd;
 	STabCtrlHeaderBinder* m_pTabBinder;
 	STabCtrlHeaderBinder* m_pTabBinder2;
+
 };

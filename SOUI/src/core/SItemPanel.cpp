@@ -194,7 +194,7 @@ HWND SItemPanel::GetHostHwnd()
     return m_pFrmHost->GetContainer()->GetHostHwnd();
 }
 
-const SStringW & SItemPanel::GetTranslatorContext()
+const SStringW & SItemPanel::GetTranslatorContext() const
 {
     return m_pFrmHost->GetContainer()->GetTranslatorContext();
 }
@@ -355,15 +355,17 @@ void SItemPanel::FrameToHost(RECT & rc)
     ::OffsetRect(&rc,rcItem.left,rcItem.top);
 }
 
-void SItemPanel::RequestRelayout(SWindow *pSource ,BOOL bSourceResizable)
+void SItemPanel::RequestRelayout(SWND hSource ,BOOL bSourceResizable)
 {
-	__super::RequestRelayout(pSource,bSourceResizable);
+	__super::RequestRelayout(hSource,bSourceResizable);
     m_pItemContainer->OnItemRequestRelayout(this);
 }
 
 SItemPanel * SItemPanel::Create(SWindow *pFrameHost,pugi::xml_node xmlNode,IItemContainer *pItemContainer)
 {
-    return new SItemPanel(pFrameHost,xmlNode,pItemContainer);
+    SItemPanel * pItem =  new SItemPanel(pFrameHost,xmlNode,pItemContainer);
+	SApplication::getSingletonPtr()->SetSwndDefAttr(pItem);
+	return pItem;
 }
 
 //不继承宿主的字体，从指定的字体或者系统字体开始，避免在GetRenderTarget时还需要从宿主窗口到获取当前的文字属性。

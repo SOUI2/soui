@@ -32,6 +32,8 @@ namespace SOUI{
 		virtual void SetSpecifiedSize(ORIENTATION orientation, const SLayoutSize& layoutSize);
 
 		virtual void * GetRawData();
+
+		virtual ILayoutParam * Clone() const;
 	public:
 		bool IsOffsetRequired(ORIENTATION orientation) const;
         int  GetExtraSize(ORIENTATION orientation,int nScale) const;
@@ -81,7 +83,7 @@ namespace SOUI{
 
         virtual ILayoutParam * CreateLayoutParam() const;
 
-        virtual CSize MeasureChildren(SWindow * pParent,int nWidth,int nHeight) const;
+        virtual CSize MeasureChildren(const SWindow * pParent,int nWidth,int nHeight) const;
     protected:
         struct WndPos{
             SWindow *pWnd;

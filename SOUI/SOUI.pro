@@ -110,13 +110,14 @@ HEADERS += include/SApp.h \
            include/helper/SplitString.h \
            include/helper/copylist.hpp \
            include/helper/SResID.h \
+           include/helper/SScriptTimer.h \
+           include/helper/STileViewItemLocator.h \
            include/helper/STime.h \
            include/helper/STimerEx.h \
            include/helper/SScriptTimer.h \
            include/helper/SToolTip.h \
            include/helper/swndspy.h \
            include/helper/SwndMsgCracker.h \
-           include/helper/SCriticalSection.h \
            include/helper/AppDir.h \
            include/helper/SAdapterBase.h \
            include/helper/SwndFinder.h \
@@ -128,6 +129,9 @@ HEADERS += include/SApp.h \
            include/helper/slog-def.h \
            include/helper/sdibhelper.h \
            include/helper/unknown.h \
+		   include/helper/SFunctor.hpp \
+		   include/helper/sdpiscale.h \
+		   include/helper/sdpihelper.hpp \
            include/interface/imgdecoder-i.h \
            include/interface/render-i.h \
            include/interface/SResProvider-i.h \
@@ -145,6 +149,7 @@ HEADERS += include/SApp.h \
            include/interface/SAccProxy-i.h \
            include/interface/SAccHelper-i.h \
            include/interface/SPathEffect-i.h \
+           include/interface/STaskLoop-i.h \
            include/layout/SLinearLayoutParamStruct.h \
            include/layout/SLinearLayout.h \
            include/layout/SouiLayoutParamStruct.h \
@@ -237,6 +242,7 @@ SOURCES += src/SApp.cpp \
            src/helper/smenuex.cpp \
            src/helper/smatrix.cpp \
            src/helper/sdibhelper.cpp \
+		   src/helper/sdpiscale.cpp \
            src/res.mgr/SUiDef.cpp \
            src/res.mgr/SFontPool.cpp \
            src/res.mgr/SObjDefAttr.cpp \

@@ -518,7 +518,18 @@ namespace SOUI
 
     HRESULT SRenderTarget_GDI::BitBlt( LPCRECT pRcDest,IRenderTarget *pRTSour,int xSrc,int ySrc,DWORD dwRop/*=SRCCOPY*/)
     {
+		switch(dwRop)
+		{
+		case kSrcCopy:
+		case kDstInvert:
+		case kSrcInvert:
+		case kSrcAnd:
+			break;
+		default:
+			return E_INVALIDARG;
+		}
         SRenderTarget_GDI *pRTSrc_GDI=(SRenderTarget_GDI*)pRTSour;
+
         ALPHAINFO ai;
         if(dwRop!=SRCCOPY)
             CGdiAlpha::AlphaBackup(m_hdc,pRcDest,ai);
@@ -563,11 +574,19 @@ namespace SOUI
 		if(!m_curPen) return E_INVALIDARG;
 
 		RECT rcBuf = *pRect;
-		::InflateRect(&rcBuf,m_curPen->GetWidth()/2,m_curPen->GetWidth()/2);
+		if (m_curPen->GetWidth() == 1)
+		{
+			rcBuf.right--;
+			rcBuf.bottom--;
+		}
+		else
+		{
+			::InflateRect(&rcBuf, -m_curPen->GetWidth() / 2, -m_curPen->GetWidth() / 2);
+		}
         ALPHAINFO ai;
-        CGdiAlpha::AlphaBackup(m_hdc,&rcBuf,ai);
+        CGdiAlpha::AlphaBackup(m_hdc, pRect,ai);
         HGDIOBJ oldBr=::SelectObject(m_hdc,GetStockObject(NULL_BRUSH));
-        ::Rectangle(m_hdc,pRect->left,pRect->top,pRect->right,pRect->bottom);
+        ::Rectangle(m_hdc, rcBuf.left, rcBuf.top, rcBuf.right, rcBuf.bottom);
         CGdiAlpha::AlphaRestore(ai);
         ::SelectObject(m_hdc,oldBr);
         return S_OK;
@@ -1076,19 +1095,34 @@ namespace SOUI
 
     HRESULT SRenderTarget_GDI::SetTransform(const IxForm * pXForm,IxForm *pOldXFrom/*=NULL*/)
     {
-        const XFORM * pXFormGDI = (const XFORM*)pXForm;
+		XFORM xForm = {pXForm->GetScaleX(),pXForm->GetSkewY(),pXForm->GetSkewX(),pXForm->GetScaleY(),pXForm->GetTranslateX(),pXForm->GetTranslateY()};
         if(pOldXFrom)
         {
-            GetTransform(pOldXFrom);
+			GetTransform(pOldXFrom);
         }
-        return ::SetWorldTransform(m_hdc,pXFormGDI)?S_OK:E_FAIL;
+        return ::SetWorldTransform(m_hdc,&xForm)?S_OK:E_FAIL;
     }
 
     HRESULT SRenderTarget_GDI::GetTransform(IxForm * pXForm) const
     {
-        XFORM * pXFormGDI = (XFORM*)pXForm;
-        return ::GetWorldTransform(m_hdc,pXFormGDI)?S_OK:E_FAIL;
-    }
+		SASSERT(pXForm);
+		XFORM xForm;
+		if(!::GetWorldTransform(m_hdc,&xForm))
+			return E_FAIL;
+
+		pXForm->SetScaleX(xForm.eM11); 
+		pXForm->SetSkewX(xForm.eM21);
+		pXForm->SetTranslateX(xForm.eDx);
+
+		pXForm->SetSkewY(xForm.eM12);
+		pXForm->SetScaleY(xForm.eM22);
+		pXForm->SetTranslateY(xForm.eDy);
+
+		pXForm->SetPersp0(0.0f);
+		pXForm->SetPersp1(0.0f);
+		pXForm->SetPersp2(1.0f);
+		return S_OK;
+	}
 
 	COLORREF SRenderTarget_GDI::GetPixel( int x, int y )
 	{
@@ -1144,6 +1178,38 @@ namespace SOUI
 	HRESULT SRenderTarget_GDI::DrawPath(const IPath * path,IPathEffect * pathEffect)
 	{
 		return E_NOTIMPL;
+	}
+
+	HRESULT SRenderTarget_GDI::FillPath(const IPath * path)
+	{
+		return E_NOTIMPL;
+	}
+
+	HRESULT SRenderTarget_GDI::PushLayer(const RECT * pRect,BYTE byAlpha)
+	{
+		return E_NOTIMPL;
+	}
+
+	HRESULT SRenderTarget_GDI::PopLayer()
+	{
+		return E_NOTIMPL;
+	}
+
+	HRESULT SRenderTarget_GDI::SetXfermode(int mode,int *pOldMode)
+	{
+		switch (mode)
+		{
+		case kSrcCopy:
+		case kDstInvert:
+		case kSrcInvert:
+		case kSrcAnd:
+			break;
+		default:
+			return E_INVALIDARG;
+		}
+		int nOldMode = ::SetROP2(m_hdc,mode);
+		if(pOldMode) *pOldMode = nOldMode;
+		return S_OK;
 	}
 
 

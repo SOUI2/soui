@@ -16,6 +16,7 @@ namespace SOUI
         virtual void onChanged();
         virtual void onInvalidated();
 
+		virtual void OnItemChanged(int iItem);
     protected:
         SListView * m_pOwner;
     };
@@ -31,6 +32,11 @@ namespace SOUI
         m_pOwner->onDataSetInvalidated();
     }
 
+	void SListViewDataSetObserver::OnItemChanged(int iItem)
+	{
+		m_pOwner->onItemDataChanged(iItem);
+	}
+
 
 
     //////////////////////////////////////////////////////////////////////////
@@ -42,6 +48,8 @@ namespace SOUI
         ,m_pSkinDivider(NULL)
         ,m_bWantTab(FALSE)
         ,m_bDataSetInvalidated(FALSE)
+		,m_bPendingUpdate(false)
+		,m_iPendingUpdateItem(-2)
     {
         m_bFocusable = TRUE;
         m_observer.Attach(new SListViewDataSetObserver(this));
@@ -148,6 +156,12 @@ namespace SOUI
     void SListView::onDataSetChanged()
     {
         if(!m_adapter) return;
+		if(!IsVisible(TRUE))
+		{
+			m_bPendingUpdate = true;
+			m_iPendingUpdateItem = -1;
+			return;
+		}
         if(m_lvItemLocator) m_lvItemLocator->OnDataSetChanged();
         if(m_iSelItem != -1 && m_iSelItem >= m_adapter->getCount())
             m_iSelItem = -1;
@@ -160,6 +174,26 @@ namespace SOUI
         m_bDataSetInvalidated = TRUE;
         Invalidate();
     }
+
+
+	void SListView::onItemDataChanged(int iItem)
+	{
+		if(!m_adapter) return;
+		if(!IsVisible(TRUE))
+		{
+			m_bPendingUpdate = true;
+			m_iPendingUpdateItem = m_iPendingUpdateItem==-2?iItem:-1;
+			return;
+		}
+
+		if(iItem<m_iFirstVisible) return;
+		if(iItem>=m_iFirstVisible + (int)m_lstItems.GetCount()) return;
+		if(m_lvItemLocator->IsFixHeight())
+			UpdateVisibleItem(iItem);
+		else
+			UpdateVisibleItems();
+	}
+
 
     void SListView::OnPaint(IRenderTarget *pRT)
     {
@@ -334,7 +368,7 @@ namespace SOUI
             if(ii.pItem->GetState() & WndState_Check)
             {
                 ii.pItem->ModifyItemState(0,WndState_Check);
-                ii.pItem->GetFocusManager()->SetFocusedHwnd(0);
+                ii.pItem->GetFocusManager()->ClearFocus();
             }
             ii.pItem->SetVisible(FALSE);
             ii.pItem->GetEventSet()->setMutedState(false);
@@ -350,6 +384,16 @@ namespace SOUI
             UpdateVisibleItems();//根据新的滚动条状态重新记录显示列表项
         }
     }
+
+
+	void SListView::UpdateVisibleItem(int iItem)
+	{
+		SASSERT(m_lvItemLocator->IsFixHeight());
+		SItemPanel * pItem = GetItemPanel(iItem);
+		SASSERT(pItem);
+		m_adapter->getView(iItem,pItem,m_xmlTemplate.first_child());
+	}
+
 
     void SListView::OnSize(UINT nType, CSize size)
     {
@@ -760,7 +804,7 @@ namespace SOUI
         SItemPanel *pItem = GetItemPanel(nOldSel);
         if(pItem)
         {
-            pItem->GetFocusManager()->SetFocusedHwnd((SWND)-1);
+            pItem->GetFocusManager()->ClearFocus();
             pItem->ModifyItemState(0,WndState_Check);
             RedrawItem(pItem);
         }
@@ -880,4 +924,19 @@ namespace SOUI
 			}
 		}
 	}
+
+	void SListView::OnShowWindow(BOOL bShow, UINT nStatus)
+	{
+		__super::OnShowWindow(bShow,nStatus);
+		if(IsVisible(TRUE) && m_bPendingUpdate)
+		{
+			if(m_iPendingUpdateItem == -1)
+				onDataSetChanged();
+			else
+				onItemDataChanged(m_iPendingUpdateItem);
+			m_bPendingUpdate = false;
+			m_iPendingUpdateItem = -2;
+		}
+	}
+
 }

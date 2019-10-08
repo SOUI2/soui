@@ -3,6 +3,7 @@
 #include "core/Sskin.h"
 #include "SApp.h"
 #include "helper/mybuffer.h"
+#include "helper/SDpiScale.h"
 
 namespace SOUI
 {
@@ -19,17 +20,17 @@ SSkinPool::~SSkinPool()
 {
 #ifdef _DEBUG
     //查询哪些皮肤运行过程中没有使用过,将结果用输出到Output
-    STRACEW(L"####Detecting Defined Skin Usage BEGIN");    
+    SLOGFMTD(L"####Detecting Defined Skin Usage BEGIN");    
     SPOSITION pos = m_mapNamedObj->GetStartPosition();
     while(pos)
     {
         SkinKey skinKey = m_mapNamedObj->GetNextKey(pos);
         if(!m_mapSkinUseCount.Lookup(skinKey))
         {
-            STRACEW(L"skin of [%s.%d] was not used.",skinKey.strName,skinKey.scale);
+            SLOGFMTD(L"skin of [%s.%d] was not used.",(LPCWSTR)skinKey.strName,skinKey.scale);
         }
     }
-    STRACEW(L"!!!!Detecting Defined Skin Usage END");    
+    SLOGFMTD(L"!!!!Detecting Defined Skin Usage END");    
 #endif
 }
 
@@ -78,23 +79,7 @@ int SSkinPool::LoadSkins(pugi::xml_node xmlNode)
     return nLoaded;
 }
 
-const int KBuiltinScales [] =
-{
-	100,125,150,200,250,300
-};
 
-/*标准化放大比例, 选择比自己指定比例小一号的比例*/
-int NormalizeScale(int nScale)
-{
-	for (int i = 1; i < ARRAYSIZE(KBuiltinScales); i++)
-	{
-		if (nScale < KBuiltinScales[i])
-		{
-			return KBuiltinScales[i-1];
-		}
-	}
-	return KBuiltinScales[ARRAYSIZE(KBuiltinScales) - 1];
-}
 
 ISkinObj* SSkinPool::GetSkin(const SStringW & strSkinName,int nScale)
 {
@@ -102,14 +87,14 @@ ISkinObj* SSkinPool::GetSkin(const SStringW & strSkinName,int nScale)
 
     if(!HasKey(key))
     {
-		nScale = NormalizeScale(nScale);
+		nScale = SDpiScale::NormalizeScale(nScale);
 		key.scale = nScale;
 		if (!HasKey(key))
 		{
 			bool bFind = false;
-			for (int i = 0; i < ARRAYSIZE(KBuiltinScales); i++)
+			for (int i = 0; i < SDpiScale::GetBuiltinScaleCount(); i++)
 			{
-				key.scale = KBuiltinScales[i];
+				key.scale = SDpiScale::GetBuiltinScales()[i];
 				bFind = HasKey(key);
 				if (bFind) break;
 			}
@@ -187,7 +172,8 @@ const wchar_t * BUILDIN_SKIN_NAMES[]=
     L"_skin.sys.dropbtn",
     L"_skin.sys.tree.toggle",
     L"_skin.sys.tree.checkbox",
-    L"_skin.sys.tab.page",
+	L"_skin.sys.tree.lines",
+	L"_skin.sys.tab.page",
     L"_skin.sys.header",
     L"_skin.sys.split.vert",
     L"_skin.sys.split.horz",

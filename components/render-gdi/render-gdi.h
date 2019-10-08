@@ -77,11 +77,18 @@ namespace SOUI
             ,m_nWidth(cWidth),m_style(iStyle),m_cr(cr)
             ,m_hPen(NULL)
         {
-			LOGBRUSH lb;
-			lb.lbStyle = BS_SOLID;
-			lb.lbColor = m_cr & 0x00ffffff;
-			lb.lbHatch = 0;
-			m_hPen = ::ExtCreatePen(m_style, m_nWidth, &lb, 0, NULL);
+			if (iStyle & PS_GEOMETRIC)
+			{
+				LOGBRUSH lb;
+				lb.lbStyle = BS_SOLID;
+				lb.lbColor = m_cr & 0x00ffffff;
+				lb.lbHatch = 0;
+				m_hPen = ::ExtCreatePen(m_style | PS_GEOMETRIC, m_nWidth, &lb, 0, NULL);
+			}
+			else
+			{
+				m_hPen = ::CreatePen(m_style , m_nWidth, m_cr & 0x00ffffff);
+			}
         }
 
         ~SPen_GDI()
@@ -382,6 +389,13 @@ namespace SOUI
 
 		virtual HRESULT DrawPath(const IPath * path,IPathEffect * pathEffect=NULL);
 
+		virtual HRESULT FillPath(const IPath * path);
+
+		virtual HRESULT PushLayer(const RECT * pRect,BYTE byAlpha);
+
+		virtual HRESULT PopLayer();
+
+		virtual HRESULT SetXfermode(int mode,int *pOldMode);
 	protected:
         HDC               m_hdc;
         SColor            m_curColor;

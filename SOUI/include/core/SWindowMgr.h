@@ -23,6 +23,7 @@ class SOUI_EXP SWindowMgr :public SSingletonMap<SWindowMgr,SWindow*,SWND>
 {
 	SINGLETON2_TYPE(SINGLETON_SWNDMGR)
 public:
+	enum {SWND_INVALID=0};
 
     SWindowMgr();
 
@@ -30,6 +31,8 @@ public:
 
     // Get SWindow pointer from handle
     static SWindow* GetWindow(SWND swnd);
+
+	static bool IsWindow(SWND swnd);
 
     // Specify a handle to a SWindow
     static SWND NewWindow(SWindow *pWnd);

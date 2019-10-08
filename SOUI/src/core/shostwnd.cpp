@@ -64,7 +64,7 @@ void SHostWndAttr::Init()
 	m_hAppIconBig = (NULL);
 }
 
-const SStringW & SHostWndAttr::GetTrCtx() {
+const SStringW & SHostWndAttr::GetTrCtx() const{
 	return m_strTrCtx;
 }
 
@@ -115,6 +115,7 @@ SHostWnd::SHostWnd( LPCTSTR pszResName /*= NULL*/ )
     m_msgMouse.message = 0;
     m_privateStylePool.Attach(new SStylePool);
     m_privateSkinPool.Attach(new SSkinPool);
+	m_privateTemplatePool.Attach(new STemplatePool);
     SetContainer(this);
 
     m_evtSet.addEvent(EVENTID(EventInit));
@@ -125,6 +126,7 @@ SHostWnd::~SHostWnd()
 {
     GETSTYLEPOOLMGR->PopStylePool(m_privateStylePool);
     GETSKINPOOLMGR->PopSkinPool(m_privateSkinPool);
+	GETTEMPLATEPOOLMR->PopTemplatePool(m_privateTemplatePool);
 }
 
 HWND SHostWnd::Create(HWND hWndParent,DWORD dwStyle,DWORD dwExStyle, int x, int y, int nWidth, int nHeight)
@@ -206,6 +208,16 @@ BOOL SHostWnd::_InitFromXml(pugi::xml_node xmlNode,int nWidth,int nHeight)
         GETSKINPOOLMGR->PushSkinPool(m_privateSkinPool);
     }
 
+	if(m_privateTemplatePool->GetCount())
+	{
+		m_privateTemplatePool->RemoveAll();
+		GETTEMPLATEPOOLMR->PopTemplatePool(m_privateTemplatePool);
+	}
+	m_privateTemplatePool->Init(xmlNode.child(L"template"));
+	if(m_privateTemplatePool->GetCount())
+	{
+		GETTEMPLATEPOOLMR->PushTemplatePool(m_privateTemplatePool);
+	}
     //加载脚本数据
     pugi::xml_node xmlScript = xmlNode.child(L"script");
     if(m_pScriptModule && xmlScript)
@@ -274,7 +286,7 @@ BOOL SHostWnd::_InitFromXml(pugi::xml_node xmlNode,int nWidth,int nHeight)
     if(m_hostAttr.m_bTranslucent)
     {
         SetWindowLongPtr(GWL_EXSTYLE, GetWindowLongPtr(GWL_EXSTYLE) | WS_EX_LAYERED);
-        m_dummyWnd.Create(_T("SOUI_DUMMY_WND"),WS_POPUP,WS_EX_TOOLWINDOW|WS_EX_NOACTIVATE,0,0,10,10,m_hWnd,NULL);
+        m_dummyWnd.Create(_T("SOUI_DUMMY_WND"),WS_POPUP,WS_EX_TOOLWINDOW|WS_EX_NOACTIVATE,0,0,10,10,NULL,NULL);
         m_dummyWnd.SetWindowLongPtr(GWL_EXSTYLE,m_dummyWnd.GetWindowLongPtr(GWL_EXSTYLE) | WS_EX_LAYERED);
         ::SetLayeredWindowAttributes(m_dummyWnd.m_hWnd,0,0,LWA_ALPHA);
         m_dummyWnd.ShowWindow(SW_SHOWNOACTIVATE);
@@ -508,7 +520,7 @@ void SHostWnd::OnDestroy()
         GETTOOLTIPFACTORY->DestroyToolTip(m_pTipCtrl);
         m_pTipCtrl = NULL;
     }
-    if(m_hostAttr.m_bTranslucent && m_dummyWnd.IsWindow())
+    if(m_dummyWnd.IsWindow())
     {
         m_dummyWnd.DestroyWindow();
     }
@@ -1259,7 +1271,7 @@ BOOL SHostWnd::UnregisterTimelineHandler( ITimelineHandler *pHandler )
     return bRet;
 }
 
-const SStringW & SHostWnd::GetTranslatorContext()
+const SStringW & SHostWnd::GetTranslatorContext() const
 {
     return m_hostAttr.m_strTrCtx;
 }
@@ -1470,15 +1482,13 @@ void SHostWnd::clearTimer( UINT uID )
     SScriptTimer::getSingleton().ClearTimer(uID);
 }
 
-void SHostWnd::RequestRelayout(SWindow *pSource ,BOOL bSourceResizable)
+void SHostWnd::RequestRelayout(SWND hSource,BOOL bSourceResizable)
 {
+	SWindow *pSource = SWindowMgr::GetWindow(hSource);
 	SASSERT(pSource);
 
 	if(m_layoutDirty != dirty_self)
-		m_layoutDirty = (pSource == this || bSourceResizable ) ? dirty_self:dirty_child;
-
-	if(!pSource->IsVisible(TRUE))
-		return;
+		m_layoutDirty = (hSource == m_swnd || bSourceResizable ) ? dirty_self:dirty_child;
 
 	CRect rcSour = pSource->GetWindowRect();
     while(rcSour.IsRectEmpty())

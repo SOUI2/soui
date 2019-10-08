@@ -1,7 +1,6 @@
 ﻿#include "souistd.h"
 #include "layout\SLinearLayout.h"
 #include "helper\SplitString.h"
-#include <algorithm>
 
 namespace SOUI
 {
@@ -196,6 +195,12 @@ namespace SOUI
 		return (SLinearLayoutParamStruct*)this;
 	}
 
+	ILayoutParam * SLinearLayoutParam::Clone() const
+	{
+		SLinearLayoutParam *pRet = new SLinearLayoutParam();
+		memcpy(pRet->GetRawData(), (SLinearLayoutParamStruct*)this, sizeof(SLinearLayoutParamStruct));
+		return pRet;
+	}
 
 	//////////////////////////////////////////////////////////////////////////
     SLinearLayout::SLinearLayout(void):m_gravity(G_Undefined)
@@ -210,12 +215,15 @@ namespace SOUI
     {
         CRect rcParent = pParent->GetChildrenLayoutRect();
 		        
-        CSize *pSize = new CSize [pParent->GetChildrenCount()];
+        SIZE *pSize = new SIZE [pParent->GetChildrenCount()];
 		SWindow ** pChilds = new SWindow * [pParent->GetChildrenCount()];
+		memset(pSize,0,sizeof(SIZE)*pParent->GetChildrenCount());
+
 		int nChilds = 0;
 		
         int offset = 0;
         float fWeight= 0.0f;
+		int interval = m_interval.toPixelSize(pParent->GetScale());
 
         {//assign width or height
 
@@ -269,27 +277,56 @@ namespace SOUI
                 pSize [iChild] = szChild;
                 offset += m_orientation == Vert ? szChild.cy:szChild.cx;
 
+				offset += interval;//add interval
+
 				iChild++;
 				pChild=pParent->GetNextLayoutChild(pChild);
             }
 
 			nChilds = iChild;
+			offset -= interval;//sub the last interval value.
         }
 
+
         int size = m_orientation == Vert? rcParent.Height():rcParent.Width();
+		ORIENTATION orienOther = m_orientation == Vert?Horz:Vert;
         if(fWeight > 0.0f && size > offset)
         {//assign size by weight
-            int nRemain = size - offset;
+            int nRemain = size - offset;						
+
 			for(int iChild = 0;iChild < nChilds;iChild ++)
             {
+				if (SLayoutSize::fequal(fWeight, 0.0f))
+					break;
 				SWindow *pChild = pChilds[iChild];
-
 				SLinearLayoutParam *pLinearLayoutParam = pChild->GetLayoutParamT<SLinearLayoutParam>();
-
                 if(pLinearLayoutParam->weight > 0.0f)
                 {
-                    LONG & szChild = m_orientation == Vert? pSize[iChild].cy:pSize[iChild].cx;
-                    szChild += (int)(nRemain*pLinearLayoutParam->weight/fWeight);
+					int extra = int(nRemain*pLinearLayoutParam->weight / fWeight + 0.5f);
+					LONG & szChild = m_orientation == Vert? pSize[iChild].cy:pSize[iChild].cx;
+                    szChild += extra;
+					nRemain -= extra;
+					fWeight -= pLinearLayoutParam->weight;
+
+					if(pLinearLayoutParam->IsWrapContent(orienOther))
+					{
+						ILayoutParam * backup = pLinearLayoutParam->Clone();
+						pLinearLayoutParam->SetSpecifiedSize(m_orientation,SLayoutSize((float)szChild,SLayoutSize::dp));
+						int nWid = pSize[iChild].cx, nHei = pSize[iChild].cy;
+
+						if(orienOther == Vert) 
+							nHei = SIZE_WRAP_CONTENT;
+						else 
+							nWid = SIZE_WRAP_CONTENT;
+
+						CSize szCalc = pChild->GetDesiredSize(nWid,nHei);
+						if(orienOther == Vert)
+							pSize[iChild].cy = szCalc.cy;
+						else
+							pSize[iChild].cx = szCalc.cx;
+						pChild->SetLayoutParam(backup);
+						backup->Release();
+					}
                 }
             }
         }
@@ -298,7 +335,6 @@ namespace SOUI
 			for(int iChild = 0;iChild < nChilds;iChild ++)
 			{
 				SWindow *pChild = pChilds[iChild];
-
 
                 SLinearLayoutParam *pLinearLayoutParam = pChild->GetLayoutParamT<SLinearLayoutParam>();
 				int nScale = pChild->GetScale();
@@ -343,7 +379,7 @@ namespace SOUI
 
                     offset += rcChild.Width();
                 }
-
+				offset += interval;
             }
 
         }
@@ -354,82 +390,150 @@ namespace SOUI
     }
 
 	//nWidth,nHeight == -1:wrap_content
-	CSize SLinearLayout::MeasureChildren(SWindow * pParent,int nWidth,int nHeight) const
+	CSize SLinearLayout::MeasureChildren(const SWindow * pParent,int nWidth,int nHeight) const
 	{
-		CSize *pSize = new CSize [pParent->GetChildrenCount()];
-
+		SIZE *pSize = new SIZE [pParent->GetChildrenCount()];
+		memset(pSize,0,sizeof(SIZE)*pParent->GetChildrenCount());
+		SWindow ** ppChilds = new SWindow *[pParent->GetChildrenCount()];
 
         ILayoutParam * pParentLayoutParam = pParent->GetLayoutParam();
 
-		int iChild = 0;
+		float fWeight = 0;
+        int nChilds = 0;
+        {
+			int iChild = 0;
 
-		SWindow *pChild = pParent->GetNextLayoutChild(NULL);
-		while(pChild)
-		{
-			SLinearLayoutParam *pLinearLayoutParam = pChild->GetLayoutParamT<SLinearLayoutParam>();
-			int nScale = pChild->GetScale();
-			CSize szChild(SIZE_WRAP_CONTENT,SIZE_WRAP_CONTENT);
-			if(pLinearLayoutParam->IsMatchParent(Horz))
-            {
-                if(!pParentLayoutParam->IsWrapContent(Horz))
-                    szChild.cx = nWidth;
-            }
-			else if(pLinearLayoutParam->IsSpecifiedSize(Horz))
-            {
-                szChild.cx = pLinearLayoutParam->GetSpecifiedSize(Horz).toPixelSize(nScale);
-                szChild.cx += pLinearLayoutParam->extend_left.toPixelSize(nScale) + pLinearLayoutParam->extend_right.toPixelSize(nScale);
-            }
-			if(pLinearLayoutParam->IsMatchParent(Vert))
-            {
-                if(!pParentLayoutParam->IsWrapContent(Vert))
-                    szChild.cy = nHeight;
-            }
-			else if(pLinearLayoutParam->IsSpecifiedSize(Vert))
-            {
-                szChild.cy = pLinearLayoutParam->GetSpecifiedSize(Vert).toPixelSize(nScale);
-                szChild.cy += pLinearLayoutParam->extend_top.toPixelSize(nScale) + pLinearLayoutParam->extend_bottom.toPixelSize(nScale);
-            }
-			if(szChild.cx == SIZE_WRAP_CONTENT || szChild.cy == SIZE_WRAP_CONTENT)
+			SWindow *pChild = pParent->GetNextLayoutChild(NULL);
+			while(pChild)
 			{
-                int nWid = szChild.cx, nHei = szChild.cy;
-                if(nWid == SIZE_WRAP_CONTENT)
-                    nWid = nWidth * pParentLayoutParam->IsWrapContent(Horz)?-1:1; //把父窗口的WrapContent属性通过-1标志传递给GetDesiredSize
-                if(nHei == SIZE_WRAP_CONTENT)
-                    nHei = nHeight * pParentLayoutParam->IsWrapContent(Vert)?-1:1;//把父窗口的WrapContent属性通过-1标志传递给GetDesiredSize
+				SLinearLayoutParam *pLinearLayoutParam = pChild->GetLayoutParamT<SLinearLayoutParam>();
+				int nScale = pChild->GetScale();
+				CSize szChild(SIZE_WRAP_CONTENT,SIZE_WRAP_CONTENT);
+				if(pLinearLayoutParam->IsMatchParent(Horz))
+				{
+					if(!pParentLayoutParam->IsWrapContent(Horz))
+						szChild.cx = nWidth;
+				}
+				else if(pLinearLayoutParam->IsSpecifiedSize(Horz))
+				{
+					szChild.cx = pLinearLayoutParam->GetSpecifiedSize(Horz).toPixelSize(nScale);
+					szChild.cx += pLinearLayoutParam->extend_left.toPixelSize(nScale) + pLinearLayoutParam->extend_right.toPixelSize(nScale);
+				}
+				if(pLinearLayoutParam->IsMatchParent(Vert))
+				{
+					if(!pParentLayoutParam->IsWrapContent(Vert))
+						szChild.cy = nHeight;
+				}
+				else if(pLinearLayoutParam->IsSpecifiedSize(Vert))
+				{
+					szChild.cy = pLinearLayoutParam->GetSpecifiedSize(Vert).toPixelSize(nScale);
+					szChild.cy += pLinearLayoutParam->extend_top.toPixelSize(nScale) + pLinearLayoutParam->extend_bottom.toPixelSize(nScale);
+				}
+				if(szChild.cx == SIZE_WRAP_CONTENT || szChild.cy == SIZE_WRAP_CONTENT)
+				{
+					int nWid = szChild.cx, nHei = szChild.cy;
 
-				CSize szCalc = pChild->GetDesiredSize(nWid,nHei);
-				if(szChild.cx == SIZE_WRAP_CONTENT) 
-                {
-                    szChild.cx = szCalc.cx;
-                    szChild.cx += pLinearLayoutParam->extend_left.toPixelSize(nScale) + pLinearLayoutParam->extend_right.toPixelSize(nScale);
-                }
-				if(szChild.cy == SIZE_WRAP_CONTENT) 
-                {
-                    szChild.cy = szCalc.cy;
-                    szChild.cy += pLinearLayoutParam->extend_top.toPixelSize(nScale) + pLinearLayoutParam->extend_bottom.toPixelSize(nScale);
-                }
+					CSize szCalc = pChild->GetDesiredSize(nWid,nHei);
+					if(szChild.cx == SIZE_WRAP_CONTENT) 
+					{
+						szChild.cx = szCalc.cx;
+						szChild.cx += pLinearLayoutParam->extend_left.toPixelSize(nScale) + pLinearLayoutParam->extend_right.toPixelSize(nScale);
+					}
+					if(szChild.cy == SIZE_WRAP_CONTENT) 
+					{
+						szChild.cy = szCalc.cy;
+						szChild.cy += pLinearLayoutParam->extend_top.toPixelSize(nScale) + pLinearLayoutParam->extend_bottom.toPixelSize(nScale);
+					}
+				}
+				fWeight += pLinearLayoutParam->weight;
+
+				ppChilds[iChild]=pChild;
+				pSize [iChild] = szChild;
+				pChild = pParent->GetNextLayoutChild(pChild);
+				iChild++;
 			}
+			nChilds = iChild;
+        }
 
-			pSize [iChild++] = szChild;
+		int size = m_orientation == Vert? nHeight:nWidth;
+		int nInterval = m_interval.toPixelSize(pParent->GetScale());
+		if(!SLayoutSize::fequal(fWeight,0.0f)
+			&& size != SIZE_WRAP_CONTENT )
+		{//assign weight for elements. and calc size of other orientation again.
+			int offset = 0;
+			for(int i=0;i<nChilds;i++)
+			{
+				offset += m_orientation == Vert?pSize[i].cy:pSize[i].cx;
+			}
+			offset += nInterval * (nChilds-1);
+			if(offset < size)
+			{//assign size by weight
+				int nRemain = size - offset;						
 
-			pChild = pParent->GetNextLayoutChild(pChild);
+				ORIENTATION orienOther = m_orientation == Vert?Horz:Vert;
+				for(int iChild = 0;iChild < nChilds;iChild ++)
+				{
+					if (SLayoutSize::fequal(fWeight, 0.0f))
+						break;
+					SWindow *pChild = ppChilds[iChild];
+					SLinearLayoutParam *pLinearLayoutParam = pChild->GetLayoutParamT<SLinearLayoutParam>();
+					if(pLinearLayoutParam->weight > 0.0f)
+					{
+						int extra = int(nRemain*pLinearLayoutParam->weight / fWeight + 0.5f);
+						LONG & szChild = m_orientation == Vert? pSize[iChild].cy:pSize[iChild].cx;
+						szChild += extra;
+						nRemain -= extra;
+						fWeight -= pLinearLayoutParam->weight;
+
+						if(!pLinearLayoutParam->IsSpecifiedSize(orienOther))
+						{//As pChild->GetDesiredSize may use layout param to get specified size, we must set it to new size.
+							ILayoutParam * backup = pLinearLayoutParam->Clone();
+							pLinearLayoutParam->SetSpecifiedSize(m_orientation,SLayoutSize((float)szChild,SLayoutSize::dp));
+							pLinearLayoutParam->SetWrapContent(orienOther);
+							int nWid = pSize[iChild].cx, nHei = pSize[iChild].cy;
+
+							if(orienOther == Vert) 
+								nHei = SIZE_WRAP_CONTENT;
+							else 
+								nWid = SIZE_WRAP_CONTENT;
+
+							CSize szCalc = pChild->GetDesiredSize(nWid,nHei);
+							if(orienOther == Vert)
+								pSize[iChild].cy = szCalc.cy;
+							else
+								pSize[iChild].cx = szCalc.cx;
+							pChild->SetLayoutParam(backup);
+							backup->Release();
+						}
+					}
+				}
+			}
 		}
-		
 
 		CSize szRet;
-		for(int i=0;i<iChild;i++)
+		for(int i=0;i<nChilds;i++)
 		{
 			if(m_orientation == Horz)
 			{
+				szRet.cy = smax(szRet.cy,pSize[i].cy);
 				szRet.cx += pSize[i].cx;
-				szRet.cy = (std::max)(szRet.cy,pSize[i].cy);
 			}else
 			{
-				szRet.cx = (std::max)(szRet.cx,pSize[i].cx);
+				szRet.cx = smax(szRet.cx,pSize[i].cx);
 				szRet.cy += pSize[i].cy;
 			}
 		}
+		//add intervals
+		if (m_orientation == Horz)
+		{
+			szRet.cx += nInterval * (nChilds-1);
+		}
+		else
+		{
+			szRet.cy += nInterval * (nChilds - 1);
+		}
 		delete []pSize;
+		delete []ppChilds;
 		return szRet;
 	}
 

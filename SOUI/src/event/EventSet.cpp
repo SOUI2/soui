@@ -56,7 +56,7 @@ namespace SOUI
         // execute all subscribers, updating the 'handled' state as we go
         for (int i=(int)m_evtSlots.GetCount()-1;i>=0; i--)
         {//the latest event handler handles the event first.
-            BOOL bHandled = (*m_evtSlots[i])(&args);
+            bool bHandled = (*m_evtSlots[i])(&args);
             if(bHandled)
             {
                 ++args.handled;
@@ -163,6 +163,14 @@ namespace SOUI
         if(!isEventPresent(dwEventID)) return false;
         return GetEventObject(dwEventID)->unsubscribe(subscriber);
     }
+
+#if _MSC_VER >= 1700	//VS2012
+	bool SEventSet::subscribeEvent(DWORD dwEventID, const EventCallback & eventCallback)
+	{
+		if (!isEventPresent(dwEventID)) return false;
+		return GetEventObject(dwEventID)->subscribe(StdFunctionSlot(eventCallback));
+	}
+#endif
 
     bool SEventSet::setEventScriptHandler( const SStringW & strEventName,const SStringA strScriptHandler )
     {

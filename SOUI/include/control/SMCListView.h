@@ -69,6 +69,7 @@ namespace SOUI
         }
 
 		void UpdateVisibleItems();
+		void UpdateVisibleItem(int iItem);
 
         void SetItemLocator(IListViewItemLocator *pItemLocator);
         void EnsureVisible( int iItem );
@@ -86,7 +87,7 @@ namespace SOUI
     protected:
         void onDataSetChanged();
         void onDataSetInvalidated();
-        
+        void onItemDataChanged(int iItem);
     protected:
         bool OnItemClick(EventArgs *pEvt);
 
@@ -123,6 +124,7 @@ namespace SOUI
         BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
         void OnKillFocus(SWND wndFocus);
         void OnSetFocus(SWND wndOld);
+		void OnShowWindow(BOOL bShow, UINT nStatus);
 
         SOUI_MSG_MAP_BEGIN()
             MSG_WM_PAINT_EX(OnPaint)
@@ -133,6 +135,7 @@ namespace SOUI
             MSG_WM_KEYDOWN(OnKeyDown)
             MSG_WM_SETFOCUS_EX(OnSetFocus)
             MSG_WM_KILLFOCUS_EX(OnKillFocus)
+			MSG_WM_SHOWWINDOW(OnShowWindow)
             MESSAGE_RANGE_HANDLER_EX(WM_MOUSEFIRST,WM_MOUSELAST,OnMouseEvent)
             MESSAGE_RANGE_HANDLER_EX(WM_KEYFIRST,WM_KEYLAST,OnKeyEvent)
             MESSAGE_RANGE_HANDLER_EX(WM_IME_STARTCOMPOSITION,WM_IME_KEYLAST,OnKeyEvent)
@@ -154,6 +157,9 @@ namespace SOUI
             SItemPanel *pItem;
             int nType;
         };
+
+		bool							m_bPendingUpdate;//response for data set changed in OnShowWindow.
+		int								m_iPendingUpdateItem; //-1 for all. -2 for nothing
 
         int                             m_iFirstVisible;//第一个显示项索引
         SList<ItemInfo>                 m_lstItems; //当前正在显示的项

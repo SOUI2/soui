@@ -21,11 +21,16 @@ include($$dir/common.pri)
 QMAKE_CXXFLAGS -= /MP
 
 
+#import skmatrix module from dll.
+!LIB_ALL:!COM_LIB{
+	DEFINES += SKMATRIX_DLL
+}
+
 CONFIG(debug,debug|release){
-	LIBS += utilitiesd.lib souid.lib mhookd.lib smileyd.lib
+	LIBS += utilitiesd.lib souid.lib mhookd.lib smileyd.lib skmatrixd.lib
 }
 else{
-	LIBS += utilities.lib soui.lib mhook.lib smiley.lib
+	LIBS += utilities.lib soui.lib mhook.lib smiley.lib skmatrix.lib
 }
 
 
@@ -67,12 +72,15 @@ HEADERS += MainDlg.h \
           ../controls.extend/smiley/SSmileyCtrl.h \
           ../controls.extend/tipwnd.h \
           ../controls.extend/sprogressring.h \
+          ../controls.extend/saniwindow.h \
+          ../controls.extend/sgrouplist.h \
           ../controls.extend/SMcListViewEx/STabCtrlHeaderBinder.h \
           httpsvr/filereader-i.h \
           httpsvr/genericserver.h \
           httpsvr/httpserver.h \
           magnet/magnetframe.h \
           smatrixwindow.h \
+		  sroundimage.h \
           memflash.h \          
           threadObject.h \
           SmileyCreateHook.h \
@@ -88,7 +96,8 @@ HEADERS += MainDlg.h \
           SInterpolatorView.h \
           qrcode/SQrCtrl.h \
           qrcode/QR_Encode.h \
-          SPathView.h
+          SPathView.h \
+          SCheckBox2.h \
 
 SOURCES += demo.cpp \
           MainDlg.cpp \
@@ -124,11 +133,14 @@ SOURCES += demo.cpp \
           ../controls.extend/SFreeMoveWindow.cpp \
           ../controls.extend/tipwnd.cpp \
           ../controls.extend/sprogressring.cpp \
+          ../controls.extend/saniwindow.cpp \
+          ../controls.extend/sgrouplist.cpp \
           httpsvr/genericserver.cpp \
           httpsvr/httpserver.cpp \
           magnet/magnetframe.cpp \
           memflash.cpp	\
-          smatrixwindow.cpp \           
+          smatrixwindow.cpp \ 
+		  sroundimage.cpp \          
           threadObject.cpp \
           SmileyCreateHook.cpp \
           uianimation/uianimationwnd.cpp \
@@ -142,7 +154,8 @@ SOURCES += demo.cpp \
           SInterpolatorView.cpp \
           qrcode/SQrCtrl.cpp \
           qrcode/QR_Encode.cpp \
-          SPathView.cpp
+          SPathView.cpp \
+          SCheckBox2.cpp \
 
 RC_FILE += demo.rc
 

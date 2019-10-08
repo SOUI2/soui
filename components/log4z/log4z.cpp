@@ -111,7 +111,7 @@ static const char *const LOG_STRING[]=
 };
 
 #if defined (WIN32) || defined(_WIN64)
-const static WORD LOG_COLOR[LOG_LEVEL_FATAL + 1] = {
+const static WORD LOG_COLOR[ILog4zManager::LOG_LEVEL_FATAL + 1] = {
     0,
     0,
     FOREGROUND_BLUE | FOREGROUND_GREEN,
@@ -172,6 +172,15 @@ public:
         return std::string();
     }
     inline const std::string readContent();
+
+	inline size_t size() const{
+		if(!_file) return 0;
+		size_t pos = ftell(_file);
+		fseek(_file,0,SEEK_END);
+		size_t ret = ftell(_file);
+		fseek(_file,pos,SEEK_SET);
+		return ret;
+	}
 public:
     FILE *_file;
 };
@@ -303,10 +312,15 @@ struct LogData
 {
     LoggerId _id;        //dest logger id
     int    _level;    //log level
-    time_t _time;        //create time
-    unsigned int _precise; //create time 
-    int _contentLen;
-    char _content[LOG4Z_LOG_BUF_SIZE]; //content
+    unsigned __int64 _time;        //create time
+	DWORD _pid;
+	DWORD _tid;
+	std::string _content; //content
+	std::string _filter;
+	std::string _moduleName;
+	std::string _file;
+	std::string _func;
+	int         _line;
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -327,12 +341,8 @@ struct LoggerInfo
 
     //! runtime info
     time_t _curFileCreateTime;    //file create time
-    unsigned int _curFileIndex; //rolling file index
     unsigned int _curWriteLen;  //current file length
     Log4zFileHandler    _handle;        //file handle.
-
-    //! hot update name or path for the logger 
-    bool _hotChange;
     
     LoggerInfo()
     {
@@ -346,14 +356,11 @@ struct LoggerInfo
         _fileLine = LOG4Z_DEFAULT_SHOWSUFFIX;
 
         _curFileCreateTime = 0;
-        _curFileIndex = 0;
         _curWriteLen = 0;
-
-        _hotChange = false;
     }
 };
 
-class COutoutFileBuilder : public IOutputFileBuilder
+class COutoutFileBuilder : public ILog4zManager::IOutputFileBuilder
 {
 public:
     virtual bool monthDir() const
@@ -417,6 +424,8 @@ public:
     virtual unsigned long long getStatusTotalWriteBytes(){return _ullStatusTotalWriteFileBytes;}
     virtual unsigned long long getStatusWaitingCount(){return _ullStatusTotalPushLog - _ullStatusTotalPopLog;}
     virtual unsigned int getStatusActiveLoggers();
+	virtual void setOutputListener(IOutputListener *pListener);
+
 protected:
     void showColorText(const char *text, int level = LOG_LEVEL_DEBUG);
     LoggerId getLoggerId(const char * name);
@@ -426,13 +435,10 @@ protected:
     bool popLog(LogData *& log);
     virtual void run();
 
-
 private:
 
     //! thread status.
     bool        _runing;
-    //! wait thread started.
-    SemHelper        _semaphore;
 
     //! hot change name or path for one logger
     LockHelper _hotLock;
@@ -470,6 +476,7 @@ private:
     unsigned long long _ullStatusTotalPopLog;
 
     IOutputFileBuilder * m_pOutputFileBuilder;
+	IOutputListener    * m_pListener;
 };
 
 
@@ -686,31 +693,31 @@ static bool parseConfigLine(const std::string& line, int curLineNum, std::string
     {
         if (kv.second == "trace" || kv.second == "all")
         {
-            iter->second._level = LOG_LEVEL_TRACE;
+            iter->second._level = ILog4zManager::LOG_LEVEL_TRACE;
         }
         else if (kv.second == "debug")
         {
-            iter->second._level = LOG_LEVEL_DEBUG;
+            iter->second._level = ILog4zManager::LOG_LEVEL_DEBUG;
         }
         else if (kv.second == "info")
         {
-            iter->second._level = LOG_LEVEL_INFO;
+            iter->second._level = ILog4zManager::LOG_LEVEL_INFO;
         }
         else if (kv.second == "warn" || kv.second == "warning")
         {
-            iter->second._level = LOG_LEVEL_WARN;
+            iter->second._level = ILog4zManager::LOG_LEVEL_WARN;
         }
         else if (kv.second == "error")
         {
-            iter->second._level = LOG_LEVEL_ERROR;
+            iter->second._level = ILog4zManager::LOG_LEVEL_ERROR;
         }
         else if (kv.second == "alarm")
         {
-            iter->second._level = LOG_LEVEL_ALARM;
+            iter->second._level = ILog4zManager::LOG_LEVEL_ALARM;
         }
         else if (kv.second == "fatal")
         {
-            iter->second._level = LOG_LEVEL_FATAL;
+            iter->second._level = ILog4zManager::LOG_LEVEL_FATAL;
         }
     }
     //! display
@@ -1169,6 +1176,7 @@ LogerManager::LogerManager()
     _loggers[LOG4Z_MAIN_LOGGER_ID]._name = _proName;
     
     m_pOutputFileBuilder = & s_defOutputFileBuilder;
+	m_pListener = NULL;
 }
 
 LogerManager::~LogerManager()
@@ -1343,9 +1351,7 @@ bool LogerManager::start()
     {
         return false;
     }
-    _semaphore.create(0);
-    bool ret = ThreadHelper::start();
-    return ret && _semaphore.wait(3000);
+    return ThreadHelper::start();
 }
 bool LogerManager::stop()
 {
@@ -1403,7 +1409,12 @@ bool LogerManager::pushLog(LoggerId id, int level, const char * filter, const ch
     LogData * pLog = new LogData;
     pLog->_id =id;
     pLog->_level = level;
-    
+    pLog->_filter = filter;
+	pLog->_content = log;
+	if(file != NULL) pLog->_file = file;
+	pLog->_func = func;
+	pLog->_line = line;
+
     //append precise time to log
     {
 #if defined (WIN32) || defined(_WIN64)
@@ -1415,136 +1426,30 @@ bool LogerManager::pushLog(LoggerId id, int level, const char * filter, const ch
         now /=10;
         now -=11644473600000000ULL;
         now /=1000;
-        pLog->_time = now/1000;
-        pLog->_precise = (unsigned int)(now%1000);
+        pLog->_time = now;
 #else
         struct timeval tm;
         gettimeofday(&tm, NULL);
-        pLog->_time = tm.tv_sec;
-        pLog->_precise = tm.tv_usec/1000;
+        pLog->_time = tm.tv_sec*1000+tm.tv_usec/1000;
 #endif
     }
     
-    char szPath[MAX_PATH]={0};
-    char *pModuleName = szPath;
-    DWORD  pid=0, tid=0;
 #if defined (WIN32) || defined(_WIN64)
+	char szPath[MAX_PATH]={0};
+	char *pModuleName = szPath;
     if(pRetAddr)
     {
         HMODULE hMod = 0;
-        GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,(LPCSTR)pRetAddr,&hMod);
+        GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS| GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,(LPCSTR)pRetAddr,&hMod);
         GetModuleFileNameA(hMod,szPath,100);
         pModuleName = strrchr(szPath,'\\')+1;
     }
-    pid = GetCurrentProcessId();
-    tid = GetCurrentThreadId();
+	pLog->_moduleName = pModuleName;
+    pLog->_pid = GetCurrentProcessId();
+    pLog->_tid = GetCurrentThreadId();
 #endif
 
-    //format log
-    {
-        tm tt = timeToTm(pLog->_time);
-        if (file == NULL || !_loggers[pLog->_id]._fileLine)
-        {
-#if defined (WIN32) || defined(_WIN64)
 
-            int ret = _snprintf_s(pLog->_content, LOG4Z_LOG_BUF_SIZE, _TRUNCATE, "pid=%u tid=%u %d-%02d-%02d %02d:%02d:%02d.%03d %s %s %s \"%s\"\r\n",
-                pid, tid,
-                tt.tm_year + 1900, tt.tm_mon + 1, tt.tm_mday, tt.tm_hour, tt.tm_min, tt.tm_sec, pLog->_precise,
-                LOG_STRING[pLog->_level], pModuleName, filter, log);
-            if (ret == -1)
-            {
-                ret = LOG4Z_LOG_BUF_SIZE - 1;
-            }
-            pLog->_contentLen = ret;
-#else
-            int ret = snprintf(pLog->_content, LOG4Z_LOG_BUF_SIZE, "%d-%02d-%02d %02d:%02d:%02d.%03d %s %s %s\r\n",
-                tt.tm_year + 1900, tt.tm_mon + 1, tt.tm_mday, tt.tm_hour, tt.tm_min, tt.tm_sec, pLog->_precise,
-                LOG_STRING[pLog->_level],filter, log);
-            if (ret == -1)
-            {
-                ret = 0;
-            }
-            if (ret >= LOG4Z_LOG_BUF_SIZE)
-            {
-                ret = LOG4Z_LOG_BUF_SIZE-1;
-            }
-
-            pLog->_contentLen = ret;
-#endif
-        }
-        else
-        {
-#if defined (WIN32) || defined(_WIN64)
-            const char * pNameBegin = strrchr(file,'\\');
-#else
-            const char * pNameBegin = strrchr(file,'/');
-#endif
-            if(!pNameBegin) pNameBegin = file;
-            else pNameBegin ++;            
-            
-#if defined (WIN32) || defined(_WIN64)
-            int ret = _snprintf_s(pLog->_content, LOG4Z_LOG_BUF_SIZE, _TRUNCATE, "pid=%u tid=%u %d-%02d-%02d %02d:%02d:%02d.%03d %s %s %s \"%s\" %s (%s):%d\r\n",
-                pid, tid,
-                tt.tm_year + 1900, tt.tm_mon + 1, tt.tm_mday, tt.tm_hour, tt.tm_min, tt.tm_sec, pLog->_precise,
-                LOG_STRING[pLog->_level], pModuleName, filter, log, func, pNameBegin, line);
-            if (ret == -1)
-            {
-                ret = LOG4Z_LOG_BUF_SIZE - 1;
-            }
-            pLog->_contentLen = ret;
-#else
-            int ret = snprintf(pLog->_content, LOG4Z_LOG_BUF_SIZE, "%d-%02d-%02d %02d:%02d:%02d.%03d %s %s %s (%s):%d %s\r\n",
-                tt.tm_year + 1900, tt.tm_mon + 1, tt.tm_mday, tt.tm_hour, tt.tm_min, tt.tm_sec, pLog->_precise,
-                LOG_STRING[pLog->_level], filter, log, pNameBegin, line, func);
-            if (ret == -1)
-            {
-                ret = 0;
-            }
-            if (ret >= LOG4Z_LOG_BUF_SIZE)
-            {
-                ret = LOG4Z_LOG_BUF_SIZE-1;
-            }
-
-            pLog->_contentLen = ret;
-#endif
-        }
-    
-        if (pLog->_contentLen >= 2)
-        {
-            pLog->_content[pLog->_contentLen - 2] = '\r';
-            pLog->_content[pLog->_contentLen - 1] = '\n';
-        }
-    }
-
-    if (_loggers[pLog->_id]._display && LOG4Z_ALL_SYNCHRONOUS_OUTPUT)
-    {
-        showColorText(pLog->_content, pLog->_level);
-    }
-
-	if (LOG4Z_ALL_DEBUGOUTPUT_DISPLAY && LOG4Z_ALL_SYNCHRONOUS_OUTPUT)
-	{
-#if defined (WIN32) || defined(_WIN64)
-		OutputDebugStringA(pLog->_content);
-#endif
-	}
-
-    if (_loggers[pLog->_id]._outfile && LOG4Z_ALL_SYNCHRONOUS_OUTPUT)
-    {
-        AutoLock l(_logLock);
-        if (openLogger(pLog))
-        {
-            _loggers[pLog->_id]._handle.write(pLog->_content, pLog->_contentLen);
-            closeLogger(pLog->_id);
-            _ullStatusTotalWriteFileCount++;
-            _ullStatusTotalWriteFileBytes += pLog->_contentLen;
-        }
-    }
-
-    if (LOG4Z_ALL_SYNCHRONOUS_OUTPUT)
-    {
-        delete pLog;
-        return true;
-    }
     
     AutoLock l(_logLock);
     _logs.push_back(pLog);
@@ -1568,10 +1473,6 @@ bool LogerManager::enableLogger(LoggerId id, bool enable)
 {
     if (id <0 || id > _lastId) return false;
     _loggers[id]._enable = enable;
-    if (enable)
-    {
-        _loggers[id]._hotChange = true;
-    }
     return true;
 }
 bool LogerManager::setLoggerLevel(LoggerId id, int level)
@@ -1595,6 +1496,7 @@ bool LogerManager::setLoggerOutFile(LoggerId id, bool enable)
 
 void LogerManager::setOutputFileBuilder(IOutputFileBuilder *pOutputFileBuilder)
 {
+	AutoLock l(_logLock);
     m_pOutputFileBuilder = pOutputFileBuilder;
 }
 
@@ -1626,7 +1528,6 @@ bool LogerManager::setLoggerName(LoggerId id, const char * name)
     if (_loggers[id]._name != name)
     {
         _loggers[id]._name = name;
-        _loggers[id]._hotChange = true;
     }
     return true;
 }
@@ -1656,7 +1557,6 @@ bool LogerManager::setLoggerPath(LoggerId id, const char * path)
     if (copyPath != _loggers[id]._path)
     {
         _loggers[id]._path = copyPath;
-        _loggers[id]._hotChange = true;
     }
     return true;
 }
@@ -1709,7 +1609,7 @@ bool LogerManager::openLogger(LogData * pLog)
     int id = pLog->_id;
     if (id < 0 || id >_lastId)
     {
-        showColorText("log4z: openLogger can not open, invalide logger id! \r\n", LOG_LEVEL_FATAL);
+        showColorText("log4z: openLogger can not open, invalid logger id! \r\n", LOG_LEVEL_FATAL);
         return false;
     }
 
@@ -1719,22 +1619,30 @@ bool LogerManager::openLogger(LogData * pLog)
         return false;
     }
 
-    bool sameday = isSameDay(pLog->_time, pLogger->_curFileCreateTime);
     bool needChangeFile = pLogger->_curWriteLen > pLogger->_limitsize * 1024 * 1024;
-    if ((!sameday && m_pOutputFileBuilder->dayLog()) || needChangeFile || pLogger->_hotChange)
+    if ( needChangeFile)
     {
-        if (!sameday || pLogger->_hotChange)
-        {
-            pLogger->_curFileIndex = 0;
-        }
-        else
-        {
-            pLogger->_curFileIndex++;
-        }
         if (pLogger->_handle.isOpen())
         {
             pLogger->_handle.close();
         }
+
+		std::string name = pLogger->_name;
+		char buf[MAX_PATH];
+		tm t = timeToTm(pLogger->_curFileCreateTime);
+
+		const int KMaxLogIndex = 5;
+		m_pOutputFileBuilder->buildOutputFile(buf,100,t,name.c_str(),_pid,KMaxLogIndex);        		
+		std::string path = pLogger->_path+buf;
+		remove(path.c_str());
+		for(int i=KMaxLogIndex;i>0;i--)//max to 5 log index.
+		{
+			m_pOutputFileBuilder->buildOutputFile(buf,100,t,name.c_str(),_pid,i-1);        		
+			std::string pathOld = pLogger->_path+buf;
+			m_pOutputFileBuilder->buildOutputFile(buf,100,t,name.c_str(),_pid,i);        		
+			std::string pathNew = pLogger->_path+buf;
+			rename(pathOld.c_str(),pathNew.c_str());
+		}
     }
     if (!pLogger->_handle.isOpen())
     {
@@ -1747,30 +1655,24 @@ bool LogerManager::openLogger(LogData * pLog)
         _hotLock.lock();
         name = pLogger->_name;
         path = pLogger->_path;
-        pLogger->_hotChange = false;
         _hotLock.unLock();
         
         char buf[100] = { 0 };
-        if (m_pOutputFileBuilder->monthDir())
-        {
-            sprintf(buf, "%04d_%02d/", t.tm_year + 1900, t.tm_mon + 1);
-            path += buf;
-        }
-
         if (!isDirectory(path))
         {
             createRecursionDir(path);
         }
         
-        m_pOutputFileBuilder->buildOutputFile(buf,100,t,name.c_str(),_pid,pLogger->_curFileIndex);
-        
+        m_pOutputFileBuilder->buildOutputFile(buf,100,t,name.c_str(),_pid,0);        
         path += buf;
+
         pLogger->_handle.open(path.c_str(), "ab");
         if (!pLogger->_handle.isOpen())
         {
             pLogger->_outfile = false;
             return false;
         }
+		pLogger->_curWriteLen = pLogger->_handle.size();
         return true;
     }
     return true;
@@ -1779,7 +1681,7 @@ bool LogerManager::closeLogger(LoggerId id)
 {
     if (id < 0 || id >_lastId)
     {
-        showColorText("log4z: closeLogger can not close, invalide logger id! \r\n", LOG_LEVEL_FATAL);
+        showColorText("log4z: closeLogger can not close, invalid logger id! \r\n", LOG_LEVEL_FATAL);
         return false;
     }
     LoggerInfo * pLogger = &_loggers[id];
@@ -1821,8 +1723,8 @@ void LogerManager::run()
         }
     }
 
-    _semaphore.post();
 
+	char *pszBuf = new char[LOG4Z_LOG_BUF_SIZE];
 
     LogData * pLog = NULL;
     int needFlush[LOG4Z_LOGGER_MAX] = {0};
@@ -1842,20 +1744,93 @@ void LogerManager::run()
                 continue;
             }
 
-
-            if (curLogger._display && !LOG4Z_ALL_SYNCHRONOUS_OUTPUT)
-            {
-                showColorText(pLog->_content, pLog->_level);
-            }
-            if (LOG4Z_ALL_DEBUGOUTPUT_DISPLAY && !LOG4Z_ALL_SYNCHRONOUS_OUTPUT)
-            {
+			int nContentLen = 0;
+			//format log
+			{
+				tm tt = timeToTm(pLog->_time/1000);
+				if (pLog->_file.empty() || !_loggers[pLog->_id]._fileLine)
+				{
 #if defined (WIN32) || defined(_WIN64)
-                OutputDebugStringA(pLog->_content);
+
+					int ret = _snprintf_s(pszBuf, LOG4Z_LOG_BUF_SIZE, _TRUNCATE, "pid=%u tid=%u %d-%02d-%02d %02d:%02d:%02d.%03d %s %s %s \"%s\"\r\n",
+						pLog->_pid, pLog->_tid,
+						tt.tm_year + 1900, tt.tm_mon + 1, tt.tm_mday, tt.tm_hour, tt.tm_min, tt.tm_sec, (int)(pLog->_time%1000),
+						LOG_STRING[pLog->_level], pLog->_moduleName.c_str(), pLog->_filter.c_str(), pLog->_content.c_str());
+					if (ret == -1)
+					{
+						ret = LOG4Z_LOG_BUF_SIZE - 1;
+					}
+					nContentLen = ret;
+#else
+					int ret = snprintf(pszBuf, LOG4Z_LOG_BUF_SIZE, "%d-%02d-%02d %02d:%02d:%02d.%03d %s %s %s\r\n",
+						tt.tm_year + 1900, tt.tm_mon + 1, tt.tm_mday, tt.tm_hour, tt.tm_min, tt.tm_sec, (int)(pLog->_time%1000),
+						LOG_STRING[pLog->_level],pLog->_filter.c_str(), pLog->_content.c_str());
+					if (ret == -1)
+					{
+						ret = 0;
+					}
+					if (ret >= LOG4Z_LOG_BUF_SIZE)
+					{
+						ret = LOG4Z_LOG_BUF_SIZE-1;
+					}
+
+					nContentLen = ret;
+#endif
+				}
+				else
+				{
+#if defined (WIN32) || defined(_WIN64)
+					const char * pNameBegin = strrchr(pLog->_file.c_str(),'\\');
+#else
+					const char * pNameBegin = strrchr(pLog->_file.c_str(),'/');
+#endif
+					if(!pNameBegin) pNameBegin = pLog->_file.c_str();
+					else pNameBegin ++;            
+
+#if defined (WIN32) || defined(_WIN64)
+					int ret = _snprintf_s(pszBuf, LOG4Z_LOG_BUF_SIZE, _TRUNCATE, "pid=%u tid=%u %d-%02d-%02d %02d:%02d:%02d.%03d %s %s %s \"%s\" %s (%s):%d\r\n",
+						pLog->_pid, pLog->_tid,
+						tt.tm_year + 1900, tt.tm_mon + 1, tt.tm_mday, tt.tm_hour, tt.tm_min, tt.tm_sec, (int)(pLog->_time%1000),
+						LOG_STRING[pLog->_level], pLog->_moduleName.c_str(), pLog->_filter.c_str(), pLog->_content.c_str(), pLog->_func.c_str(), pNameBegin, pLog->_line);
+					if (ret == -1)
+					{
+						ret = LOG4Z_LOG_BUF_SIZE - 1;
+					}
+					nContentLen = ret;
+#else
+					int ret = snprintf(pszBuf, LOG4Z_LOG_BUF_SIZE, "%d-%02d-%02d %02d:%02d:%02d.%03d %s %s %s (%s):%d %s\r\n",
+						tt.tm_year + 1900, tt.tm_mon + 1, tt.tm_mday, tt.tm_hour, tt.tm_min, tt.tm_sec, (int)(pLog->_time%1000),
+						LOG_STRING[pLog->_level], pLog->_filter.c_str(), pLog->_content.c_str(), pNameBegin, pLog->_line, pLog->_func.c_str());
+					if (ret == -1)
+					{
+						ret = 0;
+					}
+					if (ret >= LOG4Z_LOG_BUF_SIZE)
+					{
+						ret = LOG4Z_LOG_BUF_SIZE-1;
+					}
+
+					nContentLen = ret;
+#endif
+				}
+
+			}
+
+
+			if(m_pListener)
+			{
+				m_pListener->onOutputLog(pLog->_level,pLog->_filter.c_str(),pLog->_content.c_str(),pLog->_content.length(),pLog->_time);
+			}
+
+            if (curLogger._display)
+            {
+                showColorText(pszBuf, pLog->_level);
+#if defined (WIN32) || defined(_WIN64)
+				OutputDebugStringA(pszBuf);
 #endif
             }
 
-
-            if (curLogger._outfile && !LOG4Z_ALL_SYNCHRONOUS_OUTPUT)
+            if (curLogger._outfile)
             {
                 if (!openLogger(pLog))
                 {
@@ -1864,16 +1839,16 @@ void LogerManager::run()
                     continue;
                 }
 
-                curLogger._handle.write(pLog->_content, pLog->_contentLen);
-                curLogger._curWriteLen += (unsigned int)pLog->_contentLen;
+                curLogger._handle.write(pszBuf, nContentLen);
+                curLogger._curWriteLen += (unsigned int)nContentLen;
                 needFlush[pLog->_id] ++;
                 _ullStatusTotalWriteFileCount++;
-                _ullStatusTotalWriteFileBytes += pLog->_contentLen;
+                _ullStatusTotalWriteFileBytes += nContentLen;
             }
-            else if (!LOG4Z_ALL_SYNCHRONOUS_OUTPUT)
+            else
             {
                 _ullStatusTotalWriteFileCount++;
-                _ullStatusTotalWriteFileBytes += pLog->_contentLen;
+                _ullStatusTotalWriteFileBytes += nContentLen;
             }
 
             delete pLog;
@@ -1920,10 +1895,13 @@ void LogerManager::run()
             closeLogger(i);
         }
     }
-
+	delete []pszBuf;
 }
 
-
+void LogerManager::setOutputListener(IOutputListener *pListener){
+	AutoLock l(_hotLock);
+	m_pListener = pListener;
+}
 
 SOUI_COM_C BOOL SOUI_COM_API SOUI::LOG4Z::SCreateInstance(IObjRef **ppLogMgr)
 {
