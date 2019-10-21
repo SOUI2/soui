@@ -8,4 +8,6 @@
 |LeagView-UniSDP|UniSDP.exe|2.9|联软科技|http://www.leagsoft.com|无|
 |LeagView-UniNXG|UniNXG.exe|2.8|联软科技|http://www.leagsoft.com|无|
 |EiisysIM|EiisysIM.exe|7.1.0.3|快服科技有限公司|http://www.eiisysim.com|无|
+|客服系统|main|6.1.0.8|快服科技有限公司|https://www.53kf.com|无|
+|账号管家|main|6.0.0.6|快服科技有限公司|https://www.53kf.com/GroupManagement|无|
 |智习客|Wisdom.exe|2.9.0.1|绿网天下(福建)网络科技股份有限公司|http://www.zhixike.com/|无License|
