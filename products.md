@@ -11,3 +11,4 @@
 |客服系统|main|6.1.0.8|快服科技有限公司|https://www.53kf.com|无|
 |账号管家|main|6.0.0.6|快服科技有限公司|https://www.53kf.com/GroupManagement|无|
 |智习客|Wisdom.exe|2.9.0.1|绿网天下(福建)网络科技股份有限公司|http://www.zhixike.com/|无License|
+|智能零售宝云POS|xsmposc.exe|4.3.0.0|中烟新商盟|http://cloudpos.baiwandian.com/|无|
