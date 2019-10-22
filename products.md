@@ -12,3 +12,4 @@
 |账号管家|main|6.0.0.6|快服科技有限公司|https://www.53kf.com/GroupManagement|无|
 |智习客|Wisdom.exe|2.9.0.1|绿网天下(福建)网络科技股份有限公司|http://www.zhixike.com/|无License|
 |智能零售宝云POS|xsmposc.exe|4.3.0.0|中烟新商盟|http://cloudpos.baiwandian.com/|无|
+|CGA平台|CGATool.exe|3.0.15.911|上海浩方在线信息技术有限公司|http://es.cga.com.cn/|无|
