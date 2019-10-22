@@ -42,6 +42,9 @@ SOUI3在SOUI2的基础上完善了矩阵变换，移植了Android的插值动画
 ### 论坛
 - http://www.soui.vip
 
+### SOUI开发产品不完全列表
+- [products.md](./product.md)
+
 ### QQ群
 
 - SOUI讨论#1: [点击加入](http://shang.qq.com/wpa/qunwpa?idkey=9653a811a72365d798a5247d6ba6885a568bdcf51c624f906c8ce7b8fd9e4eda)
