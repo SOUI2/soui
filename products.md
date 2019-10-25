@@ -13,3 +13,6 @@
 |智习客|Wisdom.exe|2.9.0.1|绿网天下(福建)网络科技|http://www.zhixike.com/|无License|
 |智能零售宝云POS|xsmposc.exe|4.3.0.0|中烟新商盟|http://cloudpos.baiwandian.com/|无|
 |CGA平台|CGATool.exe|3.0.15.911|上海浩方|http://es.cga.com.cn/|无|
+|酷跑网游加速器|KuPaoAcce.exe|2.7.19.903|厦门小皮网络|https://www.kupao.com|无|
+|企联网安全服务|qlwSafeSevs.exe|1.0|农信互联|http://qlw.nxin.com|无|
+|天喻软件数据安全平台| TyEnc32.exe TyEnc64.exe|10.0.0.0|武汉天喻软件|内网产品|备注
