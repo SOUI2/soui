@@ -1,18 +1,19 @@
-|²úÆ·Ãû³Æ|Ö÷Ä£¿éÎÄ¼şÃû|°æ±¾|¿ª·¢ÉÌ|²úÆ·ÍøÖ·|±¸×¢|
+|äº§å“åç§°|ä¸»æ¨¡å—æ–‡ä»¶å|ç‰ˆæœ¬|å¼€å‘å•†|äº§å“ç½‘å€|å¤‡æ³¨|
 |:-|:-:|-:|-:|-:|-:|
-|°Ù¶ÈÍøÅÌ|main|6.8.1.3|°Ù¶È|http://pan.baidu.com|ÎŞ|
-|´ï¸»Ò×¹ú¼ÊÆÚ»õ×Ê²ú¹ÜÀíÏµÍ³,½»Ò×¶Ë,¹ñÌ¨¶Ë,¼à¿Ø¶Ë|main|10036|´ïÔ¨Èí¼ş¿Æ¼¼|http://www.dfyruanjian.com/|ÎŞ|
-|Î÷Ë¹ÌØĞÅÏ¢¹ÜÀíÏµÍ³|main|v1.2.0.7|ÉîÛÚÎ÷Ë¹ÌØ¿Æ¼¼|http://www.grind-system.com/|ÎŞ|
-|ÇáÇá¿ÎÌÃ|qingqing.exe|3.5.5.0|ÇáÇá¼Ò½Ì|www.changingedu.com|ÎŞ|
-|LeagView-UniAccess|UniAccessAgent.exe|2.3|ÁªÈí¿Æ¼¼|http://www.leagsoft.com|ÎŞ|
-|LeagView-UniSDP|UniSDP.exe|2.9|ÁªÈí¿Æ¼¼|http://www.leagsoft.com|ÎŞ|
-|LeagView-UniNXG|UniNXG.exe|2.8|ÁªÈí¿Æ¼¼|http://www.leagsoft.com|ÎŞ|
-|EiisysIM|EiisysIM.exe|7.1.0.3|¿ì·ş¿Æ¼¼|http://www.eiisysim.com|ÎŞ|
-|¿Í·şÏµÍ³|main|6.1.0.8|¿ì·ş¿Æ¼¼|https://www.53kf.com|ÎŞ|
-|ÕËºÅ¹Ü¼Ò|main|6.0.0.6|¿ì·ş¿Æ¼¼|https://www.53kf.com/GroupManagement|ÎŞ|
-|ÖÇÏ°¿Í|Wisdom.exe|2.9.0.1|ÂÌÍøÌìÏÂ(¸£½¨)ÍøÂç¿Æ¼¼|http://www.zhixike.com/|ÎŞLicense|
-|ÖÇÄÜÁãÊÛ±¦ÔÆPOS|xsmposc.exe|4.3.0.0|ÖĞÑÌĞÂÉÌÃË|http://cloudpos.baiwandian.com/|ÎŞ|
-|CGAÆ½Ì¨|CGATool.exe|3.0.15.911|ÉÏº£ºÆ·½|http://es.cga.com.cn/|ÎŞ|
-|¿áÅÜÍøÓÎ¼ÓËÙÆ÷|KuPaoAcce.exe|2.7.19.903|ÏÃÃÅĞ¡Æ¤ÍøÂç|https://www.kupao.com|ÎŞ|
-|ÆóÁªÍø°²È«·şÎñ|qlwSafeSevs.exe|1.0|Å©ĞÅ»¥Áª|http://qlw.nxin.com|ÎŞ|
-|ÌìÓ÷Èí¼şÊı¾İ°²È«Æ½Ì¨| TyEnc32.exe TyEnc64.exe|10.0.0.0|ÎäººÌìÓ÷Èí¼ş|ÄÚÍø²úÆ·|±¸×¢|
+|ç™¾åº¦ç½‘ç›˜|main|6.8.1.3|ç™¾åº¦|http://pan.baidu.com|æ— |
+|è¾¾å¯Œæ˜“å›½é™…æœŸè´§èµ„äº§ç®¡ç†ç³»ç»Ÿ,äº¤æ˜“ç«¯,æŸœå°ç«¯,ç›‘æ§ç«¯|main|10036|è¾¾æ¸Šè½¯ä»¶ç§‘æŠ€|http://www.dfyruanjian.com/|æ— |
+|è¥¿æ–¯ç‰¹ä¿¡æ¯ç®¡ç†ç³»ç»Ÿ|main|v1.2.0.7|æ·±åœ³è¥¿æ–¯ç‰¹ç§‘æŠ€|http://www.grind-system.com/|æ— |
+|è½»è½»è¯¾å ‚|qingqing.exe|3.5.5.0|è½»è½»å®¶æ•™|www.changingedu.com|æ— |
+|LeagView-UniAccess|UniAccessAgent.exe|2.3|è”è½¯ç§‘æŠ€|http://www.leagsoft.com|æ— |
+|LeagView-UniSDP|UniSDP.exe|2.9|è”è½¯ç§‘æŠ€|http://www.leagsoft.com|æ— |
+|LeagView-UniNXG|UniNXG.exe|2.8|è”è½¯ç§‘æŠ€|http://www.leagsoft.com|æ— |
+|EiisysIM|EiisysIM.exe|7.1.0.3|å¿«æœç§‘æŠ€|http://www.eiisysim.com|æ— |
+|å®¢æœç³»ç»Ÿ|main|6.1.0.8|å¿«æœç§‘æŠ€|https://www.53kf.com|æ— |
+|è´¦å·ç®¡å®¶|main|6.0.0.6|å¿«æœç§‘æŠ€|https://www.53kf.com/GroupManagement|æ— |
+|æ™ºä¹ å®¢|Wisdom.exe|2.9.0.1|ç»¿ç½‘å¤©ä¸‹(ç¦å»º)ç½‘ç»œç§‘æŠ€|http://www.zhixike.com/|æ— License|
+|æ™ºèƒ½é›¶å”®å®äº‘POS|xsmposc.exe|4.3.0.0|ä¸­çƒŸæ–°å•†ç›Ÿ|http://cloudpos.baiwandian.com/|æ— |
+|CGAå¹³å°|CGATool.exe|3.0.15.911|ä¸Šæµ·æµ©æ–¹|http://es.cga.com.cn/|æ— |
+|é…·è·‘ç½‘æ¸¸åŠ é€Ÿå™¨|KuPaoAcce.exe|2.7.19.903|å¦é—¨å°çš®ç½‘ç»œ|https://www.kupao.com|æ— |
+|ä¼è”ç½‘å®‰å…¨æœåŠ¡|qlwSafeSevs.exe|1.0|å†œä¿¡äº’è”|http://qlw.nxin.com|æ— |
+|å¤©å–»è½¯ä»¶æ•°æ®å®‰å…¨å¹³å°| TyEnc32.exe TyEnc64.exe|10.0.0.0|æ­¦æ±‰å¤©å–»è½¯ä»¶|å†…ç½‘äº§å“|æ— |
+|æ™ºèƒ½å†…å­˜ä¿æŠ¤ç³»ç»Ÿ|MemProtectSrv.exe MemProtectSrv64.exe|3.0|å®‰èŠ¯ç½‘ç›¾ï¼ˆåŒ—äº¬ï¼‰æŠ€æœ¯æœ‰é™å…¬å¸|https://www.anxinsec.com|æ— |
