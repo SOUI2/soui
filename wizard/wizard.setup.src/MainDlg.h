@@ -17,9 +17,6 @@ class CMainDlg : public CDialogImpl<CMainDlg>
 		CString strScriptSrc;
 	};
 
-	LPCTSTR const Ver[2] = { _T("[15.0,16.0]") ,_T("[16.0,17.0]") };
-
-
 public:
 	enum { IDD = IDD_MAINDLG };
 
@@ -61,6 +58,8 @@ public:
 
 	CString GetVSDir(LPCTSTR pszEnvName)
 	{
+		const LPCTSTR Ver[2] = { _T("[15.0,16.0]") ,_T("[16.0,17.0]") };
+
 		if (_tcscmp(_T("VS141COMNTOOLS"), pszEnvName) == 0)
 			return GetVs2017OrLaterDir(Ver[0]);
 
@@ -375,7 +374,7 @@ public:
 						str = strSouiBin;
 					else
 						str = strSouiBin + _T(";") + str;
-					reg.SetStringValue(_T("Path"), str);
+					reg.SetStringValue(_T("Path"), str,REG_EXPAND_SZ);
 				}
 			}
 			reg.Close();
