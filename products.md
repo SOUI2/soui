@@ -18,3 +18,4 @@
 |天喻软件数据安全平台| TyEnc32.exe TyEnc64.exe|10.0.0.0|武汉天喻软件|内网产品|无|
 |智能内存保护系统|MemProtectSrv.exe MemProtectSrv64.exe|3.0|安芯网盾（北京）技术有限公司|https://www.anxinsec.com|无|
 |OBD客户端"| OBDClient.exe|1.020|深圳市正科环宇科技有限公司|http://www.zkobd.com|无|
+|乐课客户端"| LeTalk.exe|1.7.57|杭州施强教育科技有限公司|http://www.leke.cn|无|
