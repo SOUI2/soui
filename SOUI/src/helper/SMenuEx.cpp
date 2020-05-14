@@ -668,7 +668,7 @@ namespace SOUI
 		}
 		else
 		{
-			::SendMessage(hOwner, WM_COMMAND, MAKEWPARAM(nRet, 0), 0);
+			::PostMessage(hOwner, WM_COMMAND, MAKEWPARAM(nRet, 0), 0);
 			return TRUE;
 		}
 
@@ -814,8 +814,8 @@ namespace SOUI
 			}
 			MSG msg = { 0 };
 
-			if (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE))
-			{//获取消息，不从消息队列中移除。
+			if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+			{//获取消息，同时从消息队列中移除。
 				if (msg.message == WM_KEYDOWN
 					|| msg.message == WM_SYSKEYDOWN
 					|| msg.message == WM_KEYUP
@@ -848,10 +848,6 @@ namespace SOUI
 				{
 					bMsgQuit = TRUE;
 				}
-
-				//移除消息队列中当前的消息。
-				MSG msgT;
-				::GetMessage(&msgT, 0, 0, 0);
 
 				//拦截非菜单窗口的MouseMove消息
 				if (msg.message == WM_MOUSEMOVE)
