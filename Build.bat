@@ -38,7 +38,7 @@ if %selected%==1 (
 	goto error
 )
 
-for /f "skip=2 delims=: tokens=1,*" %%i in ('reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion" /v "ProgramFilesDir (x86)"') do ( 
+for /f "skip=2 delims=: tokens=1,*" %%i in ('%windir%\system32\reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion" /v "ProgramFilesDir (x86)"') do ( 
 	    set str=%%i
 		set var=%%j
 		set "var=!var:"=!"
@@ -93,7 +93,7 @@ if %selected%==1 (
 	goto toolsetxp
 ) else if %selected%==7 (
 	SET specs=win32-msvc2017
-	for /f "skip=2 delims=: tokens=1,*" %%i in ('reg query "HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7" /v "15.0" /reg:32') do ( 
+	for /f "skip=2 delims=: tokens=1,*" %%i in ('%windir%\system32\reg query "HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7" /v "15.0" /reg:32') do ( 
 	    set str=%%i
 		set var=%%j
 		set "var=!var:"=!"
@@ -108,7 +108,7 @@ if %selected%==1 (
 ) else if %selected%==8 (		 
 	  SET specs=win32-msvc2017
 	  SET vs2019path=!vs2019path!\VC\Auxiliary\Build\vcvarsall.bat
-	 rem ECHO Vs2019 path is:!vs2019path! 
+	  ECHO Vs2019 path is:!vs2019path! 
 		SET vsvarbat="!vs2019path!"
 		call !vsvarbat! %target%
 		rem call "!value!" %target%
