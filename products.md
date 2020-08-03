@@ -20,3 +20,4 @@
 |OBD客户端| OBDClient.exe|1.020|深圳市正科环宇科技有限公司|http://www.zkobd.com|无|
 |乐课客户端| LeTalk.exe|1.7.57|杭州施强教育科技有限公司|http://www.leke.cn|无|
 |熊猫加速器|XiongMao.exe|4.1.8.0|江苏友趣网络科技有限公司|https://www.xiongmao789.com/|无|
+|智能管控平台|ILPPcClient.exe|1.4.07.2(11522)|零壹科技（广州）有限公司|无|无|
