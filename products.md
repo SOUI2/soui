@@ -22,3 +22,4 @@
 |熊猫加速器|XiongMao.exe|4.1.8.0|江苏友趣网络科技有限公司|https://www.xiongmao789.com/|无|
 |智能管控平台|ILPPcClient.exe|1.4.07.2(11522)|零壹科技（广州）有限公司|无|无|
 |GPUTweakIII|GPUTweakIII.exe|1.1.1.6(1116)|苏州华硕科技有限公司|无|无|
+|魔搜|Mosou.exe|1.0.0.1|易云网络|搜索及工具箱|无|
