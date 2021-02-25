@@ -26,4 +26,5 @@
 
 ＃黑名单
 |开发商|产品|下载|备注|
+|:-|:-:|-:|-:|
 航信（Aisino)|开票软件3.0|http://download.hbhxbb.com:3102/content/?147.html|未按照SOUI协议规定使用SOUI|
