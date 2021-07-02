@@ -25,7 +25,7 @@
 |GPUTweakIII|GPUTweakIII.exe|1.1.1.6(1116)|苏州华硕科技有限公司|无|无|
 |魔搜|Mosou.exe|1.0.0.1|易云网络|搜索及工具箱|无|
 |贝尔斯特智能管理系统|BestAir.exe|1.4.8.0|成都贝尔斯特科技有限公司|https://www.besteritech.com/#/|无|
+|开票软件|xxx|3.0|航信（Aisino)|http://download.hbhxbb.com:3102/content/?147.html|已经购买3.0授权|
 ### 黑名单
 |开发商|产品|下载|备注|
 |:-|:-:|-:|-:|
-航信（Aisino)|开票软件3.0|http://download.hbhxbb.com:3102/content/?147.html|未按照SOUI协议规定使用SOUI|
