@@ -1,3 +1,4 @@
+### 授权项目
 |产品名称|主模块文件名|版本|开发商|产品网址|备注|
 |:-|:-:|-:|-:|-:|-:|
 |百度网盘|main|6.8.1.3|百度|http://pan.baidu.com|无|
@@ -17,5 +18,14 @@
 |企联网安全服务|qlwSafeSevs.exe|1.0|农信互联|http://qlw.nxin.com|无|
 |天喻软件数据安全平台| TyEnc32.exe TyEnc64.exe|10.0.0.0|武汉天喻软件|内网产品|无|
 |智能内存保护系统|MemProtectSrv.exe MemProtectSrv64.exe|3.0|安芯网盾（北京）技术有限公司|https://www.anxinsec.com|无|
-|OBD客户端"| OBDClient.exe|1.020|深圳市正科环宇科技有限公司|http://www.zkobd.com|无|
-|乐课客户端"| LeTalk.exe|1.7.57|杭州施强教育科技有限公司|http://www.leke.cn|无|
+|OBD客户端| OBDClient.exe|1.020|深圳市正科环宇科技有限公司|http://www.zkobd.com|无|
+|乐课客户端| LeTalk.exe|1.7.57|杭州施强教育科技有限公司|http://www.leke.cn|无|
+|熊猫加速器|XiongMao.exe|4.1.8.0|江苏友趣网络科技有限公司|https://www.xiongmao789.com/|无|
+|智能管控平台|ILPPcClient.exe|1.4.07.2(11522)|零壹科技（广州）有限公司|无|无|
+|GPUTweakIII|GPUTweakIII.exe|1.1.1.6(1116)|苏州华硕科技有限公司|无|无|
+|魔搜|Mosou.exe|1.0.0.1|易云网络|搜索及工具箱|无|
+|贝尔斯特智能管理系统|BestAir.exe|1.4.8.0|成都贝尔斯特科技有限公司|https://www.besteritech.com/#/|无|
+|开票软件|xxx|3.0|航信（Aisino)|http://download.hbhxbb.com:3102/content/?147.html|已经购买3.0授权|
+### 黑名单
+|开发商|产品|下载|备注|
+|:-|:-:|-:|-:|
