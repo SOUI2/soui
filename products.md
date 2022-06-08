@@ -28,6 +28,7 @@
 |开票软件|xxx|3.0|航信（Aisino)|http://download.hbhxbb.com:3102/content/?147.html|已经购买3.0授权|
 |超级兔子数据恢复|CJTZDR.exe|2.21.0.74|广州天行客网络科技有限公司|https://www.chaojituzi.net/|
 |Biling加速器|TP2CN.exe|2.2.2|四川聚推汇荐信息技术有限公司|http://www.tp2cn.com/|无|
+|迅游加速器|xunyou.exe|3.0.0.0|四川迅游网络科技股份有限公司|https://www.xunyou.com/|已经购买3.0授权|
 ### 黑名单
 |开发商|产品|下载|备注|
 |:-|:-:|-:|-:|
