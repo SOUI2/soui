@@ -15,7 +15,7 @@ include($$dir/common.pri)
 
 CONFIG += staticlib
 DEFINES += DISABLE_ODPRINTF
-
+DEFINES +=WINDOWS_IGNORE_PACKING_MISMATCH
 # Input
 HEADERS += disasm-lib/cpu.h \
            disasm-lib/disasm.h \

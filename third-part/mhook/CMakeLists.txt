@@ -1,3 +1,5 @@
+add_definitions(-DDISABLE_ODPRINTF -DWINDOWS_IGNORE_PACKING_MISMATCH)
+
 SET (MHOOK_HEADERS
 	disasm-lib/cpu.h
 	disasm-lib/disasm.h
