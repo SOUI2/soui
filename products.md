@@ -29,6 +29,9 @@
 |超级兔子数据恢复|CJTZDR.exe|2.21.0.74|广州天行客网络科技有限公司|https://www.chaojituzi.net/|
 |Biling加速器|TP2CN.exe|2.2.2|四川聚推汇荐信息技术有限公司|http://www.tp2cn.com/|无|
 |迅游加速器|xunyou.exe|3.0.0.0|四川迅游网络科技股份有限公司|https://www.xunyou.com/|已经购买3.0授权|
+|UniAccess安全助手|||深圳市联软科技股份有限公司|||
 ### 黑名单
 |开发商|产品|下载|备注|
 |:-|:-:|-:|-:|
+|四川云时网络科技有限公司|野豹游戏加速器|https://www.yebaojiasu.com/|未按照开源协议使用SOUI|
+|北京三鼎梦软件服务有限公司|3dm游戏加速器|https://www.3dmgame.com/3dmjsq/|未按照开源协议使用SOUI|
